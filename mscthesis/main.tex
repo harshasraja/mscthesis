@@ -1,0 +1,185 @@
+%लाइन एक्सपान्देर
+\documentclass[11pt, a4paper, twoside, openright]{report}
+
+\usepackage{float} % lets you have non-floating floats
+
+\usepackage{url} % for typesetting urls
+
+%  We don't want figures to float so we define
+% 
+\newfloat{fig}{thp}{lof}[chapter]
+\floatname{fig}{Figure}
+
+%% These are standard LaTeX definitions for the document
+%%
+\title{Cloud Computing}
+\author{Harsha Raja}
+
+%% This file can be used for creating a wide range of reports
+%%  across various Schools
+%%
+%% Set up some things, mostly for the front page, for your specific document
+%
+% Current options are:
+% [ecs|msor]              Which school you are in.
+%
+% [bschonscomp|]  Which degree you are doing
+%                          You can also specify any other degree by name
+%                          (see below)
+% [font|image]            Use a font or an image for the VUW logo
+%                          The font option will only work on ECS systems
+%
+\usepackage[image,ecs,mcompsci]{vuwproject} 
+
+% You should specifiy your supervisor here with
+%     \supervisor{Firstname Lastname}
+% use \supervisors if there are more than one supervisor
+\supervisor{Pavle}
+% Unless you've used the bschonscomp or mcompsci
+%  options above use
+% \otherdegree{MSc in Computer Science}
+% here to specify degree
+
+% Comment this out if you want the date printed.
+%\date{}
+
+\usepackage[ps2pdf,bookmarks]{hyperref}
+\usepackage{paralist}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage[numbers]{natbib}
+\usepackage[enabled, chapter]{easy-todo}
+\usepackage{blindtext}
+\usepackage[boxed]{algorithm2e}
+\usepackage{amsmath,amsfonts}
+
+
+\usepackage{subfigure}
+\usepackage{ctable}
+ \usepackage{setspace}
+
+\definecolor{light-gray}{gray}{0.85}
+\newcommand{\rc}{\rowcolor{light-gray}}
+
+\usepackage[printonlyused]{acronym}
+
+%Article 1
+\usepackage{units} %For Nice Fractions
+\usepackage{caption2}
+\newcommand{\nf}[2]{\nicefrac{#1}{#2}}
+\usepackage{epsfig}
+
+%\renewcommand{\ac}[1]{#1}
+%\renewcommand{\acf}[1]{#1}
+%\renewcommand{\acp}[1]{#1s}
+
+\hypersetup{
+	pdftitle = {Cloud Computing},
+	pdfauthor = {Harsha Raja},
+	pdfkeywords = {}, 
+	bookmarks=true
+%  	pdfborder={1 1 1},
+% 	linkcolor = black,
+% 	anchorcolor = black,
+% 	citecolor = black,
+% 	filecolor = black,
+% 	urlcolor = black
+}
+
+
+\begin{document}
+
+
+% Make the page numbering roman, until after the contents, etc.
+\frontmatter
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+ 
+
+\begin{abstract}
+\small
+
+\ac{PSO} is a population-based algorithm inspired on social models and
+swarm theory to solve combinatorial optimization problems.  Its simplicity,
+robustness, flexibility, performance, and scalability, have encouraged its
+applications to \acp{WSN}.  These networks are collections of interconnected
+nodes that gather information about the environment, and their performance
+	depends on different factors. The deployment of
+	\acp{WSN} is one of these factors, and it is a combinatorial optimization
+	problem where coverage, connectivity, and  energy efficiency of the network
+	must be maximized.  It is a difficult problem because all these objectives are
+	interrelated and some of them are in conflict, but it becomes even 
+	 more difficult when adding mobility to the  network. This thesis proposes a
+	 novel approach to dealing with the deployment of \acp{WSN} by adapting the
+ 	\ac{PSO} algorithm  as a mobility mechanism  where sensor nodes are modeled as
+ 	particles. The major challenges involved in this approach are adapting
+ 	\ac{PSO} to handle and cope with real-world characteristics, incorporating
+ 	individual behaviors into particles such that a global behavior emerges from
+ 	the local interactions, and designing different \acp{WSN} controlled by
+ 	\ac{PSO} for addressing different deployment scenarios.
+
+% \noindent\ac{PSO} is a population-based algorithm inspired on social models and
+% swarming theory to solve combinatorial optimization problems.  Its simplicity,
+% robustness, flexibility, performance, and scalability, have encouraged its
+% application in \acp{WSN}.  These networks are collections of interconnected
+% nodes that gather information about the environment. The performance
+% 	of this type of networks depends on different factors, being  the deployment
+% 	one of them.  The deployment of \acp{WSN} is a combinatorial optimization
+% 	problem where coverage, connectivity, and  energy efficiency of the network
+% 	must be maximized.  All these objectives are interrelated and some of
+% 	them are in conflict. Furthermore, the  problem becomes even  more difficult when
+% 	adding mobility to the  network.  This thesis proposes a novel approach for
+% 	dealing with the deployment of  \acp{WSN} by adapting the
+% 	\ac{PSO} algorithm  as a mobility mechanism  where sensor nodes are modeled by
+% 	particles. The major challenges involved in this approach are: adapting \ac{PSO} to
+% 	 handle and cope with real-world characteristics, incorporating
+% 	 individual behaviors into particles such that a global behavior emerges from
+% 	 the local interactions, and designing different \acp{WSN} 
+% 	 controlled by \ac{PSO} for addressing different deployment scenarios.  
+  
+\end{abstract}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% \listoftodos
+\maketitle
+\onehalfspacing
+\tableofcontents
+
+\input{acronyms} 
+\listoftodos
+
+% we want a list of the figures we defined
+%\listof{fig}{Figures}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\mainmatter
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\acresetall
+
+\input{chapter/introduction}
+% 
+\acresetall
+\input{chapter/background}
+% 
+\acresetall
+\input{chapter/experimental}
+% 
+\acresetall 
+\input{chapter/results}
+
+\acresetall 
+\input{chapter/conclusions}
+ 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\backmatter
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\appendix
+
+
+\bibliographystyle{abbrvnat}
+\bibliography{sample}
+\end{document}
