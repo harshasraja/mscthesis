@@ -1,0 +1,71 @@
+%%This is a very basic article template.
+%%There is just one section and two subsections.
+\documentclass[twocolumn, 12pt]{article}
+
+\usepackage[utf8]{inputenc} %Encoding of file
+\usepackage[english]{babel} %Translation of Sections and stuff
+\usepackage{palatino} % Font palatino
+
+\usepackage{natbib} %For bibliography (\citet, \citep)
+\usepackage{blindtext} %For adding random text
+\usepackage{ctable} %For some commands for tables (\toprule, \midrule,\bottomrule)
+
+\begin{document}
+
+\author{Harshita Raja}
+\title{My first \LaTeX\ document}
+\date{}
+
+\maketitle
+
+\begin{abstract}
+	\begin{flushleft}
+	\noindent This is the abstract left.
+	\end{flushleft}
+	
+	\begin{flushright}
+	This is to the right
+	\end{flushright}
+	
+	\begin{center}
+		This is centered
+	\end{center}
+	
+\end{abstract}
+
+
+\section*{My abstract}
+Your abstract.
+
+This is \textbf{bold}, \textit{italic}, \texttt{fixed-width}.
+
+This is \textbf{\textit{bold-italic}}. This is Equation~\ref{eq:some}
+
+
+Section~\ref{sec:some}
+
+\begin{equation}
+	x = x^2 + t_f + t_{subscript} + t^{superscript} + \alpha + \beta\label{eq:some}
+\end{equation}
+
+\input{introduction}
+
+\input{contents}
+
+\begin{center}
+
+\blindtext
+
+\end{center}
+
+\blindtext
+
+
+\bibliography{bibliography}
+
+%\bibliographystyle{plainnat}
+\bibliographystyle{plain}
+
+
+
+\end{document}
