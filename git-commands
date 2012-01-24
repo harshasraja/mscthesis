@@ -1,0 +1,17 @@
+
+#info: git stores all the information in the root of the repository in folder .git/
+
+git add FILE #adds a file to repo
+git rm FILE #removes a file from repo, although with git, you can just remove the file and git 
+			#will know that was removed, so when committing with -a it will be deleted automatically
+
+git pull #retrieves repository
+
+git commit -a -m"Message" # commits all the changes in the local repository. 
+git push #sends all the changes to the remote repository
+
+
+git status #shows the changes to be commited.
+
+#if output from status is too much, add exclusions to file: .git/info/exclude
+
