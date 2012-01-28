@@ -73,6 +73,9 @@ public class Enrolment extends BaseEntity {
 	public String getKeyForUpdate() {
 		return keyForUpdate;
 	}
-	
 
+        @Override
+       public String toString(){
+           return "Enrolment[rowId=" + getRowId() + "; userId=" + getUserId() + "; courseId=" + getCourseId() + "; type=" + getType() + "]";
+       }
 }

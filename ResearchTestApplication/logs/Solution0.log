@@ -1,0 +1,39 @@
+#	Working Directory/am/phoenix/home1/subramhars/workspace/ResearchTestApplication
+#	Solution: 0
+#	LogPath: ./logs
+#	Runs: 5
+#	Students: 1000
+#	Courses: 100
+#	Groups:10
+#	CsvBase: ./data/
+#	CreateCsv: true
+insert[user](ms):1403
+insert[course](ms):142
+insert[enrolment](ms):7826
+delete[enrolment](ms):8265
+delete[course](ms):95
+delete[user](ms):1209
+insert[user](ms):1215
+insert[course](ms):103
+insert[enrolment](ms):7336
+delete[enrolment](ms):7280
+delete[course](ms):107
+delete[user](ms):1154
+insert[user](ms):1183
+insert[course](ms):87
+insert[enrolment](ms):7123
+delete[enrolment](ms):7230
+delete[course](ms):63
+delete[user](ms):1163
+insert[user](ms):1778
+insert[course](ms):115
+insert[enrolment](ms):7321
+delete[enrolment](ms):7321
+delete[course](ms):68
+delete[user](ms):1172
+insert[user](ms):1176
+insert[course](ms):99
+insert[enrolment](ms):7298
+delete[enrolment](ms):7222
+delete[course](ms):81
+delete[user](ms):1109

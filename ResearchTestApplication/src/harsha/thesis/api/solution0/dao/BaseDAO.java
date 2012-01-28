@@ -330,7 +330,7 @@ public class BaseDAO {
 			for (Method method : methods) {
 				if (!method.getName().substring(3,method.getName().length()).equalsIgnoreCase(primaryKey)){
 					if (method.getName().contains("get") && 
-							!method.getName().contains("ColumnFamilyRepresentation")){
+							!method.getName().contains("ColumnFamilyRepresentation") && !method.getName().contains("KeyForUpdate")){
 						mutator.addInsertion(key, entity.getColumnFamilyRepresentation(), 
 								HFactory.createStringColumn(method.getName().substring(3), 
 										(String)method.invoke(entity)));

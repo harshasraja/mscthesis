@@ -43,11 +43,11 @@ public class Experiment {
         logWriter = new BufferedWriter(new FileWriter(file));
     }
     
-    public void start() throws Exception {
+    public void start()  {
         setStartTime(System.currentTimeMillis());
     }
 
-    public void stop() throws Exception {
+    public void stop()  {
         setStopTime(System.currentTimeMillis());
     }
     
@@ -64,12 +64,9 @@ public class Experiment {
         logWriter.close();
     }
 
+    
     public void log(String info) throws Exception {
         logWriter.write(info);
-    }
-
-    public void logf(String info) throws Exception {
-        log(info);
         logWriter.flush();
     }
 
