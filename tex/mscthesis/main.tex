@@ -12,8 +12,8 @@
 
 %% These are standard LaTeX definitions for the document
 %%
-\title{Data Storage in Cloud Computing}
-\author{Harsha Subramania Raja}
+\title{Cloud Computing}
+\author{Harsha Raja}
 
 %% This file can be used for creating a wide range of reports
 %%  across various Schools
@@ -34,7 +34,7 @@
 % You should specifiy your supervisor here with
 %     \supervisor{Firstname Lastname}
 % use \supervisors if there are more than one supervisor
-\supervisor{Dr. Pavle Mogin}
+\supervisor{Pavle}
 % Unless you've used the bschonscomp or mcompsci
 %  options above use
 % \otherdegree{MSc in Computer Science}
@@ -69,6 +69,8 @@
 \newcommand{\nf}[2]{\nicefrac{#1}{#2}}
 \usepackage{epsfig}
 
+\newcommand{\Quote}[1]{``#1''}
+
 %\renewcommand{\ac}[1]{#1}
 %\renewcommand{\acf}[1]{#1}
 %\renewcommand{\acp}[1]{#1s}
@@ -78,15 +80,15 @@
 	pdfauthor = {Harsha Raja},
 	pdfkeywords = {}, 
 	bookmarks=true
-%  	pdfborder={1 1 1},
-% 	linkcolor = black,
-% 	anchorcolor = black,
-% 	citecolor = black,
-% 	filecolor = black,
-% 	urlcolor = black
+ 	pdfborder={1 1 1},
+	linkcolor = black,
+	anchorcolor = black,
+	citecolor = black,
+	filecolor = black,
+	urlcolor = black
 }
 
-
+\onehalfspacing
 \begin{document}
 
 
@@ -98,27 +100,13 @@
 
 \begin{abstract}
 \small
-
- Cloud data storage is an important and integral part of cloud computing, and
- has introduced a wave of change in the way data is stored today. Databases on
- cloud adopt data models and database architecture that are still evolving and
-  very different from the popular and traditional data models like relational
-  data model. This study reviews the different approaches cloud databases take
-  to data organisation, by studying a few popular and widely used cloud
-  databases. Cloud databases Bigtable, Amazon Dynamo, Cassandra, HBase and
-  Microsoft SQL Azure are studied as a part of understanding general trends and
-  architecture in cloud data storage. One of the databases, Cassandra is
-  installed and used briefly to learn about accessing and using cloud data
-  storages.This     study also covers the fundamental differences between cloud
-  databases and the traditional \acp{RDBMS}.
-
-  
+% \blindtext
 \end{abstract}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % \listoftodos
-\maketitle
-\onehalfspacing
+ \maketitle
+
 \tableofcontents
 
 \input{acronyms} 
@@ -134,19 +122,19 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \acresetall
 
-\input{chapter/introduction}
+%\input{chapter/introduction}
 % 
 \acresetall
 \input{chapter/background}
 % 
 \acresetall
-\input{chapter/experimental}
+%\input{chapter/experimental}
 % 
 \acresetall 
-\input{chapter/results}
+%\input{chapter/results}
 
 \acresetall 
-\input{chapter/conclusions}
+%\input{chapter/conclusions}
  
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
