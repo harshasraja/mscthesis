@@ -5,11 +5,11 @@
 package harsha.thesis.exp;
 
 import harsha.thesis.api.connection.hector.HectorConnectionObject;
-import harsha.thesis.api.solution0.dao.BaseDAO;
-import harsha.thesis.api.solution0.entity.BaseEntity;
-import harsha.thesis.api.solution0.entity.Course;
-import harsha.thesis.api.solution0.entity.Enrolment;
-import harsha.thesis.api.solution0.entity.User;
+import harsha.thesis.api.solution1.dao.BaseDAO;
+import harsha.thesis.api.solution1.entity.BaseEntity;
+import harsha.thesis.api.solution1.entity.Course;
+import harsha.thesis.api.solution1.entity.Enrolment;
+import harsha.thesis.api.solution1.entity.User;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
@@ -20,7 +20,7 @@ import java.util.Random;
  *
  * @author jcrada
  */
-public class Solution0 {
+public class Solution1 {
 
     private Experiment experiment;
     private String[] csvFiles;
@@ -30,15 +30,15 @@ public class Solution0 {
     private List<Enrolment> enrolments;
     private BaseDAO dao;
 
-    public Solution0(Experiment experiment, String[] csvFiles) {
+    public Solution1(Experiment experiment, String[] csvFiles) {
         this.experiment = experiment;
         this.csvFiles = csvFiles;
     }
 
     public void experiment(int runs) throws Exception {
-        users = CommonHelper.GetUserEntities(Solution.ZERO, csvFiles[0]);
-        courses = CommonHelper.GetCourseEntities(Solution.ZERO, csvFiles[1]);
-        enrolments = CommonHelper.GetEnrolmentEntities(Solution.ZERO, csvFiles[2]);
+        users = CommonHelper.GetUserEntities(Solution.ONE, csvFiles[0]);
+        courses = CommonHelper.GetCourseEntities(Solution.ONE, csvFiles[1]);
+        enrolments = CommonHelper.GetEnrolmentEntities(Solution.ONE, csvFiles[2]);
 
         dao = new BaseDAO(HectorConnectionObject.class.getName(), Main.HECTOR_CONNECTION);
 

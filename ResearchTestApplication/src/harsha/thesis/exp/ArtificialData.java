@@ -24,6 +24,7 @@ public class ArtificialData {
     public static final int INITIAL_COURSE_ID = 100;
     public static final int INITIAL_ENROLMENT_ID = 5000;
     public static final String COURSE_BASE_NAME = "COMP";
+    public static final String COURSE_ALTERNATIVE_NAME = "SWEN";
     private int numberOfStudents;
     private int numberOfCourses;
     private int numberOfGroupsInCourses;
@@ -238,28 +239,28 @@ public class ArtificialData {
 
     }
 
-    public int[] coursesSortedInGroups() {
-        int groupSize = numberOfCourses / numberOfGroupsInCourses;
-        int[] result = new int[numberOfGroupsInCourses * groupSize];
-        int skip = numberOfGroupsInCourses;
-
-        int resultIndex = 0;
-        for (int i = 0; i < numberOfGroupsInCourses; ++i) {
-            for (int j = 0; j < groupSize; ++j) {
-                result[resultIndex++] = INITIAL_COURSE_ID + i + (j * skip);
-            }
-        }
-
-//        for (int i = 0 ; i < result.length ;++i){
-//            System.out.print(result[i] + " ");
-//            if ((i + 1)% groupSize == 0){
-//                System.out.println("");
+//    public int[] coursesSortedInGroups() {
+//        int groupSize = numberOfCourses / numberOfGroupsInCourses;
+//        int[] result = new int[numberOfGroupsInCourses * groupSize];
+//        int skip = numberOfGroupsInCourses;
+//
+//        int resultIndex = 0;
+//        for (int i = 0; i < numberOfGroupsInCourses; ++i) {
+//            for (int j = 0; j < groupSize; ++j) {
+//                result[resultIndex++] = INITIAL_COURSE_ID + i + (j * skip);
 //            }
 //        }
-        return result;
-    }
+//
+////        for (int i = 0 ; i < result.length ;++i){
+////            System.out.print(result[i] + " ");
+////            if ((i + 1)% groupSize == 0){
+////                System.out.println("");
+////            }
+////        }
+//        return result;
+//    }
 
-    public static void test(String[] args) throws Exception {
+    public static void main(String[] args) throws Exception {
         File csv = new File("/tmp/cassandra.csv");
         if (csv.exists()) {
             csv.delete();
@@ -278,9 +279,7 @@ public class ArtificialData {
         ad.writeAll(w);
     }
 
-    public static void main(String[] args) throws Exception {
-        test(args);
-        System.exit(9);
+    public static void failedMain(String[] args) throws Exception {
         ArtificialData ad = new ArtificialData();
         ad.setNumberOfStudents(20);
         ad.setNumberOfCourses(60);
@@ -289,6 +288,6 @@ public class ArtificialData {
         ad.setHeaderCourse(new String[]{"CourseId", "CourseName"});
         ad.setHeaderEnrolment(new String[]{"UserId", "CourseId"});
 
-        ad.coursesSortedInGroups();
+//        ad.coursesSortedInGroups();
     }
 }

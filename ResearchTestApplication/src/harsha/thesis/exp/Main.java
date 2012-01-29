@@ -7,6 +7,8 @@ package harsha.thesis.exp;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 /**
@@ -16,7 +18,8 @@ import java.util.Random;
 public class Main {
 
     public static final long INSERT_RANDOM_SEED = "insert".hashCode();
-    public static final long UPDATE_RANDOM_SEED = "update".hashCode();
+    public static final long UPDATE_COURSE_RANDOM_SEED = "update-course".hashCode();
+    public static final long UPDATE_ENROLMENT_RANDOM_SEED = "update-enrolment".hashCode();
     public static final long DELETE_RANDOM_SEED = "delete".hashCode();
     public static String HECTOR_CONNECTION = "saddleback:9160@Test Cluster/UNIVERSITY";
 
@@ -34,8 +37,9 @@ public class Main {
     }
 
     public static void main(String[] args) throws Exception {
-
-        int solution = 0, runs = 5, students = 1000, courses = 100, groups = 10;
+        long startTime = System.currentTimeMillis();
+        List<Character> solutions = new ArrayList<Character>();
+        int runs = 100, students = 1000, courses = 100, groups = 10;
         String logPath = ".", csvBase = "";
         boolean createCsv = true;
 
@@ -44,7 +48,9 @@ public class Main {
                 String value = arg.substring(arg.lastIndexOf("=") + 1);
 
                 if (arg.startsWith("--solution")) {
-                    solution = Integer.parseInt(value);
+                    for (char solution : value.toCharArray()) {
+                        solutions.add(solution);
+                    }
                 } else if (arg.startsWith("--log-path")) {
                     logPath = value;
                 } else if (arg.startsWith("--runs")) {
@@ -73,7 +79,7 @@ public class Main {
         int wait = 3;
         System.out.println("About to start experiment in " + wait + " seconds:");
         System.out.println("\tWorking Directory" + System.getProperty("user.dir"));
-        System.out.println("\tSolution: " + solution);
+        System.out.println("\tSolutions: " + solutions);
         System.out.println("\tLogPath: " + logPath);
         System.out.println("\tRuns: " + runs);
         System.out.println("\tStudents: " + students);
@@ -123,41 +129,48 @@ public class Main {
             System.out.println("CSV files created");
         }
 
-        Experiment experiment = new Experiment("Solution" + solution, "", logPath);
-        experiment.initialize();
-
-        {
-            experiment.log("#\tWorking Directory" + System.getProperty("user.dir") + "\n");
-            experiment.log("#\tSolution: " + solution + "\n");
-            experiment.log("#\tLogPath: " + logPath + "\n");
-            experiment.log("#\tRuns: " + runs + "\n");
-            experiment.log("#\tStudents: " + students + "\n");
-            experiment.log("#\tCourses: " + courses + "\n");
-            experiment.log("#\tGroups:" + groups + "\n");
-            experiment.log("#\tCsvBase: " + csvBase + "\n");
-            experiment.log("#\tCreateCsv: " + createCsv + "\n");
+        List<Experiment> experiments = new ArrayList<Experiment>();
+        for (Character solution : solutions) {
+            Experiment experiment = new Experiment("Solution" + solution, "", logPath);
+            experiment.initialize();
+            experiments.add(experiment);
         }
 
-        switch (solution) {
-            case 0:
-                new Solution0(experiment, csvFiles).experiment(runs);
-                break;
-            case 1:
-//                Solution1(experiment);
-                break;
-            case 2:
+
+        for (Experiment e : experiments) {
+            e.log("#\tWorking Directory" + System.getProperty("user.dir") + "\n");
+            e.log("#\tSolution: " + e.getCode() + "\n");
+            e.log("#\tLogPath: " + logPath + "\n");
+            e.log("#\tRuns: " + runs + "\n");
+            e.log("#\tStudents: " + students + "\n");
+            e.log("#\tCourses: " + courses + "\n");
+            e.log("#\tGroups:" + groups + "\n");
+            e.log("#\tCsvBase: " + csvBase + "\n");
+            e.log("#\tCreateCsv: " + createCsv + "\n");
+
+            char solution = e.getCode().charAt(e.getCode().length() - 1);
+            switch (solution) {
+                case '0':
+                    new Solution0(e, csvFiles).experiment(runs);
+                    break;
+                case '1':
+                    new Solution1(e, csvFiles).experiment(runs);
+                    break;
+                case '2':
 //                Solution2(experiment);
-                break;
-            case 3:
+                    break;
+                case '3':
 //                Solution3(experiment);
-                break;
-            case 4:
+                    break;
+                case '4':
 //                Solution4(experiment);
-                break;
-            default:
-                throw new AssertionError();
+                    break;
+                default:
+                    throw new AssertionError();
+            }
+            e.destroy();
         }
-        experiment.destroy();
+        System.out.println("Total duration: " + (System.currentTimeMillis() - startTime) + "ms");
     }
 
     public static void main2(String[] args) throws Exception {
