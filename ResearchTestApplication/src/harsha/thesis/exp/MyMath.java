@@ -29,6 +29,27 @@ public class MyMath {
         return result;
     }
     
+    public static String C(List<?> x, String begin_enclosing, String end_enclosing) {
+        String c = "c(";
+        for (int i = 0; i < x.size(); ++i) {
+            c += begin_enclosing + x.get(i).toString() + end_enclosing;
+            if (i < x.size() - 1) {
+                c += ", ";
+            }
+        }
+        c += ")";
+        return c;
+    }
+
+    public static String C(List<?> x, String enclosing) {
+        return C(x, enclosing, enclosing);
+    }
+
+    public static String C(List<?> x) {
+        return C(x, "");
+    }
+
+    
     public static void main(String[] args) {
         System.out.println(MyMath.class.getName());
     }
