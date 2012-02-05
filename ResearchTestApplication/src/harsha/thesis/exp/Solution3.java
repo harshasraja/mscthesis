@@ -55,8 +55,8 @@ public class Solution3 implements SolutionExperiment {
         dao.insert(new Metadata("CONST600", "UNIVERSITY", "F", "harsha_thesis_api_solution3_entity_Course", "UNIVERSITY", "CONST500", "CourseId", "NODELETE"));
         dao.insert(new Metadata("CONST700", "UNIVERSITY", "F", "harsha_thesis_api_solution3_entity_User", "UNIVERSITY", "CONST400", "UserId", "CASCADE"));
 
-        insert();
-        delete();
+//        insert();
+//        delete();
 
         dao.close();
     }

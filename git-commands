@@ -15,3 +15,6 @@ git status #shows the changes to be commited.
 
 #if output from status is too much, add exclusions to file: .git/info/exclude
 
+git mergetool # for solving conflicts between versions
+
+git gui #crappy gui

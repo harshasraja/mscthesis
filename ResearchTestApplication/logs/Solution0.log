@@ -1,4 +1,4 @@
-#	Working Directory/am/phoenix/home1/subramhars/workspace/ResearchTestApplication
+#	Working Directory/home/jcrada/Development/hr/ResearchTestApplication
 #	Solution: Solution0
 #	LogPath: ./logs
 #	Runs: 1
@@ -7,17 +7,18 @@
 #	Groups:10
 #	CsvBase: ./data/
 #	CreateCsv: true
+#	Initialize: false
 #RUN:1#INSERT
-insert_user:10161
-insert_course:10049
+insert_user:10218
+insert_course:10086
 insert_enrolment:0
 
-update_course:68
+update_course:137
 
 update_enrolment:0
 
 #DELETE
 delete_enrolment:0
-delete_course:13
-delete_user:14
+delete_course:58
+delete_user:22
 

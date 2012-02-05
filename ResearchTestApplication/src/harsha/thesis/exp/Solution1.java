@@ -66,8 +66,8 @@ public class Solution1 implements SolutionExperiment{
             insert();
             String newCourseId = (i + 1) % 2 == 0 ? ArtificialData.COURSE_BASE_NAME
                     : ArtificialData.COURSE_ALTERNATIVE_NAME;
-            updateCourse(newCourseId);
-            updateEnrolment();
+//            updateCourse(newCourseId);
+//            updateEnrolment();
             delete();
         }
 

@@ -370,12 +370,13 @@ public class BaseDAO {
 		try {
 			connection.getMutator().delete(key, entity.getColumnFamilyRepresentation(), null, StringSerializer.get());
 		} catch (Exception ex) {
-//			if (ex.getMessage().contains("Attempt to borrow on in-active pool")) {
-//				connection = CloudConnector.getConnection(connectionDefinition);
-//				connection.getMutator().delete(key, entity.getColumnFamilyRepresentation(), null, StringSerializer.get());
-//			} else {
-//				throw new Exception(ex);
-//			}
+			if (ex.getMessage().contains("Attempt to borrow on in-active pool")) {
+				connection = CloudConnector.getConnection(connectionDefinition);
+				connection.getMutator().delete(key, entity.getColumnFamilyRepresentation(), null, StringSerializer.get());
+                                CloudConnector.returnConnection(connection);
+			} else {
+				throw new Exception(ex);
+			}
                     ex.printStackTrace();
 		}
 		logger.info("Finished delete entity:"+strEntity);
