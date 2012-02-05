@@ -1,8 +1,6 @@
 %ब
 \chapter{Background}
 
-
-
 Cloud computing is a major paradigm that is rapidly shifting the way \ac{IT}
 services and tools are being used in the industry. It is perceived that cloud
 computing would help extend the capabilities of many \ac{IT} and online services
@@ -201,9 +199,10 @@ as a key, value and a timestamp tuple.
 A column in a key value databases is equivalent to a cell in an \ac{RDB}. A few
 columns in a key value database are shown below,
 where \Quote{SWEN301}, \Quote{Software Engineering} etc. would
-each be a single column with a key and timestamp.
+each be a single column with a key and timestamp as seen in
+Figure~\ref{f:column-in-kvdb}.
 
-\begin{table}[h]
+\begin{figure}[h]
 	\centering
 	\begin{tabular}{ c c c c }
 		\toprule
@@ -212,7 +211,8 @@ each be a single column with a key and timestamp.
 		CourseId & SWEN301 & 89765432\\		
 		\bottomrule
 	\end{tabular}
-\end{table}
+	\caption{Column in a Key-Value database}\label{f:column-in-kvdb}
+\end{figure}
 
 \begin{table}[h]
 	\centering
@@ -283,7 +283,7 @@ SuperColumns for the course and the students.
 	\centering
 	\begin{tabular}{ c c c c }
 		\toprule
-		\multirow{2}{*}{SuperColumnFamilyKey} & \multicolumn{4}{c}{Values}\\
+		\multirow{2}{*}{SuperColumnFamilyKey} & \multicolumn{3}{c}{Values}\\
 		& StudentId & CourseId & Type \\ 
 		\midrule
 		1001 & 101 & SWEN301 & Student \\
@@ -451,12 +451,13 @@ The Referential Integrity Constraint is just one amongst other constraints, and
 ensures that the value of one column of a table matches the values of a column
 in another table. Generally in \acp{RDBMS}, a referential integrity constraint
 identifies a foreign key in a table which has a direct relationship with the
-primary key (or a unique key) of another table. The table with the
-referencing key (foreign key) in it is the referencing table (a.k.a. child
-table), while the table with the referenced key (primary or unique key) is the referenced table (a.k.a.
+primary key (or a unique key) of another table. The table with the referencing
+key (foreign key) in it is the referencing table (a.k.a. child table), while the
+table with the referenced key (primary or unique key) is the referenced table
+(a.k.a.
 parent table). For example, in the \texttt{University} database,
-\texttt{Enrolment} is the referencing table while the \texttt{Student} and \texttt{Course} tables are the referenced
-tables.
+\texttt{Enrolment} is the referencing table while the \texttt{Student} and
+\texttt{Course} tables are the referenced tables.
 
 
 It has been defined by many researchers that referential integrity is enforced

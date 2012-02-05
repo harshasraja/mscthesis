@@ -3,6 +3,7 @@ package harsha.thesis.api.solution0.dao;
 import harsha.thesis.api.annotation.PrimaryKey;
 import harsha.thesis.api.connection.CloudConnector;
 import harsha.thesis.api.connection.Connection;
+import harsha.thesis.api.connection.ConnectionDefinition;
 import harsha.thesis.api.solution0.entity.BaseEntity;
 
 import java.lang.annotation.Annotation;
@@ -13,9 +14,7 @@ import java.util.List;
 
 import me.prettyprint.cassandra.model.BasicColumnDefinition;
 import me.prettyprint.cassandra.model.BasicColumnFamilyDefinition;
-import me.prettyprint.cassandra.model.CqlQuery;
 import me.prettyprint.cassandra.model.IndexedSlicesQuery;
-import me.prettyprint.cassandra.serializers.LongSerializer;
 import me.prettyprint.cassandra.serializers.StringSerializer;
 import me.prettyprint.cassandra.service.ThriftCfDef;
 import me.prettyprint.hector.api.beans.ColumnSlice;
@@ -34,7 +33,6 @@ import me.prettyprint.hector.api.query.QueryResult;
 import me.prettyprint.hector.api.query.RangeSlicesQuery;
 import me.prettyprint.hector.api.query.SliceQuery;
 
-import org.apache.cassandra.cql.CQLStatement;
 import org.apache.log4j.Logger;
 
 
@@ -57,16 +55,19 @@ public class BaseDAO {
 		
 	}
 	
-	public BaseDAO(String driverClassName, String connectionString) throws Exception{
+	public BaseDAO(ConnectionDefinition conDef) throws Exception{
 		logger.debug("Instantiating "+this.getClass().getName());
-		connection = CloudConnector.getConnection(driverClassName, connectionString);
+		connection = CloudConnector.getConnection(conDef);
 
 	}
 	
+	public BaseDAO(Connection connection){
+		logger.debug("Instantiating "+this.getClass().getName());
+		this.connection = connection;
+	}
+	
 	public void close(){
-		if (connection != null){
-			connection.close();
-		}
+		CloudConnector.returnConnection(connection);
 	}
 	
 	
@@ -330,7 +331,8 @@ public class BaseDAO {
 			for (Method method : methods) {
 				if (!method.getName().substring(3,method.getName().length()).equalsIgnoreCase(primaryKey)){
 					if (method.getName().contains("get") && 
-							!method.getName().contains("ColumnFamilyRepresentation") && !method.getName().contains("KeyForUpdate")){
+							!method.getName().contains("ColumnFamilyRepresentation") &&
+							!method.getName().contains("KeyForUpdate")){
 						mutator.addInsertion(key, entity.getColumnFamilyRepresentation(), 
 								HFactory.createStringColumn(method.getName().substring(3), 
 										(String)method.invoke(entity)));
@@ -487,7 +489,7 @@ public class BaseDAO {
 		
 		
 		BasicColumnFamilyDefinition columnFamilyDefinition = new BasicColumnFamilyDefinition();
-		columnFamilyDefinition.setKeyspaceName(connection.getKeySpace());
+		columnFamilyDefinition.setKeyspaceName(connection.getKeyspace().getKeyspaceName());
 		columnFamilyDefinition.setName(entity.getColumnFamilyRepresentation());
 		columnFamilyDefinition.setComparatorType(ComparatorType.UTF8TYPE);
 		

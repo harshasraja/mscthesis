@@ -38,7 +38,7 @@ public class ValidationHandler {
 		logger.debug("Invoked Validation Helper");
 		this.entity = entity;
 		this.columnFamily = entity.getColumnFamilyRepresentation();
-		this.dao = new BaseDAO(dao.getDriverClassName(), dao.getConnectionString());;
+		this.dao = new BaseDAO(dao.getConnectionDefinition());;
 		logger.debug("Invoked Validation Helper for Column family:"+this.columnFamily);
 	}
 	
@@ -87,7 +87,7 @@ public class ValidationHandler {
 		logger.info("Checking Referenced Key for ColumnFamily:"+this.columnFamily);
 		List<Metadata> foreignKeys = new LinkedList<Metadata>();
 		try {
-			BaseDAO newdao = new BaseDAO(dao.getDriverClassName(), dao.getConnectionString());
+			BaseDAO newdao = new BaseDAO(dao.getConnectionDefinition());
 			List<BaseEntity> list = newdao.read("harsha.thesis.api.solution3.entity.Metadata", "TableName", BaseDAO.EXPRESSION_EQUALS, columnFamily, true);
 			newdao.close();
 			for (BaseEntity baseEntity : list) {
@@ -100,7 +100,7 @@ public class ValidationHandler {
 				}
 			}
 			for (Metadata rConstraintName : foreignKeys) {
-				newdao = new BaseDAO(dao.getDriverClassName(), dao.getConnectionString());
+				newdao = new BaseDAO(dao.getConnectionDefinition());
 				BaseEntity baseEntity =  newdao.read("harsha.thesis.api.solution3.entity.Metadata", rConstraintName.getRConstraintName());
 				newdao.close();
 				if (!(baseEntity instanceof Metadata)) {
@@ -110,7 +110,7 @@ public class ValidationHandler {
 				if("R".equals(metadata.getConstraintType())){
 					//String primaryKey = getPrimaryKeyForEntity();
 					String primaryKey = getPrimaryKeyForEntity().trim();
-					newdao = new BaseDAO(dao.getDriverClassName(), dao.getConnectionString());
+					newdao = new BaseDAO(dao.getConnectionDefinition());
 					List<BaseEntity> childObjects = newdao.read(metadata.getTableName().replace("_", ".").trim(), metadata.getRColumn().trim(), BaseDAO.EXPRESSION_EQUALS, primaryKey,true);
 					//List<BaseEntity> childObjects = dao.read("harsha.thesis.api.solution3.entity.Enrolment", "UserId", BaseDAO.EXPRESSION_EQUALS, "100",true);
 					newdao.close();
@@ -118,7 +118,7 @@ public class ValidationHandler {
 						if ( !childObject.isNull() && "NODELETE".equalsIgnoreCase(rConstraintName.getDeleteRule())){
 							throw new ValidationFailedException(primaryKey + " found in child table "+metadata.getTableName());
 						} else if (!childObject.isNull() && "CASCADE".equalsIgnoreCase(rConstraintName.getDeleteRule())){
-							newdao = new BaseDAO(dao.getDriverClassName(), dao.getConnectionString());
+							newdao = new BaseDAO(dao.getConnectionDefinition());
 							newdao.delete(childObject);
 							newdao.close();
 						} else if (!childObject.isNull()){
@@ -164,7 +164,7 @@ public class ValidationHandler {
 				if("R".equals(metadata.getConstraintType())){
 					//String primaryKey = getPrimaryKeyForEntity();
 					String primaryKey = getPrimaryKeyForEntity();
-					BaseDAO newdao = new BaseDAO(dao.getDriverClassName(), dao.getConnectionString());
+					BaseDAO newdao = new BaseDAO(dao.getConnectionDefinition());
 					List<BaseEntity> childObjects = newdao.read(metadata.getTableName().replace("_", ".").trim(), metadata.getRColumn().trim(), BaseDAO.EXPRESSION_EQUALS, primaryKey,true);
 					newdao.close();
 					for (BaseEntity childObject : childObjects) {
@@ -195,7 +195,7 @@ public class ValidationHandler {
 	
 	public Map<String, String> getReferencedKeyFieldForForeignKey() throws ClassNotFoundException, InstantiationException, IllegalAccessException, Exception{
 		Map<String, String> map = new HashMap<String, String>();
-		BaseDAO newdao = new BaseDAO(dao.getDriverClassName(), dao.getConnectionString());
+		BaseDAO newdao = new BaseDAO(dao.getConnectionDefinition());
 		List<BaseEntity> list = newdao.read("harsha.thesis.api.solution3.entity.Metadata", "TableName", BaseDAO.EXPRESSION_EQUALS, columnFamily, true);
 		List<Metadata> foreignKeys = new LinkedList<Metadata>();
 		

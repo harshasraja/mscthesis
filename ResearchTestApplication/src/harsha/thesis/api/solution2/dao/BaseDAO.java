@@ -3,6 +3,7 @@ package harsha.thesis.api.solution2.dao;
 import harsha.thesis.api.annotation.PrimaryKey;
 import harsha.thesis.api.connection.CloudConnector;
 import harsha.thesis.api.connection.Connection;
+import harsha.thesis.api.connection.ConnectionDefinition;
 import harsha.thesis.api.solution2.entity.BaseEntity;
 import harsha.thesis.api.solution2.entity.Metadata;
 
@@ -11,6 +12,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 import me.prettyprint.cassandra.model.BasicColumnDefinition;
 import me.prettyprint.cassandra.model.BasicColumnFamilyDefinition;
@@ -49,27 +51,31 @@ public class BaseDAO {
 	private static final String EXPRESSION_NE = "<>";
 	public static final String EXPRESSION_LE = "<=";
 	public static final String EXPRESSION_GE = "=>";
-	private String connectionString = "";
-	private String driverClassName = "";
+	
+	private ConnectionDefinition connectionDef;
 	
 	
 	protected BaseDAO(){
 		
 	}
 	
-	public BaseDAO(String driverClassName, String connectionString) throws Exception{
+	public BaseDAO(ConnectionDefinition conDef) throws Exception{
 		logger.debug("Instantiating "+this.getClass().getName());
-		this.connectionString = connectionString;
-		this.driverClassName = driverClassName;
-		connection = CloudConnector.getConnection(driverClassName, connectionString);
+		connection = CloudConnector.getConnection(conDef);
+		this.connectionDef = conDef;
 
 	}
 	
-	public void close(){
-		if (connection != null){
-			connection.close();
-		}
+	public BaseDAO(Connection connection){
+		logger.debug("Instantiating "+this.getClass().getName());
+		this.connection = connection;
 	}
+	
+	public void close(){
+		CloudConnector.returnConnection(connection);
+	}
+	
+	
 	
 	
 	
@@ -254,9 +260,8 @@ public class BaseDAO {
 	public void insert(BaseEntity entity) throws Exception{
 		
 		logger.debug("Inside insert the detected column family is:"+entity.getColumnFamilyRepresentation());
-		String strEntity = "";
-		strEntity = getStringRepresentationForLogging(entity);
-		logger.info("Starting to insert:"+strEntity);
+		
+		//logger.info("Starting to insert:"+strEntity);
 		
 		Method [] methods = entity.getClass().getDeclaredMethods();
 		Annotation [] a1 = entity.getClass().getDeclaredAnnotations();
@@ -289,7 +294,7 @@ public class BaseDAO {
 		for (Method method : methods) {
 			if (method.getName().contains(primaryKey) && 
 					method.getName().equals("get"+primaryKey)) {
-				key = (String) method.invoke(entity, null);
+				key = (String) method.invoke(entity);
 				break;
 			}
 		}
@@ -298,21 +303,27 @@ public class BaseDAO {
 		
 			// This would check the referenced key except for Metadata Table
 			//helper.checkUniqueKey();
-			if (!(entity instanceof Metadata)){
+			if (!("-1".equals(key))){
 				helper.checkReferenedKey();
 			}
 			
 			Mutator<String> mutator = connection.getMutator();
 			
-			
+			logger.debug(entity.getMetadataStringRepresentation());
 			for (Method method : methods) {
+				logger.debug("Method Name:"+method.getName()+"Metadata:"+entity.getMetadataStringRepresentation());
 				if (!method.getName().substring(3,method.getName().length()).equalsIgnoreCase(primaryKey)){
 					if (method.getName().contains("get") && 
 							!method.getName().contains("ColumnFamilyRepresentation") &&
-							!method.getName().contains("getMetaData")){
-						mutator.addInsertion(key, entity.getColumnFamilyRepresentation(), 
+							!method.getName().contains("getMetaData") &&
+							!method.getName().contains("KeyForUpdate")){
+						String value = (String)method.invoke(entity);
+						if (null != value){
+							logger.debug(value);
+							mutator.addInsertion(key, entity.getColumnFamilyRepresentation(), 
 								HFactory.createStringColumn(method.getName().substring(3), 
-										(String)method.invoke(entity)));
+										value));
+						}
 						//method.i
 					}
 				}	
@@ -333,15 +344,12 @@ public class BaseDAO {
 		
 		
 		logger.debug("Finished insert the detected column family is:"+entity.getColumnFamilyRepresentation());
-		logger.info("Finished inserting entity:"+strEntity);
+		
 		
 		
 	}
 	
 	public void delete(BaseEntity entity) throws Exception{
-		String strEntity = "";
-		strEntity = getStringRepresentationForLogging(entity);
-		logger.info("Starting to delete:"+strEntity);
 		
 		ValidationHandler helper = new ValidationHandler(entity, this);
 		
@@ -361,7 +369,7 @@ public class BaseDAO {
 		
 		
 		connection.getMutator().delete(key, entity.getColumnFamilyRepresentation(), null, StringSerializer.get());
-		logger.info("Finished delete entity:"+strEntity);
+		
 	}
 	
 	public void update(BaseEntity entity) throws Exception{
@@ -400,18 +408,40 @@ public class BaseDAO {
 			
 			for (Method method : methods) {
 				if (method.getName().contains(primaryKey) && 
-						method.getName().equals("set"+primaryKey)) {
-					method.invoke(entity, entity.getKeyForUpdate());
-					
-				} else if (method.getName().contains(primaryKey) && 
 						method.getName().equals("get"+primaryKey)){
 					key = (String)method.invoke(entity);
+					break;
 				}
 			}
 			
+			
 			if (!read(entity.getClass().getName(), key).isNull()) {
+				ValidationHandler handler = new ValidationHandler(entity, this);
+				List<List<BaseEntity>> childObjectList = handler.checkForeignKeyForUpdate();
+				Map<String, String> map = handler.getReferencedKeyFieldForForeignKey();
 				delete(entity);
+				
+				for (Method method : methods) {
+					if (method.getName().contains(primaryKey) && 
+							method.getName().equals("set"+primaryKey)) {
+						method.invoke(entity, entity.getKeyForUpdate());
+						break;
+					}
+				}
+				
+				
 				insert(entity);
+				for (List<BaseEntity> list : childObjectList) {
+					Method mtd = entity.getClass().getDeclaredMethod("get"+primaryKey);
+					
+					String changedValue = (String)mtd.invoke(entity);
+					for (BaseEntity baseEntity : list) {
+						String referencedKey = map.get(baseEntity.getColumnFamilyRepresentation());
+						Method tempMethod = baseEntity.getClass().getDeclaredMethod("set"+referencedKey,mtd.getReturnType());
+						tempMethod.invoke(baseEntity, changedValue);
+						insert(baseEntity);
+					}
+				}
 			} else {
 				logger.info("Update record not found; hence exiting");
 			}
@@ -426,7 +456,8 @@ public class BaseDAO {
 		Method [] methods = entity.getClass().getDeclaredMethods();
 		String strEntity = "{";
 		for (Method method : methods) {
-			if (method.getName().contains("get")){
+			if (method.getName().contains("get") ||
+					!method.getName().contains("MetaData")){
 				try {
 					strEntity = strEntity+";"+method.getName().substring(3,method.getName().length())+":"+(String) method.invoke(entity);
 				} catch (IllegalArgumentException e) {
@@ -456,13 +487,7 @@ public class BaseDAO {
 		return primaryKey;
 	}
 	
-	public String getConnectionString() {
-		return connectionString;
-	}
 
-	public String getDriverClassName() {
-		return driverClassName;
-	}
 	
 	private void createColumFamily(BaseEntity entity){
 		
@@ -471,7 +496,7 @@ public class BaseDAO {
 		
 		
 		BasicColumnFamilyDefinition columnFamilyDefinition = new BasicColumnFamilyDefinition();
-		columnFamilyDefinition.setKeyspaceName(connection.getKeySpace());
+		columnFamilyDefinition.setKeyspaceName(connection.getKeyspace().getKeyspaceName());
 		columnFamilyDefinition.setName(entity.getColumnFamilyRepresentation());
 		columnFamilyDefinition.setComparatorType(ComparatorType.UTF8TYPE);
 		
@@ -497,6 +522,7 @@ public class BaseDAO {
 					!method.getName().contains("ColumnFamilyRepresentation") &&
 					!method.getName().contains("getMetaData") &&
 					!method.getName().contains("KeyForUpdate") &&
+					!method.getName().contains("MetaData") &&
 					method.getName().contains("get")) {
 				
 				columnDefinition = new BasicColumnDefinition();
@@ -520,6 +546,11 @@ public class BaseDAO {
 		connection.getCluster().addColumnFamily(cfDef);
 	    
 	}
+
+	public ConnectionDefinition getConnectionDef() {
+		return connectionDef;
+	}
+
 	
 
 }

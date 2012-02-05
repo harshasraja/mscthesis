@@ -12,7 +12,7 @@
 
 %% These are standard LaTeX definitions for the document
 %%
-\title{Referential Integrity in Cloud Databases}
+\title{Referential Integrity in Cloud \ac{NoSQL}Databases}
 \author{Harsha Raja} 
 
 %% This file can be used for creating a wide range of reports
@@ -29,12 +29,12 @@
 % [font|image]            Use a font or an image for the VUW logo
 %                          The font option will only work on ECS systems
 %
-\usepackage[image,ecs,mcompsci]{vuwproject} 
+\usepackage[image,ecs,meng]{vuwproject} 
 
 % You should specifiy your supervisor here with
 %     \supervisor{Firstname Lastname}
 % use \supervisors if there are more than one supervisor
-\supervisor{Pavle}
+\supervisor{Dr. Pavle Mogin}
 % Unless you've used the bschonscomp or mcompsci
 %  options above use
 % \otherdegree{MSc in Computer Science}
@@ -43,7 +43,7 @@
 % Comment this out if you want the date printed.
 %\date{}
 
-\usepackage[ps2pdf,bookmarks]{hyperref}
+\usepackage[bookmarks]{hyperref}
 \usepackage{paralist}
 \usepackage[utf8]{inputenc}
 \usepackage[english]{babel}
@@ -128,8 +128,12 @@
 \acresetall
 \input{chapter/background}
 % 
+% \acresetall
+% \input{chapter/experimental}
+
 \acresetall
-%\input{chapter/experimental}
+\input{chapter/Methodologies}
+
 % 
 \acresetall 
 %\input{chapter/results}
@@ -146,5 +150,5 @@
 
 
 \bibliographystyle{abbrvnat}
-\bibliography{sample}
+\bibliography{system-tables}
 \end{document}

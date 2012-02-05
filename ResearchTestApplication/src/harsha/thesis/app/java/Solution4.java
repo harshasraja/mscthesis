@@ -1,10 +1,11 @@
 package harsha.thesis.app.java;
 
+import harsha.thesis.api.connection.ConnectionDefinition;
 import harsha.thesis.api.connection.hector.HectorConnectionObject;
 import harsha.thesis.api.exception.ValidationFailedException;
-import harsha.thesis.api.solution1.entity.Metadata;
 import harsha.thesis.api.solution4.dao.BaseDAO;
 import harsha.thesis.api.solution4.dao.MetadataDAO;
+import harsha.thesis.api.solution4.dao.ValidationHandler;
 import harsha.thesis.api.solution4.entity.BaseEntity;
 import harsha.thesis.api.solution4.helper.CSVReader;
 
@@ -13,7 +14,6 @@ import java.lang.reflect.Method;
 import java.util.List;
 
 import org.apache.log4j.Logger;
-import org.apache.log4j.Priority;
 
 public class Solution4 extends BaseSolution{
 	
@@ -28,19 +28,29 @@ public class Solution4 extends BaseSolution{
 	}
 	
 	public void run() {
+		ConnectionDefinition metadataConDef = null;
+		ValidationHandler handler = null;
 		try {
-			if("harsha.thesis.api.solution4.entity.Metadata".equals(args[3])){
-				this.dao = new MetadataDAO(HectorConnectionObject.class.getName(), args[2]);
-			} else {
-				this.dao = new BaseDAO(HectorConnectionObject.class.getName(), args[0]);
+			if (args[4].equals("insert") ||
+					args[4].equals("delete") ||
+					args[4].equals("update")){
+				metadataConDef = new ConnectionDefinition(args[2], HectorConnectionObject.class.getName());
+				if (!"harsha.thesis.api.solution4.entity.Metadata".equals(args[3])) {
+					handler = new ValidationHandler(metadataConDef, conDef, args[3]);
+				}				
 			}
-			dao.setMetadataConnectionString(args[2]);
-			dao.setMetadataDriverClassName(HectorConnectionObject.class.getName());
+			
+			if("harsha.thesis.api.solution4.entity.Metadata".equals(args[3])){
+				this.dao = new MetadataDAO(metadataConDef);
+			} else {
+				this.dao = new BaseDAO(conDef,handler);
+			}
+
 			
 			CSVReader reader = new CSVReader();
 			if (args[4].equals("insert") ||
 					args[4].equals("delete") ||
-					args[3].equals("update")){
+					args[4].equals("update")){
 				this.entities = reader.getEntities(args[5], args[3]);
 			}
 			Method [] methods = this.getClass().getDeclaredMethods();
@@ -55,8 +65,13 @@ public class Solution4 extends BaseSolution{
 		} catch (Exception e) {
 			logger.error(e.getMessage(), e);
 		} finally {
+			
 			if (null != dao) {
 				dao.close();
+			}
+			
+			if (null != handler){
+				handler.closeHandler();
 			}
 		}
 		
@@ -97,19 +112,14 @@ public class Solution4 extends BaseSolution{
 		Long startTime = System.currentTimeMillis();
 		for (BaseEntity baseEntity : entities) {
 			try{
-				this.dao = new BaseDAO(HectorConnectionObject.class.getName(), args[0]);
 				dao.update(baseEntity);
 			} catch (ValidationFailedException ex) {
 					logger.error(ex.getMessage(), ex);
-			} finally {
-				if (null != dao) {
-					dao.close();
-				}
 			}
 		}
 		Long endTime = System.currentTimeMillis();
 		Long timeTaken = endTime - startTime;
-		logger.warn("/*******************Time to delete "+entities.size()+" records of type "+args[2]+" is:"+timeTaken+" milli second");
+		logger.warn("/*******************Time to update "+entities.size()+" records of type "+args[2]+" is:"+timeTaken+" milli second");
 		
 	}
 	

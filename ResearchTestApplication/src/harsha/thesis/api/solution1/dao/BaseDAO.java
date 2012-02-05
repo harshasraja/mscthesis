@@ -3,6 +3,7 @@ package harsha.thesis.api.solution1.dao;
 import harsha.thesis.api.annotation.PrimaryKey;
 import harsha.thesis.api.connection.CloudConnector;
 import harsha.thesis.api.connection.Connection;
+import harsha.thesis.api.connection.ConnectionDefinition;
 import harsha.thesis.api.solution1.entity.BaseEntity;
 import harsha.thesis.api.solution1.entity.Metadata;
 
@@ -50,26 +51,26 @@ public class BaseDAO {
 	private static final String EXPRESSION_NE = "<>";
 	public static final String EXPRESSION_LE = "<=";
 	public static final String EXPRESSION_GE = "=>";
-	private String connectionString = "";
-	private String driverClassName = "";
+
 	
 	
 	protected BaseDAO(){
 		
 	}
 	
-	public BaseDAO(String driverClassName, String connectionString) throws Exception{
+	public BaseDAO(ConnectionDefinition conDef) throws Exception{
 		logger.debug("Instantiating "+this.getClass().getName());
-		this.connectionString = connectionString;
-		this.driverClassName = driverClassName;
-		connection = CloudConnector.getConnection(driverClassName, connectionString);
+		connection = CloudConnector.getConnection(conDef);
 
 	}
 	
+	public BaseDAO(Connection connection){
+		logger.debug("Instantiating "+this.getClass().getName());
+		this.connection = connection;
+	}
+	
 	public void close(){
-		if (connection != null){
-			connection.close();
-		}
+		CloudConnector.returnConnection(connection);
 	}
 	
 	
@@ -478,13 +479,7 @@ public class BaseDAO {
 		return primaryKey;
 	}
 	
-	public String getConnectionString() {
-		return connectionString;
-	}
 
-	public String getDriverClassName() {
-		return driverClassName;
-	}
 	
 	private void createColumFamily(BaseEntity entity){
 		
@@ -493,7 +488,7 @@ public class BaseDAO {
 		
 		
 		BasicColumnFamilyDefinition columnFamilyDefinition = new BasicColumnFamilyDefinition();
-		columnFamilyDefinition.setKeyspaceName(connection.getKeySpace());
+		columnFamilyDefinition.setKeyspaceName(connection.getKeyspace().getKeyspaceName());
 		columnFamilyDefinition.setName(entity.getColumnFamilyRepresentation());
 		columnFamilyDefinition.setComparatorType(ComparatorType.UTF8TYPE);
 		

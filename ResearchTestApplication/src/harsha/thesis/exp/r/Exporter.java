@@ -19,11 +19,11 @@ public class Exporter {
     }
     
     public static void main(String[] args) throws Exception{
-        File f0 = new File("./logs/Solution0-test.log");
+        File f0 = new File("./logs/Solution0.log");
         Solution s0 = new Solution("solution0");
         s0.loadFrom(f0);
 
-        File f1 = new File("./logs/Solution1-test.log");
+        File f1 = new File("./logs/Solution1.log");
         Solution s1 = new Solution("solution1");
         s1.loadFrom(f1);
 
@@ -42,6 +42,7 @@ public class Exporter {
             String pngFile = "'/tmp/bp-" + column + ".png'";
             w.write("png(" + pngFile + ", width=640, height=480);\n");
             w.write(Boxplot.ToString(new Solution[]{s0, s1}, column) + "\n");
+            //w.write(Boxplot.ToString(new Solution[]{s0}, column) + "\n");
             w.write("dev.off();\n");
             w.flush();
         }

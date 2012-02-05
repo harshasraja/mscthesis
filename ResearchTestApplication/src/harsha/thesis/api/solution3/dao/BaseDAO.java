@@ -3,6 +3,7 @@ package harsha.thesis.api.solution3.dao;
 import harsha.thesis.api.annotation.PrimaryKey;
 import harsha.thesis.api.connection.CloudConnector;
 import harsha.thesis.api.connection.Connection;
+import harsha.thesis.api.connection.ConnectionDefinition;
 import harsha.thesis.api.solution3.dao.ValidationHandler;
 import harsha.thesis.api.solution3.entity.BaseEntity;
 import harsha.thesis.api.solution3.entity.Metadata;
@@ -51,8 +52,9 @@ public class BaseDAO {
 	private static final String EXPRESSION_NE = "<>";
 	public static final String EXPRESSION_LE = "<=";
 	public static final String EXPRESSION_GE = "=>";
-	private String connectionString = "";
-	private String driverClassName = "";
+	
+	protected ConnectionDefinition connectionDefinition = null;
+
 	
 	
 	
@@ -61,28 +63,20 @@ public class BaseDAO {
 		
 	}
 	
-	public BaseDAO(String driverClassName, String connectionString) throws Exception{
+	public BaseDAO(ConnectionDefinition connectionDefinition) throws Exception{
 		logger.debug("Instantiating "+this.getClass().getName());
-		this.connectionString = connectionString;
-		this.driverClassName = driverClassName;
-		connection = CloudConnector.getConnection(driverClassName, connectionString);
+		this.connectionDefinition = connectionDefinition;
+		connection = CloudConnector.getConnection(connectionDefinition);
 
 	}
 	
-	
-	
-	public String getConnectionString() {
-		return connectionString;
-	}
-
-	public String getDriverClassName() {
-		return driverClassName;
+	public BaseDAO(Connection connection){
+		logger.debug("Instantiating "+this.getClass().getName());
+		this.connection = connection;
 	}
 
 	public void close(){
-		if (connection != null){
-			connection.close();
-		}
+		CloudConnector.returnConnection(connection);
 	}
 	
 	
@@ -376,12 +370,13 @@ public class BaseDAO {
 		try {
 			connection.getMutator().delete(key, entity.getColumnFamilyRepresentation(), null, StringSerializer.get());
 		} catch (Exception ex) {
-			if (ex.getMessage().contains("Attempt to borrow on in-active pool")) {
-				connection = CloudConnector.getConnection(driverClassName, connectionString);
-				connection.getMutator().delete(key, entity.getColumnFamilyRepresentation(), null, StringSerializer.get());
-			} else {
-				throw new Exception(ex);
-			}
+//			if (ex.getMessage().contains("Attempt to borrow on in-active pool")) {
+//				connection = CloudConnector.getConnection(connectionDefinition);
+//				connection.getMutator().delete(key, entity.getColumnFamilyRepresentation(), null, StringSerializer.get());
+//			} else {
+//				throw new Exception(ex);
+//			}
+                    ex.printStackTrace();
 		}
 		logger.info("Finished delete entity:"+strEntity);
 	}
@@ -508,7 +503,7 @@ public class BaseDAO {
 		
 		
 		BasicColumnFamilyDefinition columnFamilyDefinition = new BasicColumnFamilyDefinition();
-		columnFamilyDefinition.setKeyspaceName(connection.getKeySpace());
+		columnFamilyDefinition.setKeyspaceName(connection.getKeyspace().getKeyspaceName());
 		columnFamilyDefinition.setName(entity.getColumnFamilyRepresentation());
 		columnFamilyDefinition.setComparatorType(ComparatorType.UTF8TYPE);
 		
@@ -547,6 +542,10 @@ public class BaseDAO {
 		
 		connection.getCluster().addColumnFamily(cfDef);
 	    
+	}
+
+	public ConnectionDefinition getConnectionDefinition() {
+		return connectionDefinition;
 	}
 
 	

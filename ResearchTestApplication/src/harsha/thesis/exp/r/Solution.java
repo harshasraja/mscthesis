@@ -61,7 +61,7 @@ public class Solution {
 
             String[] keyValue = line.split(":");
             String key = keyValue[0];
-            int value = Integer.parseInt(keyValue[1]);
+            int value = Integer.parseInt(keyValue[1].trim());
             List<Integer> times = results.get(key);
             if (times == null) {
                 times = new ArrayList<Integer>();

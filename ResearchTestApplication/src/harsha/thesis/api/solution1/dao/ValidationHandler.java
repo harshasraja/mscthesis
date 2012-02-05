@@ -7,7 +7,6 @@ import harsha.thesis.api.annotation.PrimaryKey;
 import harsha.thesis.api.exception.ValidationFailedException;
 import harsha.thesis.api.solution1.entity.BaseEntity;
 import harsha.thesis.api.solution1.entity.Metadata;
-import harsha.thesis.api.solution1.dao.BaseDAO;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.InvocationTargetException;

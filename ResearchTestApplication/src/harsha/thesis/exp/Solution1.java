@@ -4,6 +4,7 @@
  */
 package harsha.thesis.exp;
 
+import harsha.thesis.api.connection.ConnectionDefinition;
 import harsha.thesis.api.connection.hector.HectorConnectionObject;
 import harsha.thesis.api.solution1.dao.BaseDAO;
 import harsha.thesis.api.solution1.entity.BaseEntity;
@@ -20,7 +21,7 @@ import java.util.Random;
  *
  * @author jcrada
  */
-public class Solution1 {
+public class Solution1 implements SolutionExperiment{
 
     private Experiment experiment;
     private String[] csvFiles;
@@ -35,16 +36,33 @@ public class Solution1 {
         this.csvFiles = csvFiles;
     }
 
+    public void initialize() throws Exception{
+        users = CommonHelper.GetUserEntities(Solution.ONE, csvFiles[0]);
+        courses = CommonHelper.GetCourseEntities(Solution.ONE, csvFiles[1]);
+        enrolments = CommonHelper.GetEnrolmentEntities(Solution.ONE, csvFiles[2]);
+
+        ConnectionDefinition conDef = new ConnectionDefinition(Main.HECTOR_CONNECTION, HectorConnectionObject.class.getName());
+        dao = new BaseDAO(conDef);
+
+        insert();
+        delete();
+
+        dao.close();
+    }
+
     public void experiment(int runs) throws Exception {
         users = CommonHelper.GetUserEntities(Solution.ONE, csvFiles[0]);
         courses = CommonHelper.GetCourseEntities(Solution.ONE, csvFiles[1]);
         enrolments = CommonHelper.GetEnrolmentEntities(Solution.ONE, csvFiles[2]);
 
-        dao = new BaseDAO(HectorConnectionObject.class.getName(), Main.HECTOR_CONNECTION);
+        ConnectionDefinition conDef = new ConnectionDefinition(Main.HECTOR_CONNECTION, HectorConnectionObject.class.getName());
+
+        dao = new BaseDAO(conDef);
+        //dao = new BaseDAO(HectorConnectionObject.class.getName(), Main.HECTOR_CONNECTION);
 
 
         for (int i = 0; i < runs; ++i) {
-            experiment.log("#RUN: " + (i + 1));
+            experiment.log("#RUN:" + (i + 1));
             insert();
             String newCourseId = (i + 1) % 2 == 0 ? ArtificialData.COURSE_BASE_NAME
                     : ArtificialData.COURSE_ALTERNATIVE_NAME;
@@ -74,7 +92,7 @@ public class Solution1 {
             dao.insert(entity);
         }
         experiment.stop();
-        experiment.log("insert[user](ms):" + experiment.duration() + "\n");
+        experiment.log("insert_user:" + experiment.duration() + "\n");
 
         //Courses
         experiment.start();
@@ -82,7 +100,7 @@ public class Solution1 {
             dao.insert(entity);
         }
         experiment.stop();
-        experiment.log("insert[course](ms):" + experiment.duration() + "\n");
+        experiment.log("insert_course:" + experiment.duration() + "\n");
 
         //Enrolments
 
@@ -91,40 +109,40 @@ public class Solution1 {
             dao.insert(entity);
         }
         experiment.stop();
-        experiment.log("insert[enrolment](ms):" + experiment.duration() + "\n\n");
+        experiment.log("insert_enrolment:" + experiment.duration() + "\n\n");
     }
 
-    private void updateCourse(String newBaseKey) throws Exception{
+    private void updateCourse(String newBaseKey) throws Exception {
         Random random = new Random(Main.UPDATE_COURSE_RANDOM_SEED);
         List<Course> coursesToUpdate = new ArrayList<Course>(courses);
         Collections.shuffle(coursesToUpdate, random);
-        
+
         experiment.start();
-        for (Course entity : coursesToUpdate){
+        for (Course entity : coursesToUpdate) {
             String keyForUpdate = newBaseKey + entity.getCourseId().substring(newBaseKey.length());
             entity.setKeyForUpdate(keyForUpdate);
             dao.update(entity);
-            
+
         }
         experiment.stop();
-        experiment.log("update[course]: " + experiment.duration() + "\n\n");
+        experiment.log("update_course:" + experiment.duration() + "\n\n");
     }
 
-    private void updateEnrolment() throws Exception{
+    private void updateEnrolment() throws Exception {
         Random random = new Random(Main.UPDATE_ENROLMENT_RANDOM_SEED);
         List<Enrolment> enrolmentsToUpdate = new ArrayList<Enrolment>(enrolments);
         Collections.shuffle(enrolmentsToUpdate, random);
-        
+
         experiment.start();
         Iterator<Enrolment> it = enrolments.iterator();
-        for (Enrolment entity : enrolmentsToUpdate){
+        for (Enrolment entity : enrolmentsToUpdate) {
             entity.setCourseId(it.next().getCourseId());
             dao.update(entity);
         }
         experiment.stop();
-        experiment.log("update[enrolment]: " + experiment.duration() + "\n\n");
+        experiment.log("update_enrolment:" + experiment.duration() + "\n\n");
     }
-    
+
     private void delete() throws Exception {
         Random random = new Random(Main.DELETE_RANDOM_SEED);
         List<BaseEntity> usersToDelete = new ArrayList<BaseEntity>(users);
@@ -143,7 +161,7 @@ public class Solution1 {
             dao.delete(entity);
         }
         experiment.stop();
-        experiment.log("delete[enrolment](ms):" + experiment.duration() + "\n");
+        experiment.log("delete_enrolment:" + experiment.duration() + "\n");
 
         //Courses
         experiment.start();
@@ -151,15 +169,15 @@ public class Solution1 {
             dao.delete(entity);
         }
         experiment.stop();
-        experiment.log("delete[course](ms):" + experiment.duration() + "\n");
-        
+        experiment.log("delete_course:" + experiment.duration() + "\n");
+
         //USers
         experiment.start();
         for (BaseEntity entity : usersToDelete) {
             dao.delete(entity);
         }
         experiment.stop();
-        experiment.log("delete[user](ms):" + experiment.duration() + "\n\n");
+        experiment.log("delete_user:" + experiment.duration() + "\n\n");
 
     }
 }

@@ -1,6 +1,5 @@
 package harsha.thesis.app.java;
 
-import harsha.thesis.api.connection.hector.HectorConnectionObject;
 import harsha.thesis.api.exception.ValidationFailedException;
 import harsha.thesis.api.solution2.dao.BaseDAO;
 import harsha.thesis.api.solution2.entity.BaseEntity;
@@ -20,16 +19,17 @@ public class Solution2 extends BaseSolution{
 	List<BaseEntity> entities;
 	
 	public Solution2(){
-		
+
 		
 	}
 	
 	public void run() {
 		try {
-			this.dao = new BaseDAO(HectorConnectionObject.class.getName(), args[0]);
+			this.dao = new BaseDAO(conDef);
 			CSVReader reader = new CSVReader();
 			if (args[3].equals("insert") ||
-					args[3].equals("delete")){
+					args[3].equals("delete") ||
+					args[3].equals("update")){
 				this.entities = reader.getEntities(args[4], args[2]);
 			}
 			Method [] methods = this.getClass().getDeclaredMethods();
@@ -57,6 +57,7 @@ public class Solution2 extends BaseSolution{
 		Long startTime = System.currentTimeMillis();
 		for (BaseEntity baseEntity : entities) {
 			try{
+				logger.debug(baseEntity.getMetadataStringRepresentation());
 				dao.insert(baseEntity);
 			} catch (ValidationFailedException ex) {
 					logger.error(ex.getMessage(), ex);
@@ -68,6 +69,20 @@ public class Solution2 extends BaseSolution{
 	}
 	
 	public void delete() throws Exception{
+		Long startTime = System.currentTimeMillis();
+		for (BaseEntity baseEntity : entities) {
+			try{
+				dao.delete(baseEntity);
+			} catch (ValidationFailedException ex) {
+					logger.error(ex.getMessage(), ex);
+			}
+		}
+		Long endTime = System.currentTimeMillis();
+		Long timeTaken = endTime - startTime;
+		logger.info("/*******************Time to delete "+entities.size()+" records of type "+args[2]+" is:"+timeTaken+" milli second");
+	}
+	
+	public void update() throws Exception{
 		Long startTime = System.currentTimeMillis();
 		for (BaseEntity baseEntity : entities) {
 			try{

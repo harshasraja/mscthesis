@@ -3,7 +3,7 @@ package harsha.thesis.api.solution4.dao;
 import harsha.thesis.api.annotation.PrimaryKey;
 import harsha.thesis.api.connection.CloudConnector;
 import harsha.thesis.api.connection.Connection;
-import harsha.thesis.api.solution4.dao.ValidationHandler;
+import harsha.thesis.api.connection.ConnectionDefinition;
 import harsha.thesis.api.solution4.entity.BaseEntity;
 import harsha.thesis.api.solution4.entity.Metadata;
 
@@ -51,39 +51,33 @@ public class BaseDAO {
 	private static final String EXPRESSION_NE = "<>";
 	public static final String EXPRESSION_LE = "<=";
 	public static final String EXPRESSION_GE = "=>";
-	private String connectionString = "";
-	private String driverClassName = "";
 	
-	private String metadataDriverClassName = "";
-	private String metadataConnectionString = "";
+	private ConnectionDefinition connectionDefinition;
+	private ValidationHandler validationHandler;
 	
 	
 	protected BaseDAO(){
 		
 	}
 	
-	public BaseDAO(String driverClassName, String connectionString) throws Exception{
+	public BaseDAO(Connection connection, ValidationHandler validationHandler){
 		logger.debug("Instantiating "+this.getClass().getName());
-		this.connectionString = connectionString;
-		this.driverClassName = driverClassName;
-		connection = CloudConnector.getConnection(driverClassName, connectionString);
-
+		this.connection = connection;
+		this.validationHandler = validationHandler;
+	}
+	
+	public BaseDAO(ConnectionDefinition connectionDefinition, ValidationHandler validationHandler) throws Exception{
+		logger.debug("Instantiating "+this.getClass().getName());
+		this.connectionDefinition = connectionDefinition;
+		connection = CloudConnector.getConnection(connectionDefinition);
+		this.validationHandler = validationHandler;
 	}
 	
 	
 	
-	public String getConnectionString() {
-		return connectionString;
-	}
-
-	public String getDriverClassName() {
-		return driverClassName;
-	}
 
 	public void close(){
-		if (connection != null){
-			connection.close();
-		}
+		CloudConnector.returnConnection(connection);
 	}
 	
 	
@@ -274,7 +268,6 @@ public class BaseDAO {
 		
 		Method [] methods = entity.getClass().getDeclaredMethods();
 		Annotation [] a1 = entity.getClass().getDeclaredAnnotations();
-		ValidationHandler helper = new ValidationHandler(entity, this);
 		String primaryKey = null;
 		String key = null;
 		
@@ -312,8 +305,9 @@ public class BaseDAO {
 		
 			// This would check the referenced key except for Metadata Table
 			//helper.checkUniqueKey();
-			if (!(entity instanceof Metadata)){
-				helper.checkReferenedKey();
+			if (!(entity instanceof Metadata &&
+					null == validationHandler)){
+				this.validationHandler.checkReferenedKey(entity);
 			}
 			
 			Mutator<String> mutator = connection.getMutator();
@@ -356,10 +350,11 @@ public class BaseDAO {
 		
 		logger.info("Starting to delete:"+getStringRepresentationForLogging(entity));
 		
-		ValidationHandler helper = new ValidationHandler(entity, this);
 		
-		if (!(entity instanceof Metadata)){
-			helper.checkForeignKey();
+		
+		if (!(entity instanceof Metadata &&
+				null == validationHandler)){
+			this.validationHandler.checkForeignKey(entity);
 		}
 		
 		String key = null;
@@ -375,12 +370,13 @@ public class BaseDAO {
 		try {
 			connection.getMutator().delete(key, entity.getColumnFamilyRepresentation(), null, StringSerializer.get());
 		} catch (Exception ex) {
-			if (ex.getMessage().contains("Attempt to borrow on in-active pool")) {
-				connection = CloudConnector.getConnection(driverClassName, connectionString);
-				connection.getMutator().delete(key, entity.getColumnFamilyRepresentation(), null, StringSerializer.get());
-			} else {
-				throw new Exception(ex);
-			}
+//			if (ex.getMessage().contains("Attempt to borrow on in-active pool")) {
+//				connection = CloudConnector.getConnection(connectionDefinition);
+//				connection.getMutator().delete(key, entity.getColumnFamilyRepresentation(), null, StringSerializer.get());
+//			} else {
+//				throw new Exception(ex);
+//			}
+                    ex.printStackTrace();
 		}
 		logger.info("Finished delete entity:"+getStringRepresentationForLogging(entity));
 	}
@@ -429,9 +425,8 @@ public class BaseDAO {
 			
 			
 			if (!read(entity.getClass().getName(), key).isNull()) {
-				ValidationHandler handler = new ValidationHandler(entity, this);
-				List<List<BaseEntity>> childObjectList = handler.checkForeignKeyForUpdate();
-				Map<String, String> map = handler.getReferencedKeyFieldForForeignKey();
+				List<List<BaseEntity>> childObjectList = this.validationHandler.checkForeignKeyForUpdate(entity);
+				Map<String, String> map = this.validationHandler.getReferencedKeyFieldForForeignKey();
 				delete(entity);
 				
 				for (Method method : methods) {
@@ -441,9 +436,11 @@ public class BaseDAO {
 						break;
 					}
 				}
-				
-				
-				insert(entity);
+
+                                //TODO: Check new and old code.
+//				BaseDAO baseDao = new BaseDAO(connectionDefinition, validationHandler);
+//				baseDao.insert(entity);
+                                insert(entity); //New code
 				for (List<BaseEntity> list : childObjectList) {
 					Method mtd = entity.getClass().getDeclaredMethod("get"+primaryKey);
 					
@@ -452,9 +449,11 @@ public class BaseDAO {
 						String referencedKey = map.get(baseEntity.getColumnFamilyRepresentation());
 						Method tempMethod = baseEntity.getClass().getDeclaredMethod("set"+referencedKey,mtd.getReturnType());
 						tempMethod.invoke(baseEntity, changedValue);
-						insert(baseEntity);
+//						baseDao.insert(baseEntity);
+                                                insert(baseEntity); //new code;
 					}
 				}
+//                                baseDao.close();
 			} else {
 				logger.info("Update record not found; hence exiting");
 			}
@@ -507,7 +506,8 @@ public class BaseDAO {
 		
 		
 		BasicColumnFamilyDefinition columnFamilyDefinition = new BasicColumnFamilyDefinition();
-		columnFamilyDefinition.setKeyspaceName(connection.getKeySpace());
+		columnFamilyDefinition.setKeyspaceName(connection.getKeyspace().getKeyspaceName());
+		logger.info("****************"+connection.getKeyspace().getKeyspaceName());
 		columnFamilyDefinition.setName(entity.getColumnFamilyRepresentation());
 		columnFamilyDefinition.setComparatorType(ComparatorType.UTF8TYPE);
 		
@@ -548,20 +548,21 @@ public class BaseDAO {
 	    
 	}
 	
-	public String getMetadataDriverClassName() {
-		return metadataDriverClassName;
-	}
-	
-	public String getMetadataConnectionString() {
-		return metadataConnectionString;
+
+	public ConnectionDefinition getConnectionDefinition() {
+		return connectionDefinition;
 	}
 
-	public void setMetadataConnectionString(String metadataConnectionString) {
-		this.metadataConnectionString = metadataConnectionString;
+	public void setConnectionDefinition(ConnectionDefinition connectionDefinition) {
+		this.connectionDefinition = connectionDefinition;
 	}
 
-	public void setMetadataDriverClassName(String metadataDriverClassName) {
-		this.metadataDriverClassName = metadataDriverClassName;
+	public ValidationHandler getValidationHandler() {
+		return validationHandler;
+	}
+
+	public void setValidationHandler(ValidationHandler validationHandler) {
+		this.validationHandler = validationHandler;
 	}
 	
 

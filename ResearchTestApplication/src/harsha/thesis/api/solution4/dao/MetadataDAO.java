@@ -1,16 +1,20 @@
 package harsha.thesis.api.solution4.dao;
 
+import harsha.thesis.api.connection.ConnectionDefinition;
+
 public class MetadataDAO extends BaseDAO {
 
 	public MetadataDAO() {
 
 	}
 
-	public MetadataDAO(String driverClassName, String connectionString)
+	public MetadataDAO(ConnectionDefinition connectionDefinition)
 			throws Exception {
-		super(driverClassName, connectionString);
+		super(connectionDefinition, null);
 		logger.info("Created DAO");
 	}
+	
+	
 	
 	
 

@@ -9,31 +9,12 @@ import me.prettyprint.hector.api.query.SliceQuery;
 
 public interface Connection {
 
-	public String getIpAddress();
-	
-	public void setIpAddress(String ipAddress);
-	
-	public int getPort();
-	
-	public void setPort(int port);
-	
-	public String getClusterName();
-	
-	public void setClusterName(String clusterName);
-	
-	public String getKeySpace();
-	
-	public void setKeySpace(String keySpace);
 	
 	public Mutator<String> getMutator() throws Exception;
 	
 	public RangeSlicesQuery<String, String, String> getRangeSliceQuery ();
 	
 	public void close();
-	
-	public void setConnectionString(String connectionString) throws Exception;
-	
-	public String getConnectionString();
 	
 	public Cluster getCluster();
 	
@@ -43,6 +24,8 @@ public interface Connection {
 	
 	public boolean isConnected();
 	
-	public Keyspace getKeyspaceObject();
+	public Keyspace getKeyspace();
+
+	void open(ConnectionDefinition conDef) throws Exception;
 	
 }

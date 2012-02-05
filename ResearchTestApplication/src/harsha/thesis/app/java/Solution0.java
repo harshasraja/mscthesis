@@ -1,6 +1,5 @@
 package harsha.thesis.app.java;
 
-import harsha.thesis.api.connection.hector.HectorConnectionObject;
 import harsha.thesis.api.exception.ValidationFailedException;
 import harsha.thesis.api.solution0.dao.BaseDAO;
 import harsha.thesis.api.solution0.entity.BaseEntity;
@@ -11,7 +10,6 @@ import java.lang.reflect.Method;
 import java.util.List;
 
 import org.apache.log4j.Logger;
-import org.apache.log4j.Priority;
 
 public class Solution0 extends BaseSolution{
 	
@@ -20,14 +18,17 @@ public class Solution0 extends BaseSolution{
 	private BaseDAO dao;
 	List<BaseEntity> entities;
 	
+	
 	public Solution0(){
 		
 		
 	}
 	
+
+	
 	public void run() {
 		try {
-			this.dao = new BaseDAO(HectorConnectionObject.class.getName(), args[0]);
+			this.dao = new BaseDAO(conDef);
 			CSVReader reader = new CSVReader();
 			if (args[3].equals("insert") ||
 					args[3].equals("delete") ||

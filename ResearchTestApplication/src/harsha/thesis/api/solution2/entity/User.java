@@ -3,8 +3,12 @@
  */
 package harsha.thesis.api.solution2.entity;
 
+import java.lang.reflect.InvocationTargetException;
+import java.util.List;
+
 import harsha.thesis.api.annotation.Column;
 import harsha.thesis.api.annotation.PrimaryKey;
+import harsha.thesis.api.solution2.entity.Metadata;
 
 /**
  * @author vinay
@@ -93,6 +97,44 @@ public class User extends BaseEntity {
 		}
 		return false;
 	}
+	
+	public void setKeyForUpdate(String keyForUpdate) {
+		this.keyForUpdate = keyForUpdate;
+	}
+
+	public String getColumnFamilyRepresentation(){
+		return this.getClass().getName().replace('.', '_');
+	}
+
+	@Override
+	public String getKeyForUpdate() {
+		return super.getKeyForUpdate();
+	}
+
+	@Override
+	public List<Metadata> getMetaData() {
+		return super.getMetaData();
+	}
+
+	@Override
+	public String getMetadataStringRepresentation() {
+		return super.getMetadataStringRepresentation();
+	}
+
+	@Override
+	public void setMetaData(List<Metadata> metaData) {
+		super.setMetaData(metaData);
+	}
+
+	@Override
+	public void setMetadataStringRepresentation(
+			String metadataStringRepresentation)
+			throws IllegalArgumentException, IllegalAccessException,
+			InvocationTargetException, InstantiationException {
+		// TODO Auto-generated method stub
+		super.setMetadataStringRepresentation(metadataStringRepresentation);
+	}
+	
 	
 	
 

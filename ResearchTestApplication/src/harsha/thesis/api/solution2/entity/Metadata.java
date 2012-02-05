@@ -107,5 +107,12 @@ public class Metadata extends BaseEntity {
 		return false;
 	}
 	
+	public void setKeyForUpdate(String keyForUpdate) {
+		this.keyForUpdate = keyForUpdate;
+	}
+
+	public String getColumnFamilyRepresentation(){
+		return this.getClass().getName().replace('.', '_');
+	}
 	
 }

@@ -4,12 +4,12 @@
  */
 package harsha.thesis.exp;
 
+import harsha.thesis.api.connection.CloudConnector;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 /**
  *
@@ -22,6 +22,7 @@ public class Main {
     public static final long UPDATE_ENROLMENT_RANDOM_SEED = "update-enrolment".hashCode();
     public static final long DELETE_RANDOM_SEED = "delete".hashCode();
     public static String HECTOR_CONNECTION = "saddleback:9160@Test Cluster/UNIVERSITY";
+    public static String METADATA_CONNECTION = "ambeli:9161@MetadataCluster/Metadata";
 
     public static String Usage() {
         String usage = "Parameters:\n";
@@ -32,6 +33,7 @@ public class Main {
         usage += "\t--courses[integer]: number of courses\n";
         usage += "\t--csv-base[path]: file to write to the CSV file containing the artificial data\n";
         usage += "\t--create-csv[boolean]: determines whether the CSV file should be created with artificial data\n";
+        usage += "\t--initialize[boolean]: prepares and warms up the database\n";
 
         return usage;
     }
@@ -41,7 +43,7 @@ public class Main {
         List<Character> solutions = new ArrayList<Character>();
         int runs = 100, students = 1000, courses = 100, groups = 10;
         String logPath = ".", csvBase = "";
-        boolean createCsv = true;
+        boolean createCsv = true, initialize = false;
 
         try {
             for (String arg : args) {
@@ -65,6 +67,8 @@ public class Main {
                     csvBase = value;
                 } else if (arg.startsWith("--create-csv")) {
                     createCsv = Boolean.parseBoolean(value);
+                } else if (arg.startsWith("--initialize")) {
+                    initialize = Boolean.parseBoolean(value);
                 } else if (arg.startsWith("--?")) {
                     System.out.println(Usage());
                     System.exit(0);
@@ -87,6 +91,7 @@ public class Main {
         System.out.println("\tGroups:" + groups);
         System.out.println("\tCsvBase: " + csvBase);
         System.out.println("\tCreateCsv: " + createCsv);
+        System.out.println("\tInitialize: " + initialize);
         for (int i = 0; i < wait; ++i) {
             System.out.print((i + 1) + " ... ");
             Thread.sleep(1000);
@@ -147,89 +152,37 @@ public class Main {
             e.log("#\tGroups:" + groups + "\n");
             e.log("#\tCsvBase: " + csvBase + "\n");
             e.log("#\tCreateCsv: " + createCsv + "\n");
+            e.log("#\tInitialize: " + initialize + "\n");
 
-            char solution = e.getCode().charAt(e.getCode().length() - 1);
-            switch (solution) {
+            char solutionChar = e.getCode().charAt(e.getCode().length() - 1);
+            SolutionExperiment solution = null;
+            switch (solutionChar) {
                 case '0':
-                    new Solution0(e, csvFiles).experiment(runs);
+                    solution = new Solution0(e, csvFiles);
                     break;
                 case '1':
-                    new Solution1(e, csvFiles).experiment(runs);
+                    solution = new Solution1(e, csvFiles);
                     break;
                 case '2':
-//                Solution2(experiment);
+                    solution = new Solution2(e, csvFiles);
                     break;
                 case '3':
-//                Solution3(experiment);
+                    solution = new Solution3(e, csvFiles);
                     break;
                 case '4':
-//                Solution4(experiment);
+                    solution = new Solution4(e, csvFiles);
                     break;
                 default:
                     throw new AssertionError();
             }
+            if (initialize) {
+                solution.initialize();
+            } else {
+                solution.experiment(runs);
+            }
             e.destroy();
         }
         System.out.println("Total duration: " + (System.currentTimeMillis() - startTime) + "ms");
-    }
-
-    public static void main2(String[] args) throws Exception {
-        Experiment e = new Experiment("Solution0", "", "/tmp");
-        e.initialize();
-
-        String allArgs = "";
-        for (String s : args) {
-            allArgs += s + " ";
-        }
-
-        e.log("#" + allArgs + "\n\n");
-
-        Pool.Instance().register(e);
-        for (int i = 0; i < 50; ++i) {
-            test(args);
-        }
-        e.destroy();
-    }
-
-    public static void test(String[] args) throws Exception {
-        Random random = new Random();
-
-        Experiment e = Pool.Instance().get("Solution0");
-
-
-
-        { //Insert
-            e.start();
-            for (int i = 0; i < 100; ++i) {
-//            e.logf("#Inserting " + i + "\n");
-            }
-            Thread.sleep(random.nextInt(500));
-            e.stop();
-
-            e.log("Insert: " + (e.duration()) + "\n");
-        }
-
-        { //Update
-            e.start();
-            for (int i = 0; i < 100; ++i) {
-//            e.logf("#Inserting " + i + "\n");
-            }
-            Thread.sleep(random.nextInt(500));
-            e.stop();
-
-            e.log("Update: " + (e.duration()) + "\n");
-        }
-
-        {//Delete
-            e.start();
-            for (int i = 0; i < 100; ++i) {
-//            e.logf("#Inserting " + i + "\n");
-            }
-            Thread.sleep(random.nextInt(500));
-            e.stop();
-
-            e.log("Delete: " + e.duration() + "\n");
-        }
-        e.log("\n");
+        System.out.println("Number of Connections:" + CloudConnector.NUMBER_OF_CONNECTIONS);
     }
 }

@@ -1,5 +1,6 @@
 package harsha.thesis.api.solution2.dao;
 
+import harsha.thesis.api.connection.ConnectionDefinition;
 import harsha.thesis.api.solution2.entity.Metadata;
 
 import java.lang.reflect.InvocationTargetException;
@@ -11,8 +12,8 @@ import java.util.StringTokenizer;
 
 public class MetadataDAO extends BaseDAO {
 
-	public MetadataDAO(String driverClassName, String connectionString) throws Exception {
-		super(driverClassName, connectionString);
+	public MetadataDAO(ConnectionDefinition conDef) throws Exception {
+		super(conDef);
 		
 	}
 	
@@ -25,16 +26,16 @@ public class MetadataDAO extends BaseDAO {
 	
 	private List<Metadata> getMetadataFromString(String metadataStringRepresentation) throws IllegalArgumentException, IllegalAccessException, InvocationTargetException, InstantiationException{
 		Method [] methods = Metadata.class.getDeclaredMethods();
-		StringTokenizer st = new StringTokenizer(metadataStringRepresentation, "{");
+		StringTokenizer st = new StringTokenizer(metadataStringRepresentation, "|");
 		List<String> tempMeta = new LinkedList<String>();
 		List<String> tempMeta1 = new LinkedList<String>();
 		List<Metadata> tempdta = new LinkedList<Metadata>();
 		while(st.hasMoreElements()){
 			String str = (String)st.nextElement();
-			if ( str.contains("{") ||
-					str.contains("};")){
-				str.replace("{", "");
-				str.replace("}", "");
+			if ( str.contains("|") ||
+					str.contains("|;")){
+				str.replace("|", "");
+				str.replace("|", "");
 			}
 			tempMeta.add(str);
 		}

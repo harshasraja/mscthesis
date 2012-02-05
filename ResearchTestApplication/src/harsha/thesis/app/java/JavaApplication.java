@@ -1,5 +1,6 @@
 package harsha.thesis.app.java;
 
+import harsha.thesis.api.connection.ConnectionDefinition;
 import harsha.thesis.api.connection.hector.HectorConnectionObject;
 import harsha.thesis.api.exception.ValidationFailedException;
 import harsha.thesis.api.solution0.dao.BaseDAO;
@@ -24,10 +25,12 @@ public class JavaApplication {
 		//-Dlog4j.properties=log4j.xml
 		
 
-
+		BaseSolution sol = null;
 		try {
 			Class tempClass = Class.forName(args[1]);
-			BaseSolution sol = (BaseSolution)tempClass.newInstance();
+			ConnectionDefinition conDef = new ConnectionDefinition(args[0], HectorConnectionObject.class.getName());
+			sol = (BaseSolution)tempClass.newInstance();
+			sol.setConnectionDefinition(conDef);
 			sol.setArgs(args);
 			sol.run();
 		} catch (InstantiationException e) {
@@ -40,6 +43,9 @@ public class JavaApplication {
 
 			e.printStackTrace();
 		}
+		sol = null;
+		System.gc();
+		System.exit(0);
 
 		
 		
@@ -50,7 +56,7 @@ public class JavaApplication {
 	public void run(String[] args){
 		BaseDAO dao = null;
 		try {
-			dao = new BaseDAO(HectorConnectionObject.class.getName(), args[0]);
+			dao = null;//new BaseDAO(null);
 			CSVReader csvReader = new CSVReader();
 			List<BaseEntity> entities = csvReader.getEntities(args[3], args[1]);
 			

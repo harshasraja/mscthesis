@@ -3,13 +3,8 @@
  */
 package harsha.thesis.api.connection.hector;
 
-
-
 import harsha.thesis.api.connection.Connection;
-
-import java.util.StringTokenizer;
-
-import me.prettyprint.cassandra.model.ExecutingKeyspace;
+import harsha.thesis.api.connection.ConnectionDefinition;
 import me.prettyprint.cassandra.model.IndexedSlicesQuery;
 import me.prettyprint.cassandra.serializers.StringSerializer;
 import me.prettyprint.cassandra.service.CassandraHostConfigurator;
@@ -26,188 +21,115 @@ import org.apache.log4j.Logger;
  * @author vinay
  *
  */
-public class HectorConnectionObject implements Connection{
-	
-	private Logger logger = Logger.getLogger(this.getClass().getName());
+public class HectorConnectionObject implements Connection {
 
-	private String clusterName;
-	private String ipAddress;
-	private String keySpace;
-	private int port;
-	private String connectionString;
-	private String ipAndPort;
-	
-	private Mutator<String> mutator;
-	private RangeSlicesQuery<String, String, String> rangeSlicesQuery;
-	private SliceQuery<String, String, String> sliceQuery;
-	private IndexedSlicesQuery<String, String, String> indexedSlicesQuery;
-	private Keyspace keyspaceObject;
+    private Logger logger = Logger.getLogger(this.getClass().getName());
+    private Mutator<String> mutator;
+    private RangeSlicesQuery<String, String, String> rangeSlicesQuery;
+    private SliceQuery<String, String, String> sliceQuery;
+    private IndexedSlicesQuery<String, String, String> indexedSlicesQuery;
+    private Keyspace keyspaceObject;
+    private Cluster cluster;
+    private static StringSerializer stringSerializer = StringSerializer.get();
 
-	private Cluster cluster;
-	
-	private static StringSerializer stringSerializer = StringSerializer.get();
-	
-	/**
-	 * 
-	 */
-	public HectorConnectionObject() {	
-		// TODO Auto-generated constructor stub
-	}
+    /**
+     *
+     */
+    public HectorConnectionObject() {
+    }
 
-	@Override
-	public void close() {
-		logger.info("Closeing Connection Object......");
-		//this.rangeSlicesQuery = null;
-		//this.mutator = null;
-		//cluster.getConnectionManager().shutdown();
-		if (cluster != null){
-			HFactory.shutdownCluster(cluster);
-		}
-		
-		this.cluster = null;
-		logger.info("Closed Connection Object.");
-	}
+    @Override
+    public void close() {
+        logger.info("Closing Connection Object......");
+        //this.rangeSlicesQuery = null;
+        //this.mutator = null;
+        //cluster.getConnectionManager().shutdown();
+        if (cluster != null) {
+            HFactory.shutdownCluster(cluster);
+        }
 
-	@Override
-	public String getClusterName() {
-		return clusterName;
-	}
-	
-	@Override
-	public String getConnectionString(){
-		return connectionString;
-	}
+        this.cluster = null;
+        logger.info("Closed Connection Object.");
+    }
 
-	@Override
-	public String getIpAddress() {
-		return ipAddress;
-	}
+    @Override
+    public Mutator<String> getMutator() throws Exception {
 
-	@Override
-	public String getKeySpace() {
-		return keySpace;
-	}
+        return mutator;
+    }
 
-	@Override
-	public Mutator<String> getMutator() throws Exception {
-		
-		return mutator;
-	}
+    @Override
+    public RangeSlicesQuery<String, String, String> getRangeSliceQuery() {
+        return this.rangeSlicesQuery;
+    }
 
-	@Override
-	public int getPort() {
-		return port;
-	}
+    @Override
+    public void open(ConnectionDefinition conDef) throws Exception {
 
-	@Override
-	public RangeSlicesQuery<String, String, String> getRangeSliceQuery() {
-		return this.rangeSlicesQuery;
-	}
 
-	@Override
-	public void setClusterName(String clusterName) {
-		this.clusterName = clusterName;
-		
-	}
+        logger.debug("Creating Cluster.......");
 
-	@Override
-	public void setConnectionString(String connectionString) throws Exception  {
-		this.connectionString = connectionString;
-		logger.info("Connection String:"+connectionString);
-		//  ipaddress:port@clusterName/keySpace
-		
-		StringTokenizer tokenizer = new StringTokenizer(connectionString,"@");
-		if (tokenizer.countTokens() != 2){
-			throw new Exception("Invalid connection String:"+connectionString);
-		}
-		ipAndPort = tokenizer.nextToken();
-		logger.debug("IP Address: Port:"+ipAndPort);
-		String clusterNameAndKeySpace = tokenizer.nextToken();
-		logger.debug("ClusterName and KeySpace:"+clusterNameAndKeySpace);
-		
-		tokenizer = new StringTokenizer(ipAndPort, ":");
-		this.ipAddress = tokenizer.nextToken();
-		this.port = Integer.parseInt(tokenizer.nextToken());
-		
-		tokenizer = new StringTokenizer(clusterNameAndKeySpace, "/");
-		this.clusterName = tokenizer.nextToken();
-		this.keySpace = tokenizer.nextToken();
-		
-		logger.debug("Creating Cluster.......");
-		this.cluster = HFactory.getOrCreateCluster(this.clusterName, new CassandraHostConfigurator(ipAndPort));
-		logger.warn("Active pool size:"+this.cluster.getConnectionManager().getActivePools().size());
-		//this.cluster.getConnectionManager().getActivePools().
-		if (this.cluster.getConnectionManager().getActivePools().size()<1){
-			close();
-			throw new Exception("Could not connect to:"+connectionString);
-		}
-		logger.info("Cluster created");
-		
-		logger.debug("Creating mutator.......");
-		this.mutator = HFactory.createMutator(getKeyspaceObject(), StringSerializer.get());
-		logger.info("Mutator Created.");
-		
-		
-		logger.debug("Creating RangeSliceQuery.......");
-		this.rangeSlicesQuery = HFactory.createRangeSlicesQuery(getKeyspaceObject(), stringSerializer, stringSerializer, stringSerializer);
-		logger.info("RangeSliceQuery Created.");
-		
-		logger.debug("Creating SliceQuery.......");
-		this.sliceQuery = HFactory.createSliceQuery(getKeyspaceObject(), stringSerializer, stringSerializer, stringSerializer);
-		logger.info("SliceQuery Created.");
-		
-		logger.debug("Creating IndexedSlicesQuery.......");
-		this.indexedSlicesQuery = HFactory.createIndexedSlicesQuery(getKeyspaceObject(), stringSerializer, stringSerializer, stringSerializer);
-		logger.info("Indexed SlicesQuery Created.");
-		
-		logger.info("Connected to [IP Address]"+ipAddress+" [Port]"+port+" [Cluster Name]"+clusterName+" [Key Space]"+keySpace);
-	}
 
-	@Override
-	public void setIpAddress(String ipAddress) {
-		this.ipAddress = ipAddress;
-		
-	}
+        CassandraHostConfigurator cassandraConfigurator = new CassandraHostConfigurator(conDef.getIpAndPort());
 
-	@Override
-	public void setKeySpace(String keySpace) {
-		this.keySpace = keySpace;
-	}
+        this.cluster = HFactory.getOrCreateCluster(conDef.getClusterName(), cassandraConfigurator);
+        logger.warn("Active pool size:" + this.cluster.getConnectionManager().getActivePools().size());
+        //this.cluster.getConnectionManager().getActivePools().
+        if (this.cluster.getConnectionManager().getActivePools().size() < 1) {
+            close();
+            throw new Exception("Could not connect to:" + conDef.getConnectionString());
+        }
+        logger.info("Cluster created");
 
-	@Override
-	public void setPort(int port) {
-		this.port = port;
-	}
-	
+        this.keyspaceObject = HFactory.createKeyspace(conDef.getKeySpace(), getCluster());
 
-	@Override
-	public Cluster getCluster() {
-		return cluster;
-	}
+        logger.debug("Creating mutator.......");
+        this.mutator = HFactory.createMutator(getKeyspace(), StringSerializer.get());
+        logger.info("Mutator Created.");
 
-	@Override
-	public SliceQuery<String, String, String> getSliceQuery() {
-		return this.sliceQuery;
-	}
 
-	@Override
-	public IndexedSlicesQuery<String, String, String> getIndexedSlicesQuery() {
-		return this.indexedSlicesQuery;
-	}
+        logger.debug("Creating RangeSliceQuery.......");
+        this.rangeSlicesQuery = HFactory.createRangeSlicesQuery(getKeyspace(), stringSerializer, stringSerializer, stringSerializer);
+        logger.info("RangeSliceQuery Created.");
 
-	@Override
-	public boolean isConnected() {
-		if (null == getCluster() ||
-				this.cluster.getConnectionManager().getActivePools().size()<1){
-			return false;
-		}
-		return true;
-	}
+        logger.debug("Creating SliceQuery.......");
+        this.sliceQuery = HFactory.createSliceQuery(getKeyspace(), stringSerializer, stringSerializer, stringSerializer);
+        logger.info("SliceQuery Created.");
 
-	@Override
-	public Keyspace getKeyspaceObject() {
-		this.keyspaceObject = HFactory.createKeyspace(getKeySpace(), getCluster());
-		return this.keyspaceObject;
-	}
+        logger.debug("Creating IndexedSlicesQuery.......");
+        this.indexedSlicesQuery = HFactory.createIndexedSlicesQuery(getKeyspace(), stringSerializer, stringSerializer, stringSerializer);
+        logger.info("Indexed SlicesQuery Created.");
 
+        logger.info("Connected to [IP Address]" + conDef.getIpAddress() + " [Port]" + conDef.getPort() + " [Cluster Name]" + conDef.getClusterName() + " [Key Space]" + conDef.getKeySpace());
+    }
+
+    @Override
+    public Cluster getCluster() {
+        return cluster;
+    }
+
+    @Override
+    public SliceQuery<String, String, String> getSliceQuery() {
+        return this.sliceQuery;
+    }
+
+    @Override
+    public IndexedSlicesQuery<String, String, String> getIndexedSlicesQuery() {
+        return this.indexedSlicesQuery;
+    }
+
+    @Override
+    public boolean isConnected() {
+        if (null == getCluster()
+                || this.cluster.getConnectionManager().getActivePools().size() < 1) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public Keyspace getKeyspace() {
+
+        return this.keyspaceObject;
+    }
 }
