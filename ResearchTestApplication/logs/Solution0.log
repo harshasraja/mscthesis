@@ -1,24 +1,98 @@
-#	Working Directory/home/jcrada/Development/hr/ResearchTestApplication
+#	Working Directory/am/phoenix/home1/subramhars/workspace/ResearchTestApplication
 #	Solution: Solution0
 #	LogPath: ./logs
-#	Runs: 1
-#	Students: 10
-#	Courses: 10
+#	Runs: 100
+#	Students: 1000
+#	Courses: 100
 #	Groups:10
 #	CsvBase: ./data/
 #	CreateCsv: true
 #	Initialize: false
 #RUN:1#INSERT
-insert_user:10218
-insert_course:10086
-insert_enrolment:0
-
-update_course:137
-
-update_enrolment:0
+insert_user:1935
+insert_course:136
+insert_enrolment:11021
 
 #DELETE
-delete_enrolment:0
-delete_course:58
-delete_user:22
+delete_enrolment:10963
+delete_course:134
+delete_user:1371
 
+#RUN:2#INSERT
+insert_user:1391
+insert_course:120
+insert_enrolment:10937
+
+#DELETE
+delete_enrolment:10828
+delete_course:143
+delete_user:1819
+
+#RUN:3#INSERT
+insert_user:1388
+insert_course:124
+insert_enrolment:10865
+
+#DELETE
+delete_enrolment:10819
+delete_course:126
+delete_user:1389
+
+#RUN:4#INSERT
+insert_user:1376
+insert_course:128
+insert_enrolment:10836
+
+#DELETE
+delete_enrolment:10724
+delete_course:141
+delete_user:1362
+
+#RUN:5#INSERT
+insert_user:1379
+insert_course:120
+insert_enrolment:11380
+
+#DELETE
+delete_enrolment:10794
+delete_course:127
+delete_user:1394
+
+#RUN:6#INSERT
+insert_user:1367
+insert_course:119
+insert_enrolment:10866
+
+#DELETE
+delete_enrolment:10729
+delete_course:142
+delete_user:1366
+
+#RUN:7#INSERT
+insert_user:1380
+insert_course:118
+insert_enrolment:10949
+
+#DELETE
+delete_enrolment:11231
+delete_course:123
+delete_user:1405
+
+#RUN:8#INSERT
+insert_user:1373
+insert_course:121
+insert_enrolment:10907
+
+#DELETE
+delete_enrolment:10790
+delete_course:130
+delete_user:1366
+
+#RUN:9#INSERT
+insert_user:1386
+insert_course:116
+insert_enrolment:10859
+
+#DELETE
+delete_enrolment:10764
+delete_course:126

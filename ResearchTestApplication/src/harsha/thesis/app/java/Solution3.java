@@ -1,5 +1,6 @@
 package harsha.thesis.app.java;
 
+import harsha.thesis.api.connection.CloudConnector;
 import harsha.thesis.api.exception.ValidationFailedException;
 import harsha.thesis.api.solution3.dao.BaseDAO;
 import harsha.thesis.api.solution3.entity.BaseEntity;
@@ -26,7 +27,7 @@ public class Solution3 extends BaseSolution{
 	
 	public void run() {
 		try {
-			this.dao = new BaseDAO(conDef);
+			this.dao = new BaseDAO();
 			CSVReader reader = new CSVReader();
 			if (args[3].equals("insert") ||
 					args[3].equals("delete")||
@@ -49,7 +50,7 @@ public class Solution3 extends BaseSolution{
 				dao.close();
 			}
 		}
-		
+		System.out.println("Connections: " + CloudConnector.NUMBER_OF_CONNECTIONS);
 	}
 
 	public void insert() throws Exception{
@@ -58,7 +59,7 @@ public class Solution3 extends BaseSolution{
 		Long startTime = System.currentTimeMillis();
 		for (BaseEntity baseEntity : entities) {
 			try{
-				this.dao = new BaseDAO(conDef);
+				this.dao = new BaseDAO();
 				dao.insert(baseEntity);
 				i++;
 			} catch (ValidationFailedException ex) {
@@ -79,7 +80,7 @@ public class Solution3 extends BaseSolution{
 		Long startTime = System.currentTimeMillis();
 		for (BaseEntity baseEntity : entities) {
 			try{
-				this.dao = new BaseDAO(conDef);
+				this.dao = new BaseDAO();
 				dao.delete(baseEntity);
 			} catch (ValidationFailedException ex) {
 					logger.error(ex.getMessage(), ex);
@@ -99,7 +100,7 @@ public class Solution3 extends BaseSolution{
 		Long startTime = System.currentTimeMillis();
 		for (BaseEntity baseEntity : entities) {
 			try{
-				this.dao = new BaseDAO(conDef);
+				this.dao = new BaseDAO();
 				dao.update(baseEntity);
 			} catch (ValidationFailedException ex) {
 					logger.error(ex.getMessage(), ex);
@@ -116,18 +117,18 @@ public class Solution3 extends BaseSolution{
 	}
 	
 	public void printAll() throws Exception{
-		this.dao = new BaseDAO(conDef);
+		this.dao = new BaseDAO();
 		printEntities(dao.read(args[2]));
 		
 	}
 	
 	public void printForKey() throws Exception{
-		this.dao = new BaseDAO(conDef);
+		this.dao = new BaseDAO();
 		printEntity(dao.read(args[2],args[4]));
 	}
 	
 	public void printForColumn() throws ClassNotFoundException, InstantiationException, IllegalAccessException, Exception{
-		this.dao = new BaseDAO(conDef);
+		this.dao = new BaseDAO();
 		printEntities(dao.read(args[2], args[4], args[5], args[6], Boolean.parseBoolean(args[7])));
 	}
 	

@@ -22,7 +22,7 @@ import java.util.Random;
  *
  * @author jcrada
  */
-public class Solution2 implements SolutionExperiment{
+public class Solution2 implements SolutionExperiment {
 
     private Experiment experiment;
     private String[] csvFiles;
@@ -42,9 +42,7 @@ public class Solution2 implements SolutionExperiment{
         courses = CommonHelper.GetCourseEntities(Solution.TWO, csvFiles[1]);
         enrolments = CommonHelper.GetEnrolmentEntities(Solution.TWO, csvFiles[2]);
 
-
-        ConnectionDefinition conDef = new ConnectionDefinition(Main.HECTOR_CONNECTION, HectorConnectionObject.class.getName());
-        dao = new BaseDAO(conDef);
+        dao = new BaseDAO();
 
         Course courseMetadata = new Course();
         courseMetadata.setCourseId("-1");
@@ -57,7 +55,7 @@ public class Solution2 implements SolutionExperiment{
                 + "TableName:harsha_thesis_api_solution2_entity_Enrolment;"
                 + "RKeySpace:UNIVERSITY;RConstraintName:CONST500;"
                 + "RColumn:CourseId;DeleteRule:NODELETE|;");
-        
+
         User userMetadata = new User();
         userMetadata.setUserId("-1");
         userMetadata.setMetadataStringRepresentation("|ConstraintName:CONST100;"
@@ -84,8 +82,8 @@ public class Solution2 implements SolutionExperiment{
                 + "DeleteRule:|;|ConstraintName:CONST500;KeySpace:UNIVERSITY;"
                 + "ConstraintType:R;TableName:harsha_thesis_api_solution2_entity_Course;"
                 + "RKeySpace:UNIVERSITY;RConstraintName:CONST600;RColumn:CourseId;DeleteRule:|;");
-        
-        
+
+
         dao.insert(courseMetadata);
         dao.insert(userMetadata);
         dao.insert(enrolmentMetadata);
@@ -99,9 +97,7 @@ public class Solution2 implements SolutionExperiment{
         courses = CommonHelper.GetCourseEntities(Solution.TWO, csvFiles[1]);
         enrolments = CommonHelper.GetEnrolmentEntities(Solution.TWO, csvFiles[2]);
 
-
-        ConnectionDefinition conDef = new ConnectionDefinition(Main.HECTOR_CONNECTION, HectorConnectionObject.class.getName());
-        dao = new BaseDAO(conDef);
+        dao = new BaseDAO();
         //dao = new BaseDAO(HectorConnectionObject.class.getName(), Main.HECTOR_CONNECTION);
 
 
@@ -110,8 +106,8 @@ public class Solution2 implements SolutionExperiment{
             insert();
             String newCourseId = (i + 1) % 2 == 0 ? ArtificialData.COURSE_BASE_NAME
                     : ArtificialData.COURSE_ALTERNATIVE_NAME;
-            updateCourse(newCourseId);
-            updateEnrolment();
+//            updateCourse(newCourseId);
+//            updateEnrolment();
             delete();
         }
 

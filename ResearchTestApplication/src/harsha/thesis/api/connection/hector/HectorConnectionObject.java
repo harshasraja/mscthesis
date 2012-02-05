@@ -44,9 +44,9 @@ public class HectorConnectionObject implements Connection {
         //this.rangeSlicesQuery = null;
         //this.mutator = null;
         //cluster.getConnectionManager().shutdown();
-        if (cluster != null) {
-            HFactory.shutdownCluster(cluster);
-        }
+//        if (cluster != null) {
+//            HFactory.shutdownCluster(cluster);
+//        }
 
         this.cluster = null;
         logger.info("Closed Connection Object.");

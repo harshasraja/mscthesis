@@ -20,7 +20,7 @@ public class ConnectionDefinition {
 		
 	}
 	
-	public ConnectionDefinition(String connectionString, String connectionClass) throws Exception{
+	public ConnectionDefinition(String connectionString, String connectionClass) {
 		
 		
 		this.connectionClass = connectionClass;
@@ -30,7 +30,7 @@ public class ConnectionDefinition {
 		
 		StringTokenizer tokenizer = new StringTokenizer(connectionString,"@");
 		if (tokenizer.countTokens() != 2){
-			throw new Exception("Invalid connection String:"+connectionString);
+			throw new RuntimeException("Invalid connection String:"+connectionString);
 		}
 		ipAndPort = tokenizer.nextToken();
 		logger.debug("IP Address: Port:"+ipAndPort);

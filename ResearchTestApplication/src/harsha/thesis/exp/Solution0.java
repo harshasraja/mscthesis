@@ -21,7 +21,7 @@ import java.util.Random;
  *
  * @author jcrada
  */
-public class Solution0 implements SolutionExperiment{
+public class Solution0 implements SolutionExperiment {
 
     private Experiment experiment;
     private String[] csvFiles;
@@ -37,16 +37,36 @@ public class Solution0 implements SolutionExperiment{
     }
 
     public void initialize() throws Exception {
-        users = CommonHelper.GetUserEntities(Solution.ZERO, csvFiles[0]);
-        courses = CommonHelper.GetCourseEntities(Solution.ZERO, csvFiles[1]);
-        enrolments = CommonHelper.GetEnrolmentEntities(Solution.ZERO, csvFiles[2]);
+        dao = new BaseDAO();
 
+        harsha.thesis.exp.entity.User defaultUser = CommonHelper.GetDefaultUser();
+        harsha.thesis.exp.entity.Course defaultCourse = CommonHelper.getDefaultCourse();
+        harsha.thesis.exp.entity.Enrolment defaultEnrolment = CommonHelper.getDefaultEnrolment();
 
-        ConnectionDefinition conDef = new ConnectionDefinition(Main.HECTOR_CONNECTION, HectorConnectionObject.class.getName());
-        dao = new BaseDAO(conDef);
+        User user = new User();
+        user.setAge(defaultUser.getAge());
+        user.setEmail(defaultUser.getEmail());
+        user.setFirstName(defaultUser.getFirstName());
+        user.setLastName(defaultUser.getLastName());
+        user.setType(defaultUser.getType());
+        user.setUserId(defaultUser.getUserId());
+        dao.insert(user);
 
-        insert();
-        delete();
+        Course course = new Course();
+        course.setCourseId(defaultCourse.getCourseId());
+        course.setCourseName(defaultCourse.getCourseName());
+        course.setLevel(defaultCourse.getLevel());
+        course.setTrimister(defaultCourse.getTrimister());
+        course.setYear(defaultCourse.getYear());
+        dao.insert(course);
+
+        Enrolment enrolment = new Enrolment();
+        enrolment.setCourseId(defaultEnrolment.getCourseId());
+        enrolment.setRowId(defaultEnrolment.getRowId());
+        enrolment.setType(defaultEnrolment.getType());
+        enrolment.setUserId(defaultEnrolment.getUserId());
+        dao.insert(enrolment);
+
 
         dao.close();
     }
@@ -58,7 +78,7 @@ public class Solution0 implements SolutionExperiment{
 
 
         ConnectionDefinition conDef = new ConnectionDefinition(Main.HECTOR_CONNECTION, HectorConnectionObject.class.getName());
-        dao = new BaseDAO(conDef);
+        dao = new BaseDAO();
         //dao = new BaseDAO(HectorConnectionObject.class.getName(), Main.HECTOR_CONNECTION);
 
 
@@ -67,8 +87,8 @@ public class Solution0 implements SolutionExperiment{
             String newCourseId = (i + 1) % 2 == 0 ? ArtificialData.COURSE_BASE_NAME
                     : ArtificialData.COURSE_ALTERNATIVE_NAME;
             insert();
-            updateCourse(newCourseId);
-            updateEnrolment();
+//            updateCourse(newCourseId);
+//            updateEnrolment();
             delete();
         }
 

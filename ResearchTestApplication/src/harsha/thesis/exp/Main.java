@@ -81,17 +81,17 @@ public class Main {
             System.exit(1);
         }
         int wait = 3;
-        System.out.println("About to start experiment in " + wait + " seconds:");
-        System.out.println("\tWorking Directory" + System.getProperty("user.dir"));
-        System.out.println("\tSolutions: " + solutions);
-        System.out.println("\tLogPath: " + logPath);
-        System.out.println("\tRuns: " + runs);
-        System.out.println("\tStudents: " + students);
-        System.out.println("\tCourses: " + courses);
-        System.out.println("\tGroups:" + groups);
-        System.out.println("\tCsvBase: " + csvBase);
-        System.out.println("\tCreateCsv: " + createCsv);
-        System.out.println("\tInitialize: " + initialize);
+        System.out.println("#About to start experiment in " + wait + " seconds:");
+        System.out.println("#\tWorking Directory" + System.getProperty("user.dir"));
+        System.out.println("#\tSolutions: " + solutions);
+        System.out.println("#\tLogPath: " + logPath);
+        System.out.println("#\tRuns: " + runs);
+        System.out.println("#\tStudents: " + students);
+        System.out.println("#\tCourses: " + courses);
+        System.out.println("#\tGroups:" + groups);
+        System.out.println("#\tCsvBase: " + csvBase);
+        System.out.println("#\tCreateCsv: " + createCsv);
+        System.out.println("#\tInitialize: " + initialize);
         for (int i = 0; i < wait; ++i) {
             System.out.print((i + 1) + " ... ");
             Thread.sleep(1000);
@@ -143,16 +143,20 @@ public class Main {
 
 
         for (Experiment e : experiments) {
-            e.log("#\tWorking Directory" + System.getProperty("user.dir") + "\n");
-            e.log("#\tSolution: " + e.getCode() + "\n");
-            e.log("#\tLogPath: " + logPath + "\n");
-            e.log("#\tRuns: " + runs + "\n");
-            e.log("#\tStudents: " + students + "\n");
-            e.log("#\tCourses: " + courses + "\n");
-            e.log("#\tGroups:" + groups + "\n");
-            e.log("#\tCsvBase: " + csvBase + "\n");
-            e.log("#\tCreateCsv: " + createCsv + "\n");
-            e.log("#\tInitialize: " + initialize + "\n");
+            System.out.println("#EXPERIMENT: " + e.getCode());
+            String out = "#\tWorking Directory" + System.getProperty("user.dir") + "\n";
+            out += "#\tSolution: " + e.getCode() + "\n";
+            out += "#\tLogPath: " + logPath + "\n";
+            out += "#\tRuns: " + runs + "\n";
+            out += "#\tStudents: " + students + "\n";
+            out += "#\tCourses: " + courses + "\n";
+            out += "#\tGroups:" + groups + "\n";
+            out += "#\tCsvBase: " + csvBase + "\n";
+            out += "#\tCreateCsv: " + createCsv + "\n";
+            out += "#\tInitialize: " + initialize + "\n";
+
+            System.out.println(out);
+            e.log(out);
 
             char solutionChar = e.getCode().charAt(e.getCode().length() - 1);
             SolutionExperiment solution = null;
@@ -182,7 +186,10 @@ public class Main {
             }
             e.destroy();
         }
-        System.out.println("Total duration: " + (System.currentTimeMillis() - startTime) + "ms");
-        System.out.println("Number of Connections:" + CloudConnector.NUMBER_OF_CONNECTIONS);
+        System.out.println("#Total duration: " + (System.currentTimeMillis() - startTime) + "ms");
+        System.out.println("#Number of Connections:" + CloudConnector.NUMBER_OF_CONNECTIONS);
+
+
+        CloudConnector.shutdown();
     }
 }

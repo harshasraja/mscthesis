@@ -11,6 +11,7 @@ import harsha.thesis.api.solution4.dao.ValidationHandler;
 import harsha.thesis.api.solution4.entity.BaseEntity;
 import harsha.thesis.api.solution4.entity.Course;
 import harsha.thesis.api.solution4.entity.Enrolment;
+import harsha.thesis.api.solution4.entity.Metadata;
 import harsha.thesis.api.solution4.entity.User;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -42,27 +43,51 @@ public class Solution4 implements SolutionExperiment {
         courses = CommonHelper.GetCourseEntities(Solution.FOUR, csvFiles[1]);
         enrolments = CommonHelper.GetEnrolmentEntities(Solution.FOUR, csvFiles[2]);
 
-        ConnectionDefinition metadataConDef =
-                new ConnectionDefinition(Main.METADATA_CONNECTION, HectorConnectionObject.class.getName());
-
-        ConnectionDefinition conDef = new ConnectionDefinition(Main.HECTOR_CONNECTION, HectorConnectionObject.class.getName());
         
-        daoMetadata = new BaseDAO(conDef, new ValidationHandler(metadataConDef, conDef, "harsha.thesis.api.solution4.entity.Metadata"));
-//        daoMetadata.insert(new Metadata("CONST100", "UNIVERSITY", "P", "harsha_thesis_api_solution4_entity_User", "UNIVERSITY","", "UserId",""));
-//        daoMetadata.insert(new Metadata("CONST200", "UNIVERSITY", "P", "harsha_thesis_api_solution4_entity_Course", "UNIVERSITY","", "CourseId",""));
-//        daoMetadata.insert(new Metadata("CONST300", "UNIVERSITY", "P", "harsha_thesis_api_solution4_entity_Enrolment", "UNIVERSITY","", "RowID",""));
-//        daoMetadata.insert(new Metadata("CONST400", "UNIVERSITY", "R", "harsha_thesis_api_solution4_entity_Enrolment", "UNIVERSITY", "CONST100", "UserId", "CASCADE"));
-//        daoMetadata.insert(new Metadata("CONST500", "UNIVERSITY", "R", "harsha_thesis_api_solution4_entity_Enrolment", "UNIVERSITY", "CONST200", "CourseId", "NODELETE"));
-//        daoMetadata.insert(new Metadata("CONST600", "UNIVERSITY", "F", "harsha_thesis_api_solution4_entity_Course", "UNIVERSITY", "CONST500", "CourseId", "NODELETE"));
-//        daoMetadata.insert(new Metadata("CONST700", "UNIVERSITY", "F", "harsha_thesis_api_solution4_entity_User", "UNIVERSITY", "CONST400", "UserId", "CASCADE"));
+        daoMetadata = new BaseDAO(new ValidationHandler("harsha.thesis.api.solution4.entity.Metadata"));
+        daoMetadata.insert(new Metadata("CONST100", "UNIVERSITY", "P", "harsha_thesis_api_solution4_entity_User", "UNIVERSITY","", "UserId",""));
+        daoMetadata.insert(new Metadata("CONST200", "UNIVERSITY", "P", "harsha_thesis_api_solution4_entity_Course", "UNIVERSITY","", "CourseId",""));
+        daoMetadata.insert(new Metadata("CONST300", "UNIVERSITY", "P", "harsha_thesis_api_solution4_entity_Enrolment", "UNIVERSITY","", "RowID",""));
+        daoMetadata.insert(new Metadata("CONST400", "UNIVERSITY", "R", "harsha_thesis_api_solution4_entity_Enrolment", "UNIVERSITY", "CONST100", "UserId", "CASCADE"));
+        daoMetadata.insert(new Metadata("CONST500", "UNIVERSITY", "R", "harsha_thesis_api_solution4_entity_Enrolment", "UNIVERSITY", "CONST200", "CourseId", "NODELETE"));
+        daoMetadata.insert(new Metadata("CONST600", "UNIVERSITY", "F", "harsha_thesis_api_solution4_entity_Course", "UNIVERSITY", "CONST500", "CourseId", "NODELETE"));
+        daoMetadata.insert(new Metadata("CONST700", "UNIVERSITY", "F", "harsha_thesis_api_solution4_entity_User", "UNIVERSITY", "CONST400", "UserId", "CASCADE"));
         daoMetadata.close();
 
         
-        daoUser = new BaseDAO(conDef, new ValidationHandler(metadataConDef, conDef, "harsha.thesis.api.solution4.User"));
-        daoCourse = new BaseDAO(conDef, new ValidationHandler(metadataConDef, conDef, "harsha.thesis.api.solution4.Course"));
-        daoEnrolment = new BaseDAO(conDef, new ValidationHandler(metadataConDef, conDef, "harsha.thesis.api.solution4.Enrolment"));
-//        insert();
-//        delete();
+        daoUser = new BaseDAO(new ValidationHandler("harsha.thesis.api.solution4.User"));
+        daoCourse = new BaseDAO(new ValidationHandler("harsha.thesis.api.solution4.Course"));
+        daoEnrolment = new BaseDAO(new ValidationHandler("harsha.thesis.api.solution4.Enrolment"));
+
+
+        harsha.thesis.exp.entity.User defaultUser = CommonHelper.GetDefaultUser();
+        harsha.thesis.exp.entity.Course defaultCourse = CommonHelper.getDefaultCourse();
+        harsha.thesis.exp.entity.Enrolment defaultEnrolment = CommonHelper.getDefaultEnrolment();
+
+        User user = new User();
+        user.setAge(defaultUser.getAge());
+        user.setEmail(defaultUser.getEmail());
+        user.setFirstName(defaultUser.getFirstName());
+        user.setLastName(defaultUser.getLastName());
+        user.setType(defaultUser.getType());
+        user.setUserId(defaultUser.getUserId());
+        daoUser.insert(user);
+
+        Course course = new Course();
+        course.setCourseId(defaultCourse.getCourseId());
+        course.setCourseName(defaultCourse.getCourseName());
+        course.setLevel(defaultCourse.getLevel());
+        course.setTrimister(defaultCourse.getTrimister());
+        course.setYear(defaultCourse.getYear());
+        daoCourse.insert(course);
+
+        Enrolment enrolment = new Enrolment();
+        enrolment.setCourseId(defaultEnrolment.getCourseId());
+        enrolment.setRowId(defaultEnrolment.getRowId());
+        enrolment.setType(defaultEnrolment.getType());
+        enrolment.setUserId(defaultEnrolment.getUserId());
+        daoEnrolment.insert(enrolment);
+
         daoUser.close();
         daoCourse.close();
         daoEnrolment.close();
@@ -73,16 +98,12 @@ public class Solution4 implements SolutionExperiment {
         courses = CommonHelper.GetCourseEntities(Solution.FOUR, csvFiles[1]);
         enrolments = CommonHelper.GetEnrolmentEntities(Solution.FOUR, csvFiles[2]);
 
-        ConnectionDefinition metadataConDef =
-                new ConnectionDefinition(Main.METADATA_CONNECTION, HectorConnectionObject.class.getName());
 
-
-        ConnectionDefinition conDef = new ConnectionDefinition(Main.HECTOR_CONNECTION, HectorConnectionObject.class.getName());
-        daoMetadata = new BaseDAO(conDef, new ValidationHandler(metadataConDef, conDef, "harsha.thesis.api.solution4.entity.Metadata"));
-        daoUser = new BaseDAO(conDef, new ValidationHandler(metadataConDef, conDef, "harsha.thesis.api.solution4.User"));
-        daoCourse = new BaseDAO(conDef, new ValidationHandler(metadataConDef, conDef, "harsha.thesis.api.solution4.Course"));
-        daoEnrolment = new BaseDAO(conDef, new ValidationHandler(metadataConDef, conDef, "harsha.thesis.api.solution4.Enrolment"));
-        //dao = new BaseDAO(HectorConnectionObject.class.getName(), Main.HECTOR_CONNECTION);
+        daoMetadata = new BaseDAO(new ValidationHandler("harsha.thesis.api.solution4.entity.Metadata"));
+        daoUser = new BaseDAO(new ValidationHandler("harsha.thesis.api.solution4.User"));
+        daoCourse = new BaseDAO(new ValidationHandler("harsha.thesis.api.solution4.Course"));
+        daoEnrolment = new BaseDAO(new ValidationHandler("harsha.thesis.api.solution4.Enrolment"));
+        
 
 
         for (int i = 0; i < runs; ++i) {
@@ -90,8 +111,8 @@ public class Solution4 implements SolutionExperiment {
             insert();
             String newCourseId = (i + 1) % 2 == 0 ? ArtificialData.COURSE_BASE_NAME
                     : ArtificialData.COURSE_ALTERNATIVE_NAME;
-            updateCourse(newCourseId);
-            updateEnrolment();
+//            updateCourse(newCourseId);
+//            updateEnrolment();
             delete();
         }
 

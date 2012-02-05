@@ -36,14 +36,15 @@ public class Solution4 extends BaseSolution{
 					args[4].equals("update")){
 				metadataConDef = new ConnectionDefinition(args[2], HectorConnectionObject.class.getName());
 				if (!"harsha.thesis.api.solution4.entity.Metadata".equals(args[3])) {
-					handler = new ValidationHandler(metadataConDef, conDef, args[3]);
+//					handler = new ValidationHandler(metadataConDef, conDef, args[3]);
+                                    handler = new ValidationHandler(args[3]);
 				}				
 			}
 			
 			if("harsha.thesis.api.solution4.entity.Metadata".equals(args[3])){
-				this.dao = new MetadataDAO(metadataConDef);
+				this.dao = new MetadataDAO();
 			} else {
-				this.dao = new BaseDAO(conDef,handler);
+				this.dao = new BaseDAO(handler);
 			}
 
 			
@@ -70,9 +71,7 @@ public class Solution4 extends BaseSolution{
 				dao.close();
 			}
 			
-			if (null != handler){
-				handler.closeHandler();
-			}
+			
 		}
 		
 	}

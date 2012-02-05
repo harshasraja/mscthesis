@@ -38,25 +38,43 @@ public class Solution3 implements SolutionExperiment {
     }
 
     public void initialize() throws Exception {
-        users = CommonHelper.GetUserEntities(Solution.THREE, csvFiles[0]);
-        courses = CommonHelper.GetCourseEntities(Solution.THREE, csvFiles[1]);
-        enrolments = CommonHelper.GetEnrolmentEntities(Solution.THREE, csvFiles[2]);
+        dao = new BaseDAO();
 
-
-        ConnectionDefinition conDef = new ConnectionDefinition(Main.HECTOR_CONNECTION, HectorConnectionObject.class.getName());
-        dao = new BaseDAO(conDef);
-        //dao = new BaseDAO(HectorConnectionObject.class.getName(), Main.HECTOR_CONNECTION);
-
-        dao.insert(new Metadata("CONST100", "UNIVERSITY", "P", "harsha_thesis_api_solution3_entity_User", "UNIVERSITY","", "UserId",""));
-        dao.insert(new Metadata("CONST200", "UNIVERSITY", "P", "harsha_thesis_api_solution3_entity_Course", "UNIVERSITY","", "CourseId",""));
-        dao.insert(new Metadata("CONST300", "UNIVERSITY", "P", "harsha_thesis_api_solution3_entity_Enrolment", "UNIVERSITY","", "RowID",""));
+        dao.insert(new Metadata("CONST100", "UNIVERSITY", "P", "harsha_thesis_api_solution3_entity_User", "UNIVERSITY", "", "UserId", ""));
+        dao.insert(new Metadata("CONST200", "UNIVERSITY", "P", "harsha_thesis_api_solution3_entity_Course", "UNIVERSITY", "", "CourseId", ""));
+        dao.insert(new Metadata("CONST300", "UNIVERSITY", "P", "harsha_thesis_api_solution3_entity_Enrolment", "UNIVERSITY", "", "RowID", ""));
         dao.insert(new Metadata("CONST400", "UNIVERSITY", "R", "harsha_thesis_api_solution3_entity_Enrolment", "UNIVERSITY", "CONST100", "UserId", "CASCADE"));
         dao.insert(new Metadata("CONST500", "UNIVERSITY", "R", "harsha_thesis_api_solution3_entity_Enrolment", "UNIVERSITY", "CONST200", "CourseId", "NODELETE"));
         dao.insert(new Metadata("CONST600", "UNIVERSITY", "F", "harsha_thesis_api_solution3_entity_Course", "UNIVERSITY", "CONST500", "CourseId", "NODELETE"));
         dao.insert(new Metadata("CONST700", "UNIVERSITY", "F", "harsha_thesis_api_solution3_entity_User", "UNIVERSITY", "CONST400", "UserId", "CASCADE"));
 
-//        insert();
-//        delete();
+        harsha.thesis.exp.entity.User defaultUser = CommonHelper.GetDefaultUser();
+        harsha.thesis.exp.entity.Course defaultCourse = CommonHelper.getDefaultCourse();
+        harsha.thesis.exp.entity.Enrolment defaultEnrolment = CommonHelper.getDefaultEnrolment();
+
+        User user = new User();
+        user.setAge(defaultUser.getAge());
+        user.setEmail(defaultUser.getEmail());
+        user.setFirstName(defaultUser.getFirstName());
+        user.setLastName(defaultUser.getLastName());
+        user.setType(defaultUser.getType());
+        user.setUserId(defaultUser.getUserId());
+        dao.insert(user);
+
+        Course course = new Course();
+        course.setCourseId(defaultCourse.getCourseId());
+        course.setCourseName(defaultCourse.getCourseName());
+        course.setLevel(defaultCourse.getLevel());
+        course.setTrimister(defaultCourse.getTrimister());
+        course.setYear(defaultCourse.getYear());
+        dao.insert(course);
+
+        Enrolment enrolment = new Enrolment();
+        enrolment.setCourseId(defaultEnrolment.getCourseId());
+        enrolment.setRowId(defaultEnrolment.getRowId());
+        enrolment.setType(defaultEnrolment.getType());
+        enrolment.setUserId(defaultEnrolment.getUserId());
+        dao.insert(enrolment);
 
         dao.close();
     }
@@ -66,9 +84,7 @@ public class Solution3 implements SolutionExperiment {
         courses = CommonHelper.GetCourseEntities(Solution.THREE, csvFiles[1]);
         enrolments = CommonHelper.GetEnrolmentEntities(Solution.THREE, csvFiles[2]);
 
-
-        ConnectionDefinition conDef = new ConnectionDefinition(Main.HECTOR_CONNECTION, HectorConnectionObject.class.getName());
-        dao = new BaseDAO(conDef);
+        dao = new BaseDAO();
         //dao = new BaseDAO(HectorConnectionObject.class.getName(), Main.HECTOR_CONNECTION);
 
 
@@ -77,8 +93,8 @@ public class Solution3 implements SolutionExperiment {
             insert();
             String newCourseId = (i + 1) % 2 == 0 ? ArtificialData.COURSE_BASE_NAME
                     : ArtificialData.COURSE_ALTERNATIVE_NAME;
-            updateCourse(newCourseId);
-            updateEnrolment();
+//            updateCourse(newCourseId);
+//            updateEnrolment();
             delete();
         }
 
@@ -97,7 +113,8 @@ public class Solution3 implements SolutionExperiment {
         Collections.shuffle(enrolmentsToInsert, random);
 
         //Users
-        experiment.log("#INSERT\n");
+        experiment.log("#INSERT[users=" + usersToInsert.size() + "; courses=" + coursesToInsert.size()
+                + "; enrolments=" + enrolmentsToInsert.size() + "]\n");
         experiment.start();
         for (BaseEntity entity : usersToInsert) {
             dao.insert(entity);
@@ -141,13 +158,23 @@ public class Solution3 implements SolutionExperiment {
 
     private void updateEnrolment() throws Exception {
         Random random = new Random(Main.UPDATE_ENROLMENT_RANDOM_SEED);
-        List<Enrolment> enrolmentsToUpdate = new ArrayList<Enrolment>(enrolments);
+        List<Enrolment> enrolmentsToUpdate = new ArrayList<Enrolment>();
+        for (Enrolment entity : enrolments) {
+            Enrolment clone = (Enrolment) entity.clone();
+            enrolmentsToUpdate.add(clone);
+            System.out.println("Clone: " + clone.toString());
+        }
+
         Collections.shuffle(enrolmentsToUpdate, random);
 
         experiment.start();
-        Iterator<Enrolment> it = enrolments.iterator();
-        for (Enrolment entity : enrolmentsToUpdate) {
-            entity.setCourseId(it.next().getCourseId());
+        Iterator<Enrolment> it = enrolmentsToUpdate.iterator();
+        for (Enrolment entity : enrolments) {
+            if (entity.getUserId().equals("100")) {
+                entity.setCourseId("COMP101");
+            } else {
+                entity.setCourseId(it.next().getCourseId());
+            }
             dao.update(entity);
         }
         experiment.stop();

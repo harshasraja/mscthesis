@@ -21,7 +21,7 @@ import java.util.Random;
  *
  * @author jcrada
  */
-public class Solution1 implements SolutionExperiment{
+public class Solution1 implements SolutionExperiment {
 
     private Experiment experiment;
     private String[] csvFiles;
@@ -36,16 +36,36 @@ public class Solution1 implements SolutionExperiment{
         this.csvFiles = csvFiles;
     }
 
-    public void initialize() throws Exception{
-        users = CommonHelper.GetUserEntities(Solution.ONE, csvFiles[0]);
-        courses = CommonHelper.GetCourseEntities(Solution.ONE, csvFiles[1]);
-        enrolments = CommonHelper.GetEnrolmentEntities(Solution.ONE, csvFiles[2]);
+    public void initialize() throws Exception {
+        dao = new BaseDAO();
 
-        ConnectionDefinition conDef = new ConnectionDefinition(Main.HECTOR_CONNECTION, HectorConnectionObject.class.getName());
-        dao = new BaseDAO(conDef);
+        harsha.thesis.exp.entity.User defaultUser = CommonHelper.GetDefaultUser();
+        harsha.thesis.exp.entity.Course defaultCourse = CommonHelper.getDefaultCourse();
+        harsha.thesis.exp.entity.Enrolment defaultEnrolment = CommonHelper.getDefaultEnrolment();
 
-        insert();
-        delete();
+        User user = new User();
+        user.setAge(defaultUser.getAge());
+        user.setEmail(defaultUser.getEmail());
+        user.setFirstName(defaultUser.getFirstName());
+        user.setLastName(defaultUser.getLastName());
+        user.setType(defaultUser.getType());
+        user.setUserId(defaultUser.getUserId());
+        dao.insert(user);
+
+        Course course = new Course();
+        course.setCourseId(defaultCourse.getCourseId());
+        course.setCourseName(defaultCourse.getCourseName());
+        course.setLevel(defaultCourse.getLevel());
+        course.setTrimister(defaultCourse.getTrimister());
+        course.setYear(defaultCourse.getYear());
+        dao.insert(course);
+
+        Enrolment enrolment = new Enrolment();
+        enrolment.setCourseId(defaultEnrolment.getCourseId());
+        enrolment.setRowId(defaultEnrolment.getRowId());
+        enrolment.setType(defaultEnrolment.getType());
+        enrolment.setUserId(defaultEnrolment.getUserId());
+        dao.insert(enrolment);
 
         dao.close();
     }
@@ -55,10 +75,7 @@ public class Solution1 implements SolutionExperiment{
         courses = CommonHelper.GetCourseEntities(Solution.ONE, csvFiles[1]);
         enrolments = CommonHelper.GetEnrolmentEntities(Solution.ONE, csvFiles[2]);
 
-        ConnectionDefinition conDef = new ConnectionDefinition(Main.HECTOR_CONNECTION, HectorConnectionObject.class.getName());
-
-        dao = new BaseDAO(conDef);
-        //dao = new BaseDAO(HectorConnectionObject.class.getName(), Main.HECTOR_CONNECTION);
+        dao = new BaseDAO();
 
 
         for (int i = 0; i < runs; ++i) {

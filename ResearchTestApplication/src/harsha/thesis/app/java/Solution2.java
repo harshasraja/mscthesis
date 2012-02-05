@@ -25,7 +25,7 @@ public class Solution2 extends BaseSolution{
 	
 	public void run() {
 		try {
-			this.dao = new BaseDAO(conDef);
+			this.dao = new BaseDAO();
 			CSVReader reader = new CSVReader();
 			if (args[3].equals("insert") ||
 					args[3].equals("delete") ||
