@@ -100,7 +100,7 @@ public class ValidationHandler {
     }
 
     public void checkReferenedKey(BaseEntity entity) throws Exception {
-        logger.info("Checking Referenced Key for ColumnFamily:" + entityForValidation);
+        logger.debug("Checking Referenced Key for ColumnFamily:" + entityForValidation);
 
         BaseDAO dao = null;
         try {

@@ -45,7 +45,7 @@ public class ValidationHandler {
 	}
 	
 	public void checkReferenedKey() throws Exception{
-		logger.info("Checking Referenced Key for ColumnFamily:"+this.columnFamily);
+		logger.debug("Checking Referenced Key for ColumnFamily:"+this.columnFamily);
 		List<String> rConstraintNames = new LinkedList<String>();
 		try {
 			List<Metadata> list = entity.getMetaData();

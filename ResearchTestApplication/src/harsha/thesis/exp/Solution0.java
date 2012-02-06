@@ -16,6 +16,7 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
+import org.apache.log4j.Logger;
 
 /**
  *
@@ -23,6 +24,8 @@ import java.util.Random;
  */
 public class Solution0 implements SolutionExperiment {
 
+    private static Logger log = Logger.getLogger(Solution0.class);
+    
     private Experiment experiment;
     private String[] csvFiles;
     //
@@ -75,21 +78,24 @@ public class Solution0 implements SolutionExperiment {
         users = CommonHelper.GetUserEntities(Solution.ZERO, csvFiles[0]);
         courses = CommonHelper.GetCourseEntities(Solution.ZERO, csvFiles[1]);
         enrolments = CommonHelper.GetEnrolmentEntities(Solution.ZERO, csvFiles[2]);
-
-
-        ConnectionDefinition conDef = new ConnectionDefinition(Main.HECTOR_CONNECTION, HectorConnectionObject.class.getName());
+        
         dao = new BaseDAO();
         //dao = new BaseDAO(HectorConnectionObject.class.getName(), Main.HECTOR_CONNECTION);
 
 
         for (int i = 0; i < runs; ++i) {
+            log.info("Run " + i);
             experiment.log("#RUN:" + (i + 1));
             String newCourseId = (i + 1) % 2 == 0 ? ArtificialData.COURSE_BASE_NAME
                     : ArtificialData.COURSE_ALTERNATIVE_NAME;
+            log.info("Inserting");
             insert();
+            log.info("Insterted");
 //            updateCourse(newCourseId);
 //            updateEnrolment();
+            log.info("Delete");
             delete();
+            log.info("Deleted");
         }
 
         dao.close();

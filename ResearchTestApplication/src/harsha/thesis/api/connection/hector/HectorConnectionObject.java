@@ -65,11 +65,7 @@ public class HectorConnectionObject implements Connection {
 
     @Override
     public void open(ConnectionDefinition conDef) throws Exception {
-
-
         logger.debug("Creating Cluster.......");
-
-
         CassandraHostConfigurator cassandraConfigurator = new CassandraHostConfigurator(conDef.getIpAndPort());
 
         this.cluster = HFactory.getOrCreateCluster(conDef.getClusterName(), cassandraConfigurator);

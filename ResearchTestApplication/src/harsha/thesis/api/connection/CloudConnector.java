@@ -1,8 +1,8 @@
 package harsha.thesis.api.connection;
 
 import harsha.thesis.api.connection.hector.HectorConnectionObject;
+import harsha.thesis.api.connection.hector.HarshaConnectionObject;
 import harsha.thesis.exp.Main;
-import me.prettyprint.cassandra.service.CassandraHostConfigurator;
 import me.prettyprint.hector.api.Cluster;
 import me.prettyprint.hector.api.factory.HFactory;
 import org.apache.log4j.Logger;
@@ -22,36 +22,38 @@ public class CloudConnector {
 
     public static Connection getConnection() throws Exception {
         NUMBER_OF_CONNECTIONS++;
-        Class<Connection> temp = (Class<Connection>) Class.forName(DEFAULT_CONNECTION_DEFINITION.getConnectionClass());
-        Connection con = null;
-        try {
-            con = temp.newInstance();
-            con.open(DEFAULT_CONNECTION_DEFINITION);
-        } catch (Exception e) {
-            if (con != null) {
-                con.close();
-            }
-            throw new Exception(e.getMessage());
-        }
-        return con;
+        return HarshaConnectionObject.GetClusterConnection();
+//        Class<Connection> temp = (Class<Connection>) Class.forName(DEFAULT_CONNECTION_DEFINITION.getConnectionClass());
+//        Connection con = null;
+//        try {
+//            con = temp.newInstance();
+//            con.open(DEFAULT_CONNECTION_DEFINITION);
+//        } catch (Exception e) {
+//            if (con != null) {
+//                con.close();
+//            }
+//            throw new Exception(e.getMessage());
+//        }
+//        return con;
 
     }
 
     public static Connection getConnection(ConnectionDefinition conDef) throws Exception {
         NUMBER_OF_CONNECTIONS++;
-        Class<Connection> temp = (Class<Connection>) Class.forName(conDef.getConnectionClass());
-        Connection con = null;
-        try {
-
-            con = temp.newInstance();
-            con.open(conDef);
-        } catch (Exception e) {
-            if (con != null) {
-                con.close();
-            }
-            throw new Exception(e.getMessage());
-        }
-        return con;
+        return HarshaConnectionObject.GetMetadataConnection();
+//        Class<Connection> temp = (Class<Connection>) Class.forName(conDef.getConnectionClass());
+//        Connection con = null;
+//        try {
+//
+//            con = temp.newInstance();
+//            con.open(conDef);
+//        } catch (Exception e) {
+//            if (con != null) {
+//                con.close();
+//            }
+//            throw new Exception(e.getMessage());
+//        }
+//        return con;
 
     }
 
@@ -67,13 +69,16 @@ public class CloudConnector {
     }
 
     public static void shutdown() {
-        CassandraHostConfigurator cassandraConfigurator = new CassandraHostConfigurator(DEFAULT_CONNECTION_DEFINITION.getIpAndPort());
-        Cluster cluster = HFactory.getOrCreateCluster(DEFAULT_CONNECTION_DEFINITION.getClusterName(), cassandraConfigurator);
-        cluster.getConnectionManager().shutdown();
+        Cluster cluster = HFactory.getCluster(DEFAULT_CONNECTION_DEFINITION.getClusterName());
+        if (cluster != null) {
+//            cluster.getConnectionManager().shutdown();
+        }
 
         Cluster metadataCluster = HFactory.getCluster(METADATA_CONNECTION_DEFINITION.getClusterName());
         if (metadataCluster != null) {
-            metadataCluster.getConnectionManager().shutdown();
+//            metadataCluster.getConnectionManager().shutdown();
         }
+        HFactory.shutdownCluster(cluster);
+        HFactory.shutdownCluster(metadataCluster);
     }
 }

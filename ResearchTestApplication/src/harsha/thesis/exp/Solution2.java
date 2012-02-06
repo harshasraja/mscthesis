@@ -4,19 +4,18 @@
  */
 package harsha.thesis.exp;
 
-import harsha.thesis.api.connection.ConnectionDefinition;
-import harsha.thesis.api.connection.hector.HectorConnectionObject;
 import harsha.thesis.api.solution2.dao.BaseDAO;
 import harsha.thesis.api.solution2.entity.BaseEntity;
 import harsha.thesis.api.solution2.entity.Course;
 import harsha.thesis.api.solution2.entity.Enrolment;
-import harsha.thesis.api.solution2.entity.Metadata;
 import harsha.thesis.api.solution2.entity.User;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
+import org.apache.log4j.Logger;
+
 
 /**
  *
@@ -24,6 +23,8 @@ import java.util.Random;
  */
 public class Solution2 implements SolutionExperiment {
 
+    private Logger log = Logger.getLogger(Solution2.class);
+    
     private Experiment experiment;
     private String[] csvFiles;
     //
@@ -102,13 +103,18 @@ public class Solution2 implements SolutionExperiment {
 
 
         for (int i = 0; i < runs; ++i) {
+            log.info("Run " + i);
             experiment.log("#RUN:" + (i + 1));
-            insert();
             String newCourseId = (i + 1) % 2 == 0 ? ArtificialData.COURSE_BASE_NAME
                     : ArtificialData.COURSE_ALTERNATIVE_NAME;
+            log.info("Inserting");
+            insert();
+            log.info("Insterted");
 //            updateCourse(newCourseId);
 //            updateEnrolment();
+            log.info("Delete");
             delete();
+            log.info("Deleted");
         }
 
         dao.close();

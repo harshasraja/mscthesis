@@ -10,6 +10,8 @@ import java.io.File;
 import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.List;
+import org.apache.log4j.Level;
+import org.apache.log4j.Logger;
 
 /**
  *
@@ -17,6 +19,7 @@ import java.util.List;
  */
 public class Main {
 
+    private static Logger log = Logger.getLogger(Main.class);
     public static final long INSERT_RANDOM_SEED = "insert".hashCode();
     public static final long UPDATE_COURSE_RANDOM_SEED = "update-course".hashCode();
     public static final long UPDATE_ENROLMENT_RANDOM_SEED = "update-enrolment".hashCode();
@@ -39,6 +42,7 @@ public class Main {
     }
 
     public static void main(String[] args) throws Exception {
+        Logger.getRootLogger().setLevel(Level.INFO);
         long startTime = System.currentTimeMillis();
         List<Character> solutions = new ArrayList<Character>();
         int runs = 100, students = 1000, courses = 100, groups = 10;
@@ -180,9 +184,13 @@ public class Main {
                     throw new AssertionError();
             }
             if (initialize) {
+                log.info("Initializing experiment " + e.getCode());
                 solution.initialize();
+                log.info("Initialized experiment " + e.getCode());
             } else {
+                log.info("Experimenting " + e.getCode());
                 solution.experiment(runs);
+                log.info("Experimented " + e.getCode());
             }
             e.destroy();
         }

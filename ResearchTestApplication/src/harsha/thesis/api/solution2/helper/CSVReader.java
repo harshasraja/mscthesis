@@ -37,18 +37,18 @@ public class CSVReader {
 		logger.debug("Opening file:"+url.getPath());
 		au.com.bytecode.opencsv.CSVReader reader = new au.com.bytecode.opencsv.CSVReader(new FileReader(url.getPath()));
 		this.myData = reader.readAll();
-		logger.info("Finished Opening file:"+url.getPath());
+		logger.debug("Finished Opening file:"+url.getPath());
 	}
 	
 	public List<BaseEntity> getEntities(String csvFilePath, String entityType) throws URISyntaxException, IOException, ClassNotFoundException, IllegalArgumentException, InstantiationException, IllegalAccessException, InvocationTargetException{
-		logger.info("Loading entity for file:"+csvFilePath);
+		logger.debug("Loading entity for file:"+csvFilePath);
 		List<BaseEntity> list = new LinkedList<BaseEntity>();
 		
 		URI url = new URI(csvFilePath);
 		open(url);
 		this.baseEntity = (Class<BaseEntity>) Class.forName(entityType);
 		
-		logger.info("Detected entity type:"+this.baseEntity.getName());
+		logger.debug("Detected entity type:"+this.baseEntity.getName());
 		this.annotations = baseEntity.getDeclaredAnnotations();
 		this.methods = baseEntity.getDeclaredMethods();
 		this.columnHeaders = myData.get(0);
@@ -62,7 +62,7 @@ public class CSVReader {
 		}
 		
 
-		logger.info("Populated list of "+baseEntity.getName()+" with "+list.size()+" records");
+		logger.debug("Populated list of "+baseEntity.getName()+" with "+list.size()+" records");
 		return list;
 	}
 	

@@ -57,7 +57,7 @@ public class BaseDAO {
     }
 
     public List<BaseEntity> read(String type) throws ClassNotFoundException, InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
-        logger.info("Inside read with parameters [Type]:" + type);
+        logger.debug("Inside read with parameters [Type]:" + type);
         Class<BaseEntity> tempClass = (Class<BaseEntity>) Class.forName(type);
 
         List<BaseEntity> list = new LinkedList<BaseEntity>();
@@ -67,7 +67,7 @@ public class BaseDAO {
         Method[] methods = entity.getClass().getDeclaredMethods();
         String columnFamily = entity.getColumnFamilyRepresentation();
 
-        logger.info("Column family in RangeSliceQuery:" + columnFamily);
+        logger.debug("Column family in RangeSliceQuery:" + columnFamily);
 
         RangeSlicesQuery<String, String, String> rangeSlicesQuery = connection.getRangeSliceQuery();
         rangeSlicesQuery.setColumnFamily(columnFamily);
@@ -115,7 +115,7 @@ public class BaseDAO {
      * @throws Exception
      */
     public BaseEntity read(String type, String key) throws Exception {
-        logger.info("Inside read with parameters [Type]:" + type + " [key]:" + key);
+        logger.debug("Inside read with parameters [Type]:" + type + " [key]:" + key);
 
         Class<BaseEntity> tempClass = (Class<BaseEntity>) Class.forName(type);
         if (null == key || "".equals(key.trim())) {
@@ -127,7 +127,7 @@ public class BaseDAO {
         Method[] methods = entity.getClass().getDeclaredMethods();
         String columnFamily = entity.getColumnFamilyRepresentation();
 
-        logger.info("Column family in RangeSliceQuery:" + columnFamily);
+        logger.debug("Column family in RangeSliceQuery:" + columnFamily);
 
         SliceQuery<String, String, String> sliceQuery = connection.getSliceQuery();
         sliceQuery.setColumnFamily(columnFamily);
@@ -177,7 +177,7 @@ public class BaseDAO {
      * @throws Exception
      */
     public List<BaseEntity> read(String type, String columnName, String expression, String columnValue, boolean returnAllRows) throws ClassNotFoundException, InstantiationException, IllegalAccessException, Exception {
-        logger.info("Inside read with parameters [Type]:" + type + " [column name]:" + columnName + " [Expression]:" + expression + " [column value]:" + columnValue);
+        logger.debug("Inside read with parameters [Type]:" + type + " [column name]:" + columnName + " [Expression]:" + expression + " [column value]:" + columnValue);
         List<BaseEntity> list = new LinkedList<BaseEntity>();
         Class<BaseEntity> tempClass = (Class<BaseEntity>) Class.forName(type);
 
@@ -195,7 +195,7 @@ public class BaseDAO {
         String primaryKey = getPrimaryKeyFieldForEntity(entity);
         String columnFamily = entity.getColumnFamilyRepresentation();
 
-        logger.info("Column family in IndexedSliceQuery:" + columnFamily);
+        logger.debug("Column family in IndexedSliceQuery:" + columnFamily);
 
         if (EXPRESSION_EQUALS.equals(expression)) {
             indexedSlicesQuery.addEqualsExpression(columnName, columnValue);
@@ -264,7 +264,7 @@ public class BaseDAO {
         logger.debug("Inside insert the detected column family is:" + entity.getColumnFamilyRepresentation());
         //String strEntity = "";
         //strEntity = getStringRepresentationForLogging(entity);
-        logger.info("Starting to insert:" + getStringRepresentationForLogging(entity));
+        logger.debug("Starting to insert:" + getStringRepresentationForLogging(entity));
 
         Method[] methods = entity.getClass().getDeclaredMethods();
         Annotation[] a1 = entity.getClass().getDeclaredAnnotations();
@@ -341,7 +341,7 @@ public class BaseDAO {
 
 
         logger.debug("Finished insert the detected column family is:" + entity.getColumnFamilyRepresentation());
-        logger.info("Finished inserting entity:" + getStringRepresentationForLogging(entity));
+        logger.debug("Finished inserting entity:" + getStringRepresentationForLogging(entity));
 
 
     }
@@ -349,7 +349,7 @@ public class BaseDAO {
     public void delete(BaseEntity entity) throws Exception {
         //String strEntity = "";
         //strEntity = getStringRepresentationForLogging(entity);
-        logger.info("Starting to delete:" + getStringRepresentationForLogging(entity));
+        logger.debug("Starting to delete:" + getStringRepresentationForLogging(entity));
 
         //ValidationHandler helper = new ValidationHandler(entity, this);
 
@@ -370,11 +370,11 @@ public class BaseDAO {
 
         connection.getMutator().delete(key, entity.getColumnFamilyRepresentation(), null, StringSerializer.get());
         //connection.getMutator().
-        logger.info("Finished delete entity:" + getStringRepresentationForLogging(entity));
+        logger.debug("Finished delete entity:" + getStringRepresentationForLogging(entity));
     }
 
     public void update(BaseEntity entity) throws Exception {
-        logger.info("Starting to update:" + getStringRepresentationForLogging(entity));
+        logger.debug("Starting to update:" + getStringRepresentationForLogging(entity));
 
         if (null != entity.getKeyForUpdate()
                 && !"".equals(entity.getKeyForUpdate().trim())) {
@@ -422,12 +422,12 @@ public class BaseDAO {
                 delete(entity);
                 insert(entity);
             } else {
-                logger.info("Update record not found; hence exiting");
+                logger.debug("Update record not found; hence exiting");
             }
         } else {
-            logger.info("Update key not specified; hence exiting");
+            logger.debug("Update key not specified; hence exiting");
         }
-        logger.info("Finished update entity:" + getStringRepresentationForLogging(entity));
+        logger.debug("Finished update entity:" + getStringRepresentationForLogging(entity));
     }
 
     private String getStringRepresentationForLogging(BaseEntity entity) {
