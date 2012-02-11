@@ -1,101 +1,101 @@
 CourseId,CourseName,Trimister,Level,Year
-COMP100,Computer Engineering (100),1,1,2011
-COMP101,Computer Engineering (101),1,1,2011
-COMP102,Computer Engineering (102),3,3,2012
-COMP103,Computer Engineering (103),2,1,2011
-COMP104,Computer Engineering (104),2,1,2012
-COMP105,Computer Engineering (105),2,4,2012
-COMP106,Computer Engineering (106),1,2,2011
-COMP107,Computer Engineering (107),3,2,2011
-COMP108,Computer Engineering (108),3,2,2012
-COMP109,Computer Engineering (109),3,1,2012
-COMP110,Computer Engineering (110),2,3,2012
-COMP111,Computer Engineering (111),2,1,2012
-COMP112,Computer Engineering (112),1,3,2011
-COMP113,Computer Engineering (113),3,3,2011
-COMP114,Computer Engineering (114),2,1,2011
-COMP115,Computer Engineering (115),1,3,2011
-COMP116,Computer Engineering (116),2,3,2011
-COMP117,Computer Engineering (117),1,2,2011
-COMP118,Computer Engineering (118),1,3,2012
-COMP119,Computer Engineering (119),2,1,2011
-COMP120,Computer Engineering (120),1,1,2011
-COMP121,Computer Engineering (121),1,1,2012
-COMP122,Computer Engineering (122),3,2,2011
-COMP123,Computer Engineering (123),3,3,2011
-COMP124,Computer Engineering (124),2,1,2011
-COMP125,Computer Engineering (125),1,2,2012
-COMP126,Computer Engineering (126),1,2,2011
-COMP127,Computer Engineering (127),1,1,2012
-COMP128,Computer Engineering (128),1,2,2011
-COMP129,Computer Engineering (129),3,3,2011
-COMP130,Computer Engineering (130),1,1,2011
-COMP131,Computer Engineering (131),2,3,2012
-COMP132,Computer Engineering (132),2,4,2011
-COMP133,Computer Engineering (133),1,2,2011
-COMP134,Computer Engineering (134),1,4,2011
-COMP135,Computer Engineering (135),1,2,2011
-COMP136,Computer Engineering (136),1,1,2012
-COMP137,Computer Engineering (137),2,3,2011
-COMP138,Computer Engineering (138),1,2,2012
-COMP139,Computer Engineering (139),3,2,2011
-COMP140,Computer Engineering (140),2,1,2011
-COMP141,Computer Engineering (141),2,3,2011
-COMP142,Computer Engineering (142),1,1,2011
-COMP143,Computer Engineering (143),3,1,2011
-COMP144,Computer Engineering (144),3,4,2012
-COMP145,Computer Engineering (145),2,3,2012
-COMP146,Computer Engineering (146),1,3,2012
-COMP147,Computer Engineering (147),3,1,2011
-COMP148,Computer Engineering (148),3,3,2012
-COMP149,Computer Engineering (149),2,1,2012
-COMP150,Computer Engineering (150),3,4,2012
-COMP151,Computer Engineering (151),3,4,2011
-COMP152,Computer Engineering (152),2,2,2012
-COMP153,Computer Engineering (153),2,1,2012
-COMP154,Computer Engineering (154),1,2,2011
-COMP155,Computer Engineering (155),1,4,2011
-COMP156,Computer Engineering (156),3,4,2012
-COMP157,Computer Engineering (157),2,3,2011
-COMP158,Computer Engineering (158),1,1,2011
-COMP159,Computer Engineering (159),1,3,2012
-COMP160,Computer Engineering (160),1,3,2011
-COMP161,Computer Engineering (161),1,3,2012
-COMP162,Computer Engineering (162),2,2,2011
-COMP163,Computer Engineering (163),1,3,2012
-COMP164,Computer Engineering (164),1,2,2012
-COMP165,Computer Engineering (165),1,1,2011
-COMP166,Computer Engineering (166),3,2,2012
-COMP167,Computer Engineering (167),2,2,2011
-COMP168,Computer Engineering (168),2,1,2012
-COMP169,Computer Engineering (169),1,2,2012
-COMP170,Computer Engineering (170),2,1,2011
-COMP171,Computer Engineering (171),1,4,2012
-COMP172,Computer Engineering (172),3,3,2011
-COMP173,Computer Engineering (173),1,2,2012
-COMP174,Computer Engineering (174),1,4,2012
-COMP175,Computer Engineering (175),1,4,2012
-COMP176,Computer Engineering (176),2,2,2011
-COMP177,Computer Engineering (177),3,4,2011
-COMP178,Computer Engineering (178),2,1,2011
-COMP179,Computer Engineering (179),2,4,2011
-COMP180,Computer Engineering (180),1,3,2012
-COMP181,Computer Engineering (181),1,1,2012
-COMP182,Computer Engineering (182),3,3,2012
-COMP183,Computer Engineering (183),1,3,2011
-COMP184,Computer Engineering (184),3,4,2011
-COMP185,Computer Engineering (185),2,1,2012
-COMP186,Computer Engineering (186),3,4,2011
-COMP187,Computer Engineering (187),2,3,2011
-COMP188,Computer Engineering (188),1,4,2011
-COMP189,Computer Engineering (189),1,2,2011
-COMP190,Computer Engineering (190),2,3,2011
-COMP191,Computer Engineering (191),1,1,2011
-COMP192,Computer Engineering (192),3,4,2012
-COMP193,Computer Engineering (193),1,3,2012
-COMP194,Computer Engineering (194),1,3,2012
-COMP195,Computer Engineering (195),3,3,2011
-COMP196,Computer Engineering (196),1,3,2012
-COMP197,Computer Engineering (197),1,2,2012
-COMP198,Computer Engineering (198),3,2,2012
-COMP199,Computer Engineering (199),2,4,2012
+COMP100,Engineering (100),1,1,2011
+COMP101,Engineering (101),1,1,2011
+COMP102,Engineering (102),3,3,2012
+COMP103,Engineering (103),2,1,2011
+COMP104,Engineering (104),2,1,2012
+COMP105,Engineering (105),2,4,2012
+COMP106,Engineering (106),1,2,2011
+COMP107,Engineering (107),3,2,2011
+COMP108,Engineering (108),3,2,2012
+COMP109,Engineering (109),3,1,2012
+COMP110,Engineering (110),2,3,2012
+COMP111,Engineering (111),2,1,2012
+COMP112,Engineering (112),1,3,2011
+COMP113,Engineering (113),3,3,2011
+COMP114,Engineering (114),2,1,2011
+COMP115,Engineering (115),1,3,2011
+COMP116,Engineering (116),2,3,2011
+COMP117,Engineering (117),1,2,2011
+COMP118,Engineering (118),1,3,2012
+COMP119,Engineering (119),2,1,2011
+COMP120,Engineering (120),1,1,2011
+COMP121,Engineering (121),1,1,2012
+COMP122,Engineering (122),3,2,2011
+COMP123,Engineering (123),3,3,2011
+COMP124,Engineering (124),2,1,2011
+COMP125,Engineering (125),1,2,2012
+COMP126,Engineering (126),1,2,2011
+COMP127,Engineering (127),1,1,2012
+COMP128,Engineering (128),1,2,2011
+COMP129,Engineering (129),3,3,2011
+COMP130,Engineering (130),1,1,2011
+COMP131,Engineering (131),2,3,2012
+COMP132,Engineering (132),2,4,2011
+COMP133,Engineering (133),1,2,2011
+COMP134,Engineering (134),1,4,2011
+COMP135,Engineering (135),1,2,2011
+COMP136,Engineering (136),1,1,2012
+COMP137,Engineering (137),2,3,2011
+COMP138,Engineering (138),1,2,2012
+COMP139,Engineering (139),3,2,2011
+COMP140,Engineering (140),2,1,2011
+COMP141,Engineering (141),2,3,2011
+COMP142,Engineering (142),1,1,2011
+COMP143,Engineering (143),3,1,2011
+COMP144,Engineering (144),3,4,2012
+COMP145,Engineering (145),2,3,2012
+COMP146,Engineering (146),1,3,2012
+COMP147,Engineering (147),3,1,2011
+COMP148,Engineering (148),3,3,2012
+COMP149,Engineering (149),2,1,2012
+COMP150,Engineering (150),3,4,2012
+COMP151,Engineering (151),3,4,2011
+COMP152,Engineering (152),2,2,2012
+COMP153,Engineering (153),2,1,2012
+COMP154,Engineering (154),1,2,2011
+COMP155,Engineering (155),1,4,2011
+COMP156,Engineering (156),3,4,2012
+COMP157,Engineering (157),2,3,2011
+COMP158,Engineering (158),1,1,2011
+COMP159,Engineering (159),1,3,2012
+COMP160,Engineering (160),1,3,2011
+COMP161,Engineering (161),1,3,2012
+COMP162,Engineering (162),2,2,2011
+COMP163,Engineering (163),1,3,2012
+COMP164,Engineering (164),1,2,2012
+COMP165,Engineering (165),1,1,2011
+COMP166,Engineering (166),3,2,2012
+COMP167,Engineering (167),2,2,2011
+COMP168,Engineering (168),2,1,2012
+COMP169,Engineering (169),1,2,2012
+COMP170,Engineering (170),2,1,2011
+COMP171,Engineering (171),1,4,2012
+COMP172,Engineering (172),3,3,2011
+COMP173,Engineering (173),1,2,2012
+COMP174,Engineering (174),1,4,2012
+COMP175,Engineering (175),1,4,2012
+COMP176,Engineering (176),2,2,2011
+COMP177,Engineering (177),3,4,2011
+COMP178,Engineering (178),2,1,2011
+COMP179,Engineering (179),2,4,2011
+COMP180,Engineering (180),1,3,2012
+COMP181,Engineering (181),1,1,2012
+COMP182,Engineering (182),3,3,2012
+COMP183,Engineering (183),1,3,2011
+COMP184,Engineering (184),3,4,2011
+COMP185,Engineering (185),2,1,2012
+COMP186,Engineering (186),3,4,2011
+COMP187,Engineering (187),2,3,2011
+COMP188,Engineering (188),1,4,2011
+COMP189,Engineering (189),1,2,2011
+COMP190,Engineering (190),2,3,2011
+COMP191,Engineering (191),1,1,2011
+COMP192,Engineering (192),3,4,2012
+COMP193,Engineering (193),1,3,2012
+COMP194,Engineering (194),1,3,2012
+COMP195,Engineering (195),3,3,2011
+COMP196,Engineering (196),1,3,2012
+COMP197,Engineering (197),1,2,2012
+COMP198,Engineering (198),3,2,2012
+COMP199,Engineering (199),2,4,2012

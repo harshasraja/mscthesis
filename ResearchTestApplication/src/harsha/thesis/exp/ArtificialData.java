@@ -152,7 +152,7 @@ public class ArtificialData {
                 if ("CourseId".equals(column)) {
                     record += COURSE_BASE_NAME + courseId;
                 } else if ("CourseName".equals(column)) {
-                    record += "Computer Engineering (" + courseId + ")";
+                    record += "Engineering (" + courseId + ")";
                 } else if ("Trimister".equals(column)) {
                     record += (1 + random.nextInt(3));
                 } else if ("Level".equals(column)) {
@@ -261,6 +261,8 @@ public class ArtificialData {
 //    }
 
     public static void main(String[] args) throws Exception {
+        System.out.println(System.currentTimeMillis());
+        System.exit(666);
         File csv = new File("/tmp/cassandra.csv");
         if (csv.exists()) {
             csv.delete();

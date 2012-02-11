@@ -87,7 +87,7 @@ public class ValidationHandler {
     }
 
     public void checkForeignKey() throws Exception {
-        logger.info("Checking Referenced Key for ColumnFamily:" + this.columnFamily);
+        logger.debug("Checking Referenced Key for ColumnFamily:" + this.columnFamily);
         List<Metadata> foreignKeys = new LinkedList<Metadata>();
         BaseDAO dao = new BaseDAO();
         try {

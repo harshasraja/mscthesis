@@ -1,5 +1,5 @@
-%ब
-\chapter{Background}
+% ब
+\chapter{Background} \label{c:background}
 
 Cloud computing is a major paradigm that is rapidly shifting the way \ac{IT}
 services and tools are being used in the industry. It is perceived that cloud
@@ -7,20 +7,21 @@ computing would help extend the capabilities of many \ac{IT} and online services
 without the need for costly infrastructure.
 
 Similar to remote computing where other machines or computers are accessed from
-the local machine through a network,cloud computing leverages network
+the local machine through a network, cloud computing leverages network
 connections to provide various services to the users. It also brings with it the
 virtualisation of applications and services, where it appears to users as if the
 applications are running on the user's machine rather than a remote cloud
-machine (Cloud Computing Defined, 2010). This removes the need for installing the actual
-software by the users. Thus, both expert and naive users need not worry about
-the technical details and configurations to use these cloud services.
+machine (Cloud Computing Defined, 2010). This removes the need for installing
+the actual software by the users. Thus, both expert and naive users need not
+worry about the technical details and configurations to use these cloud
+services.
 
 Cloud computing is generally based on a subscription model where users pay as
 per their usage, which is very similar to utility services like electricity, gas
 or water etc. The coalescence of virtualisation, where applications are
 separated from the infrastructure is what makes cloud computing easy to use.
-Users do not have to invest in software applications as they can access
-such applications on the cloud. Users pay only for the services they use. For
+Users do not have to invest in software applications as they can access such
+applications on the cloud. Users pay only for the services they use. For
 example, they pay only for the amount of storage their cloud database uses or
 pay only for the bandwidth consumed by the servers they rent from the cloud
 providers. Applications and databases are stored in large server farms or data
@@ -28,8 +29,8 @@ centres owned by companies like Google, IBM etc.
 
 The architecture of cloud computing services has users who avail cloud services
 as the front-end. The back end of the architecture includes the cloud servers,
-databases, and computers etc., which are abstracted from users. All
-the components like the servers, applications, the data storages work together
+databases, and computers etc., which are abstracted from users. All the
+components like the servers, applications, the data storages work together
 through a web service to provide the users with the cloud services.
 
 The overall structure of cloud computing and its various services have been
@@ -41,10 +42,10 @@ generalised into layers (ZakiSabbagh, 2010, Bime, 2008).
 computing to perform its work. Generally, ‘client' refers to any software applications or
 \acp{API}  that are used to perform cloud computing,
 while ‘users' represents the end-users, like  database administrators or
-programmers or anyone who benefit from cloud computing services.
+programmers or anyone who benefits from cloud computing services.
 
 \item [\acf{SaaS}] is the service provided by the cloud
-providers whereusers do not have to install the software applications.
+providers where users do not have to install the software applications.
 
 \item [\acf{PaaS}] is the service where a hardware or
 software platform is provided to users. A platform could be an operating system,
@@ -62,28 +63,37 @@ al., 2010).
 
 
 \ac{DaaS} involves hosting cloud databases in the cloud which offer data
-management, data retrieval, and other database services. Many companies like
-Amazon, Google, IBM, and Microsoft provide \ac{DaaS} and offer varying levels of
-services (Mateljan et al., 2010). More details about \ac{DaaS} and cloud
-\ac{DBMS} are provided in Literature Review.
+management, data retrieval, and other database services. Due to the
+increasing number of users deploying and using web applications on cloud,
+cloud databases form a crucial part to store the increasing amounts of data
+on the cloud. Many companies like Amazon, Google, IBM, and Microsoft
+provide \ac{DaaS} and offer varying levels of services (Mateljan et al., 2010). More
+details about \ac{DaaS} and cloud \ac{DBMS} are provided in Literature Review.
 
 In the remainder of this chapter, Section~\ref{s:cloud-databases} presents cloud
 databases. Section~\ref{s:cloud-data-models} presents the prevailing cloud data
 models. Section~\ref{s:key-value-data-model} presents the Key Value Data Models.
 Section~\ref{s:challenges-key-value} presents the challenges in Key Value Data
 models and Section~\ref{s:referential-integrity} discusses the Referential
-Integrity Constraint in Key Value data model, which is the focus of this research.
+Integrity Constraint in Key Value data model, which is the focus of this
+research.
 
 
 \section{Cloud Databases}\label{s:cloud-databases}
 
-Most cloud applications handle data like the user information, application data 
-or some stored data which maybe accessed by the users and storage
-of such data is essential (Kennedy, 2009). Traditionally, users store data
-in files or databases residing on dedicated database servers or on local disks,
-but in cloud computing, data is stored within data centres owned by hosting companies like Google, Amazon etc. Data centres house many servers,
+Most cloud applications store, process and provide large amounts of data like
+the user information, application data or some stored data which maybe accessed
+by the users. Storage of such data durin all times is essential for the cloud
+applications to operate correctly(Kennedy, 2009).
+Traditionally, users store data in files or databases residing on dedicated
+database servers or on local disks, but the requirements for data storage on the
+cloud are very different and need a distributed approach in data storage, where
+data is spread across several machines. Cloud databases need more features than
+the traditional \acp{DBMS} for an efficient data management on the cloud
+(\todo{cite G-Store}). Most cloud databases are deployed in data centers owned
+by hosting companies like Google, Amazon etc. Data centres house many servers,
 computers and telecommunication infrastructure, including back up and security
-facilities and users can rent or buy the storage space they need. 
+facilities and users can rent or buy the storage space they need.
 
 Within data centres, data could be stored on remote machines, which could be
 any server within the data centre or in a different data centre. When users
@@ -92,12 +102,13 @@ the exact location of their stored data.  Users are guided to their
 databases by \acp{API} of the cloud databases (Wu et al., 2010). 
 
 Cloud databases have to be scalable across these servers so that data is
-available to any user at any given point in time. Scalability in the context of cloud storage refers to the ability of dynamically incorporating changes to the number
-of users or storage space, without affecting the functioning of the databases or
-the availability of data to the users. In other words, when more machines
-are added to increase storage capacity, or when more users access the same data,
-cloud databases should cope with the increased workload and yet maintain the
-same throughput. 
+available to any user at any given point in time. Scalability in the context of
+cloud storage refers to the ability of dynamically incorporating changes to the
+number of users or storage space, without affecting the functioning of the
+databases or the availability of data to the users. In other words, when more
+machines are added to increase storage capacity, or when more users access the
+same data, cloud databases should cope with the increased workload and yet
+maintain the same throughput.
 
 In general, cloud \acp{DBMS} are found to be less efficient than traditional
 databases because of this dynamic scalability required by cloud databases to
@@ -106,26 +117,171 @@ partitioning in cloud databases increases complexity as a database is spread
 across several servers and querying the database would involve complex Joins and
 more time. This moves the databases and the user applications farther apart,
 increasing latency (Murphy, 2010). Hence, data is split into distinct individual
-parts and saved on different nodes in the data centre across several databases. Thus, nodes could have a
-subset of data or rows from each table in the database (DeWitt et al.,
-nod.).This eventually means that querying would take longer time as the data is
-spread across several databases, possibly on different servers and would include
-multiple joins on the datasets.
+parts and saved on different nodes in the data centre across several databases.
+Thus, nodes could have a subset of data or rows from each table in the database
+(DeWitt et al., n.d.).This eventually means that querying would take longer time
+as the data is spread across several databases, possibly on different servers
+and would include multiple joins on the datasets.
 
 Most traditional databases are relational and gives data a structure, that
 adheres to a schema. This is mainly trough the process of normalisation  where
-table sare normalised to at-least \ac{1-NF}. This ensures that data is organised
+tables are normalised to at-least \ac{1-NF}. This ensures that data is organised
 and not redundant. Normalisation causes databases to have smaller and structured
 tables by removing duplicate data from large and badly organised tables and by
 imposing constraints on the data. This is as a result of normalisation, which is
 the process of giving data a structure and organising the data. Throughout the
 chapters normalization refers to making databases at least in \ac{1-NF}.
 
-All these characteristics make cloud databases very
-different from traditional \acp{DBMS} that are used outside cloud networks.
-Unlike such traditional \acp{DBMS}, cloud \acp{DBMS} are simple in their structure with minimum querying support and have a
-simple API for users for database administration. Cloud databases have been made
-scalable to support the diverse and large number of users who store structured data and to support
+All these characteristics make cloud databases very different from traditional
+\acp{DBMS} that are used outside cloud networks. Unlike \acp{RDBMS}, \ac{NoSQL}
+\acp{DBMS} do not aim to be ACID-compliant. ACID stands for the properties Atomicity,
+consistency, Isolation and Durability, which ensure the completeness and
+reliability of a database operation. In general, unless operations are not ACID
+compliant in \acp{RDBMS}, it would not be considered valid.
+But ACID compatibility in \ac{NoSQL} \acp{DBMS} is a bottleneck as it does not suit
+the distributed nature of the cloud environment (Wada et al. 2011). \ac{NoSQL}
+\acp{DBMS} require to have high throughput, high availability and also require to be
+elastically scalable to increasing resources or users. This requires \ac{NoSQL}
+\acp{DBMS} to give up some traditional \ac{DBMS} functionalities (like JOINS)
+and in a way this makes \ac{NoSQL} \ac{DBMS} operations not ACID (Wada et al. 2011).
+This is mainly because of the distributed nature of \ac{NoSQL} \acp{DBMS}. Because of the
+distributed nature across different environments sometimes, node failures are
+bound to occur. Node failures and the elasticity prevailing in cloud
+environments affect consistency
+of data, which adversely affect the ‘C’ of ACID properties, i.e., Consistency. 
+Network and data partitioning also plays a major role in affecting consistency
+and availability of data.  A partition takes place when a node fails or there is
+a network failure at some point in the network. In cloud \ac{Node} \acp{DBMS} this is a
+problem as most databases rely on more than one server, unlike traditional DBMSs
+sometime ago. When there is only a single server involved there is no issue of
+partitioning, but when there is a failure, i.e. this single node fails, no data
+is available during that time. But in cloud \ac{NoSQL} \acp{DBMS} distribute
+data across several servers and nodes, mainly to replicate data for high availability and
+fault tolerance. \ac{NoSQL} \acp{DBMS} also aim for partition tolerance, i.e. the ability
+to continue their operations despite node failures and partitions. To achieve
+these features it is commonly found that \ac{NoSQL} \acp{DBMS} sacrifice data
+constituency. It has been commonly found in most web applications today to have
+their data available at anytime, since there could be many users accessing the
+data and in a business model customers have to be kept satisfied.
+Instead of ACID properties, \ac{NoSQL} \acp{DBMS} aim to achieve some different
+properties, namely the CAP properties stated in the CAP theorem. This is
+explained below.
+
+\subsection{CAP Theorem} \label{ss:cap}
+In distributed environments or web-based applications it has been noted that the
+three main system requirements necessary for in designing and deploying
+applications are: Consistency, Availability and Partition tolerance (CAP). CAP
+theorem by Brewer claims that it is not possible for a distributed system to
+achieve all these three properties at the same given time.
+\begin{itemize}
+  \item Consistency: When a request is made to access data, a system would be
+  called consistent if it provides the correct and latest version of the data
+  (HP n.d.). For example, in the case of an online shopping website, consistency
+  would ensure that the correct stock of items is always correct. When a user
+  attempts to buy an item and the same item is being bought by another user, the
+  system would have to ensure that both users get the recent stock available
+  details. So if there is only one item left then the second user would have to
+  be informed that his request can not be completed as there is no more stock of
+  that item. This would mean that the data is consistent and users do not get
+  stale data.
+  \item Availability (Browne 2009; HP n.d.): A system would be considered highly
+available when all parts of the system are always available, despite any
+failures or problems. It would be expected that all requests would be addressed
+any point of time. In the previous example this would mean that even when the
+website is busy, with many users accessing it, it would be expected to have all
+user requests addressed and to be up and running always.
+\item Partition-tolerance: Generally distributed services are run on more than one
+server/node. This could mean that data is partitioned across the distributed
+network. As mentioned before, a partition takes place when there is a failure in
+the network. It is common to find such partitions in today’s NoSQL DBMSs, due to
+its widely distributed and replicated nature. A system is considered
+partition-tolerant when despite such partitions, it continues to provide its
+services and address requests.  
+\end{itemize}
+
+The CAP theorem states that at a given point of time, only two of these
+properties can be achieved or satisfied by the application. This means that an
+application that is distributed like NoSQL DBMSs would have to make trade-offs
+on one of the properties always. Trade-offs are common in the real world, where
+features have to be sacrificed for another feature that may suit the business or
+operation models better. In most distributed applications trade-offs are always
+considered form the design stages.  Similarly most NoSQL DBMSs have chosen
+priorities and trade-offs too. For example, Cassandra focusses on A and P while
+Bigtable focusses on C and A.
+
+What such trade-offs mean in relation to the CAP theorem is examined below (HP
+n.d.):
+
+\begin{itemize}
+  \item Case 1: Achieving C and A properties: This means that when an application aims
+to achieve consistency and availability, it has to be less partition tolerant.
+When data is partitioned, there is more time involved in accessing the data from
+the various points in the distributed network. Also, with failures there could
+be more time delays. So to achieve high constituency and availability it would
+be required that the application be depending on lesser nodes. Having all data
+stored on a single machine would mean there is no partition of data and this
+data would be always consistent and available as long as this machine is up and
+running.  On the other hand when systems that are not partition tolerant face a
+partition, it could become undependable. It could either give inconsistent data
+or become unavailable or both (HP n.d.).
+\item Case 2: Achieving A and P properties: This is what most NoSQL DBMSs aim to
+achieve today and they prefer to pay less attention to consistency of data (Wada
+et al. 2011). A system lacking consistency would be thus mostly available even
+during partitions, but may give stale data or incorrect data to the users. This
+suits most business models as this makes sure that customers/users are always
+able to access their data. For example, in the online shopping example, when
+data is not available or the request fails, the user could get anxious whether
+he lost the money during the transaction. In such cases, when the user is
+presented with data as soon as possible, but despite being stale, the user would
+still be able to see the data rather than being left unsure.
+Since a NoSQL DBMS that has poor consistency is unrealistic, these DBMSs tend to
+provide eventual constituency, which is a weak form of consistency. This means
+that data would be eventually consistent at all points in the cluster (of the
+DBMS) at some point of time. This is how Cassandra provides consistency within
+its cluster of databases.
+\item Case 3: Achieving C and P properties: This is means that while the system
+would be consistent and tolerant to partitions or failures, it may not be always
+available and running. Such a system would provide correct data while toleration
+network failures but may not be accessible during failures where it is not
+possible to perform operations on data. This could lead to a less dependable
+system, where data appears to be accessible through failures, but may not be
+safely accessible during network failures.
+\end{itemize}
+
+As seen above, a trade-off is made in every case, be it availability or
+consistency. It is very common in NoSQL DBMSs to emphasise on achieving A and P
+more than C. It is often considered that with good design, APIs can be made to
+work around this sacrifice and provide constituency. The reason why consistency
+is sacrificed is again for the above mentioned reason. In a business model,
+services lose valuable customers if they are not kept satisfied with the
+services in terms of speed, availability and consistency. Users would rather
+have data available, even if it not the latest version and for applications
+where data should not be stale, for example the online shopping website or bank
+applications, NoSQL DBMSs offer eventual consistency.
+BASE Interestingly while NoSQL DBMS do not comply with ACID properties, the CAP
+system has lead to a new set of properties called BASE, which is also considered
+as an alternative of ACID for distributed and scalable systems(Pritchett 2008).
+BASE refers to the properties Basically Available, Soft-state and Eventually
+consistent. This means that data could be basically available although at some
+point not all data would be available. Soft-state indicates that data could be
+lost if not properly maintained, i.e., data has to be refreshed and
+version-checked for it to remain saved. Eventually consistent, as mentioned
+previously, is a weak for of consistency being made available. In a cluster of
+nodes, every node would eventually get the updates eventually at some point in
+time.
+BASE could be understood as being closer to case 2, where constituency takes a
+back seat. But this could often lead to conflicts where a new update or a new
+read request could be made before all nodes get the latest update. To resolve
+such conflicts there are some types of repairs used by DBMSs, like read-repairs,
+write-repairs and asynchronous repairs (Terry et al. 1995). Such repairs check
+for inconstancy in data  when a read or write operation takes place and then the
+data is correctly updated. This is how most DBMSs try to solve consistency
+related problems today. Some DBMSs also rely on APIs to work around such issues.
+
+Unlike such traditional \acp{DBMS}, cloud \acp{DBMS} are simple in their
+structure with minimum querying support and have a simple API for users for
+database administration. Cloud databases have been made scalable to support the
+diverse and large number of users who store structured data and to support
 various applications that users use. Today, cloud databases are replicated,
 distributed, simplified and often specialised (Cooper, 2010). Cloud databases
 are replicated so that multiple copies of data are available to cater to many
@@ -133,14 +289,15 @@ users who access the same data at the same time. This also helps in cases of
 server crashes or network failures, as copies of the data are available. The
 cloud database are distributed as data is replicated on several machines. Most
 cloud databases are simplified for ease of use and specialised to address
-certain cloud related problems. For example, some cloud databases are built to provide high 
-scalability while others are built to store huge amounts of interconnected data.
+certain cloud related problems. For example, some cloud databases are built to
+provide high scalability while others are built to store huge amounts of
+interconnected data.
 
 \section{Cloud Data Models}\label{s:cloud-data-models}
-Data models define the structure of a database and give the users information on
-how a database can be used or implemented. On the cloud, different types of data
-models exist. The selection of a data model for a cloud database depends
-on the problem the cloud database is specialised to address or a feature it is
+Data models describe the structure of a database and give the users information
+on how a database can be used or implemented. On the cloud, different types of
+data models exist. The selection of a data model for a cloud database depends on
+the problem the cloud database is specialised to address or a feature it is
 incorporating. Some of the current popular data models on the cloud are:
 
 \begin{itemize}
@@ -151,370 +308,472 @@ incorporating. Some of the current popular data models on the cloud are:
 \item Relational data model
 \end{itemize}
 
-Generally cloud \acp{DBMS} are non-relational and adopt the key-value data
-model, to maintain the data replication, consistency and scalability that is a
-part of cloud computing data storage (\todo{cite 440}). Key-value data model is the main
-focus of this thesis and is explained further below. Although \acp{RDBMS} on the cloud are
-not widely used, there exist some cloud capable \acp{RDBMS} like Amazon Relational
-Data Service, Microsoft SQL Azure etc. Just like the traditional relational model, 
-relational model on the cloud also supports relations or tables with rows and
-columns to store structured data and adheres to a schema. These \acp{RDBMS} provide users with database
+In general, cloud \acp{DBMS} are non-relational and most cloud \acp{DBMS}adopt
+the key-value data model to maintain the data replication, consistency and
+scalability that are part of cloud data storage (\todo{cite 440}).The key-value
+databases, document databases and other databases that support non-relational data models
+on the cloud are loosely termed as \ac{NoSQL} databases. \ac{NoSQL} \acp{DBMS}
+are considered the next generation cloud \acp{DBMS} that aim to provide
+non-relational distributed \acp{DBMS} with open-source content and development
+for the cloud (\ac{NoSQL}, n.d.) Many \ac{NoSQL} \acp{DBMS}, that are inherently
+key-value \acp{DBMS}, have evolved by adopting various features from other
+popular cloud \ac{NoSQL} \acp{DBMS}. For example, Cassandra adopts the column
+oriented data model of Google's Bigtable(\todo{cite }) while Riak (\todo{cite 440}) is influenced by
+Amazon's Dynamo (\todo{cite 440}). This thesis focuses on the 
+column-oriented key-value data model and is explained in
+Section~\ref{s:key-value-data-model}.
+
+Although \acp{RDBMS} on the cloud are not widely used, there exist some cloud
+capable \acp{RDBMS} like Amazon Relational Data Service, Microsoft SQL Azure
+etc. Just like the traditional relational model, relational model on the cloud
+also supports relations or tables with rows and columns to store structured data
+and adheres to a schema. These \acp{RDBMS} provide users with database
 administration facilities and APIs to scale relational databases and to perform
 operations on stored data, like updating, inserting, deleting data etc. The
 cloud \acp{RDBMS} offered today vary according to the vendors and each of the vendors
 propose alternative solutions to problems like scalability and latency. But, the
 replication of data is restrained due to the relational nature of \acp{RDBMS} and this reduced
 replication affects the scalability and performance as well. Most cloud
-\ac{RDBMS} are outperformed by the key-value cloud databases i.e, \ac{NoSQL} \acp{DBMS}. 
-
-The key value databases, document databases and other databases that support
-non-relational data models, on the cloud are loosely termed as  \ac{NoSQL}
-databases. \ac{NoSQL} \acp{DBMS} are considered the next generation cloud \acp{DBMS} that aim to provide non-relational distributed \acp{DBMS} with open-source content and
-development for the cloud (\ac{NoSQL}, n.d.)
-
-
+\ac{RDBMS} are outperformed by \ac{NoSQL} \acp{DBMS}.
 
 \section{Key Value Data Model}\label{s:key-value-data-model}
-In basic terms, the key value data model represents data as a key-value tuple
-consisting of a key, value and a timestamp. The value is the actual data that
-has to be saved and it is associated with the key, which is used to retrieve the
-value from the database. The value is commonly a string data type. This is
-similar to the way data is stored in a map. A timestamp is a 64-bit integer and
-it records the time at which the value was inserted or updated in any way.
+In basic terms, the key-value data model represents data as a key-value tuple
+consisting of a key, a value and a timestamp. A key is a unique string commonly
+encoded as UTF-8. A value is the actual data that has to be saved and it is
+associated with a key that is used to retrieve the value from a key-value
+database. The value is commonly of the string data type.
+This is similar to the way data is stored in a map. A timestamp is a 64-bit
+integer that records the time at which the value was inserted or updated in
+any way.
 
-Generally, key value data model on cloud adopts the column-oriented approach,
-which is adopted from Google's  cloud database, Bigtable.
-The building blocks of column-oriented key value databases are columns,
-SuperColumns, ColumnFamily, SuperColumnFamily, KeySpace. Using an example of a
-relational database named \texttt{University}, where students are enrolled in
-different courses, this data model is explained below. The details of the students are
-saved in a table called \texttt{Student} and the course details in the \texttt{Course} table.
-The student-course relationship is maintained in a separate table called
-\texttt{Enrolment} which has foreign keys for both \texttt{Student} and \texttt{Course} tables.
+Generally, the key-value data model on cloud implements the column-oriented
+approach, which is adopted from Bigtable, Google's cloud \acp{DBMS} (\todo{cite
+}). The data model explored in this section is the column-oriented key-value
+data model adopted by Cassandra. This type of data model is fundamentally
+different from the relational data model. It sacrifices ACID properties as well
+as normalisation in order to achieve high scalability, fault tolerance, data
+partitioning among others. To understand this new type of data model and cloud
+\acp{DBMS} that adopt this model, comparisons are drawn to \acp{RDBMS} that
+adopt the relational model. For this purpose a simple
+example of a University database is used throughout the chapters, where it
+is assumed that students enrol into different courses. This example is
+illustrated below.
 
-\begin{itemize}
-\item Columns:  A column is the basic unit of a table and it contains data represented
-as a key, value and a timestamp tuple.
+When the University database is saved in an \ac{RDBMS}, a schema will be
+applied.This example assumes that the details of the students are saved in a
+table called \texttt{Student} and the course details in the \texttt{Course}
+table.The Student-Course relationship is maintained in a separate table called
+\texttt{Enrolment} which has foreign keys for both \texttt{Student} and
+\texttt{Course} tables. This can be seen in Figure~\ref{f:RDB}.
 
-A column in a key value databases is equivalent to a cell in an \ac{RDB}. A few
-columns in a key value database are shown below,
-where \Quote{SWEN301}, \Quote{Software Engineering} etc. would
-each be a single column with a key and timestamp as seen in
-Figure~\ref{f:column-in-kvdb}.
 
 \begin{figure}[h]
 	\centering
-	\begin{tabular}{ c c c c }
-		\toprule
-		\textbf{Key} & \textbf{Value} & \textbf{Timestamp} \\
-		\midrule
-		CourseId & SWEN301 & 89765432\\		
-		\bottomrule
-	\end{tabular}
-	\caption{Column in a Key-Value database}\label{f:column-in-kvdb}
+	%\includegraphics[width=5cm, height=5cm]{./figure/random.jpg}
+	\includegraphics[width=.7\textwidth]{./figure/Example/Relational-DB.png}
+	\caption{University example as a Relational database}\label{f:RDB}
 \end{figure}
 
-\begin{table}[h]
+This shows how the University database example is deployed as an
+\ac{RDB}. When data in the University example is modelled using the
+column-oriented key-value data model, the way it is stored is different.
+Although key-value \acp{DBMS} are schema-less, column-oriented key-value data
+models are not entirely schema-less, as seen in Cassandra (\todo{cite
+DataStax}). This data model allows applications to model the way data is
+organised in a traditional RDBMS whilst bringing more flexibility by
+denormalising data and imposing no rigid structures or schema requirements
+(\todo{cite DataStax}). Therefore, it allows applications to add data in the
+way they want and change their schema (if needed), without adhering to a
+rigid schema unlike the traditional \acp{RDBMS}.
+
+The building blocks of column-oriented key-value databases are the columns,
+the SuperColumns, the ColumnFamily and the KeySpace. Using the
+University example, these terminologies are explained below.
+Appropriate analogies are drawn with the \ac{RDB} University, as
+seen in Figure~\ref{f:RDB}, to better understand these column-oriented key-value
+concepts. Since the focus is on Cassandra's data model, these concepts
+are explained in the way Cassandra deploys them. The example used
+to describe the Cassandra data model adopts a simple and flexible schema that
+allows some structure in the way data is stored.
+
+\begin{description}
+\item[Columns:]  A column is the basic unit in this data model. It is a tuple
+containing a column name, a value and a timestamp (Figure~\ref{f:column}).
+
+\begin{figure}[h]
 	\centering
-	\begin{tabular}{ c c c c }
-		\toprule
-		\textbf{Key} & \textbf{Value} & \textbf{Timestamp} \\
-		\midrule
-		CourseName & Software Engineering & 98732587\\
-		\bottomrule
-	\end{tabular}
-\end{table}
+	%\includegraphics[width=5cm, height=5cm]{./figure/random.jpg}
+	\includegraphics[width=.4\textwidth]{./figure/Example/Column.png}
+	\caption{Random Pic}\label{f:column}
+\end{figure}
 
-\item SuperColumns: A SuperColumn is a key-value pair, where key or row key, is
-the unique identifier for each SuperColumn. A SuperColumn can be understood as a row
-in a table in \acp{RDB}. Row keys are just arbitrary string values and can be
-provided by the users in most key value databases. The value of the key-value
-pair is a map of columns. Hence, the values in a SuperColumn are actually
-key-value pairs. Unlike columns, SuperColumns do not have timestamps for its
-key-value pairs.
+The column names are labels  and it is mandatory that a column has a
+name. Column names and values are stored as Bytes Type, Long Type,
+Ascii Type, binary values Lexical UUID Type, Time UUID Type or as UTF8
+serialized strings (\todo{cite }). Timstamps are used to store the time of the
+latest update made to the column and are thus used for conflict resolutions. The
+timestamp values are commonly stored as microseconds, but could be in any format
+that the application chooses. However, timestamp formats have to be consistent
+across the database so that is the same format across all columns.
 
-\begin{table}[h]
+Cassandra allows indexes to be created on column names. These are called
+Secondary indexes and are of type \texttt{Keys} in Cassandra. When such secondary indexes
+are used, efficient queries can be specified using equality predicates, and
+can be made on ranges of columns too. The latter ones are called range queries.
+
+A column name can be used as an attribute name and is analogous to the columns
+in \acp{DBMS}. For example, columns for the attributes \texttt{FirstName},
+\texttt{LastName} etc. To draw an analogy with \acp{RDBMS},
+Figures~\ref{f:column-FirstName,f:RDB-User} show the differences between the
+representation of values in \texttt{Student} in Cassandra and in an \ac{RDBMS}.
+It can be seen from these figures that a column in the column-oriented key-value
+data model is analogous to a single value in a row of a relational table. For
+example, the data '\texttt{John}' in the relational table \texttt{Student} can
+be considered equivalent to a single column in Cassandra.
+
+\begin{figure}[H]
+	\newcommand{\W}{.4\textwidth}
 	\centering
-	\begin{tabular}{ c c c c c }
-		\toprule
-		\multirow{2}{*}{SuperColumnKey} & \multicolumn{4}{c}{Values}\\
+	%\includegraphics[width=5cm, height=5cm]{./figure/random.jpg}
+	\includegraphics[width=\W]{./figure/Example/Column_FirstName.png}
+	\includegraphics[width=\W]{./figure/Example/Column_LastName.png}
+	\includegraphics[width=\W]{./figure/Example/Column_Email.png}
+	\includegraphics[width=\W]{./figure/Example/Column_Age.png}
+	\caption{Columns in Cassandra}\label{f:column-FirstName}
+\end{figure}
 
-		& CourseName & Trimester & Level & Year\\ 
-		\midrule
-		SWEN301 & Software Engineering & 3 & 3 & 2012\\
-		\bottomrule
-	\end{tabular}
-\end{table}
-
-\item ColumnFamily: Columns can be grouped together into a ColumnFamily which is
-a structure with several rows containing key-value pairs. The key is the row key
-and the value is a map of column names. This map of columns contains key value
-pairs, of column keys and columns.
-
-\begin{table}[h]
+\begin{figure}[h]
 	\centering
-	\begin{tabular}{ c c c c c }
-		\toprule
-		\multirow{2}{*}{SuperColumnKey} & \multicolumn{4}{c}{Values}\\
+	%\includegraphics[width=5cm, height=5cm]{./figure/random.jpg}
+	\includegraphics[width=.8\textwidth]{./figure/Example/RelationalTable_User.png}
+	\caption{Relational Table - Student}\label{f:RDB-User}
+\end{figure}
 
-		& CourseName & Trimester & Level & Year\\ 
-		\midrule
-		SWEN301 & Software Engineering & 3 & 3 & 2012\\
-		COMP301 & Computer Engineering & 2 & 3 & 2012\\
-		COMP401 & Compiler Engineering & 1 & 4 & 2012\\
-		\bottomrule
-	\end{tabular}
-\end{table}
-A ColumnFamily is analogous to a table in an \ac{RDB}. Key value databases are
-schema-less and thus no structure is enforced on the tables. Hence, the rows in
-the ColumnFamily do not have any constraints with the number of columns it can
-have (Sarkissian, 2009). This means that it is valid even if one of the rows in
-the above example has more columns, for example, \texttt{SWEN301} could have an
-additional column of \texttt{CRN} which no other rows have values for. Or
-one row can have \texttt{100} columns and another row could have only \texttt{2}.
+The JSON notation for the columns in Cassandra is shown in Figure~\ref{f:column-JSON}.
 
-\item SuperColumnFamily- A SuperColumnFamily contains rows where each row of a
-SuperColumnFamily contains a map of SuperColumns. In this map, the key is the
-SuperColumn key and the value is the SuperColumn itself. For example, a row in a
-SuperColumnFamily to show the enrolment of students would contain the
-SuperColumns for the course and the students.
-
-\begin{table}[h]
+\begin{figure}[H]
 	\centering
-	\begin{tabular}{ c c c c }
-		\toprule
-		\multirow{2}{*}{SuperColumnFamilyKey} & \multicolumn{3}{c}{Values}\\
-		& StudentId & CourseId & Type \\ 
-		\midrule
-		1001 & 101 & SWEN301 & Student \\
-		1002 & 101 & COMP401 & Student \\
-		\bottomrule
-	\end{tabular}
-\end{table}
+	%\includegraphics[width=5cm, height=5cm]{./figure/random.jpg}
+	\includegraphics[width=.4\textwidth]{./figure/Example/Column_JSON.png}
+	\caption{JSON notation for a column}\label{f:column-JSON}
+\end{figure}
+% 
+% Alternatively, applications can also use column names to store values. This is
+% possible since it is not required that columns always have values and
+% since column names are byte arrays, applications can store any kind of
+% values in it.
 
-Here, the SuperColumns containing data about the student \texttt{101} who
-takes the course \texttt{Software  Engineering} is given in a single row identified by
-the key or \texttt{RowId} \texttt{1001}. If a student is enrolled in more than
-one course, then the SuperColumnFamily row would contain another SuperColumn of that course too.
+\item [SuperColumns:] A super column is a different kind of column where the
+values are an array of regular columns (Figure~\ref{f:supercolumn}). It consists of a super
+column name and an ordered map of columns. The columns within the values of a
+super column are grouped together using a common look-up value, which is
+commonly referred to as the \texttt{RowKey}. In other words, a super column is a
+nested key-value pair of columns. The outer key-value pair forms the super column while the inner
+nested key-value pairs are the columns. Unlike regular columns, super columns do
+not have timestamps for its key-value pairs. 
 
-\item  KeySpace: All the ColumnFamilies are grouped into a KeySpace, which is in
-general named by the user. A KeySpace can have multiple ColumnFamilies but no
-relationship between such ColumnFamilies is maintained. A KeySpace can be
-considered similar to a database in traditional relational databases, minus any
-relationships.
+\begin{figure}[H]
+	\centering
+	%\includegraphics[width=5cm, height=5cm]{./figure/random.jpg}
+	\includegraphics[width=.8\textwidth]{./figure/Example/SuperColumn.png}
+	\caption{A Super Column }\label{f:supercolumn}
+\end{figure}
 
-\end{itemize}
-The way in which key value is implemented in Cassandra, to match the
-scalability, data availability and other requirements on cloud, is explained
-later.
+A super column can be considered roughly similar to a whole record in a
+relational table in an \acp{RDB}.For example, the super column for a
+student, as seen in Figure~\ref{f:supercolumn-John}, is analogous to a single
+record in the relational table \texttt{Student} (Figure~\ref{f:RDB-User}).
+
+\begin{figure}[H]
+	\centering
+	%\includegraphics[width=5cm, height=5cm]{./figure/random.jpg}
+	\includegraphics[width=.8\textwidth]{./figure/Example/SuperColumn_John.png}
+	\caption{A Super Column for Student '\texttt{John}' in
+	Cassandra}\label{f:supercolumn-John}
+\end{figure}
+
+The JSON notation for the super column is shown in Figure~\ref{f:supercolumn-JSON}.
+
+\begin{figure}[H]
+	\centering
+	%\includegraphics[width=5cm, height=5cm]{./figure/random.jpg}
+	\includegraphics[width=.7\textwidth]{./figure/Example/JSON-SuperColumn-John.png}
+	\caption{JSON notation for a super column}\label{f:supercolumn-JSON}
+\end{figure}
+
+\item ColumnFamily: A column family contains columns or super columns that are
+grouped together using a unique row key. It is a set of key-value
+pairs, where the key is the row key and the value is a map of column names
+(Figure~\ref{f:columnfamily}). The row key groups the columns together, just as
+in super columns.
+
+\begin{figure}[H]
+	\centering
+	%\includegraphics[width=5cm, height=5cm]{./figure/random.jpg}
+	\includegraphics[width=.8\textwidth]{./figure/Example/ColumnFamily.png}
+	\caption{Column Family in Cassandra}\label{f:columnfamily}
+\end{figure}
+
+Applications can define column families and metadata about the columns.
+It is commonly practised to have columns that are related or accessed
+together to be grouped in the same column family. Column families require that
+some attributes are always defined, like name, column type and others. It also
+has optional attributes that can be defined if the application requires so. Some of the optional
+attributes are number of keys cached, comments, read repairs, column
+metadata among others.
+
+Column families can have rows to have relatively a definite number of columns.
+Rows are identified by their unique row keys. This is similar to a table, as
+seen for table \texttt{Student} Figure~\ref{f:RDB-User}, where every row
+in the table has the same number of columns and primary keys are used to identify a row. An example of a column family is shown in Figure~\ref{f:columnfamilyUSER}.
+Unlike relational tables in an \ac{RDB}, column families do not require all the
+rows to define the same number of columns (\todo{cite Sarkissian}).
+
+\begin{figure}[H]
+	\centering
+	%\includegraphics[width=5cm, height=5cm]{./figure/random.jpg}
+	\includegraphics[width=.8\textwidth]{./figure/Example/ColumnFamily-User-DiffColumns.png}
+	\caption{Column Family \texttt{User} in Cassandra}\label{f:columnfamilyUSER}
+\end{figure}
+
+The JSON notation for a single row of a column family in Cassandra is
+shown in Figure~\ref{f:columnfamilyJSON} 
+
+\begin{figure}[H]
+	\centering
+	%\includegraphics[width=5cm, height=5cm]{./figure/random.jpg}
+	\includegraphics[width=.8\textwidth]{./figure/Example/JSON_ColumnFamily_1row.png}
+	\caption{JSON notation for a column family in
+	Cassandra}\label{f:columnfamilyJSON}
+\end{figure}
+
+\item [KeySpace:] A keyspace is a container to hold the data that the
+application uses. Keyspaces have one or more column families, although it is not strictly
+required that a keyspace should always have column families. Any relationships
+existing between column famlies in a keyspace are not preserved.
+
+A KeySpace can be considered similar to a database in traditional relational
+databases, wihtout any relationships. An example of the keyspace
+University is shown in Figure~\ref{f:keyspace}.
+
+Keyspaces require that some attributes are defined, like a user defined name,
+replication strategy and others. Some optional elements that can be defined are
+the details of the column families in the keyspace and other options
+for replication of data.
+\end{description}
+
+\newpage
+
+\begin{figure}[H]
+	\centering
+	%\includegraphics[width=5cm, height=5cm]{./figure/random.jpg}
+	\includegraphics[width=.8\textwidth]{./figure/Example/KEYSPACE.png}
+	\caption{A keyspace in
+	Cassandra}\label{f:keyspace}
+\end{figure}
 
 
 \section{Challenges in Key-Value model}\label{s:challenges-key-value}
-Fundamentally, the key value data model is different from the relational model
+Fundamentally, the key-value data model is different from the relational model
 in many ways. While relational data model aims at giving data a structure,
-providing data integrity and referential integrity, key value databases just
-store data as blobs or string values and generally do not maintain many
-relationships between data. The key-value association and the ColumnFamily
-grouping etc can be considered as the minimum relationship that is maintained
-within cloud \ac{NoSQL} databases. Unlike the popular traditional relational
-database systems, cloud \ac{NoSQL} database systems do not support any schema
-and hence do not maintain data dependencies or relationships between data entities.
+providing data integrity and referential integrity, key-value databases just
+store data as \acp{blob} or string values and generally do not maintain
+relationships between data. The key-value association and the grouping of
+columns in column families can be considered as the minimum relationship that is
+maintained within cloud \ac{NoSQL} databases. 
 
-According to Bell and Brockhausen (1995), ``Data dependencies are the most
-common types of semantic constraints in relational databases which determine the
-database design''. Data dependencies are the various relationships that may
-exist between data entities in a database. For example, in a \texttt{Student}
-database, a student can enrol into more than one course and each course would have its own
-course name, course ID etc. This means that there is a many-to-many relationship
-between student and courses. In the case of a relational database, the student
-would have its own table and the course would have a different table. The
-relationship between any student and various courses the student takes would be
-stored in a third table called \texttt{Enrolment}. Such a distribution of data
-is present due to the schema specified and normalisation by the relational
-database. In the above example, this means that rows in \texttt{Enrolment} table
-would contain the \texttt{studentID} and the \texttt{courseID} (as foreign
-keys), which shows the dependency or relationship between a student and course.
+According to Bell and Brockhausen (1995), data dependencies are the most
+common types of semantic constraints in relational databases and these determine
+the database design. Data dependencies are the various relationships that may
+exist between data entities in a database. For example, in the
+University database, a student can enrol into more than one course and this
+means that there is a many-to-many relationship between \texttt{Student} and
+\texttt{Course}. Also, one course can have many students enroled in it. 
+
+Such a distribution of data is present due to the schema specified and
+normalisation by the relational database. In the above example, this means that
+rows in \texttt{Enrolment} table would contain the \texttt{studentID} and the
+\texttt{courseID} (as foreign keys), which shows the dependency or relationship
+between a student and course (Figure~\ref{f:RDB}).
 Any attempt to delete a course from the \texttt{Course} table, is prevented by a
 constraint, unless the dependency itself is removed first. In relational
-database systems, this constraint is referential integrity, which ensures that references between data entities are valid, consistent and intact
-(Blaha, n.d.). Normalisation as well as modelling real world data (along with
-the real relationships) enforce such dependencies in the schema and this causes
-integrity constraints like referential integrity constraints, to be imposed on
-data entities.
+database systems, this constraint is referential integrity, which ensures that
+references between data entities are valid, consistent and intact (Blaha, n.d.).
+Normalisation as well as modelling real world data (along with the real
+relationships) enforce such dependencies in the schema and this causes integrity
+constraints like referential integrity constraints, to be imposed on data
+entities.
 
 If such constraints are not imposed, there could arise many dangling
-dependencies in the database. In the above example, consider the case of foreign
-key references between \texttt{Course} and \texttt{Enrolment}. If a course, with
-a foreign key in the \texttt{Enrolment} table, is deleted without removing its
-dependencies in \texttt{Enrolment}, there could be many active references to the
-deleted course in \texttt{Enrolment}. Similarly, a dangling reference could
-occur during insertion of data. For example, a new student is entered in the
+dependencies in the database. In the University example, consider the
+case of foreign key references between \texttt{Course} and \texttt{Enrolment}.
+If a course, with a foreign key in the \texttt{Enrolment} table, is deleted from
+the \texttt{Course} table without removing its dependencies in
+\texttt{Enrolment}, there could be many active references to the deleted course
+in \texttt{Enrolment}. Similarly, a dangling reference could occur during
+insertion of data. For example, a new student is entered in the
 \texttt{Enrolment} table, with a \texttt{CourseId} (foreign key), that does not
 exist in the \texttt{Course} table (i.e., wrong \texttt{CourseId}). A dangling
 reference occurs because this inserted student refers to a nonexistent course.
 Another common cause for dangling references can be due to improper commits
-performed by the application. For example, consider a practical scenario of an
-online student registration/enrolment system, where every student enters their
-address and foreign key references exist between \texttt{Student} and
-\texttt{Address} tables.
-If, due to any reason, the commit into the \texttt{Student} table fails and the
-commit to the \texttt{Address} table proceeds without any problem, this can
-cause a dangling reference in the \texttt{Address} table. Such problems cause inconsistent data to be stored and
-affect data integrity. To ensure that users get consistent and valid
-information, applications would have to implement mechanisms to check or prevent
-dangling references. But if referential integrity constraints are applied, like
-in a relational database system, such deletions or insertion of data would not
-be permitted and dangling references will not occur.
+performed by the application. For example, while inserting new course details
+into \texttt{Course} and its dependencies into the \texttt{Enrolment} table, if,
+due to any reason, the commit into the \texttt{Course} table fails and the
+commit to the \texttt{Enrolment} table proceeds without any problem, this can
+cause a dangling reference in the \texttt{Enrolment} table. Such problems cause
+inconsistent data to be stored in databases and affect data integrity adversely.
+To ensure that users get consistent and valid information, applications would
+have to implement mechanisms to check or prevent dangling references. But if
+referential integrity constraints are applied, like in a relational database
+system, such deletions or insertion of data would not be permitted and dangling
+references can be prevented.
 
-As previously mentioned, \ac{NoSQL} database systems are schema-less and thus do
-not normalise data and nor are any relationships maintained. But relationships or dependencies between data
-are common when real world data is stored in databases. For example, in real
-world, a course could be taught by more than one lecturer or a student with an
-Art major is restricted entry into Chemistry courses etc. These relationships
+As previously mentioned, \ac{NoSQL} database systems do not normalise data and
+nor are any relationships maintained. But relationships or dependencies between
+data are common when real world data is stored in databases. For example, in the
+real world, a course could be taught by more than one lecturer or a student with
+an Art major is restricted entry into Chemistry courses etc. These relationships
 and constraints have to be preserved when such real world data is stored in
-\ac{NoSQL} database systems too. In \ac{NoSQL} database systems, data is saved as a
-document or a key-value pair etc, and data would be replicated across several
-nodes in a data centre. This effectively means that the relationship of student
-and course will not be strictly enforced and deleting a course in the \ac{NoSQL} is
-allowed as a result of the absence of constraints. As mentioned above, this
-could mean that a student could still be enrolled in a deleted course, since
-there are no constraints to prevent such deletions or changes in \ac{NoSQL} database
-systems.
+cloud \ac{NoSQL} database systems too. As mentioned in
+Section~\ref{s:cloud-databases}, cloud databases, whether relational or
+\ac{NoSQL}, have to replicate data across several machines and also need to be
+scalable to match the needs of the users. This replicated and distributed nature
+makes maintaining data dependencies complex and unfeasible in terms of speed and
+efficiency. In this example, this effectively means that the relationship
+between the \texttt{Student} and \texttt{Course} tables will not be strictly
+enforced and deleting a course in cloud \ac{NoSQL} databases is allowed as a
+result of the absence of constraints. Due to this, in cloud \ac{NoSQL} databases
+as mentioned above this could mean that a student could still be enrolled in a
+deleted course, since there are no constraints to prevent such deletions or
+changes in cloud \ac{NoSQL} databases.
 
-Commonly, developers impose such constraints and reference checks on \ac{NoSQL} data
-at the application side. Another way to implement such checks is to give these
-constraints at the persistence layer of the application server. Persistence
-layer is any software layer that makes it easier for a program to persist its
-state (Wikipedia, 2011a), for example, Entity Java Beans, Java Persistence
-architecture -JPA, Hibernate, DataNucleus in Google App Engine for Java, etc
-(Google, 2011). Most persistence layers achieve persistence by using an
-underlying \ac{DBMS}. Both these ways would eventually have to
-handle all the processing and managing of these constraint checks for all the
-widely spread data in \ac{NoSQL} databases. This could mean immense workload on the
-application or the application server, especially if the data volume is large in
-the \ac{NoSQL} database or if it is has many replicas that have to be checked as well
-for the constraints.
+Commonly, developers impose such constraints and reference checks on \ac{NoSQL}
+data at the application side. Another way to implement such checks is to give
+these constraints at the persistence layer of the application server. Both these
+ways would eventually have to handle all the processing and managing of these
+constraint checks for all the widely spread data in \ac{NoSQL} databases.
+However, this could mean immense workload on the application or the application
+server, especially if the data volume is large in the \ac{NoSQL} database or if it is
+has many replicas that have to be checked as well for the constraints.
 
-This is a serious problem today, especially when data is interconnected and
-dependant on other data entities in today's world. For example, Facebook and
-many other social networking sites have to pull out large amounts of
-interconnected data frequently and such data could naturally have many
-dependencies on other data entities (Hoff, 2009). A simple example of this
-problem is found in Facebook itself. Every user has a newsfeed page that shows
-all the latest news about other users in their friend list. If one user posted a
-message on Facebook, this would appear as news to all other users who are
-friends with this user. Now, if this user deletes this wall post, sporadically
-it has been observed that the deleted wall post would still appear on other
-user's newsfeed page for some time, irrespective of page reloads. This shows how
-deletions or changes in user data fail to be reflected everywhere in the
-database system immediately. Eventual consistency, where every replica of the
-data will see the update eventually after a time delay, also causes a delay in
-having all the various instances of the data to get updated with the correct
-data. But in spite of eventual consistency data dependency should be correctly
-handled and recorded. Had this been in a relational database, the user would
-have been prevented from deleting his wall post as other users have access to it
-or data would be correctly updated so that users do not see the wall post even
-after deletion.
 
-Although such problems affect most \ac{NoSQL} database system users, the impact of
-such a problem could be different for different users. For example, a banking
-system using a \ac{NoSQL} database system could be gravely affected because of
-dangling references or as seen in the Facebook example, user privacy could be
-comprised, while in a simple game application such problems could be trivial.
-Motivated by such problems of data dependencies, this research studies the
-existing modelling of data dependencies in \ac{NoSQL} database systems and aims to
-contribute by suggesting four solutions so that such dependencies are
+This is a serious problem when data is interconnected and dependant on other
+data entities as is commonly the case. For example, consider a banking
+application that uses cloud \ac{NoSQL} \acp{DBMS} where its databases are spread
+across several nodes and have interconnected data. Any debit or credit
+transactions made to a users account will have to be replicated across all the
+nodes and correctly persisted. Many constraints will exist for transfer of funds
+between user accounts and such constraints need to be validated correctly. If a
+user has multiple accounts, the relationship between the accounts have to be
+maintained too. When such constraints are not validated at the correct
+instances, it will lead to incorrect account balances and wrong updates in the
+user accounts. On the other hand, in an \ac{RDB}, referential integrity
+constrainst would be imposed to mainatint the relationships between the
+accounts and such constraints would be defined while tables are created and
+their validation would be triggered whenever any operations are perfomred on the
+data.
+
+Updates may not be correctly reflected across all the nodes of the database due
+to eventual consistency too, which is discussed in Section~\ref{}. However, in
+spite of eventual consistency, data dependencies should be correctly handled and
+recorded.
+
+Although this problem mostly affects most cloud \ac{NoSQL} \ac{DBMS} users, its
+could be different for different users. For example, a banking system as
+mentioned above could be gravely affected because of dangling references while
+in a simple game application such problems could be trivial.
+Motivated by such problems of data dependencies, this thesis studies the
+existing modelling of data dependencies in \ac{NoSQL} database systems and aims
+to contribute by suggesting four solutions so that such dependencies are
 effectively maintained, while also not limiting the benefits of not having a
-schema in \ac{NoSQL} database systems. Such a result would eventually reduce the
-workload of the applications or the persistence layers of the application
-servers. This would give users of \ac{NoSQL} database systems better consistency in
-data, along with assuring better data integrity even when data is widely
-replicated or spread on different data-centers.
+rigid schema in \ac{NoSQL} database systems. Such a result would 
+reduce the workload of the applications or the persistence layers of the application
+servers. Additionally it would give users of \ac{NoSQL} database systems
+better consistency in data, along with ensuring better data integrity even when
+it is widely replicated or spread on different data-centers.
 
 
 
 \section{Referential Integrity in Key-Value
 Model}\label{s:referential-integrity}
-Addressing the aformentioned challenge, would translate to having referential
-integrity constraints introduced in \ac{NoSQL} database systems.
+Addressing the aforementioned challenges, implies to introduce referential
+integrity constraints in cloud \ac{NoSQL} database systems.
 
-Referential integrity is a fundamental property of data within a database, which
-ensures that certain data dependencies between tables are maintained correctly
-in the database (\todo{cite oracle}). These dependencies could be a part of the
-business rule and need to be enforced for proper data integrity. It is possible
-to define conditions or rules on the database so that data integrity is ensured
-at all times. These conditions are called integrity constraints and need to be
-mandatorily satisfied at all times in order to ensure that users or applications
-do not enter incorrect or inconsistent data into the databases.
+Referential integrity is a fundamental property of data within databases, which
+ensures that data dependencies between tables are maintained correctly in the
+database (\todo{cite oracle}). These dependencies could be a part of the
+business rule and need to be enforced for proper data integrity. Users define
+conditions or rules on the tables in a database so that data integrity is
+ensured at all times. These conditions are called integrity constraints and need
+to be mandatorily satisfied at all times in order to ensure that users or
+applications do not enter incorrect or inconsistent data into the databases.
 
 The Referential Integrity Constraint is just one amongst other constraints, and
-ensures that the value of one column of a table matches the values of a column
-in another table. Generally in \acp{RDBMS}, a referential integrity constraint
-identifies a foreign key in a table which has a direct relationship with the
-primary key (or a unique key) of another table. The table with the referencing
-key (foreign key) in it is the referencing table (a.k.a. child table), while the
-table with the referenced key (primary or unique key) is the referenced table
-(a.k.a.
-parent table). For example, in the \texttt{University} database,
-\texttt{Enrolment} is the referencing table while the \texttt{Student} and
-\texttt{Course} tables are the referenced tables.
-
+generally in \acp{RDBMS}, these constraints ensure that the value of foreign
+keys in a table matches the values of primary keys in another table. The table
+with the foreign key in it is the referencing table (or child table), while the
+table with the primary or unique key is the referenced table (or parent table).
+For example, in the University database, \texttt{Enrolment} is the
+referencing table while \texttt{Student} and \texttt{Course} are the
+referenced tables. Foreign keys are also known as the referencing key and
+the primary keys as the referenced keys.
 
 It has been defined by many researchers that referential integrity is enforced
 by the combination of a primary (or unique) key and a foreign key, and that
-every foreign key has to match the referenced key (\todo{cite}). In the
-University example, every student foreign key in the \texttt{Enrolment} table
-must match one of the referenced keys in the \texttt{Student} table. Similarly, every \texttt{Course} foreign
-key in \texttt{Enrolment} must match a referenced key in the \texttt{Course} table. The
-referential integrity constraint also states that the referenced key must exist
-in the referenced table. If any foreign key refers to a non-existing primary
-key, it violates the referential integrity constraint.  For example, if
-\texttt{StudID100} is a student Foreign key in the \texttt{Enrolment} table, but
-\texttt{StudID100} does not exist as a primary key in the \texttt{Student}
+every foreign key has to match the primary key (\todo{cite}). In the
+University example, every foreign key in the \texttt{Enrolment} table must match
+one of the primary keys in the \texttt{Student} and \texttt{Course} tables.
+Hence, if any foreign key refers to a non-existing primary key, the
+referential integrity constraint is violated.  For example, if
+'\texttt{StudID100}' is a student foreign key in the \texttt{Enrolment} table,
+but '\texttt{StudID100}' does not exist as a primary key in the \texttt{Student}
 table, then it is a violation of referential integrity.
-
  
 Referential integrity constraints also describe the data manipulation that is
 allowed on the referenced values. Some of the widely associated rules are:
 
-\texttt{Restrict} or \texttt{No delete}: Prevents any update or deletion of data
-that has references.
+\begin{itemize}
+  \item \texttt{Restrict} or \texttt{No delete}: which prevents any update or
+  deletion of data that has references.
+\item \texttt{Set to NULL}: which sets all foreign keys to NULL values, on
+updating or deleting the referenced key.
+\item \texttt{Set to Default}: which sets all the foreign
+keys to a default value, on updating or deleting the referenced key.
+\item \texttt{Cascade}: which updates or deletes all the
+associated dependant values accordingly, when the referenced data is updated or
+deleted.
+\item \texttt{No Action}: which performs checks only at the end of a
+statement and is similar to \texttt{Restrict}
+\end{itemize}
 
-\texttt{Set to NULL}: On updating or deleting the referenced key, all foreign
-keys are set to NULL values.
+Existing \acp{DBMS} may not always support all of the above rules. Some \acp{DBMS} may
+have the \texttt{Cascade} rule by default like Oracle, while some may have the
+\texttt{Restrict} rule by default. 
 
-\texttt{Set to Default}: On updating or deleting the referenced key, all foreign
-keys are set to a default value.
 
-\texttt{Cascade}: When the referenced data is updated or deleted, all the
-associated dependent values are updated or deleted accordingly.
 
-All existing \acp{DBMS} may not always support all of the above rules. Some \acp{DBMS} may
-have the \texttt{Cascade} rule by default, while some may have the
-\texttt{Restrict} rule by default. On the other hand some may not support
-\texttt{Set to NULL} or may have other rules like the \texttt{No Action} rule,
-which is similar to \texttt{Restrict} but performs checks only at the end of a
-statement.
+\section{Summary}
 
 Referential integrity constraints have been a relational feature in traditional
 \acp{RDBMS} and is imposed due to the way the \acp{RDBMS} enforce normalisation.
-To improve the data dependency in \ac{NoSQL} database systems, this
-thesis porposed referential integrity constraints using different
-approaches. These are explained in Chapter (\todo{cite}).
+To improve the data dependency in \ac{NoSQL} database systems, this thesis
+proposes referential integrity constraints using different approaches. These are
+explained in Chapter~\ref{c:solutions}.
 
-\section{Summary}
-	This Chapter presented the backgrounds about the underlying concepts in Cloud
-	Computing and Cloud Databases. Cloud computing is gaining prevalence due to its
-	many benefits as discussed in the chapter. With an increase in the number of
-	users migrating to cloud computing, cloud data storage is gaining prominence as
-	well, for easy and simple data storage. This has paved the way for the
-	existence of many diffrent data models and databases on the cloud. Amongst the
-	many data models, key-value data model has been the most widely used one on the
-	cloud as it is more adapted to the cloud environment. This is mainly because
-	of the data replication and 
+This chapter presented the background about the underlying concepts in cloud
+computing and cloud databases. It is clear that cloud computing is gaining
+prevalence due to its many benefits like high data availability and cheap
+storage etc. as previously discussed. With an increase in the number of users
+migrating to cloud computing, cloud data storage is gaining prominence as well,
+for easy and simple data storage. This has paved the way for the existence
+of many different data models and databases on the cloud. Amongst the many data
+models, the key-value data model has been the most widely used one on the cloud
+as it is more adapted to the cloud environment due to its support for
+replication and scalability and other cloud related features (\todo{cite}).
 	
-	The next Chapter presents Cassandra as a Key-Value Cloud database as well as
-	the solutions proposed to deal with referential integrity in cloud.
+The next chapter describes the four solutions proposed to enforce refreential
+integrity constraints in cloud \ac{NoSQL} \acp{DBMS}, particularly
+Cassandra which has the column-oriented key-value data model.
 
 
 

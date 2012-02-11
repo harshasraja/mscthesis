@@ -1,20 +1,17 @@
 package harsha.thesis.api.connection;
 
-import harsha.thesis.api.connection.hector.HectorConnectionObject;
 import harsha.thesis.api.connection.hector.HarshaConnectionObject;
 import harsha.thesis.exp.Main;
 import me.prettyprint.hector.api.Cluster;
 import me.prettyprint.hector.api.factory.HFactory;
-import org.apache.log4j.Logger;
 
 public class CloudConnector {
 
-    private static Logger logger = Logger.getLogger(CloudConnector.class.getName());
     public static int NUMBER_OF_CONNECTIONS = 0;
     public static ConnectionDefinition DEFAULT_CONNECTION_DEFINITION =
-            new ConnectionDefinition(Main.HECTOR_CONNECTION, HectorConnectionObject.class.getName());
+            new ConnectionDefinition(Main.HECTOR_CONNECTION, null);
     public static ConnectionDefinition METADATA_CONNECTION_DEFINITION =
-            new ConnectionDefinition(Main.METADATA_CONNECTION, HectorConnectionObject.class.getName());
+            new ConnectionDefinition(Main.METADATA_CONNECTION, null);
 
     //private static Connection con = null;
     private CloudConnector() {
@@ -38,7 +35,7 @@ public class CloudConnector {
 
     }
 
-    public static Connection getConnection(ConnectionDefinition conDef) throws Exception {
+    public static Connection getMetadataConnection(ConnectionDefinition conDef) throws Exception {
         NUMBER_OF_CONNECTIONS++;
         return HarshaConnectionObject.GetMetadataConnection();
 //        Class<Connection> temp = (Class<Connection>) Class.forName(conDef.getConnectionClass());
@@ -71,14 +68,14 @@ public class CloudConnector {
     public static void shutdown() {
         Cluster cluster = HFactory.getCluster(DEFAULT_CONNECTION_DEFINITION.getClusterName());
         if (cluster != null) {
-//            cluster.getConnectionManager().shutdown();
+            HFactory.shutdownCluster(cluster);
         }
 
         Cluster metadataCluster = HFactory.getCluster(METADATA_CONNECTION_DEFINITION.getClusterName());
         if (metadataCluster != null) {
-//            metadataCluster.getConnectionManager().shutdown();
+            HFactory.shutdownCluster(metadataCluster);
         }
-        HFactory.shutdownCluster(cluster);
-        HFactory.shutdownCluster(metadataCluster);
+
+
     }
 }

@@ -48,13 +48,11 @@ public class BaseDAO {
     private static final String EXPRESSION_NE = "<>";
     public static final String EXPRESSION_LE = "<=";
     public static final String EXPRESSION_GE = "=>";
-    
 
-    public BaseDAO() throws Exception{
+    public BaseDAO() throws Exception {
         logger.debug("Instantiating " + this.getClass().getName());
         connection = CloudConnector.getConnection();
     }
-
 
     public void close() {
         CloudConnector.returnConnection(connection);
@@ -110,12 +108,13 @@ public class BaseDAO {
     }
 
     public BaseEntity read(String type, String key) throws Exception {
-        logger.debug("Inside read with parameters [Type]:" + type + " [key]:" + key);
 
+        logger.debug("Inside read with parameters [Type]:" + type + " [key]:" + key);
         Class<BaseEntity> tempClass = (Class<BaseEntity>) Class.forName(type);
         if (null == key || "".equals(key.trim())) {
             throw new Exception("Invalid Key:" + key);
         }
+
 
         BaseEntity entity = tempClass.newInstance();
         String primaryKey = getPrimaryKeyFieldForEntity(entity);
@@ -129,11 +128,17 @@ public class BaseDAO {
         sliceQuery.setRange("", "", false, methods.length);
         sliceQuery.setKey(key);
 
+        long start = System.currentTimeMillis();
         QueryResult<ColumnSlice<String, String>> result = sliceQuery.execute();
+//        logger.info("[" + (System.currentTimeMillis() - start) + "]->"
+//                + "QueryResult<ColumnSlice<String, String>> result = sliceQuery.execute();");
 
+        start = System.currentTimeMillis();
         ColumnSlice<String, String> columnSlice = result.get();
+//        logger.info("[" + (System.currentTimeMillis() - start) + "]->"
+//                + "ColumnSlice<String, String> columnSlice = result.get();");
 
-
+        start = System.currentTimeMillis();
         List<HColumn<String, String>> columns = columnSlice.getColumns();
 
         //entity = null;
@@ -149,14 +154,16 @@ public class BaseDAO {
                     //break;
                 }
             }
-
             logger.debug(hColumn.getName() + ":" + hColumn.getValue() + ">>");
         }
+//        logger.info("[" + (System.currentTimeMillis() - start) + "]->"
+//                + "for (HColumn<String, String> hColumn : columns)");
 
         return entity;
     }
 
-    public List<BaseEntity> read(String type, String columnName, String expression, String columnValue, boolean returnAllRows) throws ClassNotFoundException, InstantiationException, IllegalAccessException, Exception {
+    public List<BaseEntity> read(String type, String columnName, String expression, String columnValue, boolean returnAllRows)
+            throws ClassNotFoundException, InstantiationException, IllegalAccessException, Exception {
         logger.debug("Inside read with parameters [Type]:" + type + " [column name]:" + columnName + " [Expression]:" + expression + " [column value]:" + columnValue);
         List<BaseEntity> list = new LinkedList<BaseEntity>();
         Class<BaseEntity> tempClass = (Class<BaseEntity>) Class.forName(type);
@@ -192,6 +199,7 @@ public class BaseDAO {
         } else {
             throw new Exception("Invalid expression:" + expression);
         }
+
         if (returnAllRows) {
             List<String> columnNames = new LinkedList<String>();
             for (Method method : methods) {
@@ -208,11 +216,18 @@ public class BaseDAO {
         indexedSlicesQuery.setColumnFamily(columnFamily);
         indexedSlicesQuery.setStartKey("");
 
+        long start = System.currentTimeMillis();
         QueryResult<OrderedRows<String, String, String>> result = indexedSlicesQuery.execute();
+//        logger.info("[" + (System.currentTimeMillis() - start) + "]->"
+//                + "QueryResult<OrderedRows<String, String, String>> result = indexedSlicesQuery.execute();");
 
+        start = System.currentTimeMillis();
         Rows<String, String, String> orderRows = result.get();
+//        logger.info("[" + (System.currentTimeMillis() - start) + "]->"
+//                + "Rows<String, String, String> orderRows = result.get();");
 
 
+        start = System.currentTimeMillis();
         for (Row<String, String, String> row : orderRows) {
             logger.debug("Key=" + row.getKey() + "::> ");
             List<HColumn<String, String>> columns = row.getColumnSlice().getColumns();
@@ -231,10 +246,10 @@ public class BaseDAO {
             }
             list.add(entity);
             entity = tempClass.newInstance();
-            ;
         }
 
-
+//        logger.info("[" + (System.currentTimeMillis() - start) + "]->"
+//                + "QueryResult<OrderedRows<String, String, String>> result = indexedSlicesQuery.execute();");
 
         return list;
     }
@@ -522,5 +537,4 @@ public class BaseDAO {
         connection.getCluster().addColumnFamily(cfDef);
 
     }
-
 }

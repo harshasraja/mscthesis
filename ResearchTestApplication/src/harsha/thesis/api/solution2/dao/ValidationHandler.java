@@ -27,8 +27,6 @@ public class ValidationHandler {
     private Logger logger = Logger.getLogger(this.getClass().getName());
     private BaseEntity entity = null;
     private String columnFamily = null;
-    private BaseDAO mDao = null;
-    private BaseDAO tempDao = null;
 
     /**
      * @throws Exception
@@ -45,12 +43,12 @@ public class ValidationHandler {
     }
 
     public void checkReferenedKey() throws Exception {
-        logger.info("Checking Referenced Key for ColumnFamily:" + this.columnFamily);
+        logger.debug("Checking Referenced Key for ColumnFamily:" + this.columnFamily);
         List<BaseEntity> rConstraints = new LinkedList<BaseEntity>();
         BaseDAO dao = null;
         try {
             dao = new BaseDAO();
-            List<Metadata> list = mDao.read(entity.getColumnFamilyRepresentation().replace("_", "."), "-1").getMetaData();
+            List<Metadata> list = dao.read(entity.getColumnFamilyRepresentation().replace("_", "."), "-1").getMetaData();
             for (Metadata metadata : list) {
                 if ("R".equals(metadata.getConstraintType())) {
                     rConstraints.add(metadata);
@@ -81,12 +79,12 @@ public class ValidationHandler {
     }
 
     public void checkForeignKey() throws Exception {
-        logger.info("Checking Referenced Key for ColumnFamily:" + this.columnFamily);
+        logger.debug("Checking Referenced Key for ColumnFamily:" + this.columnFamily);
         List<Metadata> rConstraints = new LinkedList<Metadata>();
         BaseDAO dao = null;
         try {
             dao = new BaseDAO();
-            List<Metadata> list = mDao.read(entity.getColumnFamilyRepresentation().replace("_", "."), "-1").getMetaData();
+            List<Metadata> list = dao.read(entity.getColumnFamilyRepresentation().replace("_", "."), "-1").getMetaData();
             for (Metadata metadata : list) {
 
                 if ("F".equals(metadata.getConstraintType())) {
@@ -100,7 +98,7 @@ public class ValidationHandler {
                 if ("R".equals(metadata.getConstraintType())) {
                     //String primaryKey = getPrimaryKeyForEntity();
                     String primaryKey = getPrimaryKeyForEntity();
-                    List<BaseEntity> childObjects = tempDao.read(rConstraint.getTableName().replace("_", ".").trim(), metadata.getRColumn().trim(), BaseDAO.EXPRESSION_EQUALS, primaryKey, true);
+                    List<BaseEntity> childObjects = dao.read(rConstraint.getTableName().replace("_", ".").trim(), metadata.getRColumn().trim(), BaseDAO.EXPRESSION_EQUALS, primaryKey, true);
                     for (BaseEntity childObject : childObjects) {
                         if (!childObject.isNull() && "NODELETE".equalsIgnoreCase(rConstraint.getDeleteRule())) {
                             throw new ValidationFailedException(primaryKey + " found in child table " + metadata.getTableName());
@@ -235,7 +233,7 @@ public class ValidationHandler {
         Method[] methods = entity.getClass().getDeclaredMethods();
 
         for (Annotation annotation : a1) {
-            System.out.println(annotation);
+            //System.out.println(annotation);
             if (annotation instanceof PrimaryKey) {
                 primaryKeyField = ((PrimaryKey) annotation).primaryKey();
             }
@@ -279,11 +277,19 @@ public class ValidationHandler {
     }
 
     private Metadata getMetadata(Metadata rConstraint) throws Exception {
-        List<Metadata> metaList = mDao.read(rConstraint.getTableName().replace("_", "."), "-1").getMetaData();
-        for (Metadata metadata : metaList) {
-            if (rConstraint.getRConstraintName().equals(metadata.getConstraintName())) {
-                return metadata;
+        BaseDAO dao = null;
+        try {
+            dao = new BaseDAO();
+            List<Metadata> metaList = dao.read(rConstraint.getTableName().replace("_", "."), "-1").getMetaData();
+            for (Metadata metadata : metaList) {
+                if (rConstraint.getRConstraintName().equals(metadata.getConstraintName())) {
+                    return metadata;
+                }
             }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        } finally {
+            dao.close();
         }
         return null;
     }

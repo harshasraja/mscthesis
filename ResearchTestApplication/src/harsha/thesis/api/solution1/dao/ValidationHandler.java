@@ -78,7 +78,7 @@ public class ValidationHandler {
 	}
 	
 	public void checkForeignKey() throws Exception{
-		logger.info("Checking Referenced Key for ColumnFamily:"+this.columnFamily);
+		logger.debug("Checking Referenced Key for ColumnFamily:"+this.columnFamily);
 		List<BaseEntity> childObjects = null;
 		List<String> rConstraintNames = new LinkedList<String>();
 		try {
@@ -226,7 +226,7 @@ public class ValidationHandler {
 		Method [] methods = entity.getClass().getDeclaredMethods();
 		
 		for (Annotation annotation : a1) {
-			System.out.println(annotation);
+			//System.out.println(annotation);
 			if (annotation instanceof PrimaryKey) {
 				primaryKeyField = ((PrimaryKey) annotation).primaryKey();
 			}

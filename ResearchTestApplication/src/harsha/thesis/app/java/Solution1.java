@@ -149,6 +149,6 @@ public class Solution1 extends BaseSolution {
 
         strEntity = strEntity + "}";
 
-        logger.info(strEntity);
+        logger.debug(strEntity);
     }
 }

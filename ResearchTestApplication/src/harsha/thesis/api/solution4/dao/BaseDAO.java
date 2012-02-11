@@ -62,7 +62,7 @@ public class BaseDAO {
     public BaseDAO(ConnectionDefinition connectionDefinition, ValidationHandler validationHandler) throws Exception {
         logger.debug("Instantiating " + this.getClass().getName());
 //		this.connectionDefinition = connectionDefinition;
-        connection = CloudConnector.getConnection(connectionDefinition);
+        connection = CloudConnector.getMetadataConnection(connectionDefinition);
         this.validationHandler = validationHandler;
     }
 

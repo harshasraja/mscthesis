@@ -1,5 +1,5 @@
 %ब
-\chapter{Methodologies}
+\chapter{Proposed Solutions} \label{c:solutions}
 
 This chapter describes the four different solutions proposed to implement
 referential integrity constraints in a cloud \ac{NoSQL} database system. It also
@@ -132,7 +132,7 @@ on other nodes in the cluster (Perham, 2010b).
 
 As mentioned before, these proposed solutions involve using metadata in
 different ways to impose referential integrity constraints in Cassandra. The
-following section describes metadata briefly.
+following section describes metadata briefly. This 
 
 
 \section{Metadata}\label{s:metadata}
@@ -580,4 +580,17 @@ entry in this metedata table could have a unique key. This is explained later.
 	%\includegraphics[width=5cm, height=5cm]{./figure/random.jpg}
 	\includegraphics[width=.5\textwidth]{./figure/random.jpg}
 	\caption{Random Pic}\label{f:random-pic}
+\end{figure}
+
+
+\begin{figure}
+
+\begin{verbatim}
+{     
+    "firstName": "John"
+    "lastName" : "Smith",
+    "age" : 25
+}
+\end{verbatim}
+\caption{JSON}
 \end{figure}

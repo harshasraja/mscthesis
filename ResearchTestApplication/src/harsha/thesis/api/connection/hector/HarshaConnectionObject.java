@@ -55,15 +55,7 @@ public class HarshaConnectionObject implements Connection {
         return METADATA_CONNECTION;
     }
 
-    public static void Shutdown() {
-        if (METADATA_CONNECTION != null) {
-            METADATA_CONNECTION.destroy();
-        }
-        if (CLUSTER_CONNECTION != null) {
-            CLUSTER_CONNECTION.destroy();
-        }
-    }
-
+    
     private HarshaConnectionObject(ConnectionDefinition connDef) {
         this.connectionDefinition = connDef;
     }
@@ -97,7 +89,7 @@ public class HarshaConnectionObject implements Connection {
         logger.info("SliceQuery Created.");
 
         logger.debug("Creating IndexedSlicesQuery.......");
-        this.indexedSlicesQuery = HFactory.createIndexedSlicesQuery(getKeyspace(), stringSerializer, stringSerializer, stringSerializer);
+//        this.indexedSlicesQuery = HFactory.createIndexedSlicesQuery(getKeyspace(), stringSerializer, stringSerializer, stringSerializer);
         logger.info("Indexed SlicesQuery Created.");
 
         logger.info("Connected to [IP Address]" + connectionDefinition.getIpAddress()
@@ -105,18 +97,6 @@ public class HarshaConnectionObject implements Connection {
                 + connectionDefinition.getClusterName() + " [Key Space]" + connectionDefinition.getKeySpace());
     }
 
-    protected void destroy() {
-        logger.info("Closing Connection Object......");
-        //this.rangeSlicesQuery = null;
-        //this.mutator = null;
-        //cluster.getConnectionManager().shutdown();
-        if (cluster != null) {
-            HFactory.shutdownCluster(cluster);
-        }
-
-        this.cluster = null;
-        logger.info("Closed Connection Object.");
-    }
 
     @Override
     public void close() {
@@ -149,7 +129,8 @@ public class HarshaConnectionObject implements Connection {
 
     @Override
     public IndexedSlicesQuery<String, String, String> getIndexedSlicesQuery() {
-        return this.indexedSlicesQuery;
+//        return this.indexedSlicesQuery;
+        return  HFactory.createIndexedSlicesQuery(getKeyspace(), stringSerializer, stringSerializer, stringSerializer);
     }
 
     @Override

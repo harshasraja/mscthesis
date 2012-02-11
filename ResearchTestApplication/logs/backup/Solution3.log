@@ -1,0 +1,433 @@
+#	Working Directory/am/phoenix/home1/subramhars/workspace/ResearchTestApplication
+#	Solution: Solution3
+#	LogPath: ./logs
+#	Runs: 100
+#	Students: 100
+#	Courses: 100
+#	Groups:10
+#	CsvBase: ./data/
+#	CreateCsv: true
+#	Initialize: false
+#RUN:1#INSERT[users=100; courses=100; enrolments=900]
+insert_user:22701
+insert_course:22537
+insert_enrolment:206750
+
+#DELETE
+delete_enrolment:213993
+delete_course:24163
+delete_user:24329
+
+#RUN:2#INSERT[users=100; courses=100; enrolments=900]
+insert_user:24422
+insert_course:24522
+insert_enrolment:223549
+
+#DELETE
+delete_enrolment:230539
+delete_course:26210
+delete_user:26247
+
+#RUN:3#INSERT[users=100; courses=100; enrolments=900]
+insert_user:26202
+insert_course:26175
+insert_enrolment:240672
+
+#DELETE
+delete_enrolment:247520
+delete_course:27743
+delete_user:27921
+
+#RUN:4#INSERT[users=100; courses=100; enrolments=900]
+insert_user:28040
+insert_course:28265
+insert_enrolment:257722
+
+#DELETE
+delete_enrolment:264271
+delete_course:29680
+delete_user:29859
+
+#RUN:5#INSERT[users=100; courses=100; enrolments=900]
+insert_user:30051
+insert_course:29948
+insert_enrolment:275093
+
+#DELETE
+delete_enrolment:301319
+delete_course:32720
+delete_user:32783
+
+#RUN:6#INSERT[users=100; courses=100; enrolments=900]
+insert_user:32955
+insert_course:32878
+insert_enrolment:300635
+
+#DELETE
+delete_enrolment:308201
+delete_course:34837
+delete_user:34595
+
+#RUN:7#INSERT[users=100; courses=100; enrolments=900]
+insert_user:34728
+insert_course:34912
+insert_enrolment:318418
+
+#DELETE
+delete_enrolment:326462
+delete_course:36677
+delete_user:36897
+
+#RUN:8#INSERT[users=100; courses=100; enrolments=900]
+insert_user:36592
+insert_course:36791
+insert_enrolment:338033
+
+#DELETE
+delete_enrolment:344537
+delete_course:38711
+delete_user:38952
+
+#RUN:9#INSERT[users=100; courses=100; enrolments=900]
+insert_user:38732
+insert_course:38694
+insert_enrolment:354344
+
+#DELETE
+delete_enrolment:361086
+delete_course:40768
+delete_user:40771
+
+#RUN:10#INSERT[users=100; courses=100; enrolments=900]
+insert_user:40530
+insert_course:40777
+insert_enrolment:374624
+
+#DELETE
+delete_enrolment:383723
+delete_course:42671
+delete_user:43043
+
+#RUN:11#INSERT[users=100; courses=100; enrolments=900]
+insert_user:43300
+insert_course:43365
+insert_enrolment:394234
+
+#DELETE
+delete_enrolment:401255
+delete_course:45162
+delete_user:44962
+
+#RUN:12#INSERT[users=100; courses=100; enrolments=900]
+insert_user:45225
+insert_course:45558
+insert_enrolment:413765
+
+#DELETE
+delete_enrolment:420899
+delete_course:47426
+delete_user:47194
+
+#RUN:13#INSERT[users=100; courses=100; enrolments=900]
+insert_user:47469
+insert_course:47534
+insert_enrolment:433921
+
+#DELETE
+delete_enrolment:440708
+delete_course:49213
+delete_user:49592
+
+#RUN:14#INSERT[users=100; courses=100; enrolments=900]
+insert_user:49689
+insert_course:49810
+insert_enrolment:451727
+
+#DELETE
+delete_enrolment:464888
+delete_course:51709
+delete_user:52070
+
+#RUN:15#INSERT[users=100; courses=100; enrolments=900]
+insert_user:52137
+insert_course:52468
+insert_enrolment:474815
+
+#DELETE
+delete_enrolment:482137
+delete_course:54015
+delete_user:54600
+
+#RUN:16#INSERT[users=100; courses=100; enrolments=900]
+insert_user:54728
+insert_course:54650
+insert_enrolment:494522
+
+#DELETE
+delete_enrolment:503566
+delete_course:56208
+delete_user:56329
+
+#RUN:17#INSERT[users=100; courses=100; enrolments=900]
+insert_user:56475
+insert_course:56451
+insert_enrolment:514569
+
+#DELETE
+delete_enrolment:528851
+delete_course:59297
+delete_user:59301
+
+#RUN:18#INSERT[users=100; courses=100; enrolments=900]
+insert_user:59382
+insert_course:59487
+insert_enrolment:549990
+
+#DELETE
+delete_enrolment:573834
+delete_course:64295
+delete_user:64433
+
+#RUN:19#INSERT[users=100; courses=100; enrolments=900]
+insert_user:64525
+insert_course:64855
+insert_enrolment:587541
+
+#DELETE
+delete_enrolment:593281
+delete_course:66202
+delete_user:66255
+
+#RUN:20#INSERT[users=100; courses=100; enrolments=900]
+insert_user:66380
+insert_course:66457
+insert_enrolment:608383
+
+#DELETE
+delete_enrolment:614568
+delete_course:68605
+delete_user:68610
+
+#RUN:21#INSERT[users=100; courses=100; enrolments=900]
+insert_user:68817
+insert_course:68918
+insert_enrolment:629556
+
+#DELETE
+delete_enrolment:637063
+delete_course:71945
+delete_user:71901
+
+#RUN:22#INSERT[users=100; courses=100; enrolments=900]
+insert_user:71988
+insert_course:71992
+insert_enrolment:651362
+
+#DELETE
+delete_enrolment:655653
+delete_course:73301
+delete_user:73555
+
+#RUN:23#INSERT[users=100; courses=100; enrolments=900]
+insert_user:73582
+insert_course:74278
+insert_enrolment:678066
+
+#DELETE
+delete_enrolment:688110
+delete_course:76431
+delete_user:76760
+
+#RUN:24#INSERT[users=100; courses=100; enrolments=900]
+insert_user:76531
+insert_course:76600
+insert_enrolment:697230
+
+#DELETE
+delete_enrolment:703743
+delete_course:77759
+delete_user:77805
+
+#RUN:25#INSERT[users=100; courses=100; enrolments=900]
+insert_user:78700
+insert_course:79048
+insert_enrolment:717243
+
+#DELETE
+delete_enrolment:722413
+delete_course:81837
+delete_user:82151
+
+#RUN:26#INSERT[users=100; courses=100; enrolments=900]
+insert_user:81830
+insert_course:82051
+insert_enrolment:743098
+
+#DELETE
+delete_enrolment:748490
+delete_course:83846
+delete_user:84076
+
+#RUN:27#INSERT[users=100; courses=100; enrolments=900]
+insert_user:84123
+insert_course:84015
+insert_enrolment:761831
+
+#DELETE
+delete_enrolment:769451
+delete_course:86221
+delete_user:86155
+
+#RUN:28#INSERT[users=100; courses=100; enrolments=900]
+insert_user:86042
+insert_course:86439
+insert_enrolment:778461
+
+#DELETE
+delete_enrolment:788085
+delete_course:88746
+delete_user:88831
+
+#RUN:29#INSERT[users=100; courses=100; enrolments=900]
+insert_user:88972
+insert_course:88773
+insert_enrolment:804143
+
+#DELETE
+delete_enrolment:803208
+delete_course:89929
+delete_user:90215
+
+#RUN:30#INSERT[users=100; courses=100; enrolments=900]
+insert_user:92058
+insert_course:92581
+insert_enrolment:829426
+
+#DELETE
+delete_enrolment:831519
+delete_course:92851
+delete_user:93052
+
+#RUN:31#INSERT[users=100; courses=100; enrolments=900]
+insert_user:93309
+insert_course:93392
+insert_enrolment:841947
+
+#DELETE
+delete_enrolment:849219
+delete_course:94532
+delete_user:94753
+
+#RUN:32#INSERT[users=100; courses=100; enrolments=900]
+insert_user:95094
+insert_course:94839
+insert_enrolment:881013
+
+#DELETE
+delete_enrolment:888546
+delete_course:99193
+delete_user:99692
+
+#RUN:33#INSERT[users=100; courses=100; enrolments=900]
+insert_user:98546
+insert_course:98840
+insert_enrolment:892283
+
+#DELETE
+delete_enrolment:900008
+delete_course:100843
+delete_user:100240
+
+#RUN:34#INSERT[users=100; courses=100; enrolments=900]
+insert_user:100505
+insert_course:100651
+insert_enrolment:914941
+
+#DELETE
+delete_enrolment:922559
+delete_course:103040
+delete_user:103374
+
+#RUN:35#INSERT[users=100; courses=100; enrolments=900]
+insert_user:103511
+insert_course:104115
+insert_enrolment:939122
+
+#DELETE
+delete_enrolment:943395
+delete_course:105375
+delete_user:105288
+
+#RUN:36#INSERT[users=100; courses=100; enrolments=900]
+insert_user:105205
+insert_course:105486
+insert_enrolment:963531
+
+#DELETE
+delete_enrolment:971324
+delete_course:108870
+delete_user:108394
+
+#RUN:37#INSERT[users=100; courses=100; enrolments=900]
+insert_user:108442
+insert_course:108429
+insert_enrolment:977789
+
+#DELETE
+delete_enrolment:989133
+delete_course:113970
+delete_user:114251
+
+#RUN:38#INSERT[users=100; courses=100; enrolments=900]
+insert_user:114832
+insert_course:115246
+insert_enrolment:1011734
+
+#DELETE
+delete_enrolment:1007522
+delete_course:112226
+delete_user:112407
+
+#RUN:39#INSERT[users=100; courses=100; enrolments=900]
+insert_user:112210
+insert_course:112299
+insert_enrolment:1014192
+
+#DELETE
+delete_enrolment:1020043
+delete_course:114324
+delete_user:113941
+
+#RUN:40#INSERT[users=100; courses=100; enrolments=900]
+insert_user:114009
+insert_course:114189
+insert_enrolment:1033748
+
+#DELETE
+delete_enrolment:1037908
+delete_course:115267
+delete_user:115697
+
+#RUN:41#INSERT[users=100; courses=100; enrolments=900]
+insert_user:116410
+insert_course:116505
+insert_enrolment:1059351
+
+#DELETE
+delete_enrolment:1069984
+delete_course:119082
+delete_user:119410
+
+#RUN:42#INSERT[users=100; courses=100; enrolments=900]
+insert_user:119600
+insert_course:119954
+insert_enrolment:1077188
+
+#DELETE
+delete_enrolment:1077848
+delete_course:121260
+delete_user:121115
+
+#RUN:43#INSERT[users=100; courses=100; enrolments=900]
+insert_user:121084
+insert_course:121541

@@ -126,7 +126,7 @@ public class ValidationHandler {
     }
 
     public void checkForeignKey(BaseEntity entity) throws Exception {
-        logger.info("Checking Referenced Key for ColumnFamily:" + this.entityForValidation);
+        logger.debug("Checking Referenced Key for ColumnFamily:" + this.entityForValidation);
         ValidationHandler handler = null;
         BaseDAO dao = null;
         try {
