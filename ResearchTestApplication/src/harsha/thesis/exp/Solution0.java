@@ -4,13 +4,12 @@
  */
 package harsha.thesis.exp;
 
-import harsha.thesis.api.connection.ConnectionDefinition;
-import harsha.thesis.api.connection.hector.HectorConnectionObject;
 import harsha.thesis.api.solution0.dao.BaseDAO;
 import harsha.thesis.api.solution0.entity.BaseEntity;
 import harsha.thesis.api.solution0.entity.Course;
 import harsha.thesis.api.solution0.entity.Enrolment;
 import harsha.thesis.api.solution0.entity.User;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
@@ -24,6 +23,7 @@ import org.apache.log4j.Logger;
  */
 public class Solution0 implements SolutionExperiment {
 
+    private static DecimalFormat DF = new DecimalFormat("# ### ###, ###");
     private static Logger log = Logger.getLogger(Solution0.class);
     
     private Experiment experiment;
@@ -78,28 +78,67 @@ public class Solution0 implements SolutionExperiment {
         users = CommonHelper.GetUserEntities(Solution.ZERO, csvFiles[0]);
         courses = CommonHelper.GetCourseEntities(Solution.ZERO, csvFiles[1]);
         enrolments = CommonHelper.GetEnrolmentEntities(Solution.ZERO, csvFiles[2]);
-        
-        dao = new BaseDAO();
-        //dao = new BaseDAO(HectorConnectionObject.class.getName(), Main.HECTOR_CONNECTION);
 
+        dao = new BaseDAO();
+        
 
         for (int i = 0; i < runs; ++i) {
             log.info("Run " + i);
             experiment.log("#RUN:" + (i + 1));
             String newCourseId = (i + 1) % 2 == 0 ? ArtificialData.COURSE_BASE_NAME
                     : ArtificialData.COURSE_ALTERNATIVE_NAME;
+            long start = System.nanoTime();
             log.info("Inserting");
             insert();
-            log.info("Insterted");
+            log.info("Total Insterted [" + DF.format((System.nanoTime() - start) / 1000.0) + "]");
 //            updateCourse(newCourseId);
 //            updateEnrolment();
+
+            start = System.nanoTime();
             log.info("Delete");
             delete();
-            log.info("Deleted");
-        }
+            log.info("Total Deleted [" + DF.format((System.nanoTime() - start) / 1000.0) + "]");
 
+            increaseIds();
+        }
         dao.close();
     }
+
+    public void increaseIds() {
+        for (User user : users) {
+            long currentUserId = Long.parseLong(user.getUserId()) + users.size();
+            user.setUserId("" + currentUserId);
+            user.setFirstName("First Name (" + currentUserId + ")");
+            user.setLastName("Last Name (" + currentUserId + ")");
+            user.setEmail("First.Last@email." + currentUserId + ".com");
+        }
+
+
+        for (Course course : courses) {
+            long currentCourseId = Long.parseLong(course.getCourseId().substring(ArtificialData.COURSE_BASE_NAME.length()))
+                    + courses.size();
+
+            course.setCourseId(course.getCourseId().substring(0, ArtificialData.COURSE_BASE_NAME.length()) + currentCourseId);
+            course.setCourseName("Engineering (" + currentCourseId + ")");
+        }
+
+
+        for (Enrolment enrolment : enrolments) {
+            long currentEnrolmentId = Long.parseLong(enrolment.getRowId()) + enrolments.size();
+
+            enrolment.setRowId("" + currentEnrolmentId);
+
+            long currentUserId = Long.parseLong(enrolment.getUserId()) + users.size();
+            enrolment.setUserId("" + currentUserId);
+
+            long currentCourseId = Long.parseLong(enrolment.getCourseId().substring(ArtificialData.COURSE_BASE_NAME.length()))
+                    + courses.size();
+
+            enrolment.setCourseId(enrolment.getCourseId().substring(0, ArtificialData.COURSE_BASE_NAME.length()) + currentCourseId);
+        }
+
+    }
+
 
     private void insert() throws Exception {
         Random random = new Random(Main.INSERT_RANDOM_SEED);
@@ -157,13 +196,23 @@ public class Solution0 implements SolutionExperiment {
 
     private void updateEnrolment() throws Exception {
         Random random = new Random(Main.UPDATE_ENROLMENT_RANDOM_SEED);
-        List<Enrolment> enrolmentsToUpdate = new ArrayList<Enrolment>(enrolments);
+        List<Enrolment> enrolmentsToUpdate = new ArrayList<Enrolment>();
+        for (Enrolment entity : enrolments) {
+            Enrolment clone = (Enrolment) entity.clone();
+            enrolmentsToUpdate.add(clone);
+        }
+
         Collections.shuffle(enrolmentsToUpdate, random);
 
         experiment.start();
-        Iterator<Enrolment> it = enrolments.iterator();
-        for (Enrolment entity : enrolmentsToUpdate) {
-            entity.setCourseId(it.next().getCourseId());
+        Iterator<Enrolment> it = enrolmentsToUpdate.iterator();
+        for (Enrolment entity : enrolments) {
+            if (Long.parseLong(entity.getUserId()) % 2 == 0) {
+                entity.setCourseId("COMP101");
+                log.info(entity.toString());
+            } else {
+                entity.setCourseId(it.next().getCourseId()); 
+            }
             dao.update(entity);
         }
         experiment.stop();

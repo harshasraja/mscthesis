@@ -89,8 +89,7 @@ public class Solution3 implements SolutionExperiment {
         enrolments = CommonHelper.GetEnrolmentEntities(Solution.THREE, csvFiles[2]);
 
         dao = new BaseDAO();
-        //dao = new BaseDAO(HectorConnectionObject.class.getName(), Main.HECTOR_CONNECTION);
-
+        
 
         for (int i = 0; i < runs; ++i) {
             log.info("Run " + i);
@@ -212,7 +211,6 @@ public class Solution3 implements SolutionExperiment {
         for (Enrolment entity : enrolments) {
             Enrolment clone = (Enrolment) entity.clone();
             enrolmentsToUpdate.add(clone);
-            System.out.println("Clone: " + clone.toString());
         }
 
         Collections.shuffle(enrolmentsToUpdate, random);
@@ -220,10 +218,11 @@ public class Solution3 implements SolutionExperiment {
         experiment.start();
         Iterator<Enrolment> it = enrolmentsToUpdate.iterator();
         for (Enrolment entity : enrolments) {
-            if (entity.getUserId().equals("100")) {
+            if (Long.parseLong(entity.getUserId()) % 2 == 0) {
                 entity.setCourseId("COMP101");
+                log.info(entity.toString());
             } else {
-                entity.setCourseId(it.next().getCourseId());
+                entity.setCourseId(it.next().getCourseId()); 
             }
             dao.update(entity);
         }

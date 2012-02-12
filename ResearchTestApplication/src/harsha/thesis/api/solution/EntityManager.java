@@ -1,20 +1,28 @@
-package harsha.thesis.api.solution0.dao;
+package harsha.thesis.api.solution;
 
+import harsha.thesis.api.annotation.Column;
 import harsha.thesis.api.annotation.PrimaryKey;
 import harsha.thesis.api.connection.CloudConnector;
 import harsha.thesis.api.connection.Connection;
-import harsha.thesis.api.solution0.entity.BaseEntity;
+import harsha.thesis.api.solution.entity.BaseEntity;
+
+
 import java.lang.annotation.Annotation;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
+
 import me.prettyprint.cassandra.model.BasicColumnDefinition;
 import me.prettyprint.cassandra.model.BasicColumnFamilyDefinition;
 import me.prettyprint.cassandra.model.IndexedSlicesQuery;
 import me.prettyprint.cassandra.serializers.StringSerializer;
 import me.prettyprint.cassandra.service.ThriftCfDef;
-import me.prettyprint.hector.api.beans.*;
+import me.prettyprint.hector.api.beans.ColumnSlice;
+import me.prettyprint.hector.api.beans.HColumn;
+import me.prettyprint.hector.api.beans.OrderedRows;
+import me.prettyprint.hector.api.beans.Row;
+import me.prettyprint.hector.api.beans.Rows;
 import me.prettyprint.hector.api.ddl.ColumnFamilyDefinition;
 import me.prettyprint.hector.api.ddl.ColumnIndexType;
 import me.prettyprint.hector.api.ddl.ComparatorType;
@@ -25,9 +33,10 @@ import me.prettyprint.hector.api.mutation.Mutator;
 import me.prettyprint.hector.api.query.QueryResult;
 import me.prettyprint.hector.api.query.RangeSlicesQuery;
 import me.prettyprint.hector.api.query.SliceQuery;
+
 import org.apache.log4j.Logger;
 
-public class BaseDAO {
+public class EntityManager {
 
     protected Logger logger = Logger.getLogger(this.getClass().getName());
     protected Connection connection = null;
@@ -38,8 +47,7 @@ public class BaseDAO {
     public static final String EXPRESSION_LE = "<=";
     public static final String EXPRESSION_GE = "=>";
 
-    public BaseDAO() throws Exception {
-        logger.debug("Instantiating " + this.getClass().getName());
+    public EntityManager() throws Exception {
         connection = CloudConnector.getConnection();
     }
 
@@ -47,23 +55,23 @@ public class BaseDAO {
         CloudConnector.returnConnection(connection);
     }
 
-    public List<BaseEntity> read(String type) throws ClassNotFoundException, InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
-        logger.debug("Inside read with parameters [Type]:" + type);
-        Class<BaseEntity> tempClass = (Class<BaseEntity>) Class.forName(type);
+    public List<BaseEntity> find(Class<? extends BaseEntity> clazz) throws Exception {
+        List<BaseEntity> list = new ArrayList<BaseEntity>();
 
-        List<BaseEntity> list = new LinkedList<BaseEntity>();
-
-        BaseEntity entity = tempClass.newInstance();
-        String primaryKey = getPrimaryKeyFieldForEntity(entity);
-        Method[] methods = entity.getClass().getDeclaredMethods();
-        String columnFamily = entity.getColumnFamilyRepresentation();
-
-        logger.debug("Column family in RangeSliceQuery:" + columnFamily);
+        BaseEntity entity = clazz.newInstance();
 
         RangeSlicesQuery<String, String, String> rangeSlicesQuery = connection.getRangeSliceQuery();
-        rangeSlicesQuery.setColumnFamily(columnFamily);
+        rangeSlicesQuery.setColumnFamily(entity.getColumnFamily());
         rangeSlicesQuery.setKeys("", "");
-        rangeSlicesQuery.setRange("", "", false, 9);
+        Annotation[] annotations = entity.getClass().getDeclaredAnnotations();
+        List<String> columnNames = new ArrayList<String>();
+        for (Annotation a : annotations) {
+            if (a instanceof Column) {
+                columnNames.add(((Column) a).columnName());
+            }
+        }
+
+        rangeSlicesQuery.setColumnNames((String[]) columnNames.toArray());
 
         rangeSlicesQuery.setRowCount(1000);
 
@@ -73,23 +81,18 @@ public class BaseDAO {
         Rows<String, String, String> orderRows = result.get();
 
 
+        Method[] methods = entity.getClass().getDeclaredMethods();
         for (Row<String, String, String> row : orderRows) {
-
-            logger.debug("Key=" + row.getKey() + "::> ");
             List<HColumn<String, String>> columns = row.getColumnSlice().getColumns();
             for (HColumn<String, String> hColumn : columns) {
                 for (Method method : methods) {
                     if (method.getName().equals("set" + hColumn.getName())) {
                         method.invoke(entity, hColumn.getValue());
-                    } else if (method.getName().equals("set" + primaryKey)) {
-                        method.invoke(entity, row.getKey());
                     }
                 }
-
-                logger.debug(hColumn.getName() + ":" + hColumn.getValue() + ">>");
             }
             list.add(entity);
-            entity = tempClass.newInstance();
+            entity = clazz.newInstance();
 
         }
 
@@ -106,54 +109,46 @@ public class BaseDAO {
      * @return
      * @throws Exception
      */
-    public BaseEntity read(String type, String key) throws Exception {
-        logger.debug("Inside read with parameters [Type]:" + type + " [key]:" + key);
+    public BaseEntity find(Class<? extends BaseEntity> clazz, String id) throws Exception {
 
-        Class<BaseEntity> tempClass = (Class<BaseEntity>) Class.forName(type);
-        if (null == key || "".equals(key.trim())) {
-            throw new Exception("Invalid Key:" + key);
-        }
 
-        BaseEntity entity = tempClass.newInstance();
-        String primaryKey = getPrimaryKeyFieldForEntity(entity);
+        BaseEntity entity = clazz.newInstance();
+
         Method[] methods = entity.getClass().getDeclaredMethods();
-        String columnFamily = entity.getColumnFamilyRepresentation();
-
-        logger.debug("Column family in RangeSliceQuery:" + columnFamily);
 
         SliceQuery<String, String, String> sliceQuery = connection.getSliceQuery();
-        sliceQuery.setColumnFamily(columnFamily);
-        sliceQuery.setRange("", "", false, methods.length);
-        sliceQuery.setKey(key);
+        sliceQuery.setColumnFamily(entity.getColumnFamily());
 
-        QueryResult<ColumnSlice<String, String>> result = sliceQuery.execute();
+        
+        List<String> columnNames = new ArrayList<String>();
+        Annotation[] annotations = entity.getClass().getDeclaredAnnotations();
+        for (Annotation a : annotations) {
+            if (a instanceof Column) {
+                columnNames.add(((Column) a).columnName());
+            }
+        }
+        sliceQuery.setColumnNames((String[]) columnNames.toArray());
+        sliceQuery.setKey(id);
 
-        ColumnSlice<String, String> columnSlice = result.get();
+        QueryResult<ColumnSlice<String, String>> results = sliceQuery.execute();
 
+        ColumnSlice<String, String> columnSlice = results.get();
 
+        if (columnSlice.getColumns().size() != columnNames.size()) {
+            logger.warn("columnSlice.getColumns().size() != columnNames.size()");
+        }
         List<HColumn<String, String>> columns = columnSlice.getColumns();
 
-        //entity = null;
         for (HColumn<String, String> hColumn : columns) {
-            //entity = tempClass.newInstance();
             for (Method method : methods) {
-                if (method.getName().equals("set" + hColumn.getName())
-                        && !method.getName().contains("primaryKey")) {
+                if (method.getName().equals("set" + hColumn.getName())) {
                     method.invoke(entity, hColumn.getValue());
-                    //break;
-                } else if (method.getName().equals("set" + primaryKey)) {
-                    method.invoke(entity, key);
-                    //break;
                 }
             }
-
-            logger.debug(hColumn.getName() + ":" + hColumn.getValue() + ">>");
         }
-
         return entity;
     }
-
-    /**
+/**
      * Processes the expression for conditional lookups in printAll statements
      * For example, where courseName = SWEN100
      *
@@ -170,26 +165,10 @@ public class BaseDAO {
      * @throws IllegalAccessException
      * @throws Exception
      */
-    public List<BaseEntity> read(String type, String columnName, String expression, String columnValue, boolean returnAllRows) throws ClassNotFoundException, InstantiationException, IllegalAccessException, Exception {
-        logger.debug("Inside read with parameters [Type]:" + type + " [column name]:" + columnName + " [Expression]:" + expression + " [column value]:" + columnValue);
-        List<BaseEntity> list = new LinkedList<BaseEntity>();
-        Class<BaseEntity> tempClass = (Class<BaseEntity>) Class.forName(type);
-
-        if (null == columnName || "".equals(columnName.trim())) {
-            throw new Exception("Invalid column name:" + columnName);
-        }
-        if (null == expression || "".equals(expression.trim())) {
-            throw new Exception("Invalid expression:" + expression);
-        }
-
+    public List<BaseEntity> query(Class<? extends BaseEntity> clazz,
+            String columnName, String expression, String columnValue) throws Exception {
 
         IndexedSlicesQuery<String, String, String> indexedSlicesQuery = connection.getIndexedSlicesQuery();
-        BaseEntity entity = tempClass.newInstance();
-        Method[] methods = entity.getClass().getDeclaredMethods();
-        String primaryKey = getPrimaryKeyFieldForEntity(entity);
-        String columnFamily = entity.getColumnFamilyRepresentation();
-
-        logger.debug("Column family in IndexedSliceQuery:" + columnFamily);
 
         if (EXPRESSION_EQUALS.equals(expression)) {
             indexedSlicesQuery.addEqualsExpression(columnName, columnValue);
@@ -198,7 +177,7 @@ public class BaseDAO {
         } else if (EXPRESSION_LT.equals(expression)) {
             indexedSlicesQuery.addLtExpression(columnName, columnValue);
         } else if (EXPRESSION_NE.equals(expression)) {
-            //indexedSlicesQuery.
+            //???
         } else if (EXPRESSION_LE.equals(expression)) {
             indexedSlicesQuery.addLteExpression(columnName, columnValue);
         } else if (EXPRESSION_GE.equals(expression)) {
@@ -206,81 +185,64 @@ public class BaseDAO {
         } else {
             throw new Exception("Invalid expression:" + expression);
         }
-        if (returnAllRows) {
-            List<String> columnNames = new LinkedList<String>();
-            for (Method method : methods) {
-                if (method.getName().contains("set")) {
-                    columnNames.add(method.getName().substring(3, method.getName().length()));
-                }
-            }
-            indexedSlicesQuery.setColumnNames(columnNames);
-        } else {
-            indexedSlicesQuery.setColumnNames(columnName);
-        }
 
-        //indexedSlicesQuery.
-        indexedSlicesQuery.setColumnFamily(columnFamily);
+        List<BaseEntity> list = new ArrayList<BaseEntity>();
+
+        BaseEntity entity = clazz.newInstance();
+        Method[] methods = entity.getClass().getDeclaredMethods();
+
+        List<String> columnNames = new ArrayList<String>();
+        Annotation[] annotations = entity.getClass().getDeclaredAnnotations();
+        for (Annotation a : annotations) {
+            if (a instanceof Column) {
+                columnNames.add(((Column) a).columnName());
+            }
+        }
+        indexedSlicesQuery.setColumnNames(columnNames);
+        
+        indexedSlicesQuery.setColumnFamily(entity.getColumnFamily());
         indexedSlicesQuery.setStartKey("");
 
         QueryResult<OrderedRows<String, String, String>> result = indexedSlicesQuery.execute();
 
         Rows<String, String, String> orderRows = result.get();
-
-
         for (Row<String, String, String> row : orderRows) {
-            logger.debug("Key=" + row.getKey() + "::> ");
             List<HColumn<String, String>> columns = row.getColumnSlice().getColumns();
             for (HColumn<String, String> hColumn : columns) {
                 for (Method method : methods) {
                     if (method.getName().equals("set" + hColumn.getName())) {
                         method.invoke(entity, hColumn.getValue());
-                        //break;
-                    } else if (method.getName().equals("set" + primaryKey)) {
-                        method.invoke(entity, row.getKey());
-                        //break;
-                    }
+                    } 
                 }
-
-                logger.debug(hColumn.getName() + ":" + hColumn.getValue() + ">>");
             }
             list.add(entity);
-            entity = tempClass.newInstance();
-            ;
+            entity = clazz.newInstance();
         }
-
-
 
         return list;
     }
 
+    
+    
     public void insert(BaseEntity entity) throws Exception {
-
-        logger.debug("Inside insert the detected column family is:" + entity.getColumnFamilyRepresentation());
-        //String strEntity = "";
-        //strEntity = getStringRepresentationForLogging(entity);
-        logger.debug("Starting to insert:" + getStringRepresentationForLogging(entity));
-
+//I AM HERE
         Method[] methods = entity.getClass().getDeclaredMethods();
         Annotation[] a1 = entity.getClass().getDeclaredAnnotations();
-        //ValidationHandler helper = new ValidationHandler(entity, this);
-        String primaryKey = null;
-        String key = null;
-
-
-
+        
+        
         //This section gets the logical primary key field for the entity
         //from previously declared annotations for the entity
         // ** IT IS ASSUMED THAT THERE WOULD BE ONLY ONE PRIMARY KEY & NO COMPOSITE PRIMARYKEY
         // ** IF THERE IS A COMPOSITE PRIMARY KEY, LOGIC WOULD NEED TO BE REVISTED
         // ** AND BREAK STATEMENT INSIDE IF CONDITION SHOULD BE REMOVED
 
-        for (Annotation annotation : a1) {
-            //System.out.println(annotation);
-            if (annotation instanceof PrimaryKey) {
-                primaryKey = ((PrimaryKey) annotation).primaryKey();
-                break;
-            }
-        }
+//        for (Annotation annotation : a1) {
+//            //System.out.println(annotation);
+//            if (annotation instanceof PrimaryKey) {
+//                primaryKey = ((PrimaryKey) annotation).primaryKey();
+//                break;
+//            }
+//        }
 
         // This section fetches the actual primary key value from the entity class
         // this section uses dynamic method invocation
@@ -288,36 +250,33 @@ public class BaseDAO {
         // ** IF THERE IS A COMPOSITE PRIMARY KEY, LOGIC WOULD NEED TO BE REVISTED
         // ** AND BREAK STATEMENT INSIDE IF CONDITION SHOULD BE REMOVED
 
-        for (Method method : methods) {
-            if (method.getName().contains(primaryKey)
-                    && method.getName().equals("get" + primaryKey)) {
-                key = (String) method.invoke(entity, null);
-                break;
-            }
-        }
-
+        
         try {
 
             // This would check the referenced key except for Metadata Table
             //helper.checkUniqueKey();
 			/*
-             * if (!(entity instanceof Metadata)){ helper.checkReferenedKey();
-            }
+             * if (!(entity instanceof Metadata)){ helper.checkReferenedKey(); }
              */
 
             Mutator<String> mutator = connection.getMutator();
 
-
+            for (Annotation a : entity.getClass().getDeclaredAnnotations()){
+                if (a instanceof Column){
+                    
+                }
+            }
+            
             for (Method method : methods) {
-                if (!method.getName().substring(3, method.getName().length()).equalsIgnoreCase(primaryKey)) {
+//                if (!method.getName().substring(3, method.getName().length()).equalsIgnoreCase(primaryKey)) {
                     if (method.getName().contains("get")
                             && !method.getName().contains("ColumnFamilyRepresentation")
                             && !method.getName().contains("KeyForUpdate")) {
-                        mutator.addInsertion(key, entity.getColumnFamilyRepresentation(),
-                                HFactory.createStringColumn(method.getName().substring(3),
-                                (String) method.invoke(entity)));
+//                        mutator.addInsertion(key, entity.getColumnFamily(),
+//                                HFactory.createStringColumn(method.getName().substring(3),
+//                                (String) method.invoke(entity)));
                         //method.i
-                    }
+//                    }
                 }
             }
 
@@ -335,7 +294,7 @@ public class BaseDAO {
         }
 
 
-        logger.debug("Finished insert the detected column family is:" + entity.getColumnFamilyRepresentation());
+        logger.debug("Finished insert the detected column family is:" + entity.getColumnFamily());
         logger.debug("Finished inserting entity:" + getStringRepresentationForLogging(entity));
 
 
@@ -349,8 +308,7 @@ public class BaseDAO {
         //ValidationHandler helper = new ValidationHandler(entity, this);
 
         /*
-         * if (!(entity instanceof Metadata)){ helper.checkForeignKey();
-        }
+         * if (!(entity instanceof Metadata)){ helper.checkForeignKey(); }
          */
 
         String key = null;
@@ -364,7 +322,7 @@ public class BaseDAO {
 
 
 
-        connection.getMutator().delete(key, entity.getColumnFamilyRepresentation(), null, StringSerializer.get());
+        connection.getMutator().delete(key, entity.getColumnFamily(), null, StringSerializer.get());
         //connection.getMutator().
         logger.debug("Finished delete entity:" + getStringRepresentationForLogging(entity));
     }
@@ -414,7 +372,7 @@ public class BaseDAO {
                 }
             }
 
-            if (!read(entity.getClass().getName(), key).isNull()) {
+            if (!find(entity.getClass(), key).isNull()) {
                 delete(entity);
                 insert(entity);
             } else {
@@ -469,7 +427,7 @@ public class BaseDAO {
 
         BasicColumnFamilyDefinition columnFamilyDefinition = new BasicColumnFamilyDefinition();
         columnFamilyDefinition.setKeyspaceName(connection.getKeyspace().getKeyspaceName());
-        columnFamilyDefinition.setName(entity.getColumnFamilyRepresentation());
+        columnFamilyDefinition.setName(entity.getColumnFamily());
         columnFamilyDefinition.setComparatorType(ComparatorType.UTF8TYPE);
 
         //me.prettyprint.cassandra.model.BasicColumnFamilyDefinition cannot be cast to me.prettyprint.cassandra.service.ThriftCfDef
@@ -482,7 +440,7 @@ public class BaseDAO {
 
         columnDefinition = new BasicColumnDefinition();
         columnDefinition.setName(StringSerializer.get().toByteBuffer(primaryKey));
-        columnDefinition.setIndexName(entity.getColumnFamilyRepresentation() + "_" + primaryKey);
+        columnDefinition.setIndexName(entity.getColumnFamily() + "_" + primaryKey);
         columnDefinition.setIndexType(ColumnIndexType.valueOf("KEYS"));
         columnDefinition.setValidationClass("UTF8Type");
         cfDef.addColumnDefinition(columnDefinition);
@@ -498,7 +456,7 @@ public class BaseDAO {
                 columnDefinition = new BasicColumnDefinition();
                 columnDefinition.setName(StringSerializer.get().toByteBuffer(method.getName().substring(3, method.getName().length())));
                 //columnDefinition.setValidationClass("UTF8Type");
-                columnDefinition.setIndexName(entity.getColumnFamilyRepresentation() + "_" + method.getName().substring(3, method.getName().length()));
+                columnDefinition.setIndexName(entity.getColumnFamily() + "_" + method.getName().substring(3, method.getName().length()));
                 columnDefinition.setIndexType(ColumnIndexType.valueOf("KEYS"));
                 columnDefinition.setValidationClass("UTF8Type");
                 cfDef.addColumnDefinition(columnDefinition);

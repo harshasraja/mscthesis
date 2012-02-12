@@ -208,7 +208,7 @@ public class ArtificialData {
         //Returns a (numberOfCourses / groupSize) overlapping groups of courses.
         // [0..10][5..15][10..20][15..25][20..30]
         List<Pair<Double, Double>> groups = MyMath.Overlap(INITIAL_COURSE_ID,
-                INITIAL_COURSE_ID + numberOfCourses, (numberOfCourses / numberOfGroupsInCourses) - 1);
+                INITIAL_COURSE_ID + numberOfCourses, (numberOfCourses / numberOfGroupsInCourses) );
         int userId = INITIAL_STUDENT_ID;
         int rowId = INITIAL_ENROLMENT_ID;
         for (int i = 0; i < numberOfStudents; ++i) {
@@ -261,8 +261,7 @@ public class ArtificialData {
 //    }
 
     public static void main(String[] args) throws Exception {
-        System.out.println(System.currentTimeMillis());
-        System.exit(666);
+        
         File csv = new File("/tmp/cassandra.csv");
         if (csv.exists()) {
             csv.delete();
@@ -271,9 +270,9 @@ public class ArtificialData {
         BufferedWriter w = new BufferedWriter(new FileWriter(csv));
 
         ArtificialData ad = new ArtificialData();
-        ad.setNumberOfStudents(20);
-        ad.setNumberOfCourses(60);
-        ad.setNumberOfGroupsInCourses(5);
+        ad.setNumberOfStudents(1000);
+        ad.setNumberOfCourses(100);
+        ad.setNumberOfGroupsInCourses(10);
         ad.setHeaderStudent(new String[]{"UserId", "FirstName", "LastName", "Age"});
         ad.setHeaderCourse(new String[]{"CourseId", "CourseName"});
         ad.setHeaderEnrolment(new String[]{"UserId", "CourseId"});

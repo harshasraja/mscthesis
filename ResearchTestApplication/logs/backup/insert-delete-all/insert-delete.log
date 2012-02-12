@@ -1,0 +1,2658 @@
+init:
+Deleting: /home/jcrada/Development/hr/ResearchTestApplication/build/built-jar.properties
+deps-jar:
+Updating property file: /home/jcrada/Development/hr/ResearchTestApplication/build/built-jar.properties
+compile:
+run:
+#About to start experiment in 3 seconds:
+#	Working Directory/home/jcrada/Development/hr/ResearchTestApplication
+#	Solutions: [0, 1, 2, 3, 4]
+#	LogPath: ./logs
+#	Runs: 100
+#	Students: 1000
+#	Courses: 100
+#	Groups:10
+#	CsvBase: ./data/
+#	CreateCsv: true
+#	Initialize: false
+1 ... 2 ... 3 ... Started...
+CSV files created
+#EXPERIMENT: Solution0
+#	Working Directory/home/jcrada/Development/hr/ResearchTestApplication
+#	Solution: Solution0
+#	LogPath: ./logs
+#	Runs: 100
+#	Students: 1000
+#	Courses: 100
+#	Groups:10
+#	CsvBase: ./data/
+#	CreateCsv: true
+#	Initialize: false
+
+23:51:32,744  INFO Main:191 - Experimenting Solution0
+23:51:32,748  INFO CSVReader:40 - Loading entity for file:./data/student.csv
+23:51:32,776  INFO CSVReader:36 - Finished Opening file:./data/student.csv
+23:51:32,776  INFO CSVReader:47 - Detected entity type:harsha.thesis.api.solution0.entity.User
+23:51:32,928  INFO CSVReader:62 - Populated list of harsha.thesis.api.solution0.entity.User with 1000 records
+23:51:32,929  INFO CSVReader:40 - Loading entity for file:./data/course.csv
+23:51:32,929  INFO CSVReader:36 - Finished Opening file:./data/course.csv
+23:51:32,930  INFO CSVReader:47 - Detected entity type:harsha.thesis.api.solution0.entity.Course
+23:51:32,960  INFO CSVReader:62 - Populated list of harsha.thesis.api.solution0.entity.Course with 100 records
+23:51:32,961  INFO CSVReader:40 - Loading entity for file:./data/enrolment.csv
+23:51:32,992  INFO CSVReader:36 - Finished Opening file:./data/enrolment.csv
+23:51:32,995  INFO CSVReader:47 - Detected entity type:harsha.thesis.api.solution0.entity.Enrolment
+23:51:33,269  INFO CSVReader:62 - Populated list of harsha.thesis.api.solution0.entity.Enrolment with 10000 records
+23:51:33,275  INFO ConnectionDefinition:28 - Connection String:saddleback:9160@Test Cluster/UNIVERSITY
+23:51:33,275  INFO ConnectionDefinition:28 - Connection String:ambeli:9161@MetadataCluster/Metadata
+23:51:33,308  INFO CassandraHostRetryService:37 - Downed Host Retry service started with queue size -1 and retry delay 10s
+23:51:33,364  INFO JmxMonitor:54 - Registering JMX me.prettyprint.cassandra.service_Test Cluster:ServiceType=hector,MonitorType=hector
+23:51:33,367  WARN HarshaConnectionObject:68 - Active pool size:1
+23:51:33,368  INFO HarshaConnectionObject:74 - Cluster created
+23:51:33,371  INFO HarshaConnectionObject:80 - Mutator Created.
+23:51:33,374  INFO HarshaConnectionObject:85 - RangeSliceQuery Created.
+23:51:33,375  INFO HarshaConnectionObject:89 - SliceQuery Created.
+23:51:33,375  INFO HarshaConnectionObject:93 - Indexed SlicesQuery Created.
+23:51:33,375  INFO HarshaConnectionObject:95 - Connected to [IP Address]saddleback [Port]9160 [Cluster Name]Test Cluster [Key Space]UNIVERSITY
+23:51:33,375  INFO Solution0:86 - Run 0
+23:51:33,375  INFO Solution0:91 - Inserting
+23:51:41,105  INFO Solution0:93 - Total Insterted [7,728,938   ]
+23:51:41,105  INFO Solution0:98 - Delete
+23:51:48,036  INFO Solution0:100 - Total Deleted [6,930,721   ]
+23:51:48,083  INFO Solution0:86 - Run 1
+23:51:48,083  INFO Solution0:91 - Inserting
+23:51:54,440  INFO Solution0:93 - Total Insterted [6,356,877   ]
+23:51:54,440  INFO Solution0:98 - Delete
+23:52:00,686  INFO Solution0:100 - Total Deleted [6,245,759   ]
+23:52:00,702  INFO Solution0:86 - Run 2
+23:52:00,702  INFO Solution0:91 - Inserting
+23:52:07,051  INFO Solution0:93 - Total Insterted [6,349,361   ]
+23:52:07,052  INFO Solution0:98 - Delete
+23:52:13,305  INFO Solution0:100 - Total Deleted [6,253,687   ]
+23:52:13,312  INFO Solution0:86 - Run 3
+23:52:13,312  INFO Solution0:91 - Inserting
+23:52:19,652  INFO Solution0:93 - Total Insterted [6,339,396   ]
+23:52:19,652  INFO Solution0:98 - Delete
+23:52:25,804  INFO Solution0:100 - Total Deleted [6,152,071   ]
+23:52:25,810  INFO Solution0:86 - Run 4
+23:52:25,810  INFO Solution0:91 - Inserting
+23:52:32,152  INFO Solution0:93 - Total Insterted [6,341,480   ]
+23:52:32,152  INFO Solution0:98 - Delete
+23:52:38,443  INFO Solution0:100 - Total Deleted [6,291,330   ]
+23:52:38,450  INFO Solution0:86 - Run 5
+23:52:38,450  INFO Solution0:91 - Inserting
+23:52:44,794  INFO Solution0:93 - Total Insterted [6,343,873   ]
+23:52:44,794  INFO Solution0:98 - Delete
+23:52:51,138  INFO Solution0:100 - Total Deleted [6,343,668   ]
+23:52:51,144  INFO Solution0:86 - Run 6
+23:52:51,145  INFO Solution0:91 - Inserting
+23:52:57,478  INFO Solution0:93 - Total Insterted [6,333,843   ]
+23:52:57,479  INFO Solution0:98 - Delete
+23:53:03,779  INFO Solution0:100 - Total Deleted [6,300,200   ]
+23:53:03,785  INFO Solution0:86 - Run 7
+23:53:03,786  INFO Solution0:91 - Inserting
+23:53:10,189  INFO Solution0:93 - Total Insterted [6,403,445   ]
+23:53:10,189  INFO Solution0:98 - Delete
+23:53:17,293  INFO Solution0:100 - Total Deleted [7,104,044   ]
+23:53:17,299  INFO Solution0:86 - Run 8
+23:53:17,300  INFO Solution0:91 - Inserting
+23:53:23,608  INFO Solution0:93 - Total Insterted [6,308,477   ]
+23:53:23,608  INFO Solution0:98 - Delete
+23:53:29,876  INFO Solution0:100 - Total Deleted [6,267,264   ]
+23:53:29,882  INFO Solution0:86 - Run 9
+23:53:29,882  INFO Solution0:91 - Inserting
+23:53:36,224  INFO Solution0:93 - Total Insterted [6,341,473   ]
+23:53:36,224  INFO Solution0:98 - Delete
+23:53:42,488  INFO Solution0:100 - Total Deleted [6,264,008   ]
+23:53:42,495  INFO Solution0:86 - Run 10
+23:53:42,495  INFO Solution0:91 - Inserting
+23:53:48,874  INFO Solution0:93 - Total Insterted [6,379,415   ]
+23:53:48,875  INFO Solution0:98 - Delete
+23:53:55,184  INFO Solution0:100 - Total Deleted [6,308,917   ]
+23:53:55,192  INFO Solution0:86 - Run 11
+23:53:55,192  INFO Solution0:91 - Inserting
+23:54:01,625  INFO Solution0:93 - Total Insterted [6,433,156   ]
+23:54:01,625  INFO Solution0:98 - Delete
+23:54:07,977  INFO Solution0:100 - Total Deleted [6,351,247   ]
+23:54:07,985  INFO Solution0:86 - Run 12
+23:54:07,985  INFO Solution0:91 - Inserting
+23:54:14,322  INFO Solution0:93 - Total Insterted [6,336,987   ]
+23:54:14,322  INFO Solution0:98 - Delete
+23:54:21,311  INFO Solution0:100 - Total Deleted [6,988,189   ]
+23:54:21,318  INFO Solution0:86 - Run 13
+23:54:21,319  INFO Solution0:91 - Inserting
+23:54:27,591  INFO Solution0:93 - Total Insterted [6,271,918   ]
+23:54:27,591  INFO Solution0:98 - Delete
+23:54:33,863  INFO Solution0:100 - Total Deleted [6,272,368   ]
+23:54:33,872  INFO Solution0:86 - Run 14
+23:54:33,873  INFO Solution0:91 - Inserting
+23:54:40,205  INFO Solution0:93 - Total Insterted [6,332,170   ]
+23:54:40,205  INFO Solution0:98 - Delete
+23:54:46,555  INFO Solution0:100 - Total Deleted [6,349,594   ]
+23:54:46,562  INFO Solution0:86 - Run 15
+23:54:46,562  INFO Solution0:91 - Inserting
+23:54:52,962  INFO Solution0:93 - Total Insterted [6,400,275   ]
+23:54:52,962  INFO Solution0:98 - Delete
+23:55:00,027  INFO Solution0:100 - Total Deleted [7,065,104   ]
+23:55:00,035  INFO Solution0:86 - Run 16
+23:55:00,035  INFO Solution0:91 - Inserting
+23:55:06,367  INFO Solution0:93 - Total Insterted [6,331,702   ]
+23:55:06,367  INFO Solution0:98 - Delete
+23:55:12,622  INFO Solution0:100 - Total Deleted [6,255,340   ]
+23:55:12,630  INFO Solution0:86 - Run 17
+23:55:12,630  INFO Solution0:91 - Inserting
+23:55:19,000  INFO Solution0:93 - Total Insterted [6,369,315   ]
+23:55:19,000  INFO Solution0:98 - Delete
+23:55:25,341  INFO Solution0:100 - Total Deleted [6,341,198   ]
+23:55:25,351  INFO Solution0:86 - Run 18
+23:55:25,352  INFO Solution0:91 - Inserting
+23:55:31,726  INFO Solution0:93 - Total Insterted [6,374,306   ]
+23:55:31,726  INFO Solution0:98 - Delete
+23:55:38,069  INFO Solution0:100 - Total Deleted [6,342,421   ]
+23:55:38,077  INFO Solution0:86 - Run 19
+23:55:38,077  INFO Solution0:91 - Inserting
+23:55:44,576  INFO Solution0:93 - Total Insterted [6,499,147   ]
+23:55:44,576  INFO Solution0:98 - Delete
+23:55:50,883  INFO Solution0:100 - Total Deleted [6,306,226   ]
+23:55:50,891  INFO Solution0:86 - Run 20
+23:55:50,891  INFO Solution0:91 - Inserting
+23:55:57,376  INFO Solution0:93 - Total Insterted [6,485,238   ]
+23:55:57,376  INFO Solution0:98 - Delete
+23:56:04,830  INFO Solution0:100 - Total Deleted [7,453,034   ]
+23:56:04,837  INFO Solution0:86 - Run 21
+23:56:04,838  INFO Solution0:91 - Inserting
+23:56:11,217  INFO Solution0:93 - Total Insterted [6,378,910   ]
+23:56:11,217  INFO Solution0:98 - Delete
+23:56:17,199  INFO Solution0:100 - Total Deleted [5,982,159   ]
+23:56:17,206  INFO Solution0:86 - Run 22
+23:56:17,206  INFO Solution0:91 - Inserting
+23:56:23,545  INFO Solution0:93 - Total Insterted [6,338,619   ]
+23:56:23,545  INFO Solution0:98 - Delete
+23:56:29,925  INFO Solution0:100 - Total Deleted [6,379,547   ]
+23:56:29,935  INFO Solution0:86 - Run 23
+23:56:29,936  INFO Solution0:91 - Inserting
+23:56:36,328  INFO Solution0:93 - Total Insterted [6,392,423   ]
+23:56:36,328  INFO Solution0:98 - Delete
+23:56:42,680  INFO Solution0:100 - Total Deleted [6,351,461   ]
+23:56:42,687  INFO Solution0:86 - Run 24
+23:56:42,687  INFO Solution0:91 - Inserting
+23:56:49,186  INFO Solution0:93 - Total Insterted [6,498,622   ]
+23:56:49,186  INFO Solution0:98 - Delete
+23:56:55,495  INFO Solution0:100 - Total Deleted [6,309,598   ]
+23:56:55,505  INFO Solution0:86 - Run 25
+23:56:55,506  INFO Solution0:91 - Inserting
+23:57:01,862  INFO Solution0:93 - Total Insterted [6,355,880   ]
+23:57:01,862  INFO Solution0:98 - Delete
+23:57:08,915  INFO Solution0:100 - Total Deleted [7,052,851   ]
+23:57:08,925  INFO Solution0:86 - Run 26
+23:57:08,925  INFO Solution0:91 - Inserting
+23:57:15,304  INFO Solution0:93 - Total Insterted [6,378,513   ]
+23:57:15,304  INFO Solution0:98 - Delete
+23:57:21,539  INFO Solution0:100 - Total Deleted [6,234,917   ]
+23:57:21,549  INFO Solution0:86 - Run 27
+23:57:21,549  INFO Solution0:91 - Inserting
+23:57:27,923  INFO Solution0:93 - Total Insterted [6,374,120   ]
+23:57:27,923  INFO Solution0:98 - Delete
+23:57:34,259  INFO Solution0:100 - Total Deleted [6,336,038   ]
+23:57:34,267  INFO Solution0:86 - Run 28
+23:57:34,267  INFO Solution0:91 - Inserting
+23:57:40,640  INFO Solution0:93 - Total Insterted [6,372,926   ]
+23:57:40,640  INFO Solution0:98 - Delete
+23:57:46,994  INFO Solution0:100 - Total Deleted [6,352,978   ]
+23:57:47,000  INFO Solution0:86 - Run 29
+23:57:47,000  INFO Solution0:91 - Inserting
+23:57:53,456  INFO Solution0:93 - Total Insterted [6,456,040   ]
+23:57:53,456  INFO Solution0:98 - Delete
+23:57:59,832  INFO Solution0:100 - Total Deleted [6,375,700   ]
+23:57:59,840  INFO Solution0:86 - Run 30
+23:57:59,840  INFO Solution0:91 - Inserting
+23:58:06,217  INFO Solution0:93 - Total Insterted [6,377,105   ]
+23:58:06,217  INFO Solution0:98 - Delete
+23:58:13,183  INFO Solution0:100 - Total Deleted [6,965,529   ]
+23:58:13,195  INFO Solution0:86 - Run 31
+23:58:13,195  INFO Solution0:91 - Inserting
+23:58:19,572  INFO Solution0:93 - Total Insterted [6,376,179   ]
+23:58:19,572  INFO Solution0:98 - Delete
+23:58:25,867  INFO Solution0:100 - Total Deleted [6,295,256   ]
+23:58:25,880  INFO Solution0:86 - Run 32
+23:58:25,880  INFO Solution0:91 - Inserting
+23:58:32,276  INFO Solution0:93 - Total Insterted [6,395,565   ]
+23:58:32,276  INFO Solution0:98 - Delete
+23:58:38,594  INFO Solution0:100 - Total Deleted [6,317,881   ]
+23:58:38,604  INFO Solution0:86 - Run 33
+23:58:38,604  INFO Solution0:91 - Inserting
+23:58:45,018  INFO Solution0:93 - Total Insterted [6,413,252   ]
+23:58:45,018  INFO Solution0:98 - Delete
+23:58:51,304  INFO Solution0:100 - Total Deleted [6,286,445   ]
+23:58:51,313  INFO Solution0:86 - Run 34
+23:58:51,313  INFO Solution0:91 - Inserting
+23:58:57,797  INFO Solution0:93 - Total Insterted [6,483,304   ]
+23:58:57,797  INFO Solution0:98 - Delete
+23:59:04,191  INFO Solution0:100 - Total Deleted [6,394,300   ]
+23:59:04,200  INFO Solution0:86 - Run 35
+23:59:04,201  INFO Solution0:91 - Inserting
+23:59:10,711  INFO Solution0:93 - Total Insterted [6,509,951   ]
+23:59:10,711  INFO Solution0:98 - Delete
+23:59:17,773  INFO Solution0:100 - Total Deleted [7,061,862   ]
+23:59:17,782  INFO Solution0:86 - Run 36
+23:59:17,783  INFO Solution0:91 - Inserting
+23:59:24,105  INFO Solution0:93 - Total Insterted [6,322,472   ]
+23:59:24,105  INFO Solution0:98 - Delete
+23:59:30,263  INFO Solution0:100 - Total Deleted [6,158,135   ]
+23:59:30,273  INFO Solution0:86 - Run 37
+23:59:30,273  INFO Solution0:91 - Inserting
+23:59:36,687  INFO Solution0:93 - Total Insterted [6,413,784   ]
+23:59:36,687  INFO Solution0:98 - Delete
+23:59:43,037  INFO Solution0:100 - Total Deleted [6,349,950   ]
+23:59:43,045  INFO Solution0:86 - Run 38
+23:59:43,045  INFO Solution0:91 - Inserting
+23:59:49,427  INFO Solution0:93 - Total Insterted [6,382,241   ]
+23:59:49,427  INFO Solution0:98 - Delete
+23:59:55,718  INFO Solution0:100 - Total Deleted [6,290,861   ]
+23:59:55,726  INFO Solution0:86 - Run 39
+23:59:55,726  INFO Solution0:91 - Inserting
+00:00:02,052  INFO Solution0:93 - Total Insterted [6,325,521   ]
+00:00:02,052  INFO Solution0:98 - Delete
+00:00:08,518  INFO Solution0:100 - Total Deleted [6,465,736   ]
+00:00:08,528  INFO Solution0:86 - Run 40
+00:00:08,528  INFO Solution0:91 - Inserting
+00:00:14,849  INFO Solution0:93 - Total Insterted [6,320,706   ]
+00:00:14,849  INFO Solution0:98 - Delete
+00:00:21,113  INFO Solution0:100 - Total Deleted [6,264,017   ]
+00:00:21,121  INFO Solution0:86 - Run 41
+00:00:21,122  INFO Solution0:91 - Inserting
+00:00:27,574  INFO Solution0:93 - Total Insterted [6,452,623   ]
+00:00:27,574  INFO Solution0:98 - Delete
+00:00:33,873  INFO Solution0:100 - Total Deleted [6,298,022   ]
+00:00:33,882  INFO Solution0:86 - Run 42
+00:00:33,882  INFO Solution0:91 - Inserting
+00:00:40,272  INFO Solution0:93 - Total Insterted [6,390,540   ]
+00:00:40,273  INFO Solution0:98 - Delete
+00:00:46,645  INFO Solution0:100 - Total Deleted [6,372,665   ]
+00:00:46,654  INFO Solution0:86 - Run 43
+00:00:46,654  INFO Solution0:91 - Inserting
+00:00:53,103  INFO Solution0:93 - Total Insterted [6,448,763   ]
+00:00:53,103  INFO Solution0:98 - Delete
+00:00:59,450  INFO Solution0:100 - Total Deleted [6,346,885   ]
+00:00:59,457  INFO Solution0:86 - Run 44
+00:00:59,457  INFO Solution0:91 - Inserting
+00:01:05,756  INFO Solution0:93 - Total Insterted [6,298,937   ]
+00:01:05,756  INFO Solution0:98 - Delete
+00:01:12,146  INFO Solution0:100 - Total Deleted [6,389,886   ]
+00:01:12,153  INFO Solution0:86 - Run 45
+00:01:12,153  INFO Solution0:91 - Inserting
+00:01:18,461  INFO Solution0:93 - Total Insterted [6,307,819   ]
+00:01:18,461  INFO Solution0:98 - Delete
+00:01:24,772  INFO Solution0:100 - Total Deleted [6,310,757   ]
+00:01:24,780  INFO Solution0:86 - Run 46
+00:01:24,780  INFO Solution0:91 - Inserting
+00:01:31,153  INFO Solution0:93 - Total Insterted [6,373,075   ]
+00:01:31,153  INFO Solution0:98 - Delete
+00:01:37,537  INFO Solution0:100 - Total Deleted [6,384,006   ]
+00:01:37,544  INFO Solution0:86 - Run 47
+00:01:37,544  INFO Solution0:91 - Inserting
+00:01:43,939  INFO Solution0:93 - Total Insterted [6,394,943   ]
+00:01:43,940  INFO Solution0:98 - Delete
+00:01:50,294  INFO Solution0:100 - Total Deleted [6,354,804   ]
+00:01:50,304  INFO Solution0:86 - Run 48
+00:01:50,304  INFO Solution0:91 - Inserting
+00:01:56,747  INFO Solution0:93 - Total Insterted [6,442,712   ]
+00:01:56,747  INFO Solution0:98 - Delete
+00:02:04,133  INFO Solution0:100 - Total Deleted [7,386,478   ]
+00:02:04,142  INFO Solution0:86 - Run 49
+00:02:04,142  INFO Solution0:91 - Inserting
+00:02:10,449  INFO Solution0:93 - Total Insterted [6,306,778   ]
+00:02:10,449  INFO Solution0:98 - Delete
+00:02:16,694  INFO Solution0:100 - Total Deleted [6,244,532   ]
+00:02:16,706  INFO Solution0:86 - Run 50
+00:02:16,706  INFO Solution0:91 - Inserting
+00:02:23,022  INFO Solution0:93 - Total Insterted [6,315,371   ]
+00:02:23,022  INFO Solution0:98 - Delete
+00:02:29,266  INFO Solution0:100 - Total Deleted [6,243,916   ]
+00:02:29,273  INFO Solution0:86 - Run 51
+00:02:29,273  INFO Solution0:91 - Inserting
+00:02:35,663  INFO Solution0:93 - Total Insterted [6,390,190   ]
+00:02:35,663  INFO Solution0:98 - Delete
+00:02:41,884  INFO Solution0:100 - Total Deleted [6,220,932   ]
+00:02:41,897  INFO Solution0:86 - Run 52
+00:02:41,898  INFO Solution0:91 - Inserting
+00:02:48,262  INFO Solution0:93 - Total Insterted [6,364,482   ]
+00:02:48,262  INFO Solution0:98 - Delete
+00:02:54,580  INFO Solution0:100 - Total Deleted [6,317,317   ]
+00:02:54,591  INFO Solution0:86 - Run 53
+00:02:54,591  INFO Solution0:91 - Inserting
+00:03:00,912  INFO Solution0:93 - Total Insterted [6,320,744   ]
+00:03:00,912  INFO Solution0:98 - Delete
+00:03:08,045  INFO Solution0:100 - Total Deleted [7,132,896   ]
+00:03:08,057  INFO Solution0:86 - Run 54
+00:03:08,057  INFO Solution0:91 - Inserting
+00:03:14,322  INFO Solution0:93 - Total Insterted [6,264,945   ]
+00:03:14,323  INFO Solution0:98 - Delete
+00:03:20,615  INFO Solution0:100 - Total Deleted [6,292,061   ]
+00:03:20,623  INFO Solution0:86 - Run 55
+00:03:20,623  INFO Solution0:91 - Inserting
+00:03:26,939  INFO Solution0:93 - Total Insterted [6,315,992   ]
+00:03:26,939  INFO Solution0:98 - Delete
+00:03:33,210  INFO Solution0:100 - Total Deleted [6,270,586   ]
+00:03:33,218  INFO Solution0:86 - Run 56
+00:03:33,219  INFO Solution0:91 - Inserting
+00:03:39,641  INFO Solution0:93 - Total Insterted [6,422,042   ]
+00:03:39,641  INFO Solution0:98 - Delete
+00:03:45,926  INFO Solution0:100 - Total Deleted [6,284,536   ]
+00:03:45,934  INFO Solution0:86 - Run 57
+00:03:45,934  INFO Solution0:91 - Inserting
+00:03:52,335  INFO Solution0:93 - Total Insterted [6,401,249   ]
+00:03:52,335  INFO Solution0:98 - Delete
+00:03:58,631  INFO Solution0:100 - Total Deleted [6,295,399   ]
+00:03:58,641  INFO Solution0:86 - Run 58
+00:03:58,641  INFO Solution0:91 - Inserting
+00:04:05,102  INFO Solution0:93 - Total Insterted [6,460,683   ]
+00:04:05,102  INFO Solution0:98 - Delete
+00:04:12,273  INFO Solution0:100 - Total Deleted [7,171,321   ]
+00:04:12,281  INFO Solution0:86 - Run 59
+00:04:12,281  INFO Solution0:91 - Inserting
+00:04:18,635  INFO Solution0:93 - Total Insterted [6,353,523   ]
+00:04:18,635  INFO Solution0:98 - Delete
+00:04:24,830  INFO Solution0:100 - Total Deleted [6,195,081   ]
+00:04:24,840  INFO Solution0:86 - Run 60
+00:04:24,840  INFO Solution0:91 - Inserting
+00:04:31,080  INFO Solution0:93 - Total Insterted [6,239,712   ]
+00:04:31,080  INFO Solution0:98 - Delete
+00:04:37,396  INFO Solution0:100 - Total Deleted [6,316,519   ]
+00:04:37,404  INFO Solution0:86 - Run 61
+00:04:37,404  INFO Solution0:91 - Inserting
+00:04:43,811  INFO Solution0:93 - Total Insterted [6,406,147   ]
+00:04:43,811  INFO Solution0:98 - Delete
+00:04:50,096  INFO Solution0:100 - Total Deleted [6,285,334   ]
+00:04:50,106  INFO Solution0:86 - Run 62
+00:04:50,106  INFO Solution0:91 - Inserting
+00:04:56,553  INFO Solution0:93 - Total Insterted [6,446,375   ]
+00:04:56,553  INFO Solution0:98 - Delete
+00:05:02,926  INFO Solution0:100 - Total Deleted [6,373,497   ]
+00:05:02,938  INFO Solution0:86 - Run 63
+00:05:02,938  INFO Solution0:91 - Inserting
+00:05:09,422  INFO Solution0:93 - Total Insterted [6,484,176   ]
+00:05:09,422  INFO Solution0:98 - Delete
+00:05:16,924  INFO Solution0:100 - Total Deleted [7,501,329   ]
+00:05:16,932  INFO Solution0:86 - Run 64
+00:05:16,933  INFO Solution0:91 - Inserting
+00:05:23,247  INFO Solution0:93 - Total Insterted [6,314,386   ]
+00:05:23,247  INFO Solution0:98 - Delete
+00:05:29,438  INFO Solution0:100 - Total Deleted [6,191,064   ]
+00:05:29,446  INFO Solution0:86 - Run 65
+00:05:29,446  INFO Solution0:91 - Inserting
+00:05:35,846  INFO Solution0:93 - Total Insterted [6,399,536   ]
+00:05:35,846  INFO Solution0:98 - Delete
+00:05:42,144  INFO Solution0:100 - Total Deleted [6,297,909   ]
+00:05:42,157  INFO Solution0:86 - Run 66
+00:05:42,157  INFO Solution0:91 - Inserting
+00:05:48,650  INFO Solution0:93 - Total Insterted [6,493,253   ]
+00:05:48,650  INFO Solution0:98 - Delete
+00:05:54,999  INFO Solution0:100 - Total Deleted [6,348,681   ]
+00:05:55,009  INFO Solution0:86 - Run 67
+00:05:55,009  INFO Solution0:91 - Inserting
+00:06:01,432  INFO Solution0:93 - Total Insterted [6,422,405   ]
+00:06:01,432  INFO Solution0:98 - Delete
+00:06:07,816  INFO Solution0:100 - Total Deleted [6,384,217   ]
+00:06:07,829  INFO Solution0:86 - Run 68
+00:06:07,829  INFO Solution0:91 - Inserting
+00:06:14,217  INFO Solution0:93 - Total Insterted [6,388,491   ]
+00:06:14,218  INFO Solution0:98 - Delete
+00:06:21,264  INFO Solution0:100 - Total Deleted [7,046,381   ]
+00:06:21,271  INFO Solution0:86 - Run 69
+00:06:21,271  INFO Solution0:91 - Inserting
+00:06:27,595  INFO Solution0:93 - Total Insterted [6,324,070   ]
+00:06:27,595  INFO Solution0:98 - Delete
+00:06:33,809  INFO Solution0:100 - Total Deleted [6,213,659   ]
+00:06:33,817  INFO Solution0:86 - Run 70
+00:06:33,817  INFO Solution0:91 - Inserting
+00:06:40,198  INFO Solution0:93 - Total Insterted [6,380,569   ]
+00:06:40,198  INFO Solution0:98 - Delete
+00:06:46,511  INFO Solution0:100 - Total Deleted [6,313,079   ]
+00:06:46,520  INFO Solution0:86 - Run 71
+00:06:46,520  INFO Solution0:91 - Inserting
+00:06:52,898  INFO Solution0:93 - Total Insterted [6,378,445   ]
+00:06:52,899  INFO Solution0:98 - Delete
+00:06:59,309  INFO Solution0:100 - Total Deleted [6,410,293   ]
+00:06:59,322  INFO Solution0:86 - Run 72
+00:06:59,322  INFO Solution0:91 - Inserting
+00:07:05,693  INFO Solution0:93 - Total Insterted [6,371,126   ]
+00:07:05,693  INFO Solution0:98 - Delete
+00:07:12,061  INFO Solution0:100 - Total Deleted [6,367,923   ]
+00:07:12,070  INFO Solution0:86 - Run 73
+00:07:12,070  INFO Solution0:91 - Inserting
+00:07:18,457  INFO Solution0:93 - Total Insterted [6,386,990   ]
+00:07:18,458  INFO Solution0:98 - Delete
+00:07:25,465  INFO Solution0:100 - Total Deleted [7,007,143   ]
+00:07:25,472  INFO Solution0:86 - Run 74
+00:07:25,472  INFO Solution0:91 - Inserting
+00:07:31,808  INFO Solution0:93 - Total Insterted [6,335,380   ]
+00:07:31,808  INFO Solution0:98 - Delete
+00:07:38,118  INFO Solution0:100 - Total Deleted [6,310,595   ]
+00:07:38,126  INFO Solution0:86 - Run 75
+00:07:38,127  INFO Solution0:91 - Inserting
+00:07:44,541  INFO Solution0:93 - Total Insterted [6,413,968   ]
+00:07:44,541  INFO Solution0:98 - Delete
+00:07:50,888  INFO Solution0:100 - Total Deleted [6,347,329   ]
+00:07:50,897  INFO Solution0:86 - Run 76
+00:07:50,897  INFO Solution0:91 - Inserting
+00:07:57,250  INFO Solution0:93 - Total Insterted [6,352,143   ]
+00:07:57,250  INFO Solution0:98 - Delete
+00:08:03,672  INFO Solution0:100 - Total Deleted [6,421,942   ]
+00:08:03,683  INFO Solution0:86 - Run 77
+00:08:03,683  INFO Solution0:91 - Inserting
+00:08:10,154  INFO Solution0:93 - Total Insterted [6,471,100   ]
+00:08:10,154  INFO Solution0:98 - Delete
+00:08:16,486  INFO Solution0:100 - Total Deleted [6,331,638   ]
+00:08:16,498  INFO Solution0:86 - Run 78
+00:08:16,498  INFO Solution0:91 - Inserting
+00:08:23,053  INFO Solution0:93 - Total Insterted [6,554,638   ]
+00:08:23,053  INFO Solution0:98 - Delete
+00:08:30,130  INFO Solution0:100 - Total Deleted [7,076,882   ]
+00:08:30,138  INFO Solution0:86 - Run 79
+00:08:30,138  INFO Solution0:91 - Inserting
+00:08:36,413  INFO Solution0:93 - Total Insterted [6,274,841   ]
+00:08:36,413  INFO Solution0:98 - Delete
+00:08:42,605  INFO Solution0:100 - Total Deleted [6,192,012   ]
+00:08:42,614  INFO Solution0:86 - Run 80
+00:08:42,615  INFO Solution0:91 - Inserting
+00:08:49,015  INFO Solution0:93 - Total Insterted [6,400,679   ]
+00:08:49,016  INFO Solution0:98 - Delete
+00:08:55,287  INFO Solution0:100 - Total Deleted [6,271,529   ]
+00:08:55,295  INFO Solution0:86 - Run 81
+00:08:55,295  INFO Solution0:91 - Inserting
+00:09:01,737  INFO Solution0:93 - Total Insterted [6,442,342   ]
+00:09:01,738  INFO Solution0:98 - Delete
+00:09:08,049  INFO Solution0:100 - Total Deleted [6,311,800   ]
+00:09:08,056  INFO Solution0:86 - Run 82
+00:09:08,057  INFO Solution0:91 - Inserting
+00:09:14,450  INFO Solution0:93 - Total Insterted [6,393,408   ]
+00:09:14,450  INFO Solution0:98 - Delete
+00:09:20,812  INFO Solution0:100 - Total Deleted [6,362,155   ]
+00:09:20,820  INFO Solution0:86 - Run 83
+00:09:20,820  INFO Solution0:91 - Inserting
+00:09:27,113  INFO Solution0:93 - Total Insterted [6,292,457   ]
+00:09:27,113  INFO Solution0:98 - Delete
+00:09:33,911  INFO Solution0:100 - Total Deleted [6,798,075   ]
+00:09:33,920  INFO Solution0:86 - Run 84
+00:09:33,920  INFO Solution0:91 - Inserting
+00:09:40,297  INFO Solution0:93 - Total Insterted [6,377,016   ]
+00:09:40,297  INFO Solution0:98 - Delete
+00:09:46,554  INFO Solution0:100 - Total Deleted [6,257,021   ]
+00:09:46,564  INFO Solution0:86 - Run 85
+00:09:46,565  INFO Solution0:91 - Inserting
+00:09:52,949  INFO Solution0:93 - Total Insterted [6,384,522   ]
+00:09:52,949  INFO Solution0:98 - Delete
+00:09:59,292  INFO Solution0:100 - Total Deleted [6,342,478   ]
+00:09:59,302  INFO Solution0:86 - Run 86
+00:09:59,302  INFO Solution0:91 - Inserting
+00:10:05,670  INFO Solution0:93 - Total Insterted [6,367,670   ]
+00:10:05,670  INFO Solution0:98 - Delete
+00:10:12,047  INFO Solution0:100 - Total Deleted [6,376,811   ]
+00:10:12,056  INFO Solution0:86 - Run 87
+00:10:12,056  INFO Solution0:91 - Inserting
+00:10:18,453  INFO Solution0:93 - Total Insterted [6,396,903   ]
+00:10:18,453  INFO Solution0:98 - Delete
+00:10:24,854  INFO Solution0:100 - Total Deleted [6,400,973   ]
+00:10:24,864  INFO Solution0:86 - Run 88
+00:10:24,864  INFO Solution0:91 - Inserting
+00:10:31,214  INFO Solution0:93 - Total Insterted [6,349,840   ]
+00:10:31,214  INFO Solution0:98 - Delete
+00:10:38,042  INFO Solution0:100 - Total Deleted [6,827,623   ]
+00:10:38,085  INFO Solution0:86 - Run 89
+00:10:38,085  INFO Solution0:91 - Inserting
+00:10:44,515  INFO Solution0:93 - Total Insterted [6,429,583   ]
+00:10:44,515  INFO Solution0:98 - Delete
+00:10:50,762  INFO Solution0:100 - Total Deleted [6,246,843   ]
+00:10:50,770  INFO Solution0:86 - Run 90
+00:10:50,771  INFO Solution0:91 - Inserting
+00:10:57,163  INFO Solution0:93 - Total Insterted [6,392,092   ]
+00:10:57,163  INFO Solution0:98 - Delete
+00:11:03,544  INFO Solution0:100 - Total Deleted [6,381,070   ]
+00:11:03,555  INFO Solution0:86 - Run 91
+00:11:03,556  INFO Solution0:91 - Inserting
+00:11:10,028  INFO Solution0:93 - Total Insterted [6,471,935   ]
+00:11:10,028  INFO Solution0:98 - Delete
+00:11:16,373  INFO Solution0:100 - Total Deleted [6,344,834   ]
+00:11:16,383  INFO Solution0:86 - Run 92
+00:11:16,384  INFO Solution0:91 - Inserting
+00:11:22,859  INFO Solution0:93 - Total Insterted [6,475,790   ]
+00:11:22,860  INFO Solution0:98 - Delete
+00:11:29,263  INFO Solution0:100 - Total Deleted [6,403,235   ]
+00:11:29,274  INFO Solution0:86 - Run 93
+00:11:29,274  INFO Solution0:91 - Inserting
+00:11:35,898  INFO Solution0:93 - Total Insterted [6,623,240   ]
+00:11:35,898  INFO Solution0:98 - Delete
+00:11:42,910  INFO Solution0:100 - Total Deleted [7,011,878   ]
+00:11:42,918  INFO Solution0:86 - Run 94
+00:11:42,918  INFO Solution0:91 - Inserting
+00:11:49,234  INFO Solution0:93 - Total Insterted [6,315,865   ]
+00:11:49,234  INFO Solution0:98 - Delete
+00:11:55,495  INFO Solution0:100 - Total Deleted [6,261,453   ]
+00:11:55,505  INFO Solution0:86 - Run 95
+00:11:55,505  INFO Solution0:91 - Inserting
+00:12:01,863  INFO Solution0:93 - Total Insterted [6,357,580   ]
+00:12:01,863  INFO Solution0:98 - Delete
+00:12:08,144  INFO Solution0:100 - Total Deleted [6,281,110   ]
+00:12:08,196  INFO Solution0:86 - Run 96
+00:12:08,196  INFO Solution0:91 - Inserting
+00:12:14,617  INFO Solution0:93 - Total Insterted [6,420,286   ]
+00:12:14,617  INFO Solution0:98 - Delete
+00:12:20,932  INFO Solution0:100 - Total Deleted [6,314,964   ]
+00:12:20,940  INFO Solution0:86 - Run 97
+00:12:20,940  INFO Solution0:91 - Inserting
+00:12:27,364  INFO Solution0:93 - Total Insterted [6,424,175   ]
+00:12:27,364  INFO Solution0:98 - Delete
+00:12:33,741  INFO Solution0:100 - Total Deleted [6,376,674   ]
+00:12:33,752  INFO Solution0:86 - Run 98
+00:12:33,752  INFO Solution0:91 - Inserting
+00:12:40,031  INFO Solution0:93 - Total Insterted [6,278,402   ]
+00:12:40,031  INFO Solution0:98 - Delete
+00:12:46,773  INFO Solution0:100 - Total Deleted [6,742,409   ]
+00:12:46,785  INFO Solution0:86 - Run 99
+00:12:46,785  INFO Solution0:91 - Inserting
+00:12:53,090  INFO Solution0:93 - Total Insterted [6,304,286   ]
+00:12:53,090  INFO Solution0:98 - Delete
+00:12:59,393  INFO Solution0:100 - Total Deleted [6,303,496   ]
+00:12:59,403  INFO Main:193 - Experimented Solution0
+#EXPERIMENT: Solution1
+#	Working Directory/home/jcrada/Development/hr/ResearchTestApplication
+#	Solution: Solution1
+#	LogPath: ./logs
+#	Runs: 100
+#	Students: 1000
+#	Courses: 100
+#	Groups:10
+#	CsvBase: ./data/
+#	CreateCsv: true
+#	Initialize: false
+
+00:12:59,406  INFO Main:191 - Experimenting Solution1
+00:12:59,407  INFO CSVReader:40 - Loading entity for file:./data/student.csv
+00:12:59,408  INFO CSVReader:36 - Finished Opening file:./data/student.csv
+00:12:59,408  INFO CSVReader:47 - Detected entity type:harsha.thesis.api.solution1.entity.User
+00:12:59,645  INFO CSVReader:61 - Populated list of harsha.thesis.api.solution1.entity.User with 1000 records
+00:12:59,655  INFO CSVReader:40 - Loading entity for file:./data/course.csv
+00:12:59,657  INFO CSVReader:36 - Finished Opening file:./data/course.csv
+00:12:59,658  INFO CSVReader:47 - Detected entity type:harsha.thesis.api.solution1.entity.Course
+00:12:59,676  INFO CSVReader:61 - Populated list of harsha.thesis.api.solution1.entity.Course with 100 records
+00:12:59,677  INFO CSVReader:40 - Loading entity for file:./data/enrolment.csv
+00:12:59,697  INFO CSVReader:36 - Finished Opening file:./data/enrolment.csv
+00:12:59,698  INFO CSVReader:47 - Detected entity type:harsha.thesis.api.solution1.entity.Enrolment
+00:13:00,594  INFO CSVReader:61 - Populated list of harsha.thesis.api.solution1.entity.Enrolment with 10000 records
+00:13:00,597  INFO Solution1:86 - Run 0
+00:13:00,597  INFO Solution1:91 - Inserting
+00:13:19,265  INFO Solution1:93 - Total Insterted [18,667,912   ]
+00:13:19,265  INFO Solution1:98 - Delete
+00:13:26,999  INFO Solution1:100 - Total Deleted [7,733,780   ]
+00:13:27,015  INFO Solution1:86 - Run 1
+00:13:27,015  INFO Solution1:91 - Inserting
+00:13:44,685  INFO Solution1:93 - Total Insterted [17,669,633   ]
+00:13:44,685  INFO Solution1:98 - Delete
+00:13:52,484  INFO Solution1:100 - Total Deleted [7,798,816   ]
+00:13:52,509  INFO Solution1:86 - Run 2
+00:13:52,509  INFO Solution1:91 - Inserting
+00:14:10,127  INFO Solution1:93 - Total Insterted [17,618,047   ]
+00:14:10,127  INFO Solution1:98 - Delete
+00:14:17,812  INFO Solution1:100 - Total Deleted [7,684,051   ]
+00:14:17,827  INFO Solution1:86 - Run 3
+00:14:17,827  INFO Solution1:91 - Inserting
+00:14:35,452  INFO Solution1:93 - Total Insterted [17,625,151   ]
+00:14:35,453  INFO Solution1:98 - Delete
+00:14:43,181  INFO Solution1:100 - Total Deleted [7,728,610   ]
+00:14:43,196  INFO Solution1:86 - Run 4
+00:14:43,197  INFO Solution1:91 - Inserting
+00:15:00,850  INFO Solution1:93 - Total Insterted [17,653,312   ]
+00:15:00,850  INFO Solution1:98 - Delete
+00:15:08,546  INFO Solution1:100 - Total Deleted [7,695,961   ]
+00:15:08,559  INFO Solution1:86 - Run 5
+00:15:08,559  INFO Solution1:91 - Inserting
+00:15:26,247  INFO Solution1:93 - Total Insterted [17,687,000   ]
+00:15:26,247  INFO Solution1:98 - Delete
+00:15:35,396  INFO Solution1:100 - Total Deleted [9,149,678   ]
+00:15:35,407  INFO Solution1:86 - Run 6
+00:15:35,407  INFO Solution1:91 - Inserting
+00:15:52,941  INFO Solution1:93 - Total Insterted [17,533,871   ]
+00:15:52,941  INFO Solution1:98 - Delete
+00:16:00,556  INFO Solution1:100 - Total Deleted [7,614,647   ]
+00:16:00,564  INFO Solution1:86 - Run 7
+00:16:00,564  INFO Solution1:91 - Inserting
+00:16:18,197  INFO Solution1:93 - Total Insterted [17,632,976   ]
+00:16:18,197  INFO Solution1:98 - Delete
+00:16:25,746  INFO Solution1:100 - Total Deleted [7,548,473   ]
+00:16:25,761  INFO Solution1:86 - Run 8
+00:16:25,762  INFO Solution1:91 - Inserting
+00:16:43,422  INFO Solution1:93 - Total Insterted [17,660,190   ]
+00:16:43,422  INFO Solution1:98 - Delete
+00:16:51,036  INFO Solution1:100 - Total Deleted [7,613,543   ]
+00:16:51,049  INFO Solution1:86 - Run 9
+00:16:51,049  INFO Solution1:91 - Inserting
+00:17:08,770  INFO Solution1:93 - Total Insterted [17,720,174   ]
+00:17:08,770  INFO Solution1:98 - Delete
+00:17:16,433  INFO Solution1:100 - Total Deleted [7,663,466   ]
+00:17:16,446  INFO Solution1:86 - Run 10
+00:17:16,446  INFO Solution1:91 - Inserting
+00:17:34,151  INFO Solution1:93 - Total Insterted [17,704,238   ]
+00:17:34,151  INFO Solution1:98 - Delete
+00:17:41,845  INFO Solution1:100 - Total Deleted [7,693,696   ]
+00:17:41,854  INFO Solution1:86 - Run 11
+00:17:41,854  INFO Solution1:91 - Inserting
+00:17:59,622  INFO Solution1:93 - Total Insterted [17,767,985   ]
+00:17:59,622  INFO Solution1:98 - Delete
+00:18:07,330  INFO Solution1:100 - Total Deleted [7,707,936   ]
+00:18:07,339  INFO Solution1:86 - Run 12
+00:18:07,339  INFO Solution1:91 - Inserting
+00:18:24,969  INFO Solution1:93 - Total Insterted [17,630,373   ]
+00:18:24,970  INFO Solution1:98 - Delete
+00:18:33,457  INFO Solution1:100 - Total Deleted [8,487,605   ]
+00:18:33,467  INFO Solution1:86 - Run 13
+00:18:33,467  INFO Solution1:91 - Inserting
+00:18:51,156  INFO Solution1:93 - Total Insterted [17,688,114   ]
+00:18:51,156  INFO Solution1:98 - Delete
+00:18:58,734  INFO Solution1:100 - Total Deleted [7,578,107   ]
+00:18:58,747  INFO Solution1:86 - Run 14
+00:18:58,747  INFO Solution1:91 - Inserting
+00:19:16,366  INFO Solution1:93 - Total Insterted [17,618,794   ]
+00:19:16,366  INFO Solution1:98 - Delete
+00:19:23,994  INFO Solution1:100 - Total Deleted [7,627,568   ]
+00:19:24,006  INFO Solution1:86 - Run 15
+00:19:24,006  INFO Solution1:91 - Inserting
+00:19:41,836  INFO Solution1:93 - Total Insterted [17,829,871   ]
+00:19:41,836  INFO Solution1:98 - Delete
+00:19:49,478  INFO Solution1:100 - Total Deleted [7,641,563   ]
+00:19:49,486  INFO Solution1:86 - Run 16
+00:19:49,486  INFO Solution1:91 - Inserting
+00:20:07,176  INFO Solution1:93 - Total Insterted [17,689,831   ]
+00:20:07,176  INFO Solution1:98 - Delete
+00:20:14,778  INFO Solution1:100 - Total Deleted [7,601,236   ]
+00:20:14,786  INFO Solution1:86 - Run 17
+00:20:14,786  INFO Solution1:91 - Inserting
+00:20:32,570  INFO Solution1:93 - Total Insterted [17,783,593   ]
+00:20:32,570  INFO Solution1:98 - Delete
+00:20:40,276  INFO Solution1:100 - Total Deleted [7,705,509   ]
+00:20:40,285  INFO Solution1:86 - Run 18
+00:20:40,286  INFO Solution1:91 - Inserting
+00:20:57,938  INFO Solution1:93 - Total Insterted [17,652,252   ]
+00:20:57,938  INFO Solution1:98 - Delete
+00:21:07,060  INFO Solution1:100 - Total Deleted [9,121,897   ]
+00:21:07,069  INFO Solution1:86 - Run 19
+00:21:07,069  INFO Solution1:91 - Inserting
+00:21:24,828  INFO Solution1:93 - Total Insterted [17,758,415   ]
+00:21:24,828  INFO Solution1:98 - Delete
+00:21:32,431  INFO Solution1:100 - Total Deleted [7,602,508   ]
+00:21:32,439  INFO Solution1:86 - Run 20
+00:21:32,440  INFO Solution1:91 - Inserting
+00:21:50,133  INFO Solution1:93 - Total Insterted [17,693,694   ]
+00:21:50,133  INFO Solution1:98 - Delete
+00:21:57,740  INFO Solution1:100 - Total Deleted [7,606,501   ]
+00:21:57,750  INFO Solution1:86 - Run 21
+00:21:57,750  INFO Solution1:91 - Inserting
+00:22:15,465  INFO Solution1:93 - Total Insterted [17,714,091   ]
+00:22:15,465  INFO Solution1:98 - Delete
+00:22:23,117  INFO Solution1:100 - Total Deleted [7,651,903   ]
+00:22:23,127  INFO Solution1:86 - Run 22
+00:22:23,127  INFO Solution1:91 - Inserting
+00:22:40,923  INFO Solution1:93 - Total Insterted [17,796,192   ]
+00:22:40,923  INFO Solution1:98 - Delete
+00:22:48,609  INFO Solution1:100 - Total Deleted [7,686,110   ]
+00:22:48,618  INFO Solution1:86 - Run 23
+00:22:48,618  INFO Solution1:91 - Inserting
+00:23:06,322  INFO Solution1:93 - Total Insterted [17,703,731   ]
+00:23:06,322  INFO Solution1:98 - Delete
+00:23:14,013  INFO Solution1:100 - Total Deleted [7,690,285   ]
+00:23:14,025  INFO Solution1:86 - Run 24
+00:23:14,025  INFO Solution1:91 - Inserting
+00:23:31,921  INFO Solution1:93 - Total Insterted [17,895,523   ]
+00:23:31,921  INFO Solution1:98 - Delete
+00:23:39,622  INFO Solution1:100 - Total Deleted [7,700,820   ]
+00:23:39,638  INFO Solution1:86 - Run 25
+00:23:39,639  INFO Solution1:91 - Inserting
+00:23:58,082  INFO Solution1:93 - Total Insterted [18,443,329   ]
+00:23:58,082  INFO Solution1:98 - Delete
+00:24:06,158  INFO Solution1:100 - Total Deleted [8,075,456   ]
+00:24:06,170  INFO Solution1:86 - Run 26
+00:24:06,170  INFO Solution1:91 - Inserting
+00:24:24,029  INFO Solution1:93 - Total Insterted [17,858,298   ]
+00:24:24,029  INFO Solution1:98 - Delete
+00:24:31,608  INFO Solution1:100 - Total Deleted [7,578,968   ]
+00:24:31,617  INFO Solution1:86 - Run 27
+00:24:31,617  INFO Solution1:91 - Inserting
+00:24:49,396  INFO Solution1:93 - Total Insterted [17,779,387   ]
+00:24:49,396  INFO Solution1:98 - Delete
+00:24:57,100  INFO Solution1:100 - Total Deleted [7,703,315   ]
+00:24:57,109  INFO Solution1:86 - Run 28
+00:24:57,109  INFO Solution1:91 - Inserting
+00:25:14,901  INFO Solution1:93 - Total Insterted [17,792,162   ]
+00:25:14,901  INFO Solution1:98 - Delete
+00:25:22,567  INFO Solution1:100 - Total Deleted [7,665,555   ]
+00:25:22,577  INFO Solution1:86 - Run 29
+00:25:22,577  INFO Solution1:91 - Inserting
+00:25:40,451  INFO Solution1:93 - Total Insterted [17,873,226   ]
+00:25:40,451  INFO Solution1:98 - Delete
+00:25:48,094  INFO Solution1:100 - Total Deleted [7,642,800   ]
+00:25:48,107  INFO Solution1:86 - Run 30
+00:25:48,108  INFO Solution1:91 - Inserting
+00:26:05,945  INFO Solution1:93 - Total Insterted [17,837,440   ]
+00:26:05,945  INFO Solution1:98 - Delete
+00:26:14,124  INFO Solution1:100 - Total Deleted [8,178,404   ]
+00:26:14,134  INFO Solution1:86 - Run 31
+00:26:14,134  INFO Solution1:91 - Inserting
+00:26:31,835  INFO Solution1:93 - Total Insterted [17,700,411   ]
+00:26:31,835  INFO Solution1:98 - Delete
+00:26:39,397  INFO Solution1:100 - Total Deleted [7,562,477   ]
+00:26:39,410  INFO Solution1:86 - Run 32
+00:26:39,410  INFO Solution1:91 - Inserting
+00:26:57,140  INFO Solution1:93 - Total Insterted [17,729,898   ]
+00:26:57,140  INFO Solution1:98 - Delete
+00:27:04,744  INFO Solution1:100 - Total Deleted [7,603,938   ]
+00:27:04,760  INFO Solution1:86 - Run 33
+00:27:04,760  INFO Solution1:91 - Inserting
+00:27:22,480  INFO Solution1:93 - Total Insterted [17,719,556   ]
+00:27:22,480  INFO Solution1:98 - Delete
+00:27:30,164  INFO Solution1:100 - Total Deleted [7,683,819   ]
+00:27:30,179  INFO Solution1:86 - Run 34
+00:27:30,179  INFO Solution1:91 - Inserting
+00:27:47,940  INFO Solution1:93 - Total Insterted [17,760,515   ]
+00:27:47,940  INFO Solution1:98 - Delete
+00:27:55,640  INFO Solution1:100 - Total Deleted [7,699,524   ]
+00:27:55,655  INFO Solution1:86 - Run 35
+00:27:55,655  INFO Solution1:91 - Inserting
+00:28:13,453  INFO Solution1:93 - Total Insterted [17,797,230   ]
+00:28:13,453  INFO Solution1:98 - Delete
+00:28:21,117  INFO Solution1:100 - Total Deleted [7,664,232   ]
+00:28:21,133  INFO Solution1:86 - Run 36
+00:28:21,133  INFO Solution1:91 - Inserting
+00:28:38,964  INFO Solution1:93 - Total Insterted [17,830,888   ]
+00:28:38,964  INFO Solution1:98 - Delete
+00:28:48,112  INFO Solution1:100 - Total Deleted [9,147,184   ]
+00:28:48,123  INFO Solution1:86 - Run 37
+00:28:48,123  INFO Solution1:91 - Inserting
+00:29:05,833  INFO Solution1:93 - Total Insterted [17,710,599   ]
+00:29:05,834  INFO Solution1:98 - Delete
+00:29:13,376  INFO Solution1:100 - Total Deleted [7,541,836   ]
+00:29:13,391  INFO Solution1:86 - Run 38
+00:29:13,391  INFO Solution1:91 - Inserting
+00:29:31,106  INFO Solution1:93 - Total Insterted [17,714,777   ]
+00:29:31,106  INFO Solution1:98 - Delete
+00:29:38,849  INFO Solution1:100 - Total Deleted [7,742,913   ]
+00:29:38,864  INFO Solution1:86 - Run 39
+00:29:38,864  INFO Solution1:91 - Inserting
+00:29:56,680  INFO Solution1:93 - Total Insterted [17,816,283   ]
+00:29:56,680  INFO Solution1:98 - Delete
+00:30:04,395  INFO Solution1:100 - Total Deleted [7,714,807   ]
+00:30:04,410  INFO Solution1:86 - Run 40
+00:30:04,410  INFO Solution1:91 - Inserting
+00:30:22,200  INFO Solution1:93 - Total Insterted [17,789,741   ]
+00:30:22,200  INFO Solution1:98 - Delete
+00:30:29,907  INFO Solution1:100 - Total Deleted [7,706,767   ]
+00:30:29,920  INFO Solution1:86 - Run 41
+00:30:29,920  INFO Solution1:91 - Inserting
+00:30:47,767  INFO Solution1:93 - Total Insterted [17,846,946   ]
+00:30:47,767  INFO Solution1:98 - Delete
+00:30:55,485  INFO Solution1:100 - Total Deleted [7,717,809   ]
+00:30:55,498  INFO Solution1:86 - Run 42
+00:30:55,498  INFO Solution1:91 - Inserting
+00:31:13,693  INFO Solution1:93 - Total Insterted [18,194,508   ]
+00:31:13,693  INFO Solution1:98 - Delete
+00:31:21,731  INFO Solution1:100 - Total Deleted [8,038,340   ]
+00:31:21,742  INFO Solution1:86 - Run 43
+00:31:21,742  INFO Solution1:91 - Inserting
+00:31:39,433  INFO Solution1:93 - Total Insterted [17,691,271   ]
+00:31:39,433  INFO Solution1:98 - Delete
+00:31:47,031  INFO Solution1:100 - Total Deleted [7,597,801   ]
+00:31:47,041  INFO Solution1:86 - Run 44
+00:31:47,041  INFO Solution1:91 - Inserting
+00:32:04,782  INFO Solution1:93 - Total Insterted [17,741,498   ]
+00:32:04,782  INFO Solution1:98 - Delete
+00:32:12,359  INFO Solution1:100 - Total Deleted [7,576,598   ]
+00:32:12,368  INFO Solution1:86 - Run 45
+00:32:12,368  INFO Solution1:91 - Inserting
+00:32:30,110  INFO Solution1:93 - Total Insterted [17,741,750   ]
+00:32:30,110  INFO Solution1:98 - Delete
+00:32:37,787  INFO Solution1:100 - Total Deleted [7,676,777   ]
+00:32:37,798  INFO Solution1:86 - Run 46
+00:32:37,799  INFO Solution1:91 - Inserting
+00:32:55,547  INFO Solution1:93 - Total Insterted [17,748,195   ]
+00:32:55,547  INFO Solution1:98 - Delete
+00:33:03,265  INFO Solution1:100 - Total Deleted [7,718,173   ]
+00:33:03,274  INFO Solution1:86 - Run 47
+00:33:03,274  INFO Solution1:91 - Inserting
+00:33:20,843  INFO Solution1:93 - Total Insterted [17,568,244   ]
+00:33:20,843  INFO Solution1:98 - Delete
+00:33:28,486  INFO Solution1:100 - Total Deleted [7,642,676   ]
+00:33:28,494  INFO Solution1:86 - Run 48
+00:33:28,495  INFO Solution1:91 - Inserting
+00:33:46,208  INFO Solution1:93 - Total Insterted [17,713,656   ]
+00:33:46,209  INFO Solution1:98 - Delete
+00:33:53,753  INFO Solution1:100 - Total Deleted [7,543,912   ]
+00:33:53,762  INFO Solution1:86 - Run 49
+00:33:53,763  INFO Solution1:91 - Inserting
+00:34:11,483  INFO Solution1:93 - Total Insterted [17,720,396   ]
+00:34:11,483  INFO Solution1:98 - Delete
+00:34:19,130  INFO Solution1:100 - Total Deleted [7,647,051   ]
+00:34:19,144  INFO Solution1:86 - Run 50
+00:34:19,144  INFO Solution1:91 - Inserting
+00:34:37,326  INFO Solution1:93 - Total Insterted [18,181,864   ]
+00:34:37,326  INFO Solution1:98 - Delete
+00:34:44,923  INFO Solution1:100 - Total Deleted [7,597,164   ]
+00:34:44,938  INFO Solution1:86 - Run 51
+00:34:44,938  INFO Solution1:91 - Inserting
+00:35:02,665  INFO Solution1:93 - Total Insterted [17,727,324   ]
+00:35:02,666  INFO Solution1:98 - Delete
+00:35:10,271  INFO Solution1:100 - Total Deleted [7,605,208   ]
+00:35:10,281  INFO Solution1:86 - Run 52
+00:35:10,281  INFO Solution1:91 - Inserting
+00:35:28,010  INFO Solution1:93 - Total Insterted [17,728,538   ]
+00:35:28,010  INFO Solution1:98 - Delete
+00:35:35,670  INFO Solution1:100 - Total Deleted [7,660,353   ]
+00:35:35,682  INFO Solution1:86 - Run 53
+00:35:35,682  INFO Solution1:91 - Inserting
+00:35:53,290  INFO Solution1:93 - Total Insterted [17,607,483   ]
+00:35:53,290  INFO Solution1:98 - Delete
+00:36:01,719  INFO Solution1:100 - Total Deleted [8,428,513   ]
+00:36:01,729  INFO Solution1:86 - Run 54
+00:36:01,729  INFO Solution1:91 - Inserting
+00:36:19,375  INFO Solution1:93 - Total Insterted [17,645,670   ]
+00:36:19,375  INFO Solution1:98 - Delete
+00:36:26,959  INFO Solution1:100 - Total Deleted [7,583,330   ]
+00:36:26,968  INFO Solution1:86 - Run 55
+00:36:26,968  INFO Solution1:91 - Inserting
+00:36:44,677  INFO Solution1:93 - Total Insterted [17,708,357   ]
+00:36:44,677  INFO Solution1:98 - Delete
+00:36:52,237  INFO Solution1:100 - Total Deleted [7,560,198   ]
+00:36:52,252  INFO Solution1:86 - Run 56
+00:36:52,252  INFO Solution1:91 - Inserting
+00:37:09,996  INFO Solution1:93 - Total Insterted [17,743,913   ]
+00:37:09,996  INFO Solution1:98 - Delete
+00:37:17,610  INFO Solution1:100 - Total Deleted [7,614,108   ]
+00:37:17,621  INFO Solution1:86 - Run 57
+00:37:17,621  INFO Solution1:91 - Inserting
+00:37:35,380  INFO Solution1:93 - Total Insterted [17,758,710   ]
+00:37:35,380  INFO Solution1:98 - Delete
+00:37:43,067  INFO Solution1:100 - Total Deleted [7,686,786   ]
+00:37:43,079  INFO Solution1:86 - Run 58
+00:37:43,079  INFO Solution1:91 - Inserting
+00:38:00,823  INFO Solution1:93 - Total Insterted [17,744,270   ]
+00:38:00,823  INFO Solution1:98 - Delete
+00:38:08,476  INFO Solution1:100 - Total Deleted [7,652,266   ]
+00:38:08,491  INFO Solution1:86 - Run 59
+00:38:08,491  INFO Solution1:91 - Inserting
+00:38:26,400  INFO Solution1:93 - Total Insterted [17,908,252   ]
+00:38:26,400  INFO Solution1:98 - Delete
+00:38:35,786  INFO Solution1:100 - Total Deleted [9,386,195   ]
+00:38:35,793  INFO Solution1:86 - Run 60
+00:38:35,793  INFO Solution1:91 - Inserting
+00:38:53,611  INFO Solution1:93 - Total Insterted [17,817,076   ]
+00:38:53,611  INFO Solution1:98 - Delete
+00:39:01,180  INFO Solution1:100 - Total Deleted [7,569,053   ]
+00:39:01,253  INFO Solution1:86 - Run 61
+00:39:01,253  INFO Solution1:91 - Inserting
+00:39:18,954  INFO Solution1:93 - Total Insterted [17,700,542   ]
+00:39:18,954  INFO Solution1:98 - Delete
+00:39:26,484  INFO Solution1:100 - Total Deleted [7,530,410   ]
+00:39:26,493  INFO Solution1:86 - Run 62
+00:39:26,493  INFO Solution1:91 - Inserting
+00:39:44,246  INFO Solution1:93 - Total Insterted [17,752,732   ]
+00:39:44,246  INFO Solution1:98 - Delete
+00:39:51,886  INFO Solution1:100 - Total Deleted [7,639,495   ]
+00:39:51,894  INFO Solution1:86 - Run 63
+00:39:51,895  INFO Solution1:91 - Inserting
+00:40:09,698  INFO Solution1:93 - Total Insterted [17,803,565   ]
+00:40:09,698  INFO Solution1:98 - Delete
+00:40:17,365  INFO Solution1:100 - Total Deleted [7,666,601   ]
+00:40:17,378  INFO Solution1:86 - Run 64
+00:40:17,379  INFO Solution1:91 - Inserting
+00:40:35,214  INFO Solution1:93 - Total Insterted [17,835,022   ]
+00:40:35,214  INFO Solution1:98 - Delete
+00:40:42,863  INFO Solution1:100 - Total Deleted [7,649,569   ]
+00:40:42,877  INFO Solution1:86 - Run 65
+00:40:42,877  INFO Solution1:91 - Inserting
+00:41:00,690  INFO Solution1:93 - Total Insterted [17,812,399   ]
+00:41:00,690  INFO Solution1:98 - Delete
+00:41:08,380  INFO Solution1:100 - Total Deleted [7,689,927   ]
+00:41:08,394  INFO Solution1:86 - Run 66
+00:41:08,394  INFO Solution1:91 - Inserting
+00:41:26,051  INFO Solution1:93 - Total Insterted [17,657,254   ]
+00:41:26,051  INFO Solution1:98 - Delete
+00:41:34,310  INFO Solution1:100 - Total Deleted [8,258,812   ]
+00:41:34,320  INFO Solution1:86 - Run 67
+00:41:34,320  INFO Solution1:91 - Inserting
+00:41:52,019  INFO Solution1:93 - Total Insterted [17,699,073   ]
+00:41:52,019  INFO Solution1:98 - Delete
+00:41:59,630  INFO Solution1:100 - Total Deleted [7,610,528   ]
+00:41:59,637  INFO Solution1:86 - Run 68
+00:41:59,637  INFO Solution1:91 - Inserting
+00:42:17,412  INFO Solution1:93 - Total Insterted [17,774,710   ]
+00:42:17,412  INFO Solution1:98 - Delete
+00:42:25,058  INFO Solution1:100 - Total Deleted [7,645,672   ]
+00:42:25,133  INFO Solution1:86 - Run 69
+00:42:25,133  INFO Solution1:91 - Inserting
+00:42:42,855  INFO Solution1:93 - Total Insterted [17,722,428   ]
+00:42:42,855  INFO Solution1:98 - Delete
+00:42:50,470  INFO Solution1:100 - Total Deleted [7,614,914   ]
+00:42:50,485  INFO Solution1:86 - Run 70
+00:42:50,485  INFO Solution1:91 - Inserting
+00:43:08,247  INFO Solution1:93 - Total Insterted [17,761,575   ]
+00:43:08,247  INFO Solution1:98 - Delete
+00:43:15,960  INFO Solution1:100 - Total Deleted [7,713,588   ]
+00:43:15,974  INFO Solution1:86 - Run 71
+00:43:15,975  INFO Solution1:91 - Inserting
+00:43:33,753  INFO Solution1:93 - Total Insterted [17,778,765   ]
+00:43:33,754  INFO Solution1:98 - Delete
+00:43:41,511  INFO Solution1:100 - Total Deleted [7,757,341   ]
+00:43:41,520  INFO Solution1:86 - Run 72
+00:43:41,520  INFO Solution1:91 - Inserting
+00:43:59,356  INFO Solution1:93 - Total Insterted [17,835,751   ]
+00:43:59,356  INFO Solution1:98 - Delete
+00:44:08,389  INFO Solution1:100 - Total Deleted [9,033,234   ]
+00:44:08,399  INFO Solution1:86 - Run 73
+00:44:08,399  INFO Solution1:91 - Inserting
+00:44:26,075  INFO Solution1:93 - Total Insterted [17,676,178   ]
+00:44:26,076  INFO Solution1:98 - Delete
+00:44:33,706  INFO Solution1:100 - Total Deleted [7,629,929   ]
+00:44:33,714  INFO Solution1:86 - Run 74
+00:44:33,714  INFO Solution1:91 - Inserting
+00:44:51,483  INFO Solution1:93 - Total Insterted [17,768,581   ]
+00:44:51,483  INFO Solution1:98 - Delete
+00:44:59,171  INFO Solution1:100 - Total Deleted [7,687,710   ]
+00:44:59,180  INFO Solution1:86 - Run 75
+00:44:59,180  INFO Solution1:91 - Inserting
+00:45:17,066  INFO Solution1:93 - Total Insterted [17,885,535   ]
+00:45:17,066  INFO Solution1:98 - Delete
+00:45:24,770  INFO Solution1:100 - Total Deleted [7,703,909   ]
+00:45:24,786  INFO Solution1:86 - Run 76
+00:45:24,786  INFO Solution1:91 - Inserting
+00:45:42,563  INFO Solution1:93 - Total Insterted [17,777,105   ]
+00:45:42,563  INFO Solution1:98 - Delete
+00:45:50,287  INFO Solution1:100 - Total Deleted [7,724,154   ]
+00:45:50,360  INFO Solution1:86 - Run 77
+00:45:50,361  INFO Solution1:91 - Inserting
+00:46:08,331  INFO Solution1:93 - Total Insterted [17,970,193   ]
+00:46:08,331  INFO Solution1:98 - Delete
+00:46:16,058  INFO Solution1:100 - Total Deleted [7,727,386   ]
+00:46:16,071  INFO Solution1:86 - Run 78
+00:46:16,071  INFO Solution1:91 - Inserting
+00:46:33,950  INFO Solution1:93 - Total Insterted [17,879,085   ]
+00:46:33,950  INFO Solution1:98 - Delete
+00:46:41,674  INFO Solution1:100 - Total Deleted [7,723,845   ]
+00:46:41,689  INFO Solution1:86 - Run 79
+00:46:41,689  INFO Solution1:91 - Inserting
+00:47:00,105  INFO Solution1:93 - Total Insterted [18,416,486   ]
+00:47:00,106  INFO Solution1:98 - Delete
+00:47:07,971  INFO Solution1:100 - Total Deleted [7,865,213   ]
+00:47:07,985  INFO Solution1:86 - Run 80
+00:47:07,985  INFO Solution1:91 - Inserting
+00:47:25,721  INFO Solution1:93 - Total Insterted [17,735,875   ]
+00:47:25,721  INFO Solution1:98 - Delete
+00:47:33,325  INFO Solution1:100 - Total Deleted [7,603,799   ]
+00:47:33,333  INFO Solution1:86 - Run 81
+00:47:33,333  INFO Solution1:91 - Inserting
+00:47:51,106  INFO Solution1:93 - Total Insterted [17,772,587   ]
+00:47:51,106  INFO Solution1:98 - Delete
+00:47:58,693  INFO Solution1:100 - Total Deleted [7,586,836   ]
+00:47:58,702  INFO Solution1:86 - Run 82
+00:47:58,702  INFO Solution1:91 - Inserting
+00:48:16,554  INFO Solution1:93 - Total Insterted [17,851,361   ]
+00:48:16,554  INFO Solution1:98 - Delete
+00:48:24,217  INFO Solution1:100 - Total Deleted [7,663,490   ]
+00:48:24,230  INFO Solution1:86 - Run 83
+00:48:24,230  INFO Solution1:91 - Inserting
+00:48:42,038  INFO Solution1:93 - Total Insterted [17,807,882   ]
+00:48:42,039  INFO Solution1:98 - Delete
+00:48:49,665  INFO Solution1:100 - Total Deleted [7,626,140   ]
+00:48:49,680  INFO Solution1:86 - Run 84
+00:48:49,680  INFO Solution1:91 - Inserting
+00:49:07,499  INFO Solution1:93 - Total Insterted [17,819,423   ]
+00:49:07,499  INFO Solution1:98 - Delete
+00:49:16,540  INFO Solution1:100 - Total Deleted [9,040,442   ]
+00:49:16,612  INFO Solution1:86 - Run 85
+00:49:16,612  INFO Solution1:91 - Inserting
+00:49:34,317  INFO Solution1:93 - Total Insterted [17,705,417   ]
+00:49:34,317  INFO Solution1:98 - Delete
+00:49:41,881  INFO Solution1:100 - Total Deleted [7,563,667   ]
+00:49:41,889  INFO Solution1:86 - Run 86
+00:49:41,889  INFO Solution1:91 - Inserting
+00:49:59,597  INFO Solution1:93 - Total Insterted [17,708,124   ]
+00:49:59,597  INFO Solution1:98 - Delete
+00:50:07,295  INFO Solution1:100 - Total Deleted [7,698,165   ]
+00:50:07,307  INFO Solution1:86 - Run 87
+00:50:07,307  INFO Solution1:91 - Inserting
+00:50:25,122  INFO Solution1:93 - Total Insterted [17,814,232   ]
+00:50:25,122  INFO Solution1:98 - Delete
+00:50:32,793  INFO Solution1:100 - Total Deleted [7,671,461   ]
+00:50:32,806  INFO Solution1:86 - Run 88
+00:50:32,806  INFO Solution1:91 - Inserting
+00:50:50,624  INFO Solution1:93 - Total Insterted [17,818,497   ]
+00:50:50,625  INFO Solution1:98 - Delete
+00:50:58,328  INFO Solution1:100 - Total Deleted [7,702,889   ]
+00:50:58,342  INFO Solution1:86 - Run 89
+00:50:58,342  INFO Solution1:91 - Inserting
+00:51:16,184  INFO Solution1:93 - Total Insterted [17,842,468   ]
+00:51:16,184  INFO Solution1:98 - Delete
+00:51:23,922  INFO Solution1:100 - Total Deleted [7,737,641   ]
+00:51:23,935  INFO Solution1:86 - Run 90
+00:51:23,936  INFO Solution1:91 - Inserting
+00:51:41,562  INFO Solution1:93 - Total Insterted [17,626,852   ]
+00:51:41,563  INFO Solution1:98 - Delete
+00:51:49,171  INFO Solution1:100 - Total Deleted [7,607,563   ]
+00:51:49,185  INFO Solution1:86 - Run 91
+00:51:49,185  INFO Solution1:91 - Inserting
+00:52:06,924  INFO Solution1:93 - Total Insterted [17,739,092   ]
+00:52:06,924  INFO Solution1:98 - Delete
+00:52:14,542  INFO Solution1:100 - Total Deleted [7,617,818   ]
+00:52:14,554  INFO Solution1:86 - Run 92
+00:52:14,554  INFO Solution1:91 - Inserting
+00:52:32,373  INFO Solution1:93 - Total Insterted [17,818,947   ]
+00:52:32,373  INFO Solution1:98 - Delete
+00:52:40,014  INFO Solution1:100 - Total Deleted [7,640,813   ]
+00:52:40,086  INFO Solution1:86 - Run 93
+00:52:40,086  INFO Solution1:91 - Inserting
+00:52:57,933  INFO Solution1:93 - Total Insterted [17,847,162   ]
+00:52:57,933  INFO Solution1:98 - Delete
+00:53:05,959  INFO Solution1:100 - Total Deleted [8,025,821   ]
+00:53:05,973  INFO Solution1:86 - Run 94
+00:53:05,973  INFO Solution1:91 - Inserting
+00:53:24,184  INFO Solution1:93 - Total Insterted [18,211,390   ]
+00:53:24,184  INFO Solution1:98 - Delete
+00:53:32,641  INFO Solution1:100 - Total Deleted [8,456,298   ]
+00:53:32,655  INFO Solution1:86 - Run 95
+00:53:32,655  INFO Solution1:91 - Inserting
+00:53:50,348  INFO Solution1:93 - Total Insterted [17,692,511   ]
+00:53:50,348  INFO Solution1:98 - Delete
+00:53:57,979  INFO Solution1:100 - Total Deleted [7,631,555   ]
+00:53:57,993  INFO Solution1:86 - Run 96
+00:53:57,993  INFO Solution1:91 - Inserting
+00:54:15,868  INFO Solution1:93 - Total Insterted [17,875,216   ]
+00:54:15,868  INFO Solution1:98 - Delete
+00:54:23,556  INFO Solution1:100 - Total Deleted [7,687,604   ]
+00:54:23,568  INFO Solution1:86 - Run 97
+00:54:23,568  INFO Solution1:91 - Inserting
+00:54:41,503  INFO Solution1:93 - Total Insterted [17,934,733   ]
+00:54:41,503  INFO Solution1:98 - Delete
+00:54:49,139  INFO Solution1:100 - Total Deleted [7,635,813   ]
+00:54:49,148  INFO Solution1:86 - Run 98
+00:54:49,148  INFO Solution1:91 - Inserting
+00:55:07,190  INFO Solution1:93 - Total Insterted [18,041,558   ]
+00:55:07,190  INFO Solution1:98 - Delete
+00:55:16,374  INFO Solution1:100 - Total Deleted [9,183,648   ]
+00:55:16,385  INFO Solution1:86 - Run 99
+00:55:16,385  INFO Solution1:91 - Inserting
+00:55:33,970  INFO Solution1:93 - Total Insterted [17,585,075   ]
+00:55:33,970  INFO Solution1:98 - Delete
+00:55:41,587  INFO Solution1:100 - Total Deleted [7,616,725   ]
+00:55:41,601  INFO Main:193 - Experimented Solution1
+#EXPERIMENT: Solution2
+#	Working Directory/home/jcrada/Development/hr/ResearchTestApplication
+#	Solution: Solution2
+#	LogPath: ./logs
+#	Runs: 100
+#	Students: 1000
+#	Courses: 100
+#	Groups:10
+#	CsvBase: ./data/
+#	CreateCsv: true
+#	Initialize: false
+
+00:55:41,603  INFO Main:191 - Experimenting Solution2
+00:55:41,904  INFO Solution2:107 - Run 0
+00:55:41,905  INFO Solution2:112 - Inserting
+00:56:16,651  INFO Solution2:114 - Total Insterted [34,745,477   ]
+00:56:16,651  INFO Solution2:119 - Delete
+00:56:31,952  INFO Solution2:121 - Total Deleted [15,301,563   ]
+00:56:31,974  INFO Solution2:107 - Run 1
+00:56:31,975  INFO Solution2:112 - Inserting
+00:57:06,645  INFO Solution2:114 - Total Insterted [34,669,919   ]
+00:57:06,645  INFO Solution2:119 - Delete
+00:57:21,901  INFO Solution2:121 - Total Deleted [15,255,744   ]
+00:57:21,921  INFO Solution2:107 - Run 2
+00:57:21,921  INFO Solution2:112 - Inserting
+00:57:56,501  INFO Solution2:114 - Total Insterted [34,579,687   ]
+00:57:56,501  INFO Solution2:119 - Delete
+00:58:11,815  INFO Solution2:121 - Total Deleted [15,313,815   ]
+00:58:11,825  INFO Solution2:107 - Run 3
+00:58:11,825  INFO Solution2:112 - Inserting
+00:58:46,501  INFO Solution2:114 - Total Insterted [34,676,197   ]
+00:58:46,502  INFO Solution2:119 - Delete
+00:59:01,862  INFO Solution2:121 - Total Deleted [15,360,088   ]
+00:59:01,870  INFO Solution2:107 - Run 4
+00:59:01,870  INFO Solution2:112 - Inserting
+00:59:36,550  INFO Solution2:114 - Total Insterted [34,680,190   ]
+00:59:36,550  INFO Solution2:119 - Delete
+00:59:52,011  INFO Solution2:121 - Total Deleted [15,460,730   ]
+00:59:52,018  INFO Solution2:107 - Run 5
+00:59:52,018  INFO Solution2:112 - Inserting
+01:00:26,687  INFO Solution2:114 - Total Insterted [34,669,020   ]
+01:00:26,688  INFO Solution2:119 - Delete
+01:00:42,138  INFO Solution2:121 - Total Deleted [15,450,425   ]
+01:00:42,147  INFO Solution2:107 - Run 6
+01:00:42,147  INFO Solution2:112 - Inserting
+01:01:16,948  INFO Solution2:114 - Total Insterted [34,801,166   ]
+01:01:16,948  INFO Solution2:119 - Delete
+01:01:32,396  INFO Solution2:121 - Total Deleted [15,447,173   ]
+01:01:32,403  INFO Solution2:107 - Run 7
+01:01:32,403  INFO Solution2:112 - Inserting
+01:02:08,234  INFO Solution2:114 - Total Insterted [35,831,214   ]
+01:02:08,235  INFO Solution2:119 - Delete
+01:02:26,881  INFO Solution2:121 - Total Deleted [18,646,623   ]
+01:02:26,892  INFO Solution2:107 - Run 8
+01:02:26,893  INFO Solution2:112 - Inserting
+01:03:03,804  INFO Solution2:114 - Total Insterted [36,911,477   ]
+01:03:03,804  INFO Solution2:119 - Delete
+01:03:21,671  INFO Solution2:121 - Total Deleted [17,867,043   ]
+01:03:21,678  INFO Solution2:107 - Run 9
+01:03:21,679  INFO Solution2:112 - Inserting
+01:03:58,638  INFO Solution2:114 - Total Insterted [36,958,928   ]
+01:03:58,638  INFO Solution2:119 - Delete
+01:04:16,478  INFO Solution2:121 - Total Deleted [17,840,071   ]
+01:04:16,490  INFO Solution2:107 - Run 10
+01:04:16,490  INFO Solution2:112 - Inserting
+01:04:53,459  INFO Solution2:114 - Total Insterted [36,968,796   ]
+01:04:53,459  INFO Solution2:119 - Delete
+01:05:11,413  INFO Solution2:121 - Total Deleted [17,953,468   ]
+01:05:11,423  INFO Solution2:107 - Run 11
+01:05:11,423  INFO Solution2:112 - Inserting
+01:05:48,461  INFO Solution2:114 - Total Insterted [37,037,543   ]
+01:05:48,461  INFO Solution2:119 - Delete
+01:06:06,456  INFO Solution2:121 - Total Deleted [17,994,623   ]
+01:06:06,465  INFO Solution2:107 - Run 12
+01:06:06,465  INFO Solution2:112 - Inserting
+01:06:43,339  INFO Solution2:114 - Total Insterted [36,874,116   ]
+01:06:43,340  INFO Solution2:119 - Delete
+01:07:02,062  INFO Solution2:121 - Total Deleted [18,722,036   ]
+01:07:02,072  INFO Solution2:107 - Run 13
+01:07:02,072  INFO Solution2:112 - Inserting
+01:07:38,978  INFO Solution2:114 - Total Insterted [36,906,225   ]
+01:07:38,979  INFO Solution2:119 - Delete
+01:07:56,894  INFO Solution2:121 - Total Deleted [17,915,561   ]
+01:07:56,902  INFO Solution2:107 - Run 14
+01:07:56,902  INFO Solution2:112 - Inserting
+01:08:33,926  INFO Solution2:114 - Total Insterted [37,024,510   ]
+01:08:33,926  INFO Solution2:119 - Delete
+01:08:51,855  INFO Solution2:121 - Total Deleted [17,928,265   ]
+01:08:51,863  INFO Solution2:107 - Run 15
+01:08:51,863  INFO Solution2:112 - Inserting
+01:09:28,791  INFO Solution2:114 - Total Insterted [36,928,358   ]
+01:09:28,791  INFO Solution2:119 - Delete
+01:09:46,566  INFO Solution2:121 - Total Deleted [17,774,898   ]
+01:09:46,574  INFO Solution2:107 - Run 16
+01:09:46,575  INFO Solution2:112 - Inserting
+01:10:23,370  INFO Solution2:114 - Total Insterted [36,795,823   ]
+01:10:23,371  INFO Solution2:119 - Delete
+01:10:42,421  INFO Solution2:121 - Total Deleted [19,050,543   ]
+01:10:42,432  INFO Solution2:107 - Run 17
+01:10:42,432  INFO Solution2:112 - Inserting
+01:11:19,416  INFO Solution2:114 - Total Insterted [36,983,691   ]
+01:11:19,416  INFO Solution2:119 - Delete
+01:11:37,361  INFO Solution2:121 - Total Deleted [17,945,019   ]
+01:11:37,373  INFO Solution2:107 - Run 18
+01:11:37,373  INFO Solution2:112 - Inserting
+01:12:14,369  INFO Solution2:114 - Total Insterted [36,995,619   ]
+01:12:14,369  INFO Solution2:119 - Delete
+01:12:32,352  INFO Solution2:121 - Total Deleted [17,982,292   ]
+01:12:32,360  INFO Solution2:107 - Run 19
+01:12:32,360  INFO Solution2:112 - Inserting
+01:13:09,251  INFO Solution2:114 - Total Insterted [36,890,991   ]
+01:13:09,251  INFO Solution2:119 - Delete
+01:13:27,200  INFO Solution2:121 - Total Deleted [17,948,491   ]
+01:13:27,210  INFO Solution2:107 - Run 20
+01:13:27,211  INFO Solution2:112 - Inserting
+01:14:04,868  INFO Solution2:114 - Total Insterted [37,657,068   ]
+01:14:04,868  INFO Solution2:119 - Delete
+01:14:23,473  INFO Solution2:121 - Total Deleted [18,605,244   ]
+01:14:23,486  INFO Solution2:107 - Run 21
+01:14:23,486  INFO Solution2:112 - Inserting
+01:15:00,415  INFO Solution2:114 - Total Insterted [36,928,233   ]
+01:15:00,415  INFO Solution2:119 - Delete
+01:15:18,319  INFO Solution2:121 - Total Deleted [17,904,502   ]
+01:15:18,332  INFO Solution2:107 - Run 22
+01:15:18,332  INFO Solution2:112 - Inserting
+01:15:55,389  INFO Solution2:114 - Total Insterted [37,056,715   ]
+01:15:55,389  INFO Solution2:119 - Delete
+01:16:13,305  INFO Solution2:121 - Total Deleted [17,916,516   ]
+01:16:13,356  INFO Solution2:107 - Run 23
+01:16:13,356  INFO Solution2:112 - Inserting
+01:16:51,779  INFO Solution2:114 - Total Insterted [38,423,331   ]
+01:16:51,779  INFO Solution2:119 - Delete
+01:17:10,021  INFO Solution2:121 - Total Deleted [18,241,533   ]
+01:17:10,030  INFO Solution2:107 - Run 24
+01:17:10,030  INFO Solution2:112 - Inserting
+01:17:49,653  INFO Solution2:114 - Total Insterted [39,622,433   ]
+01:17:49,653  INFO Solution2:119 - Delete
+01:18:07,789  INFO Solution2:121 - Total Deleted [18,136,336   ]
+01:18:07,800  INFO Solution2:107 - Run 25
+01:18:07,800  INFO Solution2:112 - Inserting
+01:18:47,347  INFO Solution2:114 - Total Insterted [39,546,393   ]
+01:18:47,347  INFO Solution2:119 - Delete
+01:19:05,533  INFO Solution2:121 - Total Deleted [18,186,429   ]
+01:19:05,544  INFO Solution2:107 - Run 26
+01:19:05,544  INFO Solution2:112 - Inserting
+01:19:44,900  INFO Solution2:114 - Total Insterted [39,355,737   ]
+01:19:44,900  INFO Solution2:119 - Delete
+01:20:04,005  INFO Solution2:121 - Total Deleted [19,105,010   ]
+01:20:04,016  INFO Solution2:107 - Run 27
+01:20:04,016  INFO Solution2:112 - Inserting
+01:20:43,517  INFO Solution2:114 - Total Insterted [39,501,223   ]
+01:20:43,518  INFO Solution2:119 - Delete
+01:21:01,722  INFO Solution2:121 - Total Deleted [18,204,166   ]
+01:21:01,731  INFO Solution2:107 - Run 28
+01:21:01,731  INFO Solution2:112 - Inserting
+01:21:41,323  INFO Solution2:114 - Total Insterted [39,592,025   ]
+01:21:41,324  INFO Solution2:119 - Delete
+01:21:59,509  INFO Solution2:121 - Total Deleted [18,185,506   ]
+01:21:59,516  INFO Solution2:107 - Run 29
+01:21:59,516  INFO Solution2:112 - Inserting
+01:22:39,127  INFO Solution2:114 - Total Insterted [39,610,958   ]
+01:22:39,128  INFO Solution2:119 - Delete
+01:22:57,396  INFO Solution2:121 - Total Deleted [18,268,325   ]
+01:22:57,406  INFO Solution2:107 - Run 30
+01:22:57,406  INFO Solution2:112 - Inserting
+01:23:37,091  INFO Solution2:114 - Total Insterted [39,684,790   ]
+01:23:37,091  INFO Solution2:119 - Delete
+01:23:55,035  INFO Solution2:121 - Total Deleted [17,943,622   ]
+01:23:55,084  INFO Solution2:107 - Run 31
+01:23:55,085  INFO Solution2:112 - Inserting
+01:24:34,484  INFO Solution2:114 - Total Insterted [39,399,754   ]
+01:24:34,485  INFO Solution2:119 - Delete
+01:24:54,006  INFO Solution2:121 - Total Deleted [19,521,098   ]
+01:24:54,018  INFO Solution2:107 - Run 32
+01:24:54,018  INFO Solution2:112 - Inserting
+01:25:33,539  INFO Solution2:114 - Total Insterted [39,520,996   ]
+01:25:33,539  INFO Solution2:119 - Delete
+01:25:51,668  INFO Solution2:121 - Total Deleted [18,128,946   ]
+01:25:51,680  INFO Solution2:107 - Run 33
+01:25:51,680  INFO Solution2:112 - Inserting
+01:26:31,264  INFO Solution2:114 - Total Insterted [39,584,086   ]
+01:26:31,264  INFO Solution2:119 - Delete
+01:26:49,447  INFO Solution2:121 - Total Deleted [18,182,489   ]
+01:26:49,456  INFO Solution2:107 - Run 34
+01:26:49,456  INFO Solution2:112 - Inserting
+01:27:29,029  INFO Solution2:114 - Total Insterted [39,573,302   ]
+01:27:29,029  INFO Solution2:119 - Delete
+01:27:47,324  INFO Solution2:121 - Total Deleted [18,294,310   ]
+01:27:47,332  INFO Solution2:107 - Run 35
+01:27:47,332  INFO Solution2:112 - Inserting
+01:28:26,973  INFO Solution2:114 - Total Insterted [39,640,681   ]
+01:28:26,973  INFO Solution2:119 - Delete
+01:28:45,305  INFO Solution2:121 - Total Deleted [18,331,612   ]
+01:28:45,312  INFO Solution2:107 - Run 36
+01:28:45,312  INFO Solution2:112 - Inserting
+01:29:25,405  INFO Solution2:114 - Total Insterted [40,092,131   ]
+01:29:25,405  INFO Solution2:119 - Delete
+01:29:44,696  INFO Solution2:121 - Total Deleted [19,291,154   ]
+01:29:44,705  INFO Solution2:107 - Run 37
+01:29:44,705  INFO Solution2:112 - Inserting
+01:30:24,566  INFO Solution2:114 - Total Insterted [39,861,126   ]
+01:30:24,566  INFO Solution2:119 - Delete
+01:30:43,004  INFO Solution2:121 - Total Deleted [18,438,187   ]
+01:30:43,013  INFO Solution2:107 - Run 38
+01:30:43,013  INFO Solution2:112 - Inserting
+01:31:22,871  INFO Solution2:114 - Total Insterted [39,857,726   ]
+01:31:22,871  INFO Solution2:119 - Delete
+01:31:41,233  INFO Solution2:121 - Total Deleted [18,362,069   ]
+01:31:41,278  INFO Solution2:107 - Run 39
+01:31:41,279  INFO Solution2:112 - Inserting
+01:32:21,030  INFO Solution2:114 - Total Insterted [39,751,710   ]
+01:32:21,030  INFO Solution2:119 - Delete
+01:32:39,507  INFO Solution2:121 - Total Deleted [18,476,150   ]
+01:32:39,519  INFO Solution2:107 - Run 40
+01:32:39,519  INFO Solution2:112 - Inserting
+01:33:19,223  INFO Solution2:114 - Total Insterted [39,703,180   ]
+01:33:19,223  INFO Solution2:119 - Delete
+01:33:38,618  INFO Solution2:121 - Total Deleted [19,395,418   ]
+01:33:38,628  INFO Solution2:107 - Run 41
+01:33:38,628  INFO Solution2:112 - Inserting
+01:34:18,495  INFO Solution2:114 - Total Insterted [39,866,286   ]
+01:34:18,495  INFO Solution2:119 - Delete
+01:34:36,940  INFO Solution2:121 - Total Deleted [18,444,754   ]
+01:34:36,947  INFO Solution2:107 - Run 42
+01:34:36,947  INFO Solution2:112 - Inserting
+01:35:16,781  INFO Solution2:114 - Total Insterted [39,833,147   ]
+01:35:16,781  INFO Solution2:119 - Delete
+01:35:35,301  INFO Solution2:121 - Total Deleted [18,520,590   ]
+01:35:35,312  INFO Solution2:107 - Run 43
+01:35:35,312  INFO Solution2:112 - Inserting
+01:36:15,231  INFO Solution2:114 - Total Insterted [39,918,556   ]
+01:36:15,231  INFO Solution2:119 - Delete
+01:36:33,760  INFO Solution2:121 - Total Deleted [18,529,388   ]
+01:36:33,769  INFO Solution2:107 - Run 44
+01:36:33,769  INFO Solution2:112 - Inserting
+01:37:13,547  INFO Solution2:114 - Total Insterted [39,777,185   ]
+01:37:13,547  INFO Solution2:119 - Delete
+01:37:32,046  INFO Solution2:121 - Total Deleted [18,499,522   ]
+01:37:32,057  INFO Solution2:107 - Run 45
+01:37:32,057  INFO Solution2:112 - Inserting
+01:38:11,930  INFO Solution2:114 - Total Insterted [39,872,702   ]
+01:38:11,930  INFO Solution2:119 - Delete
+01:38:30,617  INFO Solution2:121 - Total Deleted [18,686,440   ]
+01:38:30,628  INFO Solution2:107 - Run 46
+01:38:30,628  INFO Solution2:112 - Inserting
+01:39:10,498  INFO Solution2:114 - Total Insterted [39,869,706   ]
+01:39:10,498  INFO Solution2:119 - Delete
+01:39:28,962  INFO Solution2:121 - Total Deleted [18,463,712   ]
+01:39:29,010  INFO Solution2:107 - Run 47
+01:39:29,010  INFO Solution2:112 - Inserting
+01:40:10,398  INFO Solution2:114 - Total Insterted [41,387,727   ]
+01:40:10,398  INFO Solution2:119 - Delete
+01:40:28,986  INFO Solution2:121 - Total Deleted [18,587,630   ]
+01:40:28,998  INFO Solution2:107 - Run 48
+01:40:28,998  INFO Solution2:112 - Inserting
+01:41:08,788  INFO Solution2:114 - Total Insterted [39,789,950   ]
+01:41:08,788  INFO Solution2:119 - Delete
+01:41:27,259  INFO Solution2:121 - Total Deleted [18,471,109   ]
+01:41:27,268  INFO Solution2:107 - Run 49
+01:41:27,268  INFO Solution2:112 - Inserting
+01:42:07,113  INFO Solution2:114 - Total Insterted [39,844,365   ]
+01:42:07,113  INFO Solution2:119 - Delete
+01:42:25,646  INFO Solution2:121 - Total Deleted [18,532,879   ]
+01:42:25,654  INFO Solution2:107 - Run 50
+01:42:25,654  INFO Solution2:112 - Inserting
+01:43:04,385  INFO Solution2:114 - Total Insterted [38,731,155   ]
+01:43:04,385  INFO Solution2:119 - Delete
+01:43:21,022  INFO Solution2:121 - Total Deleted [16,636,170   ]
+01:43:21,031  INFO Solution2:107 - Run 51
+01:43:21,032  INFO Solution2:112 - Inserting
+01:43:59,178  INFO Solution2:114 - Total Insterted [38,146,107   ]
+01:43:59,178  INFO Solution2:119 - Delete
+01:44:15,788  INFO Solution2:121 - Total Deleted [16,610,320   ]
+01:44:15,799  INFO Solution2:107 - Run 52
+01:44:15,799  INFO Solution2:112 - Inserting
+01:44:54,042  INFO Solution2:114 - Total Insterted [38,242,888   ]
+01:44:54,042  INFO Solution2:119 - Delete
+01:45:10,764  INFO Solution2:121 - Total Deleted [16,722,409   ]
+01:45:10,771  INFO Solution2:107 - Run 53
+01:45:10,772  INFO Solution2:112 - Inserting
+01:45:49,045  INFO Solution2:114 - Total Insterted [38,272,881   ]
+01:45:49,045  INFO Solution2:119 - Delete
+01:46:05,815  INFO Solution2:121 - Total Deleted [16,770,491   ]
+01:46:05,825  INFO Solution2:107 - Run 54
+01:46:05,825  INFO Solution2:112 - Inserting
+01:46:44,110  INFO Solution2:114 - Total Insterted [38,284,636   ]
+01:46:44,110  INFO Solution2:119 - Delete
+01:47:00,837  INFO Solution2:121 - Total Deleted [16,727,095   ]
+01:47:00,885  INFO Solution2:107 - Run 55
+01:47:00,885  INFO Solution2:112 - Inserting
+01:47:38,937  INFO Solution2:114 - Total Insterted [38,052,117   ]
+01:47:38,937  INFO Solution2:119 - Delete
+01:47:56,061  INFO Solution2:121 - Total Deleted [17,123,857   ]
+01:47:56,073  INFO Solution2:107 - Run 56
+01:47:56,073  INFO Solution2:112 - Inserting
+01:48:34,262  INFO Solution2:114 - Total Insterted [38,188,800   ]
+01:48:34,263  INFO Solution2:119 - Delete
+01:48:50,938  INFO Solution2:121 - Total Deleted [16,675,714   ]
+01:48:50,949  INFO Solution2:107 - Run 57
+01:48:50,949  INFO Solution2:112 - Inserting
+01:49:29,096  INFO Solution2:114 - Total Insterted [38,146,849   ]
+01:49:29,096  INFO Solution2:119 - Delete
+01:49:45,782  INFO Solution2:121 - Total Deleted [16,686,131   ]
+01:49:45,790  INFO Solution2:107 - Run 58
+01:49:45,790  INFO Solution2:112 - Inserting
+01:50:24,063  INFO Solution2:114 - Total Insterted [38,272,365   ]
+01:50:24,063  INFO Solution2:119 - Delete
+01:50:40,801  INFO Solution2:121 - Total Deleted [16,738,504   ]
+01:50:40,810  INFO Solution2:107 - Run 59
+01:50:40,810  INFO Solution2:112 - Inserting
+01:51:19,001  INFO Solution2:114 - Total Insterted [38,190,877   ]
+01:51:19,001  INFO Solution2:119 - Delete
+01:51:37,036  INFO Solution2:121 - Total Deleted [18,034,839   ]
+01:51:37,045  INFO Solution2:107 - Run 60
+01:51:37,045  INFO Solution2:112 - Inserting
+01:52:15,263  INFO Solution2:114 - Total Insterted [38,217,579   ]
+01:52:15,263  INFO Solution2:119 - Delete
+01:52:32,023  INFO Solution2:121 - Total Deleted [16,760,285   ]
+01:52:32,034  INFO Solution2:107 - Run 61
+01:52:32,034  INFO Solution2:112 - Inserting
+01:53:10,276  INFO Solution2:114 - Total Insterted [38,241,834   ]
+01:53:10,276  INFO Solution2:119 - Delete
+01:53:26,785  INFO Solution2:121 - Total Deleted [16,508,792   ]
+01:53:26,794  INFO Solution2:107 - Run 62
+01:53:26,794  INFO Solution2:112 - Inserting
+01:54:05,110  INFO Solution2:114 - Total Insterted [38,315,410   ]
+01:54:05,110  INFO Solution2:119 - Delete
+01:54:21,900  INFO Solution2:121 - Total Deleted [16,790,371   ]
+01:54:21,908  INFO Solution2:107 - Run 63
+01:54:21,908  INFO Solution2:112 - Inserting
+01:55:00,416  INFO Solution2:114 - Total Insterted [38,507,746   ]
+01:55:00,416  INFO Solution2:119 - Delete
+01:55:19,423  INFO Solution2:121 - Total Deleted [19,006,420   ]
+01:55:19,434  INFO Solution2:107 - Run 64
+01:55:19,434  INFO Solution2:112 - Inserting
+01:55:58,731  INFO Solution2:114 - Total Insterted [39,296,760   ]
+01:55:58,731  INFO Solution2:119 - Delete
+01:56:16,553  INFO Solution2:121 - Total Deleted [17,822,135   ]
+01:56:16,566  INFO Solution2:107 - Run 65
+01:56:16,566  INFO Solution2:112 - Inserting
+01:56:55,875  INFO Solution2:114 - Total Insterted [39,308,192   ]
+01:56:55,875  INFO Solution2:119 - Delete
+01:57:13,799  INFO Solution2:121 - Total Deleted [17,923,734   ]
+01:57:13,808  INFO Solution2:107 - Run 66
+01:57:13,809  INFO Solution2:112 - Inserting
+01:57:53,081  INFO Solution2:114 - Total Insterted [39,272,573   ]
+01:57:53,081  INFO Solution2:119 - Delete
+01:58:10,984  INFO Solution2:121 - Total Deleted [17,902,413   ]
+01:58:10,991  INFO Solution2:107 - Run 67
+01:58:10,991  INFO Solution2:112 - Inserting
+01:58:50,286  INFO Solution2:114 - Total Insterted [39,294,629   ]
+01:58:50,286  INFO Solution2:119 - Delete
+01:59:08,495  INFO Solution2:121 - Total Deleted [18,208,560   ]
+01:59:08,506  INFO Solution2:107 - Run 68
+01:59:08,506  INFO Solution2:112 - Inserting
+01:59:47,754  INFO Solution2:114 - Total Insterted [39,248,191   ]
+01:59:47,755  INFO Solution2:119 - Delete
+02:00:05,680  INFO Solution2:121 - Total Deleted [17,924,878   ]
+02:00:05,692  INFO Solution2:107 - Run 69
+02:00:05,693  INFO Solution2:112 - Inserting
+02:00:44,857  INFO Solution2:114 - Total Insterted [39,163,818   ]
+02:00:44,857  INFO Solution2:119 - Delete
+02:01:02,813  INFO Solution2:121 - Total Deleted [17,956,320   ]
+02:01:02,824  INFO Solution2:107 - Run 70
+02:01:02,824  INFO Solution2:112 - Inserting
+02:01:43,602  INFO Solution2:114 - Total Insterted [40,777,016   ]
+02:01:43,602  INFO Solution2:119 - Delete
+02:02:01,572  INFO Solution2:121 - Total Deleted [17,970,025   ]
+02:02:01,581  INFO Solution2:107 - Run 71
+02:02:01,581  INFO Solution2:112 - Inserting
+02:02:40,819  INFO Solution2:114 - Total Insterted [39,238,173   ]
+02:02:40,819  INFO Solution2:119 - Delete
+02:02:58,733  INFO Solution2:121 - Total Deleted [17,913,370   ]
+02:02:58,745  INFO Solution2:107 - Run 72
+02:02:58,745  INFO Solution2:112 - Inserting
+02:03:38,070  INFO Solution2:114 - Total Insterted [39,325,057   ]
+02:03:38,070  INFO Solution2:119 - Delete
+02:03:57,257  INFO Solution2:121 - Total Deleted [19,186,211   ]
+02:03:57,267  INFO Solution2:107 - Run 73
+02:03:57,267  INFO Solution2:112 - Inserting
+02:04:36,512  INFO Solution2:114 - Total Insterted [39,245,171   ]
+02:04:36,513  INFO Solution2:119 - Delete
+02:04:54,405  INFO Solution2:121 - Total Deleted [17,892,512   ]
+02:04:54,413  INFO Solution2:107 - Run 74
+02:04:54,413  INFO Solution2:112 - Inserting
+02:05:33,683  INFO Solution2:114 - Total Insterted [39,269,545   ]
+02:05:33,683  INFO Solution2:119 - Delete
+02:05:51,587  INFO Solution2:121 - Total Deleted [17,904,583   ]
+02:05:51,595  INFO Solution2:107 - Run 75
+02:05:51,596  INFO Solution2:112 - Inserting
+02:06:30,973  INFO Solution2:114 - Total Insterted [39,377,412   ]
+02:06:30,973  INFO Solution2:119 - Delete
+02:06:48,936  INFO Solution2:121 - Total Deleted [17,963,223   ]
+02:06:48,949  INFO Solution2:107 - Run 76
+02:06:48,949  INFO Solution2:112 - Inserting
+02:07:28,140  INFO Solution2:114 - Total Insterted [39,190,385   ]
+02:07:28,140  INFO Solution2:119 - Delete
+02:07:46,120  INFO Solution2:121 - Total Deleted [17,980,115   ]
+02:07:46,130  INFO Solution2:107 - Run 77
+02:07:46,130  INFO Solution2:112 - Inserting
+02:08:25,494  INFO Solution2:114 - Total Insterted [39,363,892   ]
+02:08:25,494  INFO Solution2:119 - Delete
+02:08:43,470  INFO Solution2:121 - Total Deleted [17,975,883   ]
+02:08:43,481  INFO Solution2:107 - Run 78
+02:08:43,481  INFO Solution2:112 - Inserting
+02:09:21,782  INFO Solution2:114 - Total Insterted [38,300,823   ]
+02:09:21,782  INFO Solution2:119 - Delete
+02:09:38,384  INFO Solution2:121 - Total Deleted [16,601,451   ]
+02:09:38,431  INFO Solution2:107 - Run 79
+02:09:38,431  INFO Solution2:112 - Inserting
+02:10:16,612  INFO Solution2:114 - Total Insterted [38,180,694   ]
+02:10:16,612  INFO Solution2:119 - Delete
+02:10:33,259  INFO Solution2:121 - Total Deleted [16,647,427   ]
+02:10:33,270  INFO Solution2:107 - Run 80
+02:10:33,271  INFO Solution2:112 - Inserting
+02:11:11,481  INFO Solution2:114 - Total Insterted [38,210,693   ]
+02:11:11,482  INFO Solution2:119 - Delete
+02:11:28,203  INFO Solution2:121 - Total Deleted [16,721,767   ]
+02:11:28,211  INFO Solution2:107 - Run 81
+02:11:28,211  INFO Solution2:112 - Inserting
+02:12:06,398  INFO Solution2:114 - Total Insterted [38,186,428   ]
+02:12:06,398  INFO Solution2:119 - Delete
+02:12:23,090  INFO Solution2:121 - Total Deleted [16,692,065   ]
+02:12:23,101  INFO Solution2:107 - Run 82
+02:12:23,101  INFO Solution2:112 - Inserting
+02:13:01,403  INFO Solution2:114 - Total Insterted [38,301,582   ]
+02:13:01,403  INFO Solution2:119 - Delete
+02:13:19,036  INFO Solution2:121 - Total Deleted [17,633,088   ]
+02:13:19,050  INFO Solution2:107 - Run 83
+02:13:19,050  INFO Solution2:112 - Inserting
+02:13:57,280  INFO Solution2:114 - Total Insterted [38,230,358   ]
+02:13:57,281  INFO Solution2:119 - Delete
+02:14:13,906  INFO Solution2:121 - Total Deleted [16,625,672   ]
+02:14:13,913  INFO Solution2:107 - Run 84
+02:14:13,914  INFO Solution2:112 - Inserting
+02:14:52,172  INFO Solution2:114 - Total Insterted [38,258,186   ]
+02:14:52,172  INFO Solution2:119 - Delete
+02:15:08,887  INFO Solution2:121 - Total Deleted [16,714,746   ]
+02:15:08,896  INFO Solution2:107 - Run 85
+02:15:08,896  INFO Solution2:112 - Inserting
+02:15:47,160  INFO Solution2:114 - Total Insterted [38,263,925   ]
+02:15:47,160  INFO Solution2:119 - Delete
+02:16:03,880  INFO Solution2:121 - Total Deleted [16,719,563   ]
+02:16:03,889  INFO Solution2:107 - Run 86
+02:16:03,889  INFO Solution2:112 - Inserting
+02:16:41,963  INFO Solution2:114 - Total Insterted [38,073,729   ]
+02:16:41,963  INFO Solution2:119 - Delete
+02:16:58,743  INFO Solution2:121 - Total Deleted [16,779,436   ]
+02:16:58,755  INFO Solution2:107 - Run 87
+02:16:58,755  INFO Solution2:112 - Inserting
+02:17:37,007  INFO Solution2:114 - Total Insterted [38,251,480   ]
+02:17:37,007  INFO Solution2:119 - Delete
+02:17:53,736  INFO Solution2:121 - Total Deleted [16,728,698   ]
+02:17:53,744  INFO Solution2:107 - Run 88
+02:17:53,744  INFO Solution2:112 - Inserting
+02:18:32,041  INFO Solution2:114 - Total Insterted [38,296,670   ]
+02:18:32,041  INFO Solution2:119 - Delete
+02:18:48,761  INFO Solution2:121 - Total Deleted [16,720,572   ]
+02:18:48,772  INFO Solution2:107 - Run 89
+02:18:48,772  INFO Solution2:112 - Inserting
+02:19:27,922  INFO Solution2:114 - Total Insterted [39,150,198   ]
+02:19:27,922  INFO Solution2:119 - Delete
+02:19:46,654  INFO Solution2:121 - Total Deleted [18,732,159   ]
+02:19:46,661  INFO Solution2:107 - Run 90
+02:19:46,662  INFO Solution2:112 - Inserting
+02:20:26,218  INFO Solution2:114 - Total Insterted [39,555,905   ]
+02:20:26,218  INFO Solution2:119 - Delete
+02:20:44,375  INFO Solution2:121 - Total Deleted [18,156,392   ]
+02:20:44,383  INFO Solution2:107 - Run 91
+02:20:44,383  INFO Solution2:112 - Inserting
+02:21:24,062  INFO Solution2:114 - Total Insterted [39,678,959   ]
+02:21:24,062  INFO Solution2:119 - Delete
+02:21:42,278  INFO Solution2:121 - Total Deleted [18,215,013   ]
+02:21:42,289  INFO Solution2:107 - Run 92
+02:21:42,289  INFO Solution2:112 - Inserting
+02:22:23,218  INFO Solution2:114 - Total Insterted [40,928,899   ]
+02:22:23,218  INFO Solution2:119 - Delete
+02:22:41,478  INFO Solution2:121 - Total Deleted [18,259,816   ]
+02:22:41,486  INFO Solution2:107 - Run 93
+02:22:41,486  INFO Solution2:112 - Inserting
+02:23:20,713  INFO Solution2:114 - Total Insterted [39,226,754   ]
+02:23:20,713  INFO Solution2:119 - Delete
+02:23:38,955  INFO Solution2:121 - Total Deleted [18,242,343   ]
+02:23:38,964  INFO Solution2:107 - Run 94
+02:23:38,964  INFO Solution2:112 - Inserting
+02:24:18,187  INFO Solution2:114 - Total Insterted [39,223,100   ]
+02:24:18,188  INFO Solution2:119 - Delete
+02:24:37,535  INFO Solution2:121 - Total Deleted [19,347,436   ]
+02:24:37,542  INFO Solution2:107 - Run 95
+02:24:37,543  INFO Solution2:112 - Inserting
+02:25:16,605  INFO Solution2:114 - Total Insterted [39,062,200   ]
+02:25:16,605  INFO Solution2:119 - Delete
+02:25:34,693  INFO Solution2:121 - Total Deleted [18,087,561   ]
+02:25:34,701  INFO Solution2:107 - Run 96
+02:25:34,701  INFO Solution2:112 - Inserting
+02:26:13,839  INFO Solution2:114 - Total Insterted [39,138,529   ]
+02:26:13,840  INFO Solution2:119 - Delete
+02:26:31,900  INFO Solution2:121 - Total Deleted [18,059,923   ]
+02:26:31,908  INFO Solution2:107 - Run 97
+02:26:31,908  INFO Solution2:112 - Inserting
+02:27:11,047  INFO Solution2:114 - Total Insterted [39,139,509   ]
+02:27:11,048  INFO Solution2:119 - Delete
+02:27:29,231  INFO Solution2:121 - Total Deleted [18,183,690   ]
+02:27:29,242  INFO Solution2:107 - Run 98
+02:27:29,242  INFO Solution2:112 - Inserting
+02:28:08,438  INFO Solution2:114 - Total Insterted [39,196,525   ]
+02:28:08,438  INFO Solution2:119 - Delete
+02:28:26,635  INFO Solution2:121 - Total Deleted [18,196,023   ]
+02:28:26,642  INFO Solution2:107 - Run 99
+02:28:26,642  INFO Solution2:112 - Inserting
+02:29:05,708  INFO Solution2:114 - Total Insterted [39,065,734   ]
+02:29:05,708  INFO Solution2:119 - Delete
+02:29:25,153  INFO Solution2:121 - Total Deleted [19,445,006   ]
+02:29:25,161  INFO Main:193 - Experimented Solution2
+#EXPERIMENT: Solution3
+#	Working Directory/home/jcrada/Development/hr/ResearchTestApplication
+#	Solution: Solution3
+#	LogPath: ./logs
+#	Runs: 100
+#	Students: 1000
+#	Courses: 100
+#	Groups:10
+#	CsvBase: ./data/
+#	CreateCsv: true
+#	Initialize: false
+
+02:29:25,163  INFO Main:191 - Experimenting Solution3
+02:29:25,164  INFO CSVReader:44 - Loading entity for file:./data/student.csv
+02:29:25,166  INFO CSVReader:40 - Finished Opening file:./data/student.csv
+02:29:25,166  INFO CSVReader:51 - Detected entity type:harsha.thesis.api.solution3.entity.User
+02:29:25,245  INFO CSVReader:65 - Populated list of harsha.thesis.api.solution3.entity.User with 1000 records
+02:29:25,246  INFO CSVReader:44 - Loading entity for file:./data/course.csv
+02:29:25,247  INFO CSVReader:40 - Finished Opening file:./data/course.csv
+02:29:25,247  INFO CSVReader:51 - Detected entity type:harsha.thesis.api.solution3.entity.Course
+02:29:25,254  INFO CSVReader:65 - Populated list of harsha.thesis.api.solution3.entity.Course with 100 records
+02:29:25,263  INFO CSVReader:44 - Loading entity for file:./data/enrolment.csv
+02:29:25,276  INFO CSVReader:40 - Finished Opening file:./data/enrolment.csv
+02:29:25,279  INFO CSVReader:51 - Detected entity type:harsha.thesis.api.solution3.entity.Enrolment
+02:29:25,449  INFO CSVReader:65 - Populated list of harsha.thesis.api.solution3.entity.Enrolment with 10000 records
+02:29:25,451  INFO Solution3:95 - Run 0
+02:29:25,452  INFO Solution3:100 - Inserting
+02:30:08,598  INFO Solution3:102 - Total Insterted [43,145,886   ]
+02:30:08,598  INFO Solution3:107 - Delete
+02:30:32,331  INFO Solution3:109 - Total Deleted [23,733,561   ]
+02:30:32,352  INFO Solution3:95 - Run 1
+02:30:32,353  INFO Solution3:100 - Inserting
+02:31:15,103  INFO Solution3:102 - Total Insterted [42,749,744   ]
+02:31:15,103  INFO Solution3:107 - Delete
+02:31:38,788  INFO Solution3:109 - Total Deleted [23,684,693   ]
+02:31:38,811  INFO Solution3:95 - Run 2
+02:31:38,811  INFO Solution3:100 - Inserting
+02:32:21,548  INFO Solution3:102 - Total Insterted [42,736,090   ]
+02:32:21,548  INFO Solution3:107 - Delete
+02:32:45,344  INFO Solution3:109 - Total Deleted [23,795,830   ]
+02:32:45,351  INFO Solution3:95 - Run 3
+02:32:45,351  INFO Solution3:100 - Inserting
+02:33:28,161  INFO Solution3:102 - Total Insterted [42,809,454   ]
+02:33:28,161  INFO Solution3:107 - Delete
+02:33:51,924  INFO Solution3:109 - Total Deleted [23,763,344   ]
+02:33:51,934  INFO Solution3:95 - Run 4
+02:33:51,934  INFO Solution3:100 - Inserting
+02:34:34,845  INFO Solution3:102 - Total Insterted [42,910,629   ]
+02:34:34,845  INFO Solution3:107 - Delete
+02:34:58,738  INFO Solution3:109 - Total Deleted [23,892,996   ]
+02:34:58,745  INFO Solution3:95 - Run 5
+02:34:58,745  INFO Solution3:100 - Inserting
+02:35:41,543  INFO Solution3:102 - Total Insterted [42,797,450   ]
+02:35:41,543  INFO Solution3:107 - Delete
+02:36:05,532  INFO Solution3:109 - Total Deleted [23,988,816   ]
+02:36:05,540  INFO Solution3:95 - Run 6
+02:36:05,540  INFO Solution3:100 - Inserting
+02:36:48,283  INFO Solution3:102 - Total Insterted [42,742,499   ]
+02:36:48,283  INFO Solution3:107 - Delete
+02:37:12,953  INFO Solution3:109 - Total Deleted [24,670,623   ]
+02:37:12,960  INFO Solution3:95 - Run 7
+02:37:12,961  INFO Solution3:100 - Inserting
+02:37:55,796  INFO Solution3:102 - Total Insterted [42,835,079   ]
+02:37:55,796  INFO Solution3:107 - Delete
+02:38:19,653  INFO Solution3:109 - Total Deleted [23,857,365   ]
+02:38:19,662  INFO Solution3:95 - Run 8
+02:38:19,662  INFO Solution3:100 - Inserting
+02:39:02,594  INFO Solution3:102 - Total Insterted [42,931,198   ]
+02:39:02,594  INFO Solution3:107 - Delete
+02:39:26,553  INFO Solution3:109 - Total Deleted [23,959,085   ]
+02:39:26,562  INFO Solution3:95 - Run 9
+02:39:26,562  INFO Solution3:100 - Inserting
+02:40:09,390  INFO Solution3:102 - Total Insterted [42,828,384   ]
+02:40:09,391  INFO Solution3:107 - Delete
+02:40:33,244  INFO Solution3:109 - Total Deleted [23,853,321   ]
+02:40:33,255  INFO Solution3:95 - Run 10
+02:40:33,255  INFO Solution3:100 - Inserting
+02:41:16,102  INFO Solution3:102 - Total Insterted [42,847,019   ]
+02:41:16,102  INFO Solution3:107 - Delete
+02:41:40,054  INFO Solution3:109 - Total Deleted [23,951,620   ]
+02:41:40,062  INFO Solution3:95 - Run 11
+02:41:40,062  INFO Solution3:100 - Inserting
+02:42:22,686  INFO Solution3:102 - Total Insterted [42,623,692   ]
+02:42:22,686  INFO Solution3:107 - Delete
+02:42:46,983  INFO Solution3:109 - Total Deleted [24,297,095   ]
+02:42:46,991  INFO Solution3:95 - Run 12
+02:42:46,991  INFO Solution3:100 - Inserting
+02:43:29,799  INFO Solution3:102 - Total Insterted [42,808,213   ]
+02:43:29,799  INFO Solution3:107 - Delete
+02:43:53,727  INFO Solution3:109 - Total Deleted [23,927,565   ]
+02:43:53,738  INFO Solution3:95 - Run 13
+02:43:53,738  INFO Solution3:100 - Inserting
+02:44:36,534  INFO Solution3:102 - Total Insterted [42,796,059   ]
+02:44:36,534  INFO Solution3:107 - Delete
+02:45:00,492  INFO Solution3:109 - Total Deleted [23,957,551   ]
+02:45:00,503  INFO Solution3:95 - Run 14
+02:45:00,503  INFO Solution3:100 - Inserting
+02:45:43,358  INFO Solution3:102 - Total Insterted [42,854,456   ]
+02:45:43,358  INFO Solution3:107 - Delete
+02:46:07,333  INFO Solution3:109 - Total Deleted [23,975,326   ]
+02:46:07,341  INFO Solution3:95 - Run 15
+02:46:07,341  INFO Solution3:100 - Inserting
+02:46:50,087  INFO Solution3:102 - Total Insterted [42,746,262   ]
+02:46:50,087  INFO Solution3:107 - Delete
+02:47:14,804  INFO Solution3:109 - Total Deleted [24,716,111   ]
+02:47:14,814  INFO Solution3:95 - Run 16
+02:47:14,814  INFO Solution3:100 - Inserting
+02:47:57,529  INFO Solution3:102 - Total Insterted [42,714,155   ]
+02:47:57,529  INFO Solution3:107 - Delete
+02:48:21,455  INFO Solution3:109 - Total Deleted [23,925,663   ]
+02:48:21,462  INFO Solution3:95 - Run 17
+02:48:21,463  INFO Solution3:100 - Inserting
+02:49:04,332  INFO Solution3:102 - Total Insterted [42,869,270   ]
+02:49:04,332  INFO Solution3:107 - Delete
+02:49:28,280  INFO Solution3:109 - Total Deleted [23,947,458   ]
+02:49:28,288  INFO Solution3:95 - Run 18
+02:49:28,288  INFO Solution3:100 - Inserting
+02:50:11,096  INFO Solution3:102 - Total Insterted [42,807,919   ]
+02:50:11,096  INFO Solution3:107 - Delete
+02:50:35,092  INFO Solution3:109 - Total Deleted [23,996,181   ]
+02:50:35,103  INFO Solution3:95 - Run 19
+02:50:35,104  INFO Solution3:100 - Inserting
+02:51:18,481  INFO Solution3:102 - Total Insterted [43,377,520   ]
+02:51:18,481  INFO Solution3:107 - Delete
+02:51:42,643  INFO Solution3:109 - Total Deleted [24,161,398   ]
+02:51:42,656  INFO Solution3:95 - Run 20
+02:51:42,656  INFO Solution3:100 - Inserting
+02:52:25,388  INFO Solution3:102 - Total Insterted [42,732,579   ]
+02:52:25,389  INFO Solution3:107 - Delete
+02:52:49,241  INFO Solution3:109 - Total Deleted [23,852,469   ]
+02:52:49,253  INFO Solution3:95 - Run 21
+02:52:49,253  INFO Solution3:100 - Inserting
+02:53:32,019  INFO Solution3:102 - Total Insterted [42,766,033   ]
+02:53:32,020  INFO Solution3:107 - Delete
+02:53:55,958  INFO Solution3:109 - Total Deleted [23,938,328   ]
+02:53:55,969  INFO Solution3:95 - Run 22
+02:53:55,969  INFO Solution3:100 - Inserting
+02:54:38,671  INFO Solution3:102 - Total Insterted [42,701,535   ]
+02:54:38,671  INFO Solution3:107 - Delete
+02:55:03,524  INFO Solution3:109 - Total Deleted [24,852,572   ]
+02:55:03,531  INFO Solution3:95 - Run 23
+02:55:03,531  INFO Solution3:100 - Inserting
+02:55:46,320  INFO Solution3:102 - Total Insterted [42,789,071   ]
+02:55:46,320  INFO Solution3:107 - Delete
+02:56:10,188  INFO Solution3:109 - Total Deleted [23,868,153   ]
+02:56:10,196  INFO Solution3:95 - Run 24
+02:56:10,196  INFO Solution3:100 - Inserting
+02:56:53,286  INFO Solution3:102 - Total Insterted [43,090,299   ]
+02:56:53,286  INFO Solution3:107 - Delete
+02:57:17,426  INFO Solution3:109 - Total Deleted [24,140,002   ]
+02:57:17,435  INFO Solution3:95 - Run 25
+02:57:17,435  INFO Solution3:100 - Inserting
+02:58:00,208  INFO Solution3:102 - Total Insterted [42,772,672   ]
+02:58:00,208  INFO Solution3:107 - Delete
+02:58:25,077  INFO Solution3:109 - Total Deleted [24,868,645   ]
+02:58:25,086  INFO Solution3:95 - Run 26
+02:58:25,086  INFO Solution3:100 - Inserting
+02:59:07,869  INFO Solution3:102 - Total Insterted [42,783,703   ]
+02:59:07,870  INFO Solution3:107 - Delete
+02:59:31,742  INFO Solution3:109 - Total Deleted [23,872,298   ]
+02:59:31,749  INFO Solution3:95 - Run 27
+02:59:31,749  INFO Solution3:100 - Inserting
+03:00:14,587  INFO Solution3:102 - Total Insterted [42,838,239   ]
+03:00:14,587  INFO Solution3:107 - Delete
+03:00:38,551  INFO Solution3:109 - Total Deleted [23,963,685   ]
+03:00:38,558  INFO Solution3:95 - Run 28
+03:00:38,559  INFO Solution3:100 - Inserting
+03:01:23,088  INFO Solution3:102 - Total Insterted [44,529,262   ]
+03:01:23,088  INFO Solution3:107 - Delete
+03:01:47,204  INFO Solution3:109 - Total Deleted [24,115,544   ]
+03:01:47,213  INFO Solution3:95 - Run 29
+03:01:47,213  INFO Solution3:100 - Inserting
+03:02:30,019  INFO Solution3:102 - Total Insterted [42,806,605   ]
+03:02:30,020  INFO Solution3:107 - Delete
+03:02:53,999  INFO Solution3:109 - Total Deleted [23,978,964   ]
+03:02:54,009  INFO Solution3:95 - Run 30
+03:02:54,009  INFO Solution3:100 - Inserting
+03:03:36,877  INFO Solution3:102 - Total Insterted [42,867,767   ]
+03:03:36,877  INFO Solution3:107 - Delete
+03:04:01,827  INFO Solution3:109 - Total Deleted [24,950,056   ]
+03:04:01,834  INFO Solution3:95 - Run 31
+03:04:01,834  INFO Solution3:100 - Inserting
+03:04:44,619  INFO Solution3:102 - Total Insterted [42,785,046   ]
+03:04:44,620  INFO Solution3:107 - Delete
+03:05:08,445  INFO Solution3:109 - Total Deleted [23,824,839   ]
+03:05:08,455  INFO Solution3:95 - Run 32
+03:05:08,455  INFO Solution3:100 - Inserting
+03:05:51,264  INFO Solution3:102 - Total Insterted [42,808,732   ]
+03:05:51,264  INFO Solution3:107 - Delete
+03:06:15,095  INFO Solution3:109 - Total Deleted [23,831,472   ]
+03:06:15,143  INFO Solution3:95 - Run 33
+03:06:15,143  INFO Solution3:100 - Inserting
+03:06:57,882  INFO Solution3:102 - Total Insterted [42,738,237   ]
+03:06:57,882  INFO Solution3:107 - Delete
+03:07:21,759  INFO Solution3:109 - Total Deleted [23,877,232   ]
+03:07:21,767  INFO Solution3:95 - Run 34
+03:07:21,767  INFO Solution3:100 - Inserting
+03:08:04,535  INFO Solution3:102 - Total Insterted [42,768,055   ]
+03:08:04,535  INFO Solution3:107 - Delete
+03:08:28,484  INFO Solution3:109 - Total Deleted [23,948,966   ]
+03:08:28,496  INFO Solution3:95 - Run 35
+03:08:28,496  INFO Solution3:100 - Inserting
+03:09:11,323  INFO Solution3:102 - Total Insterted [42,827,127   ]
+03:09:11,323  INFO Solution3:107 - Delete
+03:09:35,316  INFO Solution3:109 - Total Deleted [23,992,476   ]
+03:09:35,324  INFO Solution3:95 - Run 36
+03:09:35,324  INFO Solution3:100 - Inserting
+03:10:18,021  INFO Solution3:102 - Total Insterted [42,696,948   ]
+03:10:18,022  INFO Solution3:107 - Delete
+03:10:41,843  INFO Solution3:109 - Total Deleted [23,821,138   ]
+03:10:41,855  INFO Solution3:95 - Run 37
+03:10:41,855  INFO Solution3:100 - Inserting
+03:11:24,663  INFO Solution3:102 - Total Insterted [42,808,727   ]
+03:11:24,664  INFO Solution3:107 - Delete
+03:11:48,596  INFO Solution3:109 - Total Deleted [23,932,680   ]
+03:11:48,608  INFO Solution3:95 - Run 38
+03:11:48,608  INFO Solution3:100 - Inserting
+03:12:31,418  INFO Solution3:102 - Total Insterted [42,809,644   ]
+03:12:31,418  INFO Solution3:107 - Delete
+03:12:55,329  INFO Solution3:109 - Total Deleted [23,911,694   ]
+03:12:55,340  INFO Solution3:95 - Run 39
+03:12:55,340  INFO Solution3:100 - Inserting
+03:13:38,264  INFO Solution3:102 - Total Insterted [42,923,909   ]
+03:13:38,264  INFO Solution3:107 - Delete
+03:14:02,609  INFO Solution3:109 - Total Deleted [24,344,821   ]
+03:14:02,617  INFO Solution3:95 - Run 40
+03:14:02,617  INFO Solution3:100 - Inserting
+03:14:45,349  INFO Solution3:102 - Total Insterted [42,732,559   ]
+03:14:45,350  INFO Solution3:107 - Delete
+03:15:10,079  INFO Solution3:109 - Total Deleted [24,729,479   ]
+03:15:10,088  INFO Solution3:95 - Run 41
+03:15:10,088  INFO Solution3:100 - Inserting
+03:15:52,849  INFO Solution3:102 - Total Insterted [42,761,231   ]
+03:15:52,849  INFO Solution3:107 - Delete
+03:16:16,754  INFO Solution3:109 - Total Deleted [23,904,234   ]
+03:16:16,760  INFO Solution3:95 - Run 42
+03:16:16,760  INFO Solution3:100 - Inserting
+03:16:59,570  INFO Solution3:102 - Total Insterted [42,809,992   ]
+03:16:59,570  INFO Solution3:107 - Delete
+03:17:23,486  INFO Solution3:109 - Total Deleted [23,916,051   ]
+03:17:23,495  INFO Solution3:95 - Run 43
+03:17:23,496  INFO Solution3:100 - Inserting
+03:18:06,365  INFO Solution3:102 - Total Insterted [42,868,995   ]
+03:18:06,365  INFO Solution3:107 - Delete
+03:18:30,297  INFO Solution3:109 - Total Deleted [23,932,149   ]
+03:18:30,307  INFO Solution3:95 - Run 44
+03:18:30,307  INFO Solution3:100 - Inserting
+03:19:13,575  INFO Solution3:102 - Total Insterted [43,267,919   ]
+03:19:13,576  INFO Solution3:107 - Delete
+03:19:37,965  INFO Solution3:109 - Total Deleted [24,389,612   ]
+03:19:37,977  INFO Solution3:95 - Run 45
+03:19:37,977  INFO Solution3:100 - Inserting
+03:20:20,729  INFO Solution3:102 - Total Insterted [42,752,035   ]
+03:20:20,729  INFO Solution3:107 - Delete
+03:20:44,650  INFO Solution3:109 - Total Deleted [23,919,947   ]
+03:20:44,659  INFO Solution3:95 - Run 46
+03:20:44,659  INFO Solution3:100 - Inserting
+03:21:27,500  INFO Solution3:102 - Total Insterted [42,840,601   ]
+03:21:27,500  INFO Solution3:107 - Delete
+03:21:51,404  INFO Solution3:109 - Total Deleted [23,904,373   ]
+03:21:51,415  INFO Solution3:95 - Run 47
+03:21:51,415  INFO Solution3:100 - Inserting
+03:22:34,274  INFO Solution3:102 - Total Insterted [42,859,469   ]
+03:22:34,274  INFO Solution3:107 - Delete
+03:22:59,496  INFO Solution3:109 - Total Deleted [25,221,401   ]
+03:22:59,507  INFO Solution3:95 - Run 48
+03:22:59,507  INFO Solution3:100 - Inserting
+03:23:42,315  INFO Solution3:102 - Total Insterted [42,807,735   ]
+03:23:42,315  INFO Solution3:107 - Delete
+03:24:06,262  INFO Solution3:109 - Total Deleted [23,946,852   ]
+03:24:06,272  INFO Solution3:95 - Run 49
+03:24:06,272  INFO Solution3:100 - Inserting
+03:24:49,091  INFO Solution3:102 - Total Insterted [42,819,038   ]
+03:24:49,091  INFO Solution3:107 - Delete
+03:25:13,010  INFO Solution3:109 - Total Deleted [23,918,825   ]
+03:25:13,020  INFO Solution3:95 - Run 50
+03:25:13,020  INFO Solution3:100 - Inserting
+03:25:55,870  INFO Solution3:102 - Total Insterted [42,849,260   ]
+03:25:55,870  INFO Solution3:107 - Delete
+03:26:21,254  INFO Solution3:109 - Total Deleted [25,383,821   ]
+03:26:21,263  INFO Solution3:95 - Run 51
+03:26:21,263  INFO Solution3:100 - Inserting
+03:27:04,114  INFO Solution3:102 - Total Insterted [42,850,919   ]
+03:27:04,115  INFO Solution3:107 - Delete
+03:27:28,055  INFO Solution3:109 - Total Deleted [23,940,657   ]
+03:27:28,063  INFO Solution3:95 - Run 52
+03:27:28,063  INFO Solution3:100 - Inserting
+03:28:10,959  INFO Solution3:102 - Total Insterted [42,896,056   ]
+03:28:10,959  INFO Solution3:107 - Delete
+03:28:34,913  INFO Solution3:109 - Total Deleted [23,954,155   ]
+03:28:34,925  INFO Solution3:95 - Run 53
+03:28:34,925  INFO Solution3:100 - Inserting
+03:29:18,529  INFO Solution3:102 - Total Insterted [43,603,618   ]
+03:29:18,529  INFO Solution3:107 - Delete
+03:29:42,668  INFO Solution3:109 - Total Deleted [24,138,386   ]
+03:29:42,679  INFO Solution3:95 - Run 54
+03:29:42,679  INFO Solution3:100 - Inserting
+03:30:25,544  INFO Solution3:102 - Total Insterted [42,864,537   ]
+03:30:25,544  INFO Solution3:107 - Delete
+03:30:49,505  INFO Solution3:109 - Total Deleted [23,961,058   ]
+03:30:49,513  INFO Solution3:95 - Run 55
+03:30:49,513  INFO Solution3:100 - Inserting
+03:31:32,438  INFO Solution3:102 - Total Insterted [42,925,454   ]
+03:31:32,439  INFO Solution3:107 - Delete
+03:31:56,484  INFO Solution3:109 - Total Deleted [24,045,620   ]
+03:31:56,492  INFO Solution3:95 - Run 56
+03:31:56,492  INFO Solution3:100 - Inserting
+03:32:39,831  INFO Solution3:102 - Total Insterted [43,338,950   ]
+03:32:39,831  INFO Solution3:107 - Delete
+03:33:03,991  INFO Solution3:109 - Total Deleted [24,160,319   ]
+03:33:04,002  INFO Solution3:95 - Run 57
+03:33:04,003  INFO Solution3:100 - Inserting
+03:33:46,777  INFO Solution3:102 - Total Insterted [42,774,717   ]
+03:33:46,778  INFO Solution3:107 - Delete
+03:34:10,611  INFO Solution3:109 - Total Deleted [23,833,648   ]
+03:34:10,623  INFO Solution3:95 - Run 58
+03:34:10,623  INFO Solution3:100 - Inserting
+03:34:53,384  INFO Solution3:102 - Total Insterted [42,760,377   ]
+03:34:53,384  INFO Solution3:107 - Delete
+03:35:17,230  INFO Solution3:109 - Total Deleted [23,846,725   ]
+03:35:17,238  INFO Solution3:95 - Run 59
+03:35:17,238  INFO Solution3:100 - Inserting
+03:36:00,107  INFO Solution3:102 - Total Insterted [42,869,007   ]
+03:36:00,107  INFO Solution3:107 - Delete
+03:36:24,089  INFO Solution3:109 - Total Deleted [23,981,195   ]
+03:36:24,096  INFO Solution3:95 - Run 60
+03:36:24,096  INFO Solution3:100 - Inserting
+03:37:06,944  INFO Solution3:102 - Total Insterted [42,847,141   ]
+03:37:06,944  INFO Solution3:107 - Delete
+03:37:32,399  INFO Solution3:109 - Total Deleted [25,454,630   ]
+03:37:32,406  INFO Solution3:95 - Run 61
+03:37:32,406  INFO Solution3:100 - Inserting
+03:38:15,221  INFO Solution3:102 - Total Insterted [42,814,060   ]
+03:38:15,221  INFO Solution3:107 - Delete
+03:38:39,078  INFO Solution3:109 - Total Deleted [23,857,364   ]
+03:38:39,089  INFO Solution3:95 - Run 62
+03:38:39,089  INFO Solution3:100 - Inserting
+03:39:21,916  INFO Solution3:102 - Total Insterted [42,827,284   ]
+03:39:21,916  INFO Solution3:107 - Delete
+03:39:45,864  INFO Solution3:109 - Total Deleted [23,947,604   ]
+03:39:45,872  INFO Solution3:95 - Run 63
+03:39:45,873  INFO Solution3:100 - Inserting
+03:40:28,768  INFO Solution3:102 - Total Insterted [42,895,308   ]
+03:40:28,768  INFO Solution3:107 - Delete
+03:40:52,737  INFO Solution3:109 - Total Deleted [23,969,042   ]
+03:40:52,746  INFO Solution3:95 - Run 64
+03:40:52,746  INFO Solution3:100 - Inserting
+03:41:35,473  INFO Solution3:102 - Total Insterted [42,727,214   ]
+03:41:35,473  INFO Solution3:107 - Delete
+03:41:59,338  INFO Solution3:109 - Total Deleted [23,864,540   ]
+03:41:59,348  INFO Solution3:95 - Run 65
+03:41:59,348  INFO Solution3:100 - Inserting
+03:42:42,197  INFO Solution3:102 - Total Insterted [42,848,867   ]
+03:42:42,197  INFO Solution3:107 - Delete
+03:43:06,084  INFO Solution3:109 - Total Deleted [23,886,520   ]
+03:43:06,091  INFO Solution3:95 - Run 66
+03:43:06,091  INFO Solution3:100 - Inserting
+03:43:49,255  INFO Solution3:102 - Total Insterted [43,163,283   ]
+03:43:49,255  INFO Solution3:107 - Delete
+03:44:14,550  INFO Solution3:109 - Total Deleted [25,295,427   ]
+03:44:14,563  INFO Solution3:95 - Run 67
+03:44:14,564  INFO Solution3:100 - Inserting
+03:44:57,360  INFO Solution3:102 - Total Insterted [42,796,726   ]
+03:44:57,361  INFO Solution3:107 - Delete
+03:45:21,258  INFO Solution3:109 - Total Deleted [23,897,339   ]
+03:45:21,268  INFO Solution3:95 - Run 68
+03:45:21,268  INFO Solution3:100 - Inserting
+03:46:04,084  INFO Solution3:102 - Total Insterted [42,815,817   ]
+03:46:04,084  INFO Solution3:107 - Delete
+03:46:28,023  INFO Solution3:109 - Total Deleted [23,938,942   ]
+03:46:28,036  INFO Solution3:95 - Run 69
+03:46:28,036  INFO Solution3:100 - Inserting
+03:47:10,744  INFO Solution3:102 - Total Insterted [42,707,781   ]
+03:47:10,744  INFO Solution3:107 - Delete
+03:47:35,530  INFO Solution3:109 - Total Deleted [24,786,029   ]
+03:47:35,538  INFO Solution3:95 - Run 70
+03:47:35,538  INFO Solution3:100 - Inserting
+03:48:18,324  INFO Solution3:102 - Total Insterted [42,785,755   ]
+03:48:18,324  INFO Solution3:107 - Delete
+03:48:42,255  INFO Solution3:109 - Total Deleted [23,931,318   ]
+03:48:42,263  INFO Solution3:95 - Run 71
+03:48:42,263  INFO Solution3:100 - Inserting
+03:49:25,043  INFO Solution3:102 - Total Insterted [42,779,839   ]
+03:49:25,043  INFO Solution3:107 - Delete
+03:49:50,433  INFO Solution3:109 - Total Deleted [25,390,403   ]
+03:49:50,441  INFO Solution3:95 - Run 72
+03:49:50,441  INFO Solution3:100 - Inserting
+03:50:33,338  INFO Solution3:102 - Total Insterted [42,896,505   ]
+03:50:33,338  INFO Solution3:107 - Delete
+03:50:57,284  INFO Solution3:109 - Total Deleted [23,946,061   ]
+03:50:57,294  INFO Solution3:95 - Run 73
+03:50:57,295  INFO Solution3:100 - Inserting
+03:51:40,134  INFO Solution3:102 - Total Insterted [42,839,471   ]
+03:51:40,134  INFO Solution3:107 - Delete
+03:52:04,065  INFO Solution3:109 - Total Deleted [23,930,745   ]
+03:52:04,074  INFO Solution3:95 - Run 74
+03:52:04,074  INFO Solution3:100 - Inserting
+03:52:47,168  INFO Solution3:102 - Total Insterted [43,093,732   ]
+03:52:47,168  INFO Solution3:107 - Delete
+03:53:10,971  INFO Solution3:109 - Total Deleted [23,803,390   ]
+03:53:10,981  INFO Solution3:95 - Run 75
+03:53:10,981  INFO Solution3:100 - Inserting
+03:53:53,787  INFO Solution3:102 - Total Insterted [42,805,513   ]
+03:53:53,787  INFO Solution3:107 - Delete
+03:54:17,660  INFO Solution3:109 - Total Deleted [23,872,532   ]
+03:54:17,671  INFO Solution3:95 - Run 76
+03:54:17,671  INFO Solution3:100 - Inserting
+03:55:00,298  INFO Solution3:102 - Total Insterted [42,627,164   ]
+03:55:00,298  INFO Solution3:107 - Delete
+03:55:24,114  INFO Solution3:109 - Total Deleted [23,816,147   ]
+03:55:24,122  INFO Solution3:95 - Run 77
+03:55:24,122  INFO Solution3:100 - Inserting
+03:56:07,190  INFO Solution3:102 - Total Insterted [43,068,383   ]
+03:56:07,191  INFO Solution3:107 - Delete
+03:56:31,187  INFO Solution3:109 - Total Deleted [23,996,120   ]
+03:56:31,197  INFO Solution3:95 - Run 78
+03:56:31,197  INFO Solution3:100 - Inserting
+03:57:14,062  INFO Solution3:102 - Total Insterted [42,864,559   ]
+03:57:14,062  INFO Solution3:107 - Delete
+03:57:38,001  INFO Solution3:109 - Total Deleted [23,939,079   ]
+03:57:38,010  INFO Solution3:95 - Run 79
+03:57:38,011  INFO Solution3:100 - Inserting
+03:58:20,804  INFO Solution3:102 - Total Insterted [42,793,240   ]
+03:58:20,804  INFO Solution3:107 - Delete
+03:58:45,953  INFO Solution3:109 - Total Deleted [25,148,865   ]
+03:58:45,964  INFO Solution3:95 - Run 80
+03:58:45,965  INFO Solution3:100 - Inserting
+03:59:28,802  INFO Solution3:102 - Total Insterted [42,837,219   ]
+03:59:28,802  INFO Solution3:107 - Delete
+03:59:52,749  INFO Solution3:109 - Total Deleted [23,946,757   ]
+03:59:52,759  INFO Solution3:95 - Run 81
+03:59:52,759  INFO Solution3:100 - Inserting
+04:00:35,581  INFO Solution3:102 - Total Insterted [42,821,221   ]
+04:00:35,581  INFO Solution3:107 - Delete
+04:00:59,504  INFO Solution3:109 - Total Deleted [23,922,635   ]
+04:00:59,511  INFO Solution3:95 - Run 82
+04:00:59,511  INFO Solution3:100 - Inserting
+04:01:42,342  INFO Solution3:102 - Total Insterted [42,830,696   ]
+04:01:42,342  INFO Solution3:107 - Delete
+04:02:06,311  INFO Solution3:109 - Total Deleted [23,969,155   ]
+04:02:06,320  INFO Solution3:95 - Run 83
+04:02:06,320  INFO Solution3:100 - Inserting
+04:02:49,405  INFO Solution3:102 - Total Insterted [43,084,755   ]
+04:02:49,405  INFO Solution3:107 - Delete
+04:03:13,233  INFO Solution3:109 - Total Deleted [23,827,941   ]
+04:03:13,240  INFO Solution3:95 - Run 84
+04:03:13,240  INFO Solution3:100 - Inserting
+04:03:56,096  INFO Solution3:102 - Total Insterted [42,855,075   ]
+04:03:56,096  INFO Solution3:107 - Delete
+04:04:19,966  INFO Solution3:109 - Total Deleted [23,870,533   ]
+04:04:19,977  INFO Solution3:95 - Run 85
+04:04:19,977  INFO Solution3:100 - Inserting
+04:05:02,813  INFO Solution3:102 - Total Insterted [42,835,363   ]
+04:05:02,813  INFO Solution3:107 - Delete
+04:05:26,666  INFO Solution3:109 - Total Deleted [23,853,397   ]
+04:05:26,675  INFO Solution3:95 - Run 86
+04:05:26,675  INFO Solution3:100 - Inserting
+04:06:09,413  INFO Solution3:102 - Total Insterted [42,738,649   ]
+04:06:09,414  INFO Solution3:107 - Delete
+04:06:33,586  INFO Solution3:109 - Total Deleted [24,172,062   ]
+04:06:33,598  INFO Solution3:95 - Run 87
+04:06:33,598  INFO Solution3:100 - Inserting
+04:07:16,483  INFO Solution3:102 - Total Insterted [42,885,189   ]
+04:07:16,483  INFO Solution3:107 - Delete
+04:07:40,380  INFO Solution3:109 - Total Deleted [23,896,466   ]
+04:07:40,388  INFO Solution3:95 - Run 88
+04:07:40,388  INFO Solution3:100 - Inserting
+04:08:23,284  INFO Solution3:102 - Total Insterted [42,895,348   ]
+04:08:23,284  INFO Solution3:107 - Delete
+04:08:48,777  INFO Solution3:109 - Total Deleted [25,492,876   ]
+04:08:48,784  INFO Solution3:95 - Run 89
+04:08:48,785  INFO Solution3:100 - Inserting
+04:09:31,602  INFO Solution3:102 - Total Insterted [42,817,123   ]
+04:09:31,602  INFO Solution3:107 - Delete
+04:09:55,461  INFO Solution3:109 - Total Deleted [23,858,983   ]
+04:09:55,469  INFO Solution3:95 - Run 90
+04:09:55,470  INFO Solution3:100 - Inserting
+04:10:38,262  INFO Solution3:102 - Total Insterted [42,792,538   ]
+04:10:38,262  INFO Solution3:107 - Delete
+04:11:02,229  INFO Solution3:109 - Total Deleted [23,966,970   ]
+04:11:02,238  INFO Solution3:95 - Run 91
+04:11:02,238  INFO Solution3:100 - Inserting
+04:11:45,264  INFO Solution3:102 - Total Insterted [43,026,380   ]
+04:11:45,265  INFO Solution3:107 - Delete
+04:12:10,147  INFO Solution3:109 - Total Deleted [24,882,052   ]
+04:12:10,159  INFO Solution3:95 - Run 92
+04:12:10,159  INFO Solution3:100 - Inserting
+04:12:53,009  INFO Solution3:102 - Total Insterted [42,849,444   ]
+04:12:53,009  INFO Solution3:107 - Delete
+04:13:16,947  INFO Solution3:109 - Total Deleted [23,937,772   ]
+04:13:16,957  INFO Solution3:95 - Run 93
+04:13:16,957  INFO Solution3:100 - Inserting
+04:13:59,848  INFO Solution3:102 - Total Insterted [42,890,846   ]
+04:13:59,849  INFO Solution3:107 - Delete
+04:14:25,300  INFO Solution3:109 - Total Deleted [25,451,052   ]
+04:14:25,308  INFO Solution3:95 - Run 94
+04:14:25,308  INFO Solution3:100 - Inserting
+04:15:08,191  INFO Solution3:102 - Total Insterted [42,883,090   ]
+04:15:08,191  INFO Solution3:107 - Delete
+04:15:32,143  INFO Solution3:109 - Total Deleted [23,951,368   ]
+04:15:32,151  INFO Solution3:95 - Run 95
+04:15:32,152  INFO Solution3:100 - Inserting
+04:16:14,967  INFO Solution3:102 - Total Insterted [42,815,348   ]
+04:16:14,967  INFO Solution3:107 - Delete
+04:16:38,893  INFO Solution3:109 - Total Deleted [23,925,719   ]
+04:16:38,903  INFO Solution3:95 - Run 96
+04:16:38,903  INFO Solution3:100 - Inserting
+04:17:21,967  INFO Solution3:102 - Total Insterted [43,063,693   ]
+04:17:21,967  INFO Solution3:107 - Delete
+04:17:46,346  INFO Solution3:109 - Total Deleted [24,378,971   ]
+04:17:46,354  INFO Solution3:95 - Run 97
+04:17:46,354  INFO Solution3:100 - Inserting
+04:18:29,275  INFO Solution3:102 - Total Insterted [42,920,349   ]
+04:18:29,275  INFO Solution3:107 - Delete
+04:18:53,194  INFO Solution3:109 - Total Deleted [23,918,935   ]
+04:18:53,202  INFO Solution3:95 - Run 98
+04:18:53,203  INFO Solution3:100 - Inserting
+04:19:36,319  INFO Solution3:102 - Total Insterted [43,116,088   ]
+04:19:36,319  INFO Solution3:107 - Delete
+04:20:00,325  INFO Solution3:109 - Total Deleted [24,006,492   ]
+04:20:00,333  INFO Solution3:95 - Run 99
+04:20:00,334  INFO Solution3:100 - Inserting
+04:20:43,144  INFO Solution3:102 - Total Insterted [42,810,120   ]
+04:20:43,144  INFO Solution3:107 - Delete
+04:21:08,640  INFO Solution3:109 - Total Deleted [25,495,612   ]
+04:21:08,650  INFO Main:193 - Experimented Solution3
+#EXPERIMENT: Solution4
+#	Working Directory/home/jcrada/Development/hr/ResearchTestApplication
+#	Solution: Solution4
+#	LogPath: ./logs
+#	Runs: 100
+#	Students: 1000
+#	Courses: 100
+#	Groups:10
+#	CsvBase: ./data/
+#	CreateCsv: true
+#	Initialize: false
+
+04:21:08,652  INFO Main:191 - Experimenting Solution4
+04:21:08,986  INFO CassandraHostRetryService:37 - Downed Host Retry service started with queue size -1 and retry delay 10s
+04:21:09,219  INFO JmxMonitor:54 - Registering JMX me.prettyprint.cassandra.service_MetadataCluster:ServiceType=hector,MonitorType=hector
+04:21:09,220  WARN HarshaConnectionObject:68 - Active pool size:1
+04:21:09,220  INFO HarshaConnectionObject:74 - Cluster created
+04:21:09,220  INFO HarshaConnectionObject:80 - Mutator Created.
+04:21:09,220  INFO HarshaConnectionObject:85 - RangeSliceQuery Created.
+04:21:09,220  INFO HarshaConnectionObject:89 - SliceQuery Created.
+04:21:09,220  INFO HarshaConnectionObject:93 - Indexed SlicesQuery Created.
+04:21:09,220  INFO HarshaConnectionObject:95 - Connected to [IP Address]ambeli [Port]9161 [Cluster Name]MetadataCluster [Key Space]Metadata
+04:21:09,224  INFO Solution4:114 - Run 0
+04:21:09,225  INFO Solution4:119 - Inserting
+04:21:15,439  INFO Solution4:121 - Total Insterted [6,214,612   ]
+04:21:15,439  INFO Solution4:126 - Delete
+04:21:21,571  INFO Solution4:128 - Total Deleted [6,131,661   ]
+04:21:21,587  INFO Solution4:114 - Run 1
+04:21:21,588  INFO Solution4:119 - Inserting
+04:21:27,760  INFO Solution4:121 - Total Insterted [6,172,055   ]
+04:21:27,760  INFO Solution4:126 - Delete
+04:21:33,911  INFO Solution4:128 - Total Deleted [6,151,202   ]
+04:21:33,930  INFO Solution4:114 - Run 2
+04:21:33,930  INFO Solution4:119 - Inserting
+04:21:40,405  INFO Solution4:121 - Total Insterted [6,474,797   ]
+04:21:40,405  INFO Solution4:126 - Delete
+04:21:46,691  INFO Solution4:128 - Total Deleted [6,285,945   ]
+04:21:46,698  INFO Solution4:114 - Run 3
+04:21:46,699  INFO Solution4:119 - Inserting
+04:21:53,018  INFO Solution4:121 - Total Insterted [6,319,502   ]
+04:21:53,018  INFO Solution4:126 - Delete
+04:21:59,212  INFO Solution4:128 - Total Deleted [6,193,800   ]
+04:21:59,219  INFO Solution4:114 - Run 4
+04:21:59,219  INFO Solution4:119 - Inserting
+04:22:05,480  INFO Solution4:121 - Total Insterted [6,260,831   ]
+04:22:05,480  INFO Solution4:126 - Delete
+04:22:11,755  INFO Solution4:128 - Total Deleted [6,274,530   ]
+04:22:11,765  INFO Solution4:114 - Run 5
+04:22:11,765  INFO Solution4:119 - Inserting
+04:22:17,935  INFO Solution4:121 - Total Insterted [6,169,078   ]
+04:22:17,935  INFO Solution4:126 - Delete
+04:22:24,528  INFO Solution4:128 - Total Deleted [6,593,257   ]
+04:22:24,539  INFO Solution4:114 - Run 6
+04:22:24,539  INFO Solution4:119 - Inserting
+04:22:30,760  INFO Solution4:121 - Total Insterted [6,221,079   ]
+04:22:30,760  INFO Solution4:126 - Delete
+04:22:36,945  INFO Solution4:128 - Total Deleted [6,184,398   ]
+04:22:36,955  INFO Solution4:114 - Run 7
+04:22:36,955  INFO Solution4:119 - Inserting
+04:22:43,306  INFO Solution4:121 - Total Insterted [6,351,160   ]
+04:22:43,306  INFO Solution4:126 - Delete
+04:22:49,370  INFO Solution4:128 - Total Deleted [6,063,521   ]
+04:22:49,379  INFO Solution4:114 - Run 8
+04:22:49,380  INFO Solution4:119 - Inserting
+04:22:55,690  INFO Solution4:121 - Total Insterted [6,310,902   ]
+04:22:55,691  INFO Solution4:126 - Delete
+04:23:01,981  INFO Solution4:128 - Total Deleted [6,289,940   ]
+04:23:01,988  INFO Solution4:114 - Run 9
+04:23:01,988  INFO Solution4:119 - Inserting
+04:23:08,383  INFO Solution4:121 - Total Insterted [6,394,728   ]
+04:23:08,383  INFO Solution4:126 - Delete
+04:23:15,468  INFO Solution4:128 - Total Deleted [7,085,167   ]
+04:23:15,475  INFO Solution4:114 - Run 10
+04:23:15,475  INFO Solution4:119 - Inserting
+04:23:21,733  INFO Solution4:121 - Total Insterted [6,257,376   ]
+04:23:21,733  INFO Solution4:126 - Delete
+04:23:28,055  INFO Solution4:128 - Total Deleted [6,322,103   ]
+04:23:28,066  INFO Solution4:114 - Run 11
+04:23:28,066  INFO Solution4:119 - Inserting
+04:23:34,350  INFO Solution4:121 - Total Insterted [6,283,585   ]
+04:23:34,350  INFO Solution4:126 - Delete
+04:23:40,681  INFO Solution4:128 - Total Deleted [6,331,023   ]
+04:23:40,688  INFO Solution4:114 - Run 12
+04:23:40,689  INFO Solution4:119 - Inserting
+04:23:47,032  INFO Solution4:121 - Total Insterted [6,343,335   ]
+04:23:47,032  INFO Solution4:126 - Delete
+04:23:53,367  INFO Solution4:128 - Total Deleted [6,334,511   ]
+04:23:53,374  INFO Solution4:114 - Run 13
+04:23:53,374  INFO Solution4:119 - Inserting
+04:23:59,711  INFO Solution4:121 - Total Insterted [6,337,042   ]
+04:23:59,711  INFO Solution4:126 - Delete
+04:24:06,913  INFO Solution4:128 - Total Deleted [7,201,616   ]
+04:24:06,923  INFO Solution4:114 - Run 14
+04:24:06,923  INFO Solution4:119 - Inserting
+04:24:13,263  INFO Solution4:121 - Total Insterted [6,339,472   ]
+04:24:13,263  INFO Solution4:126 - Delete
+04:24:19,504  INFO Solution4:128 - Total Deleted [6,241,246   ]
+04:24:19,514  INFO Solution4:114 - Run 15
+04:24:19,514  INFO Solution4:119 - Inserting
+04:24:25,897  INFO Solution4:121 - Total Insterted [6,382,955   ]
+04:24:25,898  INFO Solution4:126 - Delete
+04:24:31,967  INFO Solution4:128 - Total Deleted [6,069,087   ]
+04:24:31,976  INFO Solution4:114 - Run 16
+04:24:31,976  INFO Solution4:119 - Inserting
+04:24:38,534  INFO Solution4:121 - Total Insterted [6,558,233   ]
+04:24:38,534  INFO Solution4:126 - Delete
+04:24:45,929  INFO Solution4:128 - Total Deleted [7,394,920   ]
+04:24:45,936  INFO Solution4:114 - Run 17
+04:24:45,937  INFO Solution4:119 - Inserting
+04:24:52,283  INFO Solution4:121 - Total Insterted [6,346,571   ]
+04:24:52,283  INFO Solution4:126 - Delete
+04:24:58,380  INFO Solution4:128 - Total Deleted [6,096,927   ]
+04:24:58,387  INFO Solution4:114 - Run 18
+04:24:58,387  INFO Solution4:119 - Inserting
+04:25:04,761  INFO Solution4:121 - Total Insterted [6,372,995   ]
+04:25:04,761  INFO Solution4:126 - Delete
+04:25:11,083  INFO Solution4:128 - Total Deleted [6,321,993   ]
+04:25:11,092  INFO Solution4:114 - Run 19
+04:25:11,092  INFO Solution4:119 - Inserting
+04:25:17,383  INFO Solution4:121 - Total Insterted [6,290,603   ]
+04:25:17,383  INFO Solution4:126 - Delete
+04:25:23,662  INFO Solution4:128 - Total Deleted [6,278,881   ]
+04:25:23,673  INFO Solution4:114 - Run 20
+04:25:23,673  INFO Solution4:119 - Inserting
+04:25:30,068  INFO Solution4:121 - Total Insterted [6,395,426   ]
+04:25:30,069  INFO Solution4:126 - Delete
+04:25:36,408  INFO Solution4:128 - Total Deleted [6,339,611   ]
+04:25:36,418  INFO Solution4:114 - Run 21
+04:25:36,418  INFO Solution4:119 - Inserting
+04:25:42,643  INFO Solution4:121 - Total Insterted [6,225,409   ]
+04:25:42,643  INFO Solution4:126 - Delete
+04:25:49,165  INFO Solution4:128 - Total Deleted [6,521,365   ]
+04:25:49,172  INFO Solution4:114 - Run 22
+04:25:49,172  INFO Solution4:119 - Inserting
+04:25:55,522  INFO Solution4:121 - Total Insterted [6,350,102   ]
+04:25:55,522  INFO Solution4:126 - Delete
+04:26:01,855  INFO Solution4:128 - Total Deleted [6,332,429   ]
+04:26:01,862  INFO Solution4:114 - Run 23
+04:26:01,862  INFO Solution4:119 - Inserting
+04:26:08,161  INFO Solution4:121 - Total Insterted [6,298,912   ]
+04:26:08,161  INFO Solution4:126 - Delete
+04:26:14,501  INFO Solution4:128 - Total Deleted [6,339,250   ]
+04:26:14,508  INFO Solution4:114 - Run 24
+04:26:14,508  INFO Solution4:119 - Inserting
+04:26:20,971  INFO Solution4:121 - Total Insterted [6,462,937   ]
+04:26:20,971  INFO Solution4:126 - Delete
+04:26:27,270  INFO Solution4:128 - Total Deleted [6,299,235   ]
+04:26:27,283  INFO Solution4:114 - Run 25
+04:26:27,283  INFO Solution4:119 - Inserting
+04:26:33,530  INFO Solution4:121 - Total Insterted [6,247,333   ]
+04:26:33,531  INFO Solution4:126 - Delete
+04:26:40,158  INFO Solution4:128 - Total Deleted [6,627,217   ]
+04:26:40,169  INFO Solution4:114 - Run 26
+04:26:40,169  INFO Solution4:119 - Inserting
+04:26:46,517  INFO Solution4:121 - Total Insterted [6,348,139   ]
+04:26:46,517  INFO Solution4:126 - Delete
+04:26:52,777  INFO Solution4:128 - Total Deleted [6,259,752   ]
+04:26:52,786  INFO Solution4:114 - Run 27
+04:26:52,786  INFO Solution4:119 - Inserting
+04:26:59,215  INFO Solution4:121 - Total Insterted [6,429,417   ]
+04:26:59,215  INFO Solution4:126 - Delete
+04:27:05,554  INFO Solution4:128 - Total Deleted [6,338,986   ]
+04:27:05,563  INFO Solution4:114 - Run 28
+04:27:05,563  INFO Solution4:119 - Inserting
+04:27:11,999  INFO Solution4:121 - Total Insterted [6,435,353   ]
+04:27:11,999  INFO Solution4:126 - Delete
+04:27:19,457  INFO Solution4:128 - Total Deleted [7,457,805   ]
+04:27:19,464  INFO Solution4:114 - Run 29
+04:27:19,464  INFO Solution4:119 - Inserting
+04:27:25,784  INFO Solution4:121 - Total Insterted [6,320,366   ]
+04:27:25,785  INFO Solution4:126 - Delete
+04:27:32,042  INFO Solution4:128 - Total Deleted [6,256,995   ]
+04:27:32,048  INFO Solution4:114 - Run 30
+04:27:32,048  INFO Solution4:119 - Inserting
+04:27:38,382  INFO Solution4:121 - Total Insterted [6,333,271   ]
+04:27:38,382  INFO Solution4:126 - Delete
+04:27:44,555  INFO Solution4:128 - Total Deleted [6,173,210   ]
+04:27:44,564  INFO Solution4:114 - Run 31
+04:27:44,564  INFO Solution4:119 - Inserting
+04:27:50,882  INFO Solution4:121 - Total Insterted [6,317,874   ]
+04:27:50,882  INFO Solution4:126 - Delete
+04:27:57,155  INFO Solution4:128 - Total Deleted [6,272,854   ]
+04:27:57,166  INFO Solution4:114 - Run 32
+04:27:57,167  INFO Solution4:119 - Inserting
+04:28:03,572  INFO Solution4:121 - Total Insterted [6,405,273   ]
+04:28:03,572  INFO Solution4:126 - Delete
+04:28:09,945  INFO Solution4:128 - Total Deleted [6,372,652   ]
+04:28:09,956  INFO Solution4:114 - Run 33
+04:28:09,956  INFO Solution4:119 - Inserting
+04:28:16,320  INFO Solution4:121 - Total Insterted [6,363,650   ]
+04:28:16,320  INFO Solution4:126 - Delete
+04:28:22,609  INFO Solution4:128 - Total Deleted [6,289,487   ]
+04:28:22,616  INFO Solution4:114 - Run 34
+04:28:22,616  INFO Solution4:119 - Inserting
+04:28:29,005  INFO Solution4:121 - Total Insterted [6,389,065   ]
+04:28:29,006  INFO Solution4:126 - Delete
+04:28:35,287  INFO Solution4:128 - Total Deleted [6,280,428   ]
+04:28:35,293  INFO Solution4:114 - Run 35
+04:28:35,293  INFO Solution4:119 - Inserting
+04:28:41,463  INFO Solution4:121 - Total Insterted [6,169,807   ]
+04:28:41,463  INFO Solution4:126 - Delete
+04:28:47,837  INFO Solution4:128 - Total Deleted [6,373,431   ]
+04:28:47,845  INFO Solution4:114 - Run 36
+04:28:47,846  INFO Solution4:119 - Inserting
+04:28:54,097  INFO Solution4:121 - Total Insterted [6,251,504   ]
+04:28:54,098  INFO Solution4:126 - Delete
+04:29:00,356  INFO Solution4:128 - Total Deleted [6,258,702   ]
+04:29:00,365  INFO Solution4:114 - Run 37
+04:29:00,366  INFO Solution4:119 - Inserting
+04:29:06,632  INFO Solution4:121 - Total Insterted [6,266,265   ]
+04:29:06,632  INFO Solution4:126 - Delete
+04:29:12,959  INFO Solution4:128 - Total Deleted [6,327,397   ]
+04:29:12,969  INFO Solution4:114 - Run 38
+04:29:12,969  INFO Solution4:119 - Inserting
+04:29:19,283  INFO Solution4:121 - Total Insterted [6,313,319   ]
+04:29:19,283  INFO Solution4:126 - Delete
+04:29:25,577  INFO Solution4:128 - Total Deleted [6,294,442   ]
+04:29:25,585  INFO Solution4:114 - Run 39
+04:29:25,585  INFO Solution4:119 - Inserting
+04:29:31,994  INFO Solution4:121 - Total Insterted [6,408,304   ]
+04:29:31,994  INFO Solution4:126 - Delete
+04:29:38,285  INFO Solution4:128 - Total Deleted [6,290,808   ]
+04:29:38,292  INFO Solution4:114 - Run 40
+04:29:38,292  INFO Solution4:119 - Inserting
+04:29:44,631  INFO Solution4:121 - Total Insterted [6,338,444   ]
+04:29:44,631  INFO Solution4:126 - Delete
+04:29:51,738  INFO Solution4:128 - Total Deleted [7,106,868   ]
+04:29:51,744  INFO Solution4:114 - Run 41
+04:29:51,744  INFO Solution4:119 - Inserting
+04:29:58,099  INFO Solution4:121 - Total Insterted [6,354,468   ]
+04:29:58,099  INFO Solution4:126 - Delete
+04:30:04,327  INFO Solution4:128 - Total Deleted [6,227,726   ]
+04:30:04,335  INFO Solution4:114 - Run 42
+04:30:04,335  INFO Solution4:119 - Inserting
+04:30:10,680  INFO Solution4:121 - Total Insterted [6,344,025   ]
+04:30:10,680  INFO Solution4:126 - Delete
+04:30:16,969  INFO Solution4:128 - Total Deleted [6,289,251   ]
+04:30:16,976  INFO Solution4:114 - Run 43
+04:30:16,977  INFO Solution4:119 - Inserting
+04:30:23,390  INFO Solution4:121 - Total Insterted [6,413,595   ]
+04:30:23,390  INFO Solution4:126 - Delete
+04:30:29,656  INFO Solution4:128 - Total Deleted [6,265,361   ]
+04:30:29,668  INFO Solution4:114 - Run 44
+04:30:29,668  INFO Solution4:119 - Inserting
+04:30:36,093  INFO Solution4:121 - Total Insterted [6,424,433   ]
+04:30:36,093  INFO Solution4:126 - Delete
+04:30:42,434  INFO Solution4:128 - Total Deleted [6,340,804   ]
+04:30:42,446  INFO Solution4:114 - Run 45
+04:30:42,446  INFO Solution4:119 - Inserting
+04:30:48,864  INFO Solution4:121 - Total Insterted [6,417,658   ]
+04:30:48,864  INFO Solution4:126 - Delete
+04:30:56,289  INFO Solution4:128 - Total Deleted [7,424,605   ]
+04:30:56,300  INFO Solution4:114 - Run 46
+04:30:56,300  INFO Solution4:119 - Inserting
+04:31:02,734  INFO Solution4:121 - Total Insterted [6,433,410   ]
+04:31:02,734  INFO Solution4:126 - Delete
+04:31:08,758  INFO Solution4:128 - Total Deleted [6,024,535   ]
+04:31:08,767  INFO Solution4:114 - Run 47
+04:31:08,767  INFO Solution4:119 - Inserting
+04:31:15,129  INFO Solution4:121 - Total Insterted [6,362,367   ]
+04:31:15,130  INFO Solution4:126 - Delete
+04:31:21,385  INFO Solution4:128 - Total Deleted [6,255,347   ]
+04:31:21,393  INFO Solution4:114 - Run 48
+04:31:21,393  INFO Solution4:119 - Inserting
+04:31:27,805  INFO Solution4:121 - Total Insterted [6,411,943   ]
+04:31:27,805  INFO Solution4:126 - Delete
+04:31:34,094  INFO Solution4:128 - Total Deleted [6,289,433   ]
+04:31:34,101  INFO Solution4:114 - Run 49
+04:31:34,101  INFO Solution4:119 - Inserting
+04:31:40,527  INFO Solution4:121 - Total Insterted [6,425,766   ]
+04:31:40,527  INFO Solution4:126 - Delete
+04:31:46,834  INFO Solution4:128 - Total Deleted [6,306,998   ]
+04:31:46,841  INFO Solution4:114 - Run 50
+04:31:46,841  INFO Solution4:119 - Inserting
+04:31:53,093  INFO Solution4:121 - Total Insterted [6,252,171   ]
+04:31:53,093  INFO Solution4:126 - Delete
+04:32:00,061  INFO Solution4:128 - Total Deleted [6,967,800   ]
+04:32:00,067  INFO Solution4:114 - Run 51
+04:32:00,067  INFO Solution4:119 - Inserting
+04:32:06,379  INFO Solution4:121 - Total Insterted [6,310,986   ]
+04:32:06,379  INFO Solution4:126 - Delete
+04:32:12,610  INFO Solution4:128 - Total Deleted [6,230,886   ]
+04:32:12,616  INFO Solution4:114 - Run 52
+04:32:12,616  INFO Solution4:119 - Inserting
+04:32:19,000  INFO Solution4:121 - Total Insterted [6,383,855   ]
+04:32:19,000  INFO Solution4:126 - Delete
+04:32:25,303  INFO Solution4:128 - Total Deleted [6,302,510   ]
+04:32:25,316  INFO Solution4:114 - Run 53
+04:32:25,316  INFO Solution4:119 - Inserting
+04:32:31,698  INFO Solution4:121 - Total Insterted [6,381,719   ]
+04:32:31,698  INFO Solution4:126 - Delete
+04:32:38,061  INFO Solution4:128 - Total Deleted [6,363,705   ]
+04:32:38,072  INFO Solution4:114 - Run 54
+04:32:38,073  INFO Solution4:119 - Inserting
+04:32:44,337  INFO Solution4:121 - Total Insterted [6,264,401   ]
+04:32:44,337  INFO Solution4:126 - Delete
+04:32:51,357  INFO Solution4:128 - Total Deleted [7,019,593   ]
+04:32:51,367  INFO Solution4:114 - Run 55
+04:32:51,368  INFO Solution4:119 - Inserting
+04:32:57,712  INFO Solution4:121 - Total Insterted [6,343,814   ]
+04:32:57,712  INFO Solution4:126 - Delete
+04:33:03,992  INFO Solution4:128 - Total Deleted [6,279,753   ]
+04:33:04,003  INFO Solution4:114 - Run 56
+04:33:04,004  INFO Solution4:119 - Inserting
+04:33:10,377  INFO Solution4:121 - Total Insterted [6,373,901   ]
+04:33:10,378  INFO Solution4:126 - Delete
+04:33:16,690  INFO Solution4:128 - Total Deleted [6,312,757   ]
+04:33:16,702  INFO Solution4:114 - Run 57
+04:33:16,702  INFO Solution4:119 - Inserting
+04:33:23,123  INFO Solution4:121 - Total Insterted [6,420,906   ]
+04:33:23,123  INFO Solution4:126 - Delete
+04:33:29,415  INFO Solution4:128 - Total Deleted [6,291,059   ]
+04:33:29,461  INFO Solution4:114 - Run 58
+04:33:29,461  INFO Solution4:119 - Inserting
+04:33:36,063  INFO Solution4:121 - Total Insterted [6,601,927   ]
+04:33:36,063  INFO Solution4:126 - Delete
+04:33:42,540  INFO Solution4:128 - Total Deleted [6,476,882   ]
+04:33:42,549  INFO Solution4:114 - Run 59
+04:33:42,549  INFO Solution4:119 - Inserting
+04:33:48,834  INFO Solution4:121 - Total Insterted [6,284,964   ]
+04:33:48,834  INFO Solution4:126 - Delete
+04:33:55,093  INFO Solution4:128 - Total Deleted [6,258,027   ]
+04:33:55,103  INFO Solution4:114 - Run 60
+04:33:55,103  INFO Solution4:119 - Inserting
+04:34:01,478  INFO Solution4:121 - Total Insterted [6,374,941   ]
+04:34:01,478  INFO Solution4:126 - Delete
+04:34:07,749  INFO Solution4:128 - Total Deleted [6,271,181   ]
+04:34:07,756  INFO Solution4:114 - Run 61
+04:34:07,757  INFO Solution4:119 - Inserting
+04:34:14,022  INFO Solution4:121 - Total Insterted [6,265,566   ]
+04:34:14,022  INFO Solution4:126 - Delete
+04:34:20,856  INFO Solution4:128 - Total Deleted [6,833,583   ]
+04:34:20,864  INFO Solution4:114 - Run 62
+04:34:20,864  INFO Solution4:119 - Inserting
+04:34:27,173  INFO Solution4:121 - Total Insterted [6,308,395   ]
+04:34:27,173  INFO Solution4:126 - Delete
+04:34:33,487  INFO Solution4:128 - Total Deleted [6,314,578   ]
+04:34:33,495  INFO Solution4:114 - Run 63
+04:34:33,495  INFO Solution4:119 - Inserting
+04:34:39,823  INFO Solution4:121 - Total Insterted [6,327,751   ]
+04:34:39,823  INFO Solution4:126 - Delete
+04:34:46,232  INFO Solution4:128 - Total Deleted [6,409,026   ]
+04:34:46,244  INFO Solution4:114 - Run 64
+04:34:46,244  INFO Solution4:119 - Inserting
+04:34:52,609  INFO Solution4:121 - Total Insterted [6,364,739   ]
+04:34:52,609  INFO Solution4:126 - Delete
+04:34:58,985  INFO Solution4:128 - Total Deleted [6,375,565   ]
+04:34:58,997  INFO Solution4:114 - Run 65
+04:34:58,997  INFO Solution4:119 - Inserting
+04:35:05,363  INFO Solution4:121 - Total Insterted [6,366,129   ]
+04:35:05,363  INFO Solution4:126 - Delete
+04:35:11,751  INFO Solution4:128 - Total Deleted [6,387,965   ]
+04:35:11,758  INFO Solution4:114 - Run 66
+04:35:11,759  INFO Solution4:119 - Inserting
+04:35:18,464  INFO Solution4:121 - Total Insterted [6,705,609   ]
+04:35:18,465  INFO Solution4:126 - Delete
+04:35:24,945  INFO Solution4:128 - Total Deleted [6,480,578   ]
+04:35:24,952  INFO Solution4:114 - Run 67
+04:35:24,952  INFO Solution4:119 - Inserting
+04:35:31,295  INFO Solution4:121 - Total Insterted [6,342,753   ]
+04:35:31,295  INFO Solution4:126 - Delete
+04:35:37,588  INFO Solution4:128 - Total Deleted [6,293,341   ]
+04:35:37,595  INFO Solution4:114 - Run 68
+04:35:37,595  INFO Solution4:119 - Inserting
+04:35:44,015  INFO Solution4:121 - Total Insterted [6,420,102   ]
+04:35:44,015  INFO Solution4:126 - Delete
+04:35:50,331  INFO Solution4:128 - Total Deleted [6,315,687   ]
+04:35:50,338  INFO Solution4:114 - Run 69
+04:35:50,338  INFO Solution4:119 - Inserting
+04:35:56,760  INFO Solution4:121 - Total Insterted [6,421,082   ]
+04:35:56,760  INFO Solution4:126 - Delete
+04:36:03,097  INFO Solution4:128 - Total Deleted [6,336,710   ]
+04:36:03,103  INFO Solution4:114 - Run 70
+04:36:03,104  INFO Solution4:119 - Inserting
+04:36:09,535  INFO Solution4:121 - Total Insterted [6,431,061   ]
+04:36:09,535  INFO Solution4:126 - Delete
+04:36:16,076  INFO Solution4:128 - Total Deleted [6,540,673   ]
+04:36:16,083  INFO Solution4:114 - Run 71
+04:36:16,083  INFO Solution4:119 - Inserting
+04:36:22,663  INFO Solution4:121 - Total Insterted [6,579,975   ]
+04:36:22,663  INFO Solution4:126 - Delete
+04:36:29,276  INFO Solution4:128 - Total Deleted [6,612,647   ]
+04:36:29,283  INFO Solution4:114 - Run 72
+04:36:29,283  INFO Solution4:119 - Inserting
+04:36:35,586  INFO Solution4:121 - Total Insterted [6,302,412   ]
+04:36:35,586  INFO Solution4:126 - Delete
+04:36:41,879  INFO Solution4:128 - Total Deleted [6,293,063   ]
+04:36:41,888  INFO Solution4:114 - Run 73
+04:36:41,889  INFO Solution4:119 - Inserting
+04:36:48,192  INFO Solution4:121 - Total Insterted [6,303,399   ]
+04:36:48,192  INFO Solution4:126 - Delete
+04:36:54,527  INFO Solution4:128 - Total Deleted [6,335,106   ]
+04:36:54,538  INFO Solution4:114 - Run 74
+04:36:54,539  INFO Solution4:119 - Inserting
+04:37:00,901  INFO Solution4:121 - Total Insterted [6,361,887   ]
+04:37:00,901  INFO Solution4:126 - Delete
+04:37:07,251  INFO Solution4:128 - Total Deleted [6,350,515   ]
+04:37:07,307  INFO Solution4:114 - Run 75
+04:37:07,307  INFO Solution4:119 - Inserting
+04:37:13,648  INFO Solution4:121 - Total Insterted [6,341,368   ]
+04:37:13,648  INFO Solution4:126 - Delete
+04:37:20,106  INFO Solution4:128 - Total Deleted [6,457,490   ]
+04:37:20,116  INFO Solution4:114 - Run 76
+04:37:20,117  INFO Solution4:119 - Inserting
+04:37:26,310  INFO Solution4:121 - Total Insterted [6,193,085   ]
+04:37:26,310  INFO Solution4:126 - Delete
+04:37:32,633  INFO Solution4:128 - Total Deleted [6,322,841   ]
+04:37:32,640  INFO Solution4:114 - Run 77
+04:37:32,640  INFO Solution4:119 - Inserting
+04:37:38,879  INFO Solution4:121 - Total Insterted [6,238,541   ]
+04:37:38,879  INFO Solution4:126 - Delete
+04:37:45,197  INFO Solution4:128 - Total Deleted [6,317,742   ]
+04:37:45,207  INFO Solution4:114 - Run 78
+04:37:45,207  INFO Solution4:119 - Inserting
+04:37:51,557  INFO Solution4:121 - Total Insterted [6,349,916   ]
+04:37:51,558  INFO Solution4:126 - Delete
+04:37:57,813  INFO Solution4:128 - Total Deleted [6,255,555   ]
+04:37:57,824  INFO Solution4:114 - Run 79
+04:37:57,824  INFO Solution4:119 - Inserting
+04:38:04,239  INFO Solution4:121 - Total Insterted [6,414,784   ]
+04:38:04,239  INFO Solution4:126 - Delete
+04:38:10,558  INFO Solution4:128 - Total Deleted [6,318,215   ]
+04:38:10,569  INFO Solution4:114 - Run 80
+04:38:10,569  INFO Solution4:119 - Inserting
+04:38:16,799  INFO Solution4:121 - Total Insterted [6,229,571   ]
+04:38:16,799  INFO Solution4:126 - Delete
+04:38:23,429  INFO Solution4:128 - Total Deleted [6,630,051   ]
+04:38:23,438  INFO Solution4:114 - Run 81
+04:38:23,438  INFO Solution4:119 - Inserting
+04:38:29,791  INFO Solution4:121 - Total Insterted [6,352,991   ]
+04:38:29,791  INFO Solution4:126 - Delete
+04:38:36,057  INFO Solution4:128 - Total Deleted [6,265,635   ]
+04:38:36,068  INFO Solution4:114 - Run 82
+04:38:36,068  INFO Solution4:119 - Inserting
+04:38:42,422  INFO Solution4:121 - Total Insterted [6,353,708   ]
+04:38:42,422  INFO Solution4:126 - Delete
+04:38:48,798  INFO Solution4:128 - Total Deleted [6,375,548   ]
+04:38:48,805  INFO Solution4:114 - Run 83
+04:38:48,805  INFO Solution4:119 - Inserting
+04:38:55,206  INFO Solution4:121 - Total Insterted [6,400,803   ]
+04:38:55,206  INFO Solution4:126 - Delete
+04:39:01,545  INFO Solution4:128 - Total Deleted [6,338,518   ]
+04:39:01,551  INFO Solution4:114 - Run 84
+04:39:01,551  INFO Solution4:119 - Inserting
+04:39:08,596  INFO Solution4:121 - Total Insterted [7,044,937   ]
+04:39:08,597  INFO Solution4:126 - Delete
+04:39:15,273  INFO Solution4:128 - Total Deleted [6,676,275   ]
+04:39:15,285  INFO Solution4:114 - Run 85
+04:39:15,285  INFO Solution4:119 - Inserting
+04:39:21,591  INFO Solution4:121 - Total Insterted [6,305,700   ]
+04:39:21,591  INFO Solution4:126 - Delete
+04:39:27,865  INFO Solution4:128 - Total Deleted [6,273,874   ]
+04:39:27,872  INFO Solution4:114 - Run 86
+04:39:27,872  INFO Solution4:119 - Inserting
+04:39:34,191  INFO Solution4:121 - Total Insterted [6,318,454   ]
+04:39:34,191  INFO Solution4:126 - Delete
+04:39:40,533  INFO Solution4:128 - Total Deleted [6,341,985   ]
+04:39:40,540  INFO Solution4:114 - Run 87
+04:39:40,541  INFO Solution4:119 - Inserting
+04:39:46,915  INFO Solution4:121 - Total Insterted [6,373,926   ]
+04:39:46,915  INFO Solution4:126 - Delete
+04:39:52,940  INFO Solution4:128 - Total Deleted [6,024,582   ]
+04:39:52,946  INFO Solution4:114 - Run 88
+04:39:52,946  INFO Solution4:119 - Inserting
+04:39:59,502  INFO Solution4:121 - Total Insterted [6,556,119   ]
+04:39:59,503  INFO Solution4:126 - Delete
+04:40:06,277  INFO Solution4:128 - Total Deleted [6,774,694   ]
+04:40:06,289  INFO Solution4:114 - Run 89
+04:40:06,289  INFO Solution4:119 - Inserting
+04:40:12,633  INFO Solution4:121 - Total Insterted [6,343,353   ]
+04:40:12,633  INFO Solution4:126 - Delete
+04:40:19,345  INFO Solution4:128 - Total Deleted [6,712,087   ]
+04:40:19,351  INFO Solution4:114 - Run 90
+04:40:19,351  INFO Solution4:119 - Inserting
+04:40:25,597  INFO Solution4:121 - Total Insterted [6,245,615   ]
+04:40:25,597  INFO Solution4:126 - Delete
+04:40:31,903  INFO Solution4:128 - Total Deleted [6,305,320   ]
+04:40:31,915  INFO Solution4:114 - Run 91
+04:40:31,915  INFO Solution4:119 - Inserting
+04:40:38,173  INFO Solution4:121 - Total Insterted [6,257,678   ]
+04:40:38,173  INFO Solution4:126 - Delete
+04:40:44,444  INFO Solution4:128 - Total Deleted [6,270,573   ]
+04:40:44,456  INFO Solution4:114 - Run 92
+04:40:44,456  INFO Solution4:119 - Inserting
+04:40:50,822  INFO Solution4:121 - Total Insterted [6,366,173   ]
+04:40:50,822  INFO Solution4:126 - Delete
+04:40:57,143  INFO Solution4:128 - Total Deleted [6,320,618   ]
+04:40:57,192  INFO Solution4:114 - Run 93
+04:40:57,192  INFO Solution4:119 - Inserting
+04:41:03,544  INFO Solution4:121 - Total Insterted [6,352,196   ]
+04:41:03,544  INFO Solution4:126 - Delete
+04:41:09,866  INFO Solution4:128 - Total Deleted [6,321,661   ]
+04:41:09,872  INFO Solution4:114 - Run 94
+04:41:09,872  INFO Solution4:119 - Inserting
+04:41:16,064  INFO Solution4:121 - Total Insterted [6,191,752   ]
+04:41:16,064  INFO Solution4:126 - Delete
+04:41:22,544  INFO Solution4:128 - Total Deleted [6,479,886   ]
+04:41:22,557  INFO Solution4:114 - Run 95
+04:41:22,557  INFO Solution4:119 - Inserting
+04:41:28,850  INFO Solution4:121 - Total Insterted [6,293,553   ]
+04:41:28,851  INFO Solution4:126 - Delete
+04:41:35,076  INFO Solution4:128 - Total Deleted [6,225,656   ]
+04:41:35,084  INFO Solution4:114 - Run 96
+04:41:35,084  INFO Solution4:119 - Inserting
+04:41:41,518  INFO Solution4:121 - Total Insterted [6,433,697   ]
+04:41:41,518  INFO Solution4:126 - Delete
+04:41:47,767  INFO Solution4:128 - Total Deleted [6,248,451   ]
+04:41:47,776  INFO Solution4:114 - Run 97
+04:41:47,776  INFO Solution4:119 - Inserting
+04:41:54,171  INFO Solution4:121 - Total Insterted [6,394,202   ]
+04:41:54,171  INFO Solution4:126 - Delete
+04:42:00,458  INFO Solution4:128 - Total Deleted [6,286,840   ]
+04:42:00,467  INFO Solution4:114 - Run 98
+04:42:00,467  INFO Solution4:119 - Inserting
+04:42:06,956  INFO Solution4:121 - Total Insterted [6,488,762   ]
+04:42:06,956  INFO Solution4:126 - Delete
+04:42:14,035  INFO Solution4:128 - Total Deleted [7,078,497   ]
+04:42:14,047  INFO Solution4:114 - Run 99
+04:42:14,047  INFO Solution4:119 - Inserting
+04:42:20,344  INFO Solution4:121 - Total Insterted [6,296,781   ]
+04:42:20,344  INFO Solution4:126 - Delete
+04:42:26,572  INFO Solution4:128 - Total Deleted [6,228,053   ]
+04:42:26,580  INFO Main:193 - Experimented Solution4
+#Total duration: 17457119ms
+#Number of Connections:0
+04:42:26,581  INFO HConnectionManager:390 - Shutdown called on HConnectionManager
+04:42:26,581  INFO CassandraHostRetryService:44 - Downed Host retry shutdown hook called
+04:42:26,581  INFO CassandraHostRetryService:51 - Downed Host retry shutdown complete
+04:42:26,582  INFO ConcurrentHClientPool:143 - Shutdown triggered on <ConcurrentCassandraClientPoolByHost>:{saddleback(130.195.5.163):9160}
+04:42:26,583  INFO ConcurrentHClientPool:151 - Shutdown complete on <ConcurrentCassandraClientPoolByHost>:{saddleback(130.195.5.163):9160}
+04:42:26,583  INFO HConnectionManager:390 - Shutdown called on HConnectionManager
+04:42:26,583  INFO CassandraHostRetryService:44 - Downed Host retry shutdown hook called
+04:42:26,584  INFO CassandraHostRetryService:51 - Downed Host retry shutdown complete
+04:42:26,584  INFO ConcurrentHClientPool:143 - Shutdown triggered on <ConcurrentCassandraClientPoolByHost>:{ambeli(130.195.5.226):9161}
+04:42:26,584  INFO ConcurrentHClientPool:151 - Shutdown complete on <ConcurrentCassandraClientPoolByHost>:{ambeli(130.195.5.226):9161}
+BUILD SUCCESSFUL (total time: 290 minutes 57 seconds)

@@ -13,6 +13,7 @@ import harsha.thesis.api.solution4.entity.Course;
 import harsha.thesis.api.solution4.entity.Enrolment;
 import harsha.thesis.api.solution4.entity.Metadata;
 import harsha.thesis.api.solution4.entity.User;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
@@ -26,6 +27,7 @@ import org.apache.log4j.Logger;
  */
 public class Solution4 implements SolutionExperiment {
 
+    private static DecimalFormat DF = new DecimalFormat("# ### ###, ###");
     private static Logger log = Logger.getLogger(Solution4.class);
     private Experiment experiment;
     private String[] csvFiles;
@@ -109,13 +111,23 @@ public class Solution4 implements SolutionExperiment {
 
 
         for (int i = 0; i < runs; ++i) {
+            log.info("Run " + i);
             experiment.log("#RUN:" + (i + 1));
-            insert();
             String newCourseId = (i + 1) % 2 == 0 ? ArtificialData.COURSE_BASE_NAME
                     : ArtificialData.COURSE_ALTERNATIVE_NAME;
+            long start = System.nanoTime();
+            log.info("Inserting");
+            insert();
+            log.info("Total Insterted [" + DF.format((System.nanoTime() - start) / 1000.0) + "]");
 //            updateCourse(newCourseId);
 //            updateEnrolment();
+
+            start = System.nanoTime();
+            log.info("Delete");
             delete();
+            log.info("Total Deleted [" + DF.format((System.nanoTime() - start) / 1000.0) + "]");
+
+            increaseIds();
         }
 
         daoMetadata.close();
@@ -123,6 +135,44 @@ public class Solution4 implements SolutionExperiment {
         daoCourse.close();
         daoEnrolment.close();
     }
+    
+    
+
+    public void increaseIds() {
+        for (User user : users) {
+            long currentUserId = Long.parseLong(user.getUserId()) + users.size();
+            user.setUserId("" + currentUserId);
+            user.setFirstName("First Name (" + currentUserId + ")");
+            user.setLastName("Last Name (" + currentUserId + ")");
+            user.setEmail("First.Last@email." + currentUserId + ".com");
+        }
+
+
+        for (Course course : courses) {
+            long currentCourseId = Long.parseLong(course.getCourseId().substring(ArtificialData.COURSE_BASE_NAME.length()))
+                    + courses.size();
+
+            course.setCourseId(course.getCourseId().substring(0, ArtificialData.COURSE_BASE_NAME.length()) + currentCourseId);
+            course.setCourseName("Engineering (" + currentCourseId + ")");
+        }
+
+
+        for (Enrolment enrolment : enrolments) {
+            long currentEnrolmentId = Long.parseLong(enrolment.getRowId()) + enrolments.size();
+
+            enrolment.setRowId("" + currentEnrolmentId);
+
+            long currentUserId = Long.parseLong(enrolment.getUserId()) + users.size();
+            enrolment.setUserId("" + currentUserId);
+
+            long currentCourseId = Long.parseLong(enrolment.getCourseId().substring(ArtificialData.COURSE_BASE_NAME.length()))
+                    + courses.size();
+
+            enrolment.setCourseId(enrolment.getCourseId().substring(0, ArtificialData.COURSE_BASE_NAME.length()) + currentCourseId);
+        }
+
+    }
+
 
     private void insert() throws Exception {
         Random random = new Random(Main.INSERT_RANDOM_SEED);
