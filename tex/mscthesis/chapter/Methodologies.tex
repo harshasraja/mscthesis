@@ -40,95 +40,8 @@ the proposed solutions, the cloud \ac{NoSQL} database system Cassandra
 is explored. The details of \texttt{Cassandra} is explained in
 Section~\ref{s:cassandra}.
 
+% 
 
-\section{Cassandra} \label{s:cassandra}
-Cassandra was initially developed by Facebook (\todo{cite}) for satisfying the
-needs of large web applications, where scalability and response time to user
-requests are critical. Later, its development was undertaken by Apache (Gunda,
-2010).
-Cassandra is a single Java process run on each node in the cluster and is better
-utilised when it is run on multiple machines in a cluster (Perham, 2010a).
-(Williams, 2010).Cassandra has nodes connected to other nodes forming a cluster
-(Figure 29). The nodes in a cluster communicate with each other using the P2P
-communication protocol, Gossip.This protocol involves many complex mathematical
-models and help in significantly reducing the time taken to propagate requests
-from node to node (Raja, 2010).This protocol broadcasts any
-membership changes to all the nodes and allows nodes to reconcile such changes
-with its peer nodes. Using Gossip, nodes thus update their routing information
-about other nodes periodically. This also allows nodes to perform load balancing
-operations, i.e., some workload is given to other nodes, when a node fails or
-has a high workload.
-
-Cassandra is based on the key value data model and stores data in tables
-that have columns, \texttt{SuperColumnFamily}, rows, row keys etc. Cassandra
-adopts the column oriented storage from Google's Bigtable (\todo{cite }) and
-adopts Dynamo's partitioning methods, replication strategy and consistent
-hashing(\todo{cite }). These features are discussed below:
-
-\begin{description}
-  \item  [Partitioning Data]: Cassandra adopts the consistent hashing used by
-  Dynamo to partition data over the nodes.(\todo{DeCandia et al.
-  (2007)}). Every node is  assigned a random value that shows its position in a
-  ring of nodes. Objects are assigned to the nodes after the object's key is
-  hashed. The ring of nodes is traversed clockwise and the node with its value
-  closest to the hashed key is assigned the object (\todo{figure}). Better
-  performing nodes are assigned multiple points in the ring, making them virtual
-  nodes and these nodes are assigned more objects. Virtual nodes are
-  assigned workloads from failed nodes or overloaded nodes, thus balancing the
-  load of the entire ring. When new nodes are added, workloads form other nodes
-  can be assigned to the new nodes, thus improving scalability.
-  
-  \item  [Replication strategy]: Replication strategy involves replicating every
-  object across several nodes by replicating an object to N hosts. Each object
-  key is assigned to a coordinator node and this node replicates the assigned
-  objects (DeCandia et al., 2007). A preference list 
-  contains routing information about all the coordinator nodes that are
-  responsible for storing a key (Figure 23)which makes every node in the ring
-  aware of which nodes are responsible for a key.
-  
-  Cassandra also uses the read-repair strategy which lets nodes
-  that perform read operations to do version checks on the received replicas and to
-  update nodes in the cluster with the latest versions of replica.
-  
-  Whenever a write or update function is invoked by a user, Cassandra implements
-  this strategy to replicate the data on all nodes in a cluster. This
-  strategy determines the distance from the node that gets the requests to other
-  nodes in the cluster. The distance is broken into three buckets, according to
-  whether the current node is in the same cluster or if the other node is in the
-  same data centre or thirdly if the other node is in a different data centre
-  (Perham, 2010a).
-  
-  \item [Eventual Consistency]:Eventual consistency is where every replica
-  agrees to the most recent value after a certain point in time and allows
-  updates to be propagated to all the replicas asynchronously (Henry, 2008).
-  This requires that the replicas update the values in an order. This time delay
-  in updating all replicas could translate to latency in the cluster of
-  Cassandra nodes.
-  
-  In Cassandra, users can decide the level of consistency of the data they would
-  receive, by choosing from two options; single read and the
-  quorum read. The single read returns the first data that a node receives from
-  another node as a response to user's read request (Figure 30). The quorum read
-  makes the node that receives a read request to collect all the replicas of
-  data from the nodes in the cluster and return the most updated data to the
-  user (Figure 31).
-  
-\end{description}
-When users wish to write data into Cassandra tables, they send a write request
-to a random node in the cluster (Figure 32). This node acts as the proxy and
-writes the data to the whole cluster, thus efficiently replicating the data.
-A user can set the number of nodes that should have the
-replicated data copied on it and these replicas are saved on to nodes in the
-same data centre and on other nodes in the other data centres. These nodes would act
-as proxies when they receive requests from users (Perham, 2010a). This way even
-if nodes fail, data is recoverable from other nodes.
-
-Similarly, when a user makes a read request to a node, the node acts as a proxy
-node and forwards the request to all the other nodes in the cluster. As
-mentioned before, the level of consistency is specified by the user, i.e.,
-single or quorum read. Nodes return data to the user after checking the versions
-of the replicas and send the latest replica to the user and perform read repairs
-on other nodes in the cluster (Perham, 2010b).
 
 As mentioned before, these proposed solutions involve using metadata in
 different ways to impose referential integrity constraints in Cassandra. The
@@ -239,15 +152,15 @@ updated or deleted, referential integrity has to be adhered to. The actions and
 the checks to be performed for each of such operations are described below.
 
 \begin{description}
-  \item  [Insert :]An insert operation would trigger a referential integrity
-  validation when data is being inserted into a referencing table, i.e., the child table. In
-such an event, prior to entering the values in the referencing table, it is
-checked if the referencing keys exist in the referenced table. For example, when
-the enrolment details of a student are being inserted into the Enrolment table,
-a check is triggered to verify whether the StudentID exists in the Student
-table. Similarly, it is also verified that the CourseID exists in the Course
-table. If the referencing keys do not exist in the referenced tables, then the
-insert operation is not allowed. 
+  \item  [Insert :]%An insert operation would trigger a referential integrity
+%   validation when data is being inserted into a referencing table, i.e., the child table. In
+% such an event, prior to entering the values in the referencing table, it is
+% checked if the referencing keys exist in the referenced table. For example, when
+% the enrolment details of a student are being inserted into the Enrolment table,
+% a check is triggered to verify whether the StudentID exists in the Student
+% table. Similarly, it is also verified that the CourseID exists in the Course
+% table. If the referencing keys do not exist in the referenced tables, then the
+% insert operation is not allowed. 
 Prior to inserting this row, insertion checks would be made to ensure
 that the SID exists in the Student Column family of the keyspace University. This piece
 of information can be retrieved from the second part of the metadata
@@ -261,25 +174,25 @@ database.
 
 Such insertion checks are introduced into all the solutions within the API.
 
-\item  [Update :]When data is being updated either in the referencing table or
-the referenced table, a referential integrity validation is needed. When any
-referenced key (primary or unique) is being updated in the referenced table,
-then it has to be verified whether this key is a foreign key in any of the
-referencing tables. If a dependency is found to exist, then the applicable
-referential integrity rule is checked. So if it is a Cascade, then the
-associated foreign keys in the referencing table are updated prior to updating
-the key in the referenced table. If the rule is "Set to NULL" or "Set to
-default" then the associated foreign keys in the referencing table are set to
-NULL or default values. A Restrict would prevent the update action in the
-referenced table. 
-
-When any foreign key is being updated in a referencing table, then a referential
-integrity validation has to be performed. It has to be ensured that the new
-updated value exists as a key in the referenced table. For example, in the
-Enrolment table, if the course details of a student (i.e. foreign key CourseID)
-are being updated to a new value, then it has to be verified that the new value
-is an existing key in the Course table. Otherwise, if the new value does not
-exist, then the update is not allowed generally.
+ \item  [Update :]%When data is being updated either in the referencing table or
+% the referenced table, a referential integrity validation is needed. When any
+% referenced key (primary or unique) is being updated in the referenced table,
+% then it has to be verified whether this key is a foreign key in any of the
+% referencing tables. If a dependency is found to exist, then the applicable
+% referential integrity rule is checked. So if it is a Cascade, then the
+% associated foreign keys in the referencing table are updated prior to updating
+% the key in the referenced table. If the rule is "Set to NULL" or "Set to
+% default" then the associated foreign keys in the referencing table are set to
+% NULL or default values. A Restrict would prevent the update action in the
+% referenced table. 
+% 
+% When any foreign key is being updated in a referencing table, then a referential
+% integrity validation has to be performed. It has to be ensured that the new
+% updated value exists as a key in the referenced table. For example, in the
+% Enrolment table, if the course details of a student (i.e. foreign key CourseID)
+% are being updated to a new value, then it has to be verified that the new value
+% is an existing key in the Course table. Otherwise, if the new value does not
+% exist, then the update is not allowed generally.
 
 When an update is made to a value in a column family, checks have to
 be made ensuring that these changes or updates do not violate referential
@@ -342,22 +255,22 @@ the referential integrity is maintained consistently across both the referenced
 and referencing column families.
 
 
-\item  [Delete :] A delete operation would trigger a referential integrity
-validation when data is being deleted from the referenced table. When data that is marked
-for deletion is found to have dependencies in other referencing tables, the
-referential integrity rule applicable for this operation has to be checked. If
-the rule allows Cascade, then the depending values in the referencing table have
-to be removed prior to deleting values from the referenced tables. If it is a
-"Set to default" or "Set to NULL" rule, then the referencing foreign keys would
-be set to NULL or default values in the referencing table. A Restrict would
-prevent data from being deleted if it is found to have dependencies in other
-tables. For example, while deleting a student record form the Student table, a
-check is performed to see if the StudentID is a foreign key in any other table.
-In this example, the Enrolment table would be checked and when the StudentID is
-found as a foreign key, the appropriate action is performed depending on the
-rule. If it is Cascade, the enrolment details of the StudentID are removed from
-the Enrolment table and then the Student record is deleted from the Student
-table.
+ \item  [Delete :] %A delete operation would trigger a referential integrity
+% validation when data is being deleted from the referenced table. When data that is marked
+% for deletion is found to have dependencies in other referencing tables, the
+% referential integrity rule applicable for this operation has to be checked. If
+% the rule allows Cascade, then the depending values in the referencing table have
+% to be removed prior to deleting values from the referenced tables. If it is a
+% "Set to default" or "Set to NULL" rule, then the referencing foreign keys would
+% be set to NULL or default values in the referencing table. A Restrict would
+% prevent data from being deleted if it is found to have dependencies in other
+% tables. For example, while deleting a student record form the Student table, a
+% check is performed to see if the StudentID is a foreign key in any other table.
+% In this example, the Enrolment table would be checked and when the StudentID is
+% found as a foreign key, the appropriate action is performed depending on the
+% rule. If it is Cascade, the enrolment details of the StudentID are removed from
+% the Enrolment table and then the Student record is deleted from the Student
+% table.
 
 Referential Integrity (RI) checks are performed each time a delete
 operation is invoked on any entity like Student or Course or Enrolment. While

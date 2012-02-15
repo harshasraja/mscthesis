@@ -92,7 +92,11 @@ public class Solution0 implements SolutionExperiment {
             insert();
             log.info("Total Insterted [" + DF.format((System.nanoTime() - start) / 1000.0) + "]");
 //            updateCourse(newCourseId);
-//            updateEnrolment();
+
+            start = System.nanoTime();
+            log.info("Updating Enrolment");
+            updateEnrolment();
+            log.info("Total Updating Enrolment [" + DF.format((System.nanoTime() - start) / 1000.0) + "]");
 
             start = System.nanoTime();
             log.info("Delete");
@@ -207,13 +211,8 @@ public class Solution0 implements SolutionExperiment {
         experiment.start();
         Iterator<Enrolment> it = enrolmentsToUpdate.iterator();
         for (Enrolment entity : enrolments) {
-            if (Long.parseLong(entity.getUserId()) % 2 == 0) {
-                entity.setCourseId("COMP101");
-                log.info(entity.toString());
-            } else {
-                entity.setCourseId(it.next().getCourseId()); 
-            }
-            dao.update(entity);
+            entity.setCourseId(it.next().getCourseId());
+            dao.insert(entity);
         }
         experiment.stop();
         experiment.log("update_enrolment:" + experiment.duration() + "\n\n");
