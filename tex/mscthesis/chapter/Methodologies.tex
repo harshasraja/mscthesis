@@ -1,13 +1,15 @@
 %ब
 \chapter{Proposed Solutions} \label{c:solutions}
 
-This chapter describes the four different solutions proposed to implement
-referential integrity constraints in a cloud \ac{NoSQL} database system. It also
-describes the way the cloud \ac{NoSQL} database Cassandra, that is used
-for this thesis, works in Section~\ref{s:cassandra}. Some information
-about metadata and how it can be used for maintaining referential integrity is also described in
-Section~\ref{s:metadata}. The chapter then progresses to describe how the
-proposed solutions would be deployed in Cassandra.
+This chapter describes the four  solutions proposed to implement referential
+integrity constraints in a cloud \ac{NoSQL} database system.
+Section~\ref{} describes some typical ways of storing  data
+dependency information in \acp{DBMS}. Section~\ref{s:metadata} desribes how
+metadata is used for maintaining referential integrity in the proposed
+solutions. Section\ref{s:api} describes the design of the API devloped to
+implement these constraints. Section~\ref{s:baseline} presents a baseline of
+the \ac{API} without any referential integrity constraints
+.
 
 
 \section{Introduction}
@@ -309,6 +311,9 @@ no dependencies, it allows the API to maintain proper data integrity and adhere
 to RI rules.
 
 \end{description}
+
+\section{Baseline:  }\label{s:baseline}
+
 
 \section{Solution 1:  Metadata with Special Characters}\label{s:sol1}
 

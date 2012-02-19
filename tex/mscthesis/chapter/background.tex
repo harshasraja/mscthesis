@@ -1,6 +1,22 @@
 % ब
 \chapter{Background} \label{c:background}
 
+This chapter  presents an overview of some of the significant topics relevant to
+this thesis. Section~\ref{s:cloudComputing} describes cloud computing and the
+various services it provides. Section~\ref{s:cloud-databases} presents cloud
+databases as one of the key services provided in the cloud.
+Section~\ref{s:cloud-data-models} describes the prevailing data models
+prominently used by cloud databases. Section~\ref{s:key-value-data-model} gives a detailed
+description of the column-oriented key-value data model, which is one of the
+popular and widely used data models in cloud databases.
+Section~\ref{s:challenges-key-value} presents some of the challenges existing in
+this key-value model.
+Section~\ref{s:referential-integrity} addresses one of these crucial challenges
+of referential integrity in column-oriented key-value cloud databases.
+Section\ref{s:Cassandra} introduces the architectural concepts of Cassandra, the
+column-oriented key-value cloud \ac{DBMS} used in this thesis.
+
+\section{Cloud Computing} \label{s:cloudComputing}
 Cloud computing is a major paradigm that is rapidly shifting the way \ac{IT}
 services and tools are being used in the industry.  It is perceived that cloud
 computing would help extend the capabilities of many \ac{IT} and online services
@@ -67,16 +83,19 @@ management,   data retrieval,   and other database services.  Due to the
 increasing number of users deploying and using web applications on cloud,  
 cloud databases form a crucial part to store the increasing amounts of data
 on the cloud.  Many companies like Amazon,   Google,   IBM,   and Microsoft
-provide \ac{DaaS} and offer varying levels of services (Mateljan et al. ,   2010).  More
-details about \ac{DaaS} and cloud \ac{DBMS} are provided in Literature Review. 
+provide \ac{DaaS} and offer varying levels of services (Mateljan et al. ,  
+2010). The next section gives a description about cloud databases and its key
+features.
+% More details about \ac{DaaS} and cloud \ac{DBMS} are provided in Literature
+% Review.
 
-In the remainder of this chapter,   Section~\ref{s:cloud-databases} presents cloud
-databases.  Section~\ref{s:cloud-data-models} presents the prevailing cloud data
-models.  Section~\ref{s:key-value-data-model} presents the Key Value Data Model. 
-Section~\ref{s:challenges-key-value} presents the challenges in the Key Value
-Data model and Section~\ref{s:referential-integrity} discusses the Referential
-Integrity Constraint in Key Value data model,   which is the focus of this
-research. 
+% In the remainder of this chapter,   Section~\ref{s:cloud-databases} presents cloud
+% databases.  Section~\ref{s:cloud-data-models} presents the prevailing cloud data
+% models.  Section~\ref{s:key-value-data-model} presents the Key Value Data Model. 
+% Section~\ref{s:challenges-key-value} presents the challenges in the Key Value
+% Data model and Section~\ref{s:referential-integrity} discusses the Referential
+% Integrity Constraint in Key Value data model,   which is the focus of this
+% research. 
 
 
 \section{Cloud Databases}\label{s:cloud-databases}
@@ -143,13 +162,13 @@ and primary keys,   to reduce redundancy and minimise integrity anomalies
 (\todo{cite Navathe}).  Normalisation causes databases to have smaller and
 structured tables by removing duplicate data from large and badly organised
 tables and by imposing constraints on the data.  Tables are normalised to
-at-least \ac{1-NF} ensuring data is organised and less redundant. edundancy is
-reduced by bringing the database schema into atleast \ac{3-NF} (or \ac{BCNF}).
+at-least \ac{1-NF} ensuring data is organised and less redundant. Redundancy is
+reduced by bringing the database schema into at-least \ac{3-NF} (or \ac{BCNF}).
 Throughout the chapters normalization refers to making databases at least in \ac{1-NF}.
 
 Cloud \acp{DBMS} are mostly non relational and follow a different data model,  
 which is explained in Section~\ref{s:cloud-data-models}.  Such Cloud \acp{DBMS}
-are loosly termed as cloud \ac{NoSQL} \acp{DBMS}.  Unlike \acp{RDBMS},   cloud
+are loosely termed as cloud \ac{NoSQL} \acp{DBMS}.  Unlike \acp{RDBMS},   cloud
 \ac{NoSQL} \acp{DBMS} do not aim to be ACID-compliant. 
 ACID stands for the properties Atomicity,   Consistency,   Isolation and Durability,  
 which ensure the completeness and reliability of a database operation.  In
@@ -581,7 +600,7 @@ application uses.  Keyspaces have one or more column families,   although it is 
 required that a keyspace should always have column families.  Any relationships
 existing between column families in a keyspace are not preserved. 
 
-A KeySpace can be considered similar to a database in traditional relational
+A keyspace can be considered similar to a database in traditional relational
 databases,   without any relationships.  An example of the keyspace
 University is shown in Figure~\ref{f:keyspace}. 
 
