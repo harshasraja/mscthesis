@@ -1,85 +1,130 @@
+
 \chapter{Introduction} 
-Cloud computing is a major paradigm that is rapidly shifting the way IT services
-and tools are being used.  %Services and applications are hosted on the internet
-% and users avail them according to their needs. 
-It offers economic benefits in infrastructure,  operating systems,  \acp{DBMS}  and
-other resources as these are hosted on the Internet and provided as cloud
-services which users avail  according to their needs. 
-% For these resources,  users pay only for what they use and do not have to
-% invest in buying expensive hardware or install operating systems,  while they
-% can avail these inexpensively from the cloud. 
-This leads to reduced maintenance costs,  automation of common tasks,  global
-access,  and many other advantages.  
-% For these advantages,  cloud soon became a
-% strong backbone for many applications and encouraged the migration of more
-% applications as well as  data storage to the cloud.  Also,  it  promoted many
-% novel theories and applications to enhance cloud (\todo{cite
-% (Wilkes, 2010)} ). 
-For these advantages,  it is natural for the cloud to be the
-backbone of  many applications 
-point of  encouraging the migration of other  applications  as well as data storage to the cloud.  Also,  it  promoted many novel
-theories and applications to enhance cloud (\todo{cite (Wilkes, 2010)} ). 
+Cloud computing is a paradigm that is rapidly shifting the way IT services
+and tools are being used. The fundamental reason is that it provides
+ essential computing services that can be accessed through the Internet. 
+ Amongst these services, cloud providers offer platforms that
+ include hardware equipment and software applications, infrastructures such as
+ servers and other network equipments, data storage such as \acp{DBMS}, and
+ others. All these services come with major benefits such as reduced maintenance
+ costs,  automation of common tasks, and global access. Moreover, such cloud
+ services and other resources are hosted on the Internet and offered to  
+ users for availing according to their needs.  Such characteristics made it
+  natural for the  cloud to become  the backbone of application providers and
+  users, and promoted the creation of novel theories and more applications to
+ enhance the cloud (\todo{cite (Wilkes, 2010)} ).
+ 
+  
+  Cloud data storage is an important service that has been progressing, evolving
+  and adapting alongside the whole cloud computing. As the number of
+  applications and users keep increasing, so is the demand for scalable, 
+  efficient, and consistent data storage mechanisms to be offered by
+  application providers. These storage mechanisms allow  users to store
+  their data on the cloud without having to deal with the hassle of buying and
+  maintaining database servers \todo{cite SNIA}.
 
-Cloud computing has been evolving and adapting to offer many different
-services.  Cloud data storage is an important part of it which is progressing
-alongside. 
-The demand for scalable,  efficient and consistent data storage mechanisms has
-been increasing as more applications  and users store their data  on the cloud, 
-rather than buying and maintaining database servers \todo{cite SNIA}  . 
+ The distributed nature of the cloud data storage, makes
+ cloud \acp{DBMS} satisfy essential requirements that are inherent to these
+ environments. Some of these requirements are related to
+  \begin{inparaenum}[a)]
+ \item  scalability by matching the increase and decrease of active users
+ and allowing the storage large amounts of data,
+ \item  robustness by maintaining several copies of data and making data
+ available despite failures,
+ \item  flexibility by allowing the storage of unstructured data, and
+ \item  consistency of data by making sure data is never stale.
+ \end{inparaenum}
+   These requirements are not necessarily met by traditional \acp{RDBMS}. For
+   example, scalability in \acp{RDBMS} is limited as these are designed to run
+   on a single node. Robustness is lacking in terms of  a single point of
+   failure would  make data unavailable. And rigid schemas reduce the
+   flexibility of storing unstructure data on the cloud.  Thus, the once
+   features of traditional \acp{RDBMS}  become issues when moved to the cloud.
+    Nonetheless, there is still one characteristic that is desirable from
+   \acp{RDBMS}: referential integrity.
+   
+   The referential integrity constraint  ensures that  relationships
+   between data items are preserved. For example, it ensures that a course
+   exists before students can enrol in it. Such relationships are 
+   inherent to real-world data and have to be maintained in databases
+   regardless it is traditional \ac{RDBMS} or cloud \ac{DBMS}.
+   Moreover, this constraint must ensure that no operations violate  the
+   integrity between  data items.   Despite its importance, referential
+   integrity is currently not a prominent feature in most  cloud
+   column-oriented key-value \acp{DBMS}. 
+   
+   
+   Column-oriented key-value \acp{DBMS}, also simply refered to as cloud
+   \ac{NoSQL} databases, is a widely used model for cloud \acp{DBMS}. In
+   these cases, the referential integrity constraints are not provided
+   by the \acp{DBMS} because these were not conceived to maintain data
+   relationships, partly due to the denormalized and decentralized nature of
+   data storage.  Instead, the responsibility of maintaining
+   referential integrity is delegated to the application layer.
+    However, such approach implies a significant overhead for applications as
+    they have incorporate the referential integrity validation themselves. Not
+    to mention that databases commonly have large amounts of interconnected,
+    dependant and widely replicated data which makes the validation more
+    difficult. Hence, it becomes a  critical problem for applications to handle
+   such  data where dependencies have to be correctly maintained and preserved.
+   
+   
+	Inspired by such problems, this thesis studies the existing
+modelling of data dependencies in cloud \ac{NoSQL}  \acp{DBMS}  and contributes by
+providing four solutions to ensure  that referential integrity is
+effectively maintained. These solutions  extend the consistency of data
+relationships and  ensure  data integrity even when it is widely replicated or
+even spread across data-centers. Also, they are provided as an \ac{API} between
+the application layer and the database layer. This approach reduces the
+workload of applications as the responsibility
+of validating referential integrity is delegated to the solutions.
+
+   
+   
+
+    
+ 
+   
+    
+%     
+%     
+%     
+%     
+%     
+%     
+%    
+%    susceptible to poor data integrity as
+% these do not normalise data nor maintain relationships. As such These \acp{DBMS} 
+% lack integrity constraints that validate the correctness of data as seen in
+% traditional \acp{RDBMS}  and one  important integrity constraint absent in most
+% cloud \ac{NoSQL}  \acp{DBMS}  is the Referential Integrity Constraint.  These
+% constraints  ensure that relationships between data items are preserved
+% and maintained in databases and prevent any data operations that violate the
+% integrity between data items. Without such constraints,  data could be inconsistent and unreliable. 
+%      
+%    
+%  
+   
+
+% \acp{RDBMS}  get really
+% complex when it comes to scaling to multiple nodes as these are best suited to
+% run on a single node and  manipulating or accessing data spread on multiple
+% nodes becomes complicated involving complex queries. 
+% This is mainly due to
+% normalisation,  as data is not duplicated.  This adversely affects robustness in
+% cloud as well.  Since \acp{RDBMS}  enforce rigid schema or structure for
+% databases,  flexibility of storing unstructured data on the cloud will be limited. 
+% Data is available and consistent in \acp{RDBMS}  as long as the single node it is
+% designed to run on is alive,  but this can also
+% be a single point of failure causing complete unavailability of data. 
+
+	 
+	
+	
+ 
 
 
 
-Cloud \acp{DBMS}   need to satisfy requirements that are exclusive and essential
-in a distributed environment.  Some of the expected features in these \acp{DBMS} 
-are the scalability to match the increase and decrease of active users, 
-robustness by maintaining several copies of data,  flexibility to store
-unstructured data,  availability of data despite failures, ability to store large
-amounts of data,  consistency even during  concurrent operations and many other
-features.  Most of these features are inherent in distributed environments and
-are not necessarily addressed by traditional \acp{RDBMS} .  \acp{RDBMS}  get really
-complex when it comes to scaling to multiple nodes as these are best suited to
-run on a single node and  manipulating or accessing data spread on multiple
-nodes becomes complicated involving complex queries. This is mainly due to
-normalisation,  as data is not duplicated.  This adversely affects robustness in
-cloud as well.  Since \acp{RDBMS}  enforce rigid schema or structure for
-databases,  flexibility of storing unstructured data on the cloud will be limited. 
-Data is available and consistent in \acp{RDBMS}  as long as the single node it is
-designed to run on is alive,  but this can also
-be a single point of failure causing complete unavailability of data. 
-% users,  high data availability  despite failures,  replication of data on
-% several machines,  support of high volumes of data and data consistency even
-% during concurrent operations and many other features. 
-% These features are different to the ones offered by popular and commonly used
-% traditional \acp{RDBMS}  where ACID properties,  normalised and non redundant
-% data,  rigid schemas,  efficient query support make these \acp{DBMS}  efficient, 
-% but in a non distributed environment. 
-% While these traditional \acp{DBMS}  come with a rich set of features,  these
-% features hinder its adaptability on the cloud.  For example,  normalisation of
-% data prevents data replication as it removes redundancy in data and rigid
-% schemas reduce the flexibility of storing unstructured data on cloud. 
-% Scalability  is affected poorly due to ACID properties which attempt to
-% prevent concurrent operations to make data consistent and isolated. 
-Such problems led to the rise of many Cloud \acp{DBMS}  with different data
-models and architectures supporting a wide array of cloud adaptable features. 
-However,  \acp{RDBMS}  have the desirable feature of referential integrity
-constraints,  which is not currently applied in cloud column-oriented key-value
-\acp{DBMS} . 
-
-Column-oriented key-value \acp{DBMS} on the cloud are called cloud
-\ac{NoSQL}  \acp{DBMS}  or just cloud \ac{NoSQL}  databases and are fundamentally
-different from  traditional \acp{RDBMS} . These \acp{DBMS}  support many features
-required in cloud,  such as elastic scalability to match varying user
-demands, data replication,  schema-less data storage ,   and many other features. 
-These \acp{DBMS}  are still evolving and introducing new features in their
-architecture and becoming specialised to solve specific cloud data storage
-issues.  However,  these \acp{DBMS}  are susceptible to poor data integrity as
-these do not normalise data nor maintain relationships.  These \acp{DBMS}  lack
-integrity constraints that validate the correctness of data as seen in
-traditional \acp{RDBMS}  and one  important integrity constraint absent in most
-cloud \ac{NoSQL}  \acp{DBMS}  is the Referential Integrity Constraint.  These
-constraints  ensure that relationships between data items are preserved
-and maintained in databases and prevent any data operations that violate the
-integrity between data items. Without such constraints,  data could be inconsistent and unreliable. 
 
 % Databases on cloud adopt data models and database architecture that are still
 % evolving and very different from the popular and traditional data models like
@@ -90,31 +135,154 @@ integrity between data items. Without such constraints,  data could be inconsist
 % limited functionalities and others. 
 
 
- But it is common to find relationships or dependencies between data in the
- business world and these have to be preserved when it is modelled in the cloud
- environment too. 
+%  But it is common to find relationships or dependencies between data in the
+%  business world and these have to be preserved when it is modelled in the cloud
+%  environment too. 
  % upon storage in cloud \ac{NoSQL}  database systems too. 
-The replicated and distributed nature of the cloud \ac{NoSQL}  \acp{DBMS}  makes
-maintaining data dependencies complex and unfeasible in terms of speed and efficiency. 
-Thus,  referential integrity constraints to help preserve such dependencies are
-not offered by these \acp{DBMS}  and are left for the users to implement at the
-application layer instead.  This could mean immense
-workload for the application since cloud databases commonly have
- large amounts of interconnected ,  dependant and
-widely replicated data,  which is usually spread across several data centers. 
-Handling such data where
-dependencies have to be correctly maintained and preserved becomes a critical
-problem for applications. 
+% The replicated and distributed nature of the cloud \ac{NoSQL}  \acp{DBMS}  makes
+% maintaining data dependencies complex and unfeasible in terms of speed and efficiency. 
+% Thus,  referential integrity constraints to help preserve such dependencies are
+% not offered by these \acp{DBMS}  and are left for the users to implement at the
+% application layer instead.  This could mean immense
+% workload for the application since cloud databases commonly have
+%  large amounts of interconnected ,  dependant and
+% widely replicated data,  which is usually spread across several data centers. 
+% Handling such data where
+% dependencies have to be correctly maintained and preserved becomes a critical
+% problem for applications. 
+% 
+% Inspired by such problems of data dependencies,  this thesis studies the existing
+% modelling of data dependencies in cloud \ac{NoSQL}  \acp{DBMS}  and contributes by
+% suggesting four solutions so that referential integrity is effectively
+% maintained , without sacrificing any existing benefits,  in these \acp{DBMS} . 
+% These solutions extend the consistency of data relationships,   ensuring  data
+% integrity even when it is widely replicated or spread on different data-centers. 
+% Additionally,  it reduces the workload of the applications by delegating the
+% responsibility of validating referential integrity to the \ac{DBMS} . 
+% 
 
-Inspired by such problems of data dependencies,  this thesis studies the existing
-modelling of data dependencies in cloud \ac{NoSQL}  \acp{DBMS}  and contributes by
-suggesting four solutions so that referential integrity is effectively
-maintained , without sacrificing any existing benefits,  in these \acp{DBMS} . 
-These solutions extend the consistency of data relationships,   ensuring  data
-integrity even when it is widely replicated or spread on different data-centers. 
-Additionally,  it reduces the workload of the applications by delegating the
-responsibility of validating referential integrity to the \ac{DBMS} . 
 
+
+% 
+% \chapter{Introduction} 
+% Cloud computing is a major paradigm that is rapidly shifting the way IT services
+% and tools are being used.  
+% 
+% %Services and applications are hosted on the internet
+% % and users avail them according to their needs. 
+% It offers economic benefits in infrastructure,  operating systems,  \acp{DBMS}  and
+% other resources as these are hosted on the Internet and provided as cloud
+% services which users avail  according to their needs. 
+% % For these resources,  users pay only for what they use and do not have to
+% % invest in buying expensive hardware or install operating systems,  while they
+% % can avail these inexpensively from the cloud. 
+% This leads to reduced maintenance costs,  automation of common tasks,  global
+% access,  and many other advantages.  
+% % For these advantages,  cloud soon became a
+% % strong backbone for many applications and encouraged the migration of more
+% % applications as well as  data storage to the cloud.  Also,  it  promoted many
+% % novel theories and applications to enhance cloud (\todo{cite
+% % (Wilkes, 2010)} ). 
+% For these advantages,  it is natural for the cloud to be the
+% backbone of  many applications 
+% point of  encouraging the migration of other  applications  as well as data storage to the cloud.  Also,  it  promoted many novel
+% theories and applications to enhance cloud (\todo{cite (Wilkes, 2010)} ). 
+% 
+% Cloud computing has been evolving and adapting to offer many different
+% services.  Cloud data storage is an important part of it which is progressing
+% alongside. 
+% The demand for scalable,  efficient and consistent data storage mechanisms has
+% been increasing as more applications  and users store their data  on the cloud, 
+% rather than buying and maintaining database servers \todo{cite SNIA}  . 
+% 
+% 
+% 
+% Cloud \acp{DBMS}   need to satisfy requirements that are exclusive and essential
+% in a distributed environment.  Some of the expected features in these \acp{DBMS} 
+% are the scalability to match the increase and decrease of active users, 
+% robustness by maintaining several copies of data,  flexibility to store
+% unstructured data,  availability of data despite failures, ability to store large
+% amounts of data,  consistency even during  concurrent operations and many other
+% features.  Most of these features are inherent in distributed environments and
+% are not necessarily addressed by traditional \acp{RDBMS} .  \acp{RDBMS}  get really
+% complex when it comes to scaling to multiple nodes as these are best suited to
+% run on a single node and  manipulating or accessing data spread on multiple
+% nodes becomes complicated involving complex queries. This is mainly due to
+% normalisation,  as data is not duplicated.  This adversely affects robustness in
+% cloud as well.  Since \acp{RDBMS}  enforce rigid schema or structure for
+% databases,  flexibility of storing unstructured data on the cloud will be limited. 
+% Data is available and consistent in \acp{RDBMS}  as long as the single node it is
+% designed to run on is alive,  but this can also
+% be a single point of failure causing complete unavailability of data. 
+% % users,  high data availability  despite failures,  replication of data on
+% % several machines,  support of high volumes of data and data consistency even
+% % during concurrent operations and many other features. 
+% % These features are different to the ones offered by popular and commonly used
+% % traditional \acp{RDBMS}  where ACID properties,  normalised and non redundant
+% % data,  rigid schemas,  efficient query support make these \acp{DBMS}  efficient, 
+% % but in a non distributed environment. 
+% % While these traditional \acp{DBMS}  come with a rich set of features,  these
+% % features hinder its adaptability on the cloud.  For example,  normalisation of
+% % data prevents data replication as it removes redundancy in data and rigid
+% % schemas reduce the flexibility of storing unstructured data on cloud. 
+% % Scalability  is affected poorly due to ACID properties which attempt to
+% % prevent concurrent operations to make data consistent and isolated. 
+% Such problems led to the rise of many Cloud \acp{DBMS}  with different data
+% models and architectures supporting a wide array of cloud adaptable features. 
+% However,  \acp{RDBMS}  have the desirable feature of referential integrity
+% constraints,  which is not currently applied in cloud column-oriented key-value
+% \acp{DBMS} . 
+% 
+% Column-oriented key-value \acp{DBMS} on the cloud are called cloud
+% \ac{NoSQL}  \acp{DBMS}  or just cloud \ac{NoSQL}  databases and are fundamentally
+% different from  traditional \acp{RDBMS} . These \acp{DBMS}  support many features
+% required in cloud,  such as elastic scalability to match varying user
+% demands, data replication,  schema-less data storage ,   and many other features. 
+% These \acp{DBMS}  are still evolving and introducing new features in their
+% architecture and becoming specialised to solve specific cloud data storage
+% issues.  However,  these \acp{DBMS}  are susceptible to poor data integrity as
+% these do not normalise data nor maintain relationships.  These \acp{DBMS}  lack
+% integrity constraints that validate the correctness of data as seen in
+% traditional \acp{RDBMS}  and one  important integrity constraint absent in most
+% cloud \ac{NoSQL}  \acp{DBMS}  is the Referential Integrity Constraint.  These
+% constraints  ensure that relationships between data items are preserved
+% and maintained in databases and prevent any data operations that violate the
+% integrity between data items. Without such constraints,  data could be inconsistent and unreliable. 
+% 
+% % Databases on cloud adopt data models and database architecture that are still
+% % evolving and very different from the popular and traditional data models like
+% % relational data model. 
+% % 
+% % While cloud \ac{NoSQL}  \acp{DBMS}  support many  features suitable to the cloud, 
+% % it comes with a few disadvantages like poor data integrity,  less security, 
+% % limited functionalities and others. 
+% 
+% 
+%  But it is common to find relationships or dependencies between data in the
+%  business world and these have to be preserved when it is modelled in the cloud
+%  environment too. 
+%  % upon storage in cloud \ac{NoSQL}  database systems too. 
+% The replicated and distributed nature of the cloud \ac{NoSQL}  \acp{DBMS}  makes
+% maintaining data dependencies complex and unfeasible in terms of speed and efficiency. 
+% Thus,  referential integrity constraints to help preserve such dependencies are
+% not offered by these \acp{DBMS}  and are left for the users to implement at the
+% application layer instead.  This could mean immense
+% workload for the application since cloud databases commonly have
+%  large amounts of interconnected ,  dependant and
+% widely replicated data,  which is usually spread across several data centers. 
+% Handling such data where
+% dependencies have to be correctly maintained and preserved becomes a critical
+% problem for applications. 
+% 
+% Inspired by such problems of data dependencies,  this thesis studies the existing
+% modelling of data dependencies in cloud \ac{NoSQL}  \acp{DBMS}  and contributes by
+% suggesting four solutions so that referential integrity is effectively
+% maintained , without sacrificing any existing benefits,  in these \acp{DBMS} . 
+% These solutions extend the consistency of data relationships,   ensuring  data
+% integrity even when it is widely replicated or spread on different data-centers. 
+% Additionally,  it reduces the workload of the applications by delegating the
+% responsibility of validating referential integrity to the \ac{DBMS} . 
+% 
 
 
 \section{Objectives} 
@@ -123,18 +291,19 @@ This thesis  focuses particularly on the column-oriented
 key-value \acp{DBMS}  on the cloud.  Four  solutions 
 using different metadata management techniques are suggested to incorporate
 referential integrity constraints in such \acp{DBMS} .  These
-solutions are implemented and tested on Cassandra, popular and
+solutions are implemented and tested on Apache Cassandra, a popular and
 prominent column-oriented key-value \ac{DBMS}  in the cloud. 
 
 The performance of these solutions is assessed  in terms of response time and
-throughput.  All the proposed solutions  improve data integrity
-and  preserves the data dependencies,  regardless of scalability and workload on
-the \ac{DBMS} . 
+throughput.  All the proposed solutions extends data integrity
+and  preserves the data dependencies regardless of the scalability and workload
+of the \ac{DBMS} . 
 
-The general objective of this thesis is to incorporate validation mechanisms for
-referential integrity in column-oriented key-value \acp{DBMS}.  
+\subsection{General Objective}
+ Incorporate validation mechanisms for referential integrity in column-oriented
+ key-value \acp{DBMS}.
 
-The specific objectives of this thesis are:
+\subsection{Specific Objectives}
 \begin{itemize} 
   \item Design four solutions to implement referential integrity constraints
   using metadata in various ways to store the information about data
@@ -145,11 +314,12 @@ The specific objectives of this thesis are:
    feasibility and practicality. 
 \end{itemize} 
 
-The main contributions of this thesis are an \ac{API}  that can be
-used as an interface to implement referential integrity constraints in cloud
-column-oriented key-value \acp{DBMS}  and a performance evaluation about the
-implementation of the four approaches used in the \ac{API}   in
-Cassandra. 
+% \subsection{Contributions}
+% The main contributions of this thesis are an \ac{API}  that can be
+% used as an interface to implement referential integrity constraints in cloud
+% column-oriented key-value \acp{DBMS},  and a performance evaluation about the
+% implementation of the four approaches used in the \ac{API}   in
+% Cassandra. 
 
 \section{Organization} 
 
