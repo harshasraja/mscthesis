@@ -112,17 +112,17 @@ public class Solution2 implements SolutionExperiment {
             log.info("Inserting");
             insert();
             log.info("Total Insterted [" + DF.format((System.nanoTime() - start) / 1000.0) + "]");
-//            updateCourse(newCourseId);
+            updateCourse(newCourseId);
 
-            start = System.nanoTime();
-            log.info("Updating Enrolment");
-            updateEnrolment();
-            log.info("Total Updating Enrolment [" + DF.format((System.nanoTime() - start) / 1000.0) + "]");
-
-            start = System.nanoTime();
-            log.info("Delete");
-            delete();
-            log.info("Total Deleted [" + DF.format((System.nanoTime() - start) / 1000.0) + "]");
+//            start = System.nanoTime();
+//            log.info("Updating Enrolment");
+//            updateEnrolment();
+//            log.info("Total Updating Enrolment [" + DF.format((System.nanoTime() - start) / 1000.0) + "]");
+//
+//            start = System.nanoTime();
+//            log.info("Delete");
+//            delete();
+//            log.info("Total Deleted [" + DF.format((System.nanoTime() - start) / 1000.0) + "]");
 
             increaseIds();
         }
@@ -165,7 +165,7 @@ public class Solution2 implements SolutionExperiment {
     }
 
     private void insert() throws Exception {
-        Random random = new Random(Main.INSERT_RANDOM_SEED);
+        Random random = new Random();
         List<BaseEntity> usersToInsert = new ArrayList<BaseEntity>(users);
         Collections.shuffle(usersToInsert, random);
 
@@ -234,7 +234,7 @@ public class Solution2 implements SolutionExperiment {
     }
 
     private void delete() throws Exception {
-        Random random = new Random(Main.DELETE_RANDOM_SEED);
+        Random random = new Random();
         List<BaseEntity> usersToDelete = new ArrayList<BaseEntity>(users);
         Collections.shuffle(usersToDelete, random);
 

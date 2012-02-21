@@ -20,10 +20,20 @@ import org.apache.log4j.Logger;
 public class Main {
 
     private static Logger log = Logger.getLogger(Main.class);
-    public static final long INSERT_RANDOM_SEED = "insert".hashCode();
+    
+    public static final long INSERT_COURSE_RANDOM_SEED = "insert-course".hashCode();
+    public static final long INSERT_ENROLMENT_RANDOM_SEED = "insert-enrolment".hashCode();
+    public static final long INSERT_USER_RANDOM_SEED = "insert-user".hashCode();
+    
     public static final long UPDATE_COURSE_RANDOM_SEED = "update-course".hashCode();
     public static final long UPDATE_ENROLMENT_RANDOM_SEED = "update-enrolment".hashCode();
-    public static final long DELETE_RANDOM_SEED = "delete".hashCode();
+    public static final long UPDATE_USER_RANDOM_SEED = "update-user".hashCode();
+    
+    public static final long DELETE_USER_RANDOM_SEED  = "delete-user".hashCode();
+    public static final long DELETE_COURSE_RANDOM_SEED = "delete-course".hashCode();
+    public static final long DELETE_ENROLMENT_RANDOM_SEED = "delete-enrolment".hashCode();
+    
+    
     public static String HECTOR_CONNECTION = "saddleback:9160@Test Cluster/UNIVERSITY";
     public static String METADATA_CONNECTION = "ambeli:9161@MetadataCluster/Metadata";
 
