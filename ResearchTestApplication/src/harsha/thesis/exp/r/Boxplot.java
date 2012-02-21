@@ -20,7 +20,7 @@ public class Boxplot {
         String result = "boxplot(";
         for (int i = 0 ; i < solutions.length; ++i){
             names.add(solutions[i].getCode());
-            result += solutions[i].getCode() + "_df$" + operation;
+            result += solutions[i].getCode() + ".dataframe$" + operation;
             if (i < solutions.length - 1){
                 result += ",";
             }

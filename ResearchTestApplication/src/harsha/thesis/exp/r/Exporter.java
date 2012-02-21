@@ -37,9 +37,9 @@ public class Exporter {
 
         BufferedWriter w = new BufferedWriter(new FileWriter(out));
         String[] columnOrder = new String[]{
-                    Solution.INSERT_USER, Solution.INSERT_COURSE, Solution.INSERT_ENROLMENT,
-                    Solution.DELETE_ENROLMENT, Solution.DELETE_COURSE, Solution.DELETE_USER
-                };
+            Solution.INSERT_USER, Solution.INSERT_COURSE, Solution.INSERT_ENROLMENT,
+            Solution.DELETE_USER, Solution.DELETE_COURSE, Solution.DELETE_ENROLMENT, 
+        };
         for (Solution s : solutions) {
             w.write(s.rToDataFrame(columnOrder) + "\n");
 //            w.write(s.rToDataFrame(Solution.DEFAULT_COLUMN_ORDER) + "\n");
@@ -53,6 +53,24 @@ public class Exporter {
             w.write("dev.off();\n");
             w.flush();
         }
+
+
+        w.write(Barplot.Definitions());
+
+        for (Solution s : solutions) {
+            String pngFile = "'" + path + s.getCode() + "-barplot.png'";
+            w.write("png(" + pngFile + ", width=640, height=480);\n");
+            w.write(Barplot.ToString(s, columnOrder));
+            w.write("dev.off();\n");
+        }
+
+
+//        String pngFile = "'" + path + "barplots.png'";
+//        w.write("png(" + pngFile + ", width=640, height=480);\n");
+//        w.write(Barplot.ToString(solutions, columnOrder) + "\n");
+//        w.write("dev.off();\n");
+
+
 
         w.close();
     }
