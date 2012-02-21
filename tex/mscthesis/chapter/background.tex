@@ -38,26 +38,26 @@ generalised into layers (ZakiSabbagh,   2010,   Bime,   2008).
 
 \begin{description}
 
-\item [User:] is any hardware or software application that relies on cloud
-computing to perform its work.  Generally,   'client' refers to any software applications or
-\acp{API}  that are used to perform cloud computing,  
-while 'users' represents the end-users,   like  database administrators or
-programmers or anyone who benefits from cloud computing services. 
-
-\item [\acf{SaaS}] is the service provided by the cloud
-providers where users do not have to install the software applications. 
-
-\item [\acf{PaaS}] is the service where a hardware or
-software platform is provided to users.  A platform could be an operating system,  
-programming environment,   hardware,   run-time libraries etc. 
-
-\item [\acf{IaaS}] is the service where users can use
-the expensive hardware like network equipments,   servers etc. 
-
-\item [\acf{DaaS}] is a cloud storage service  that represents
-the storage facilities,   like  \acp{DBMS} which are provided
-as cloud services for which users pay only for the storage space they use (Wu et
-al. ,   2010). 
+	\item [User:] is any hardware or software application that relies on cloud
+	computing to perform its work.  Generally,   'client' refers to any software applications or
+	\acp{API}  that are used to perform cloud computing,  
+	while 'users' represents the end-users,   like  database administrators or
+	programmers or anyone who benefits from cloud computing services. 
+	
+	\item [\acf{SaaS}] is the service provided by the cloud
+	providers where users do not have to install the software applications. 
+	
+	\item [\acf{PaaS}] is the service where a hardware or
+	software platform is provided to users.  A platform could be an operating system,  
+	programming environment,   hardware,   run-time libraries etc. 
+	
+	\item [\acf{IaaS}] is the service where users can use
+	the expensive hardware like network equipments,   servers etc. 
+	
+	\item [\acf{DaaS}] is a cloud storage service  that represents
+	the storage facilities,   like  \acp{DBMS} which are provided
+	as cloud services for which users pay only for the storage space they use (Wu et
+	al.,  2010). 
 
 \end{description}
 
@@ -137,14 +137,15 @@ as the data is spread across several databases,   possibly on different servers
 and would include multiple joins on the datasets. 
 
 Most traditional \acp{DBMS} are relational and give data a structure,   that
-adheres to a schema.  This is mainly through the process of normalisation where
-each table in a database is evaluated according to its functional dependencies
+adheres to a schema.  This is mainly achieved through the process of
+normalisation where each table in a database is evaluated according to its functional dependencies
 and primary keys,   to reduce redundancy and minimise integrity anomalies
 (\todo{cite Navathe}).  Normalisation causes databases to have smaller and
 structured tables by removing duplicate data from large and badly organised
 tables and by imposing constraints on the data.  Tables are normalised to
-at-least \ac{1-NF} ensuring data is organised and not redundant.  Throughout
-the chapters normalization refers to making databases at least in \ac{1-NF}. 
+at-least \ac{1-NF} ensuring data is organised and less redundant. edundancy is
+reduced by bringing the database schema into atleast \ac{3-NF} (or \ac{BCNF}).
+Throughout the chapters normalization refers to making databases at least in \ac{1-NF}.
 
 Cloud \acp{DBMS} are mostly non relational and follow a different data model,  
 which is explained in Section~\ref{s:cloud-data-models}.  Such Cloud \acp{DBMS}
@@ -190,32 +191,40 @@ These properties and the CAP theorem are explained below.
 In distributed environments or web-based applications it is noted that the
 three main system requirements necessary for designing and deploying
 applications are: Consistency,   Availability and Partition tolerance.  CAP
-theorem by Brewer claims that it is not possible for a distributed system to
-achieve all these three properties at the same given time (\todo{cite}). 
+theorem, proposed by Eric Brewer, claims that it is not possible for a
+distributed system to achieve all these three properties at the same given time
+(\todo{cite}).
 
 \begin{itemize}
-  \item Consistency: When a request is made to access data,   a system is called
-  consistent if it provides the correct and latest version of the data (\todo
-  {cite HP n. d. }).  For example,   in the case of an online shopping website,  
-  consistency would ensure that the stock of items is always correct.  When a
-  user attempts to buy an item and the same item is being bought by another
-  user,   the system will have to ensure that both the users get the most recent
-  stock details available.  So if there is only a single item left,   then the
-second user is informed that his request can not be completed as there is no
-stock available.  This means that the data is consistent and users do not get
-stale data. 
-  \item Availability (\todo{cite Browne 2009; HP n. d. }): A system is considered
-  highly available when all parts of the system are always available,   despite
-  any failures or problems.  It is expected that all requests would be addressed
-  any given point of time.  In the previous example,   this means that even when the
-website is busy,   with many users accessing it,   it is expected to have all user
-requests addressed and to be up and running always. 
-\item Partition-tolerance: Generally,   distributed services are run on more than
-one server/node.  As previously mentioned,   this means that data is partitioned
-across the distributed network on several machines and a
-partition takes place when there is a failure in the network.  A system is
-considered partition-tolerant when despite such partitions,   it continues to provide its
-services and address user requests.  
+  
+	  \item Consistency: When a request is made to access data,   a system is called
+	  consistent if it provides the correct and latest version of the data (\todo
+	  {cite HP n. d. }).  For example,   in the case of an online shopping website,
+	  consistency would ensure that the stock of items is always correct.  When a
+	  user attempts to buy an item and the same item is being bought by another
+	  user,   the system will have to ensure that both the users get the most recent
+	  stock details available.  So if there is only a single item left,   then the
+	second user is informed that his request can not be completed as there is no
+	stock available.  This means that the data is consistent and users do not get
+	stale data.
+	
+	  \item Availability (\todo{cite Browne 2009; HP n. d. }): A system is
+	  considered highly available when all parts of the system are always available,
+	    despite any failures or problems.  It is expected that all requests would be
+	  addressed any given point of time.  In the previous example,   this means that
+	  even when the
+	website is busy,   with many users accessing it,   it is expected to have all
+	user requests addressed and to be up and running always.
+	
+	\item Partition-tolerance: Generally, distributed services are run on several
+	machines across different networks and these services are prone to network
+	partitions. Network partitions happen when there is a failure of a segment or
+	component of a network such that nodes cannot communicate with each other.
+	%As previously mentioned, this means that data is
+% 	partitioned across the distributed network on several machines and a partition
+% 	takes place when there is a failure in the network.  
+	A system is considered  partition-tolerant when despite such partitions,   it
+	continues to provide its services and address user requests.
 \end{itemize}
 
 The CAP theorem states that at a given point of time,   only two of these
@@ -233,38 +242,40 @@ What such trade-offs mean in relation to the CAP theorem is examined below
 (\todo{cite HP n. d. }):
 
 \begin{description}
-  \item [Case 1: Achieving '\texttt{C}' and '\texttt{A}' properties:] This
-  means that when an application aims to achieve consistency and availability,  
-  it will be less partition tolerant. 
-When data is partitioned,   there is more time involved in accessing the data from
-the various points in the distributed network.  Moreover,   failures mean more time
-delays.  So to achieve high consistency and availability it is required
-that the application depends on fewer nodes.  Having all data stored on a single
-machine means there is no partition of data and this data will be always
-consistent and available as long as this machine is up and running.   On the other hand,   when systems that are not partition tolerant face a
-partition,   it becomes undependable.  It could either give inconsistent data
-or become unavailable or both (HP n. d. ). 
-\item [Case 2: Achieving '\texttt{A}' and '\texttt{P}' properties:]
-Commonly,   this is what most cloud \ac{NoSQL} \acp{DBMS} aim to achieve and these
-prefer to pay less attention to consistency of data (Wada et al.  2011).  A system
-lacking consistency is thus mostly available even during partitions,   but
-may give stale data or incorrect data occasionally to the users.  This suits
-most business models as this ensures that users are always able to
-access their data.  For example,   in the previous online shopping example,   when
-data is not available or the request fails,   users could get anxious whether
-they lost their money during the transaction.  to avoid such cases,   users
-are presented with data as soon as possible,   despite being stale,   since users
-will be able to see the data rather than being left unsure. 
-Since a cloud \ac{NoSQL} \ac{DBMS} that has poor consistency is unrealistic,  
-these \acp{DBMS} tend to provide eventual consistency
-
-\item [Case 3: Achieving '\texttt{C}' and '\texttt{P}' properties:] This means
-that while a system is consistent and tolerant to partitions or
-failures,   it may not always be available and running.  Such a system 
-provides correct data while tolerating network failures but may not be
-accessible during failures preventing operations to be performed on data.  This
-leads to a less dependable system,   where data is correct but unavailable and
-inaccessible during network failures. 
+	  \item [Case 1: Achieving '\texttt{C}' and '\texttt{A}' properties:] This
+	  means that when an application aims to achieve consistency and availability,  
+	  it will be less partition tolerant. 
+	When data is partitioned,   there is more time involved in accessing the data from
+	the various points in the distributed network.  Moreover,   failures mean more time
+	delays.  So to achieve high consistency and availability it is required
+	that the application depends on fewer nodes.  Having all data stored on a single
+	machine means there is no partition of data and this data will be always
+	consistent and available as long as this machine is up and running.   On the
+	other hand,   when systems that are not partition tolerant face a partition,  
+	it becomes unreliable.  It could either give inconsistent data or become
+	unavailable or both (HP n. d. ).
+	
+	\item [Case 2: Achieving '\texttt{A}' and '\texttt{P}' properties:]
+	Commonly,   this is what most cloud \ac{NoSQL} \acp{DBMS} aim to achieve and these
+	prefer to pay less attention to consistency of data (Wada et al.  2011).  A system
+	lacking consistency is thus mostly available even during partitions,   but
+	may give stale data or incorrect data occasionally to the users.  This suits
+	most business models as this ensures that users are always able to
+	access their data.  For example,   in the previous online shopping example,   when
+	data is not available or the request fails,   users could get anxious whether
+	they lost their money during the transaction.  To avoid such cases,   users
+	are presented with data as soon as possible,   despite being stale,   since users
+	will be able to see the data rather than being left unsure. 
+	Since a cloud \ac{NoSQL} \ac{DBMS} that has poor consistency is unrealistic,  
+	these \acp{DBMS} tend to provide eventual consistency
+	
+	\item [Case 3: Achieving '\texttt{C}' and '\texttt{P}' properties:] This means
+	that while a system is consistent and tolerant to partitions or
+	failures,   it may not always be available and running.  Such a system 
+	provides correct data while tolerating network failures but may not be
+	accessible during failures preventing operations to be performed on data.  This
+	leads to a less reliable system,   where data is correct but unavailable and
+	inaccessible during network failures. 
 \end{description}
 
 Interestingly,   while cloud \ac{NoSQL} \acp{DBMS} do not comply with ACID
@@ -278,8 +289,8 @@ not properly maintained,   i. e. ,   data has to be refreshed and version-checke
 it to remain saved.  Eventually consistent,   as mentioned previously,   is a weak
 form of consistency where in a cluster of nodes,   every node would get the
 updates eventually at some point in time. 
-BASE could be understood as being closer to \texttt{Case 2},   where consistency
-takes a back seat.  But this leads to conflicts where a new update or a new read
+BASE could be understood as being closer to  \texttt{Case 2} mentioned above,  
+where consistency takes a back seat.  But this leads to conflicts where a new update or a new read
 request could be made before all nodes get the latest update.  To resolve such
 conflicts there are some types of repairs used by cloud \ac{NoSQL} \acp{DBMS},  
 like read-repairs,   write-repairs and asynchronous repairs (Terry et al.  1995). 
@@ -323,8 +334,8 @@ incorporating.  Some of the current popular data models on the cloud are:
 \item Relational data model
 \end{itemize}
 
-In general,   cloud \acp{DBMS} are non-relational and most cloud \acp{DBMS}adopt
-the key-value data model to maintain the data replication,   consistency and
+In general,   cloud \acp{DBMS} are non-relational and most cloud \acp{DBMS}
+adopt the key-value data model to maintain the data replication,   consistency and
 scalability that are part of cloud data storage (\todo{cite 440}). The key-value
 databases,   document databases and other databases that support non-relational data models
 on the cloud are loosely termed as \ac{NoSQL} databases.  \ac{NoSQL} \acp{DBMS}
@@ -349,7 +360,7 @@ cloud \acp{RDBMS} offered today vary according to the vendors and each of the ve
 propose alternative solutions to problems like scalability and latency.  But,   the
 replication of data is restrained due to the relational nature of \acp{RDBMS} and this reduced
 replication affects the scalability and performance as well.  Most cloud
-\ac{RDBMS} are outperformed by \ac{NoSQL} \acp{DBMS}. 
+\ac{RDBMS} are outperformed by \ac{NoSQL} \acp{DBMS} (\todo{cite}). 
 
 \section{Key Value Data Model}\label{s:key-value-data-model}
 In basic terms,   the key-value data model represents data as a key-value tuple
@@ -392,14 +403,16 @@ table. The Student-Course relationship is maintained in a separate table called
 This shows how the University database example is deployed as a
 \ac{RDB}.  When data in the University example is modelled using the
 column-oriented key-value data model,   the way it is stored is different. 
-Although key-value \acp{DBMS} are schema-less,   column-oriented key-value data
-models are not entirely schema-less,   as seen in Cassandra (\todo{cite
-DataStax}).  This data model allows applications to model the way data is
-organised in a traditional RDBMS whilst bringing more flexibility by
-denormalising data and imposing no rigid structures or schema requirements
-(\todo{cite DataStax}).  Therefore,   it allows applications to add data in the
-way they want and change their schema (if needed),   without adhering to a
-rigid schema unlike the traditional \acp{RDBMS}. 
+Although key-value \acp{DBMS} are schema-less,   column-oriented key-value
+\acp{DBMS} are not entirely schema-less and hold fewer information about the
+constraints within the databases as metadata ,   as seen in Cassandra
+(\todo{cite DataStax}).  This data model allows
+applications to model the way data is organised in a traditional RDBMS whilst
+bringing more flexibility by denormalising data and imposing no rigid structures
+or schema requirements (\todo{cite DataStax}).  Therefore,   it allows
+applications to add data in the way they want and change their schema (if
+needed),   without adhering to a rigid
+schema unlike the traditional \acp{RDBMS}.
 
 The building blocks of column-oriented key-value databases are the columns,  
 the Super Columns,   the Column Family and the Key Space.  Using the
@@ -412,8 +425,8 @@ to describe the Cassandra data model adopts a simple and flexible schema that
 allows some structure in the way data is stored. 
 
 \begin{description}
-\item[Columns:]  A column is the basic unit in this data model.  It is a tuple
-containing a column name,   a value and a timestamp (Figure~\ref{f:column}). 
+\item[Columns:]  A column is the basic unit of data in this data model.  It is a
+tuple containing a column name,   a value and a timestamp (Figure~\ref{f:column}). 
 
 \begin{figure}[h]
 	\centering
@@ -436,15 +449,15 @@ Secondary indexes and are of type \texttt{Keys} in Cassandra.  When such seconda
 are used,   efficient queries can be specified using equality predicates,   and
 can be made on ranges of columns too.  The latter ones are called range queries. 
 
-A column name can be used as an attribute name and is analogous to the columns
-in \acp{DBMS}.  For example,   columns for the attributes \texttt{FirstName},  
-\texttt{LastName} etc.  To draw an analogy with \acp{RDBMS},  
+A column name can be considered analogous to a column
+in a table in any traditional \ac{RDBMS}.  To illustrate this analogy,
 Figures~\ref{f:column-FirstName} and~\ref{f:RDB-User} show the differences
-between the representation of values in \texttt{Student} in Cassandra and in an \ac{RDBMS}. 
+between the representation of values in \texttt{Student} in Cassandra and in an
+\ac{RDBMS}.
 It can be seen from these figures that a column in the column-oriented key-value
-data model is analogous to a single value in a row of a relational table.  For
+data model is similar to a single value in a row of a relational table.  For
 example,   the data '\texttt{John}' in the relational table \texttt{Student} can
-be considered equivalent to a single column in Cassandra. 
+be considered equivalent to a single column in Cassandra.
 
 \begin{figure}[H]
 	\newcommand{\W}{.4\textwidth}
@@ -464,7 +477,7 @@ be considered equivalent to a single column in Cassandra.
 	\caption{Relational Table - Student}\label{f:RDB-User}
 \end{figure}
 
-The JSON notation for the columns in Cassandra is shown in Figure~\ref{f:column-JSON}. 
+The JSON notation for  columns in Cassandra is shown in Figure~\ref{f:column-JSON}. 
 
 \begin{figure}[H]
 	\centering
@@ -478,7 +491,7 @@ The JSON notation for the columns in Cassandra is shown in Figure~\ref{f:column-
 % since column names are byte arrays,   applications can store any kind of
 % values in it. 
 
-\item [SuperColumns:] A super column is a different kind of column where the
+\item [SuperColumns:] A super column is a different kind of a column where the
 values are an array of regular columns (Figure~\ref{f:supercolumn}).  It consists of a super
 column name and an ordered map of columns.  The columns within the values of a
 super column are grouped together using a common look-up value,   which is
@@ -495,7 +508,7 @@ not have timestamps for its key-value pairs.
 \end{figure}
 
 A super column can be considered roughly similar to a whole record in a
-relational table in an \acp{RDB}. For example,   the super column for a
+relational table in an \ac{RDB}. For example,   the super column for a
 student,   as seen in Figure~\ref{f:supercolumn-John},   is analogous to a single
 record in the relational table \texttt{Student} (Figure~\ref{f:RDB-User}). 
 
@@ -507,7 +520,7 @@ record in the relational table \texttt{Student} (Figure~\ref{f:RDB-User}).
 	Cassandra}\label{f:supercolumn-John}
 \end{figure}
 
-The JSON notation for the super column is shown in Figure~\ref{f:supercolumn-JSON}. 
+The JSON notation for a super column is shown in Figure~\ref{f:supercolumn-JSON}. 
 
 \begin{figure}[H]
 	\centering
@@ -516,7 +529,7 @@ The JSON notation for the super column is shown in Figure~\ref{f:supercolumn-JSO
 	\caption{JSON notation for a super column}\label{f:supercolumn-JSON}
 \end{figure}
 
-\item ColumnFamily: A column family contains columns or super columns that are
+\item [ColumnFamily:] A column family contains columns or super columns that are
 grouped together using a unique row key.  It is a set of key-value
 pairs,   where the key is the row key and the value is a map of column names
 (Figure~\ref{f:columnfamily}).  The row key groups the columns together,   just as
@@ -532,17 +545,18 @@ in super columns.
 Applications can define column families and metadata about the columns. 
 It is commonly practised to have columns that are related or accessed
 together to be grouped in the same column family.  Column families require that
-some attributes are always defined,   like name,   column type and others.  It also
-has optional attributes that can be defined if the application requires so.  Some of the optional
-attributes are number of keys cached,   comments,   read repairs,   column
-metadata among others. 
+some attributes are always defined,   like name,   column type and others.  It
+also has optional attributes that can be defined if the application requires so.
+ Some of the optional attributes are number of keys cached,   comments,   read
+repairs,   column metadata among others.
 
-Column families can have rows to have relatively a definite number of columns. 
-Rows are identified by their unique row keys.  This is similar to a table,   as
-seen for table \texttt{Student} Figure~\ref{f:RDB-User},   where every row
-in the table has the same number of columns and primary keys are used to identify a row.  An example of a column family is shown in Figure~\ref{f:columnfamilyUSER}. 
-Unlike relational tables in an \ac{RDB},   column families do not require all the
-rows to define the same number of columns (\todo{cite Sarkissian}). 
+Column families can have rows %to have relatively a definite number of columns. 
+that are identified by their unique row keys.  This is similar to a table,   as
+seen for table \texttt{Student} in Figure~\ref{f:RDB-User},   where every row in
+the table has the same number of columns and primary keys are used to identify a
+row.  An example of a column family is shown in Figure~\ref{f:columnfamilyUSER}.
+Unlike relational tables in an \ac{RDB},   column families do not require all
+the rows to define the same number of columns (\todo{cite Sarkissian}).
 
 \begin{figure}[H]
 	\centering
@@ -608,13 +622,13 @@ the database design.  Data dependencies are the various relationships that may
 exist between data entities in a database.  For example,   in the
 University database,   a student can enrol into more than one course and this
 means that there is a many-to-many relationship between \texttt{Student} and
-\texttt{Course}.  Also,   one course can have many students enrolled in it.  
+\texttt{Course} since   one course can have many students enrolled in it.  
 
-As seen in Section\ref{s:key-value-data-model},   the \texttt{Enrolment} table 
+As seen in Section~\ref{s:key-value-data-model},   the \texttt{Enrolment} table 
 contains the \texttt{StudentID} and the \texttt{CourseID} as foreign keys,  
 thus showing the dependency or relationship between students and courses
 (Figure~\ref{f:RDB}). 
-In the \texttt{University}\ac{RDB} any attempt to delete a course
+In the \texttt{University} \ac{RDB} any attempt to delete a course
 from the \texttt{Course} table,   is prevented by a constraint,   unless the
 dependency itself is removed first.  In \acp{RDBMS} ,   this constraint is referential
 integrity,   which ensures that references between data entities are valid,  
@@ -634,14 +648,15 @@ insertion of data,   where a new student is entered in the
 \texttt{Enrolment} table,   with a \texttt{CourseID},   that does not
 exist in the \texttt{Course} table (i. e. ,   wrong \texttt{CourseID}).  A dangling
 reference occurs because this inserted student refers to a nonexistent course. 
-Such problems cause inconsistent data to be stored in databases and affect data
-integrity poorly.  To ensure that users get consistent and valid information,  
+Such problems cause inconsistent data to be stored in databases and violate data
+integrity.  To ensure that users get consistent and valid information,  
 applications would have to implement mechanisms to check or prevent dangling references.  But if
-referential integrity constraints are applied,   like in an \ac{RDB},   operations
-on data,   that can adversely affect referential integrity,   would not be permitted. 
+referential integrity constraints are applied as in an \ac{RDB},   operations
+on data that  adversely affects referential integrity   would not be
+permitted.
 
 As previously mentioned,   \ac{NoSQL} database systems do not normalise data and
-nor are any relationships maintained.  However,   relationships or dependencies
+nor are any relationships maintained.  But relationships or dependencies
 between data are common when real world data is stored in databases.  For example,   in the
 real world,   a course could be taught by more than one lecturer or a student with
 an Art major is restricted entry into Chemistry courses etc.  These relationships
@@ -652,8 +667,8 @@ Section~\ref{s:cloud-databases},   cloud databases,   whether relational or
 scalable to match the needs of the users.  The replicated and distributed nature
 makes maintaining data dependencies complex and unfeasible in terms of speed and
 efficiency.  In cloud \ac{NoSQL} databases,   this effectively means that the
-relationship between the \texttt{Student} and \texttt{Course} tables will not be strictly
-enforced and deleting a course in cloud \ac{NoSQL} databases is allowed because
+relationship between \texttt{Enrolment}, \texttt{Student} and \texttt{Course}
+tables will not be strictly enforced and deleting a course in cloud \ac{NoSQL} databases is allowed because
 of the absence of constraints.  As mentioned before,   this means that students
 could still be enrolled in deleted courses,   since there are no constraints to
 prevent such deletions or changes in cloud \ac{NoSQL} databases. 
@@ -670,7 +685,7 @@ has many replicas that have to be checked as well for the constraints.
 
 This is a serious problem when data is interconnected and dependant on other
 data entities as is commonly the case.  For example,   consider a banking
-application that uses cloud \ac{NoSQL} \acp{DBMS} where its data us spread
+application that uses cloud \ac{NoSQL} \acp{DBMS} where its data is spread
 across several nodes and is interconnected.  Any debit or credit
 transactions made to a users account will have to be replicated across all the
 nodes and correctly persisted.  Many constraints will exist for transfer of funds
@@ -685,8 +700,8 @@ their validation would be triggered whenever any operations are performed on the
 data. 
 
 Updates may not be correctly reflected across all the nodes of the database due
-to  consistency too,   which is discussed in Section~\ref{}.  However,   in
-spite of eventual consistency,   data dependencies should be correctly handled and
+to  eventual consistency too,   which is discussed in Section~\ref{s:Cassandra}. 
+However, in spite of eventual consistency,   data dependencies should be correctly handled and
 recorded. 
 
 Although such problems mostly affect most cloud \ac{NoSQL} \ac{DBMS} users,   it
@@ -694,15 +709,15 @@ could be different for different users.  For example,   a banking system as
 mentioned above could be gravely affected because of dangling references while
 in a simple game application such problems could be trivial. 
 
-Motivated by such problems of data dependencies,   this thesis studies the
-existing modelling of data dependencies in cloud \ac{NoSQL} database systems and
-aims to contribute by suggesting four solutions so that such dependencies are
-effectively maintained,   while also not limiting the benefits of not having a
-rigid schema in \ac{NoSQL} database systems.  Such a result would 
-reduce the workload of the applications or the persistence layers of the application
-servers.  Additionally it would give users of \ac{NoSQL} database systems
-better consistency in data,   along with ensuring better data integrity even when
-it is widely replicated or spread on different data-centers. 
+% Motivated by such problems of data dependencies,   this thesis studies the
+% existing modelling of data dependencies in cloud \ac{NoSQL} database systems and
+% aims to contribute by suggesting four solutions so that referential integrity
+% is effectively maintained,   while also not limiting the benefits of not having
+% a rigid schema in \ac{NoSQL} database systems.  Such a result would reduce the
+% workload of the applications or the persistence layers of the application
+% servers.  Additionally it would give users of \ac{NoSQL} database systems
+% better consistency in data,   along with ensuring better data integrity even when
+% it is widely replicated or spread on different data-centers. 
 
 
 
@@ -851,7 +866,7 @@ storage etc.  With an increase in the number of users
 migrating to cloud computing,   cloud data storage is gaining prominence as well,  
 for easy and simple data storage.  This has paved the way for the existence
 of many different data models and databases on the cloud.  Amongst the many data
-models,   the key-value data model has been the most widely used one on the cloud
+models,   the key-value data model has been  most widely used  on the cloud
 as it is more adapted to the cloud environment due to its support for
 replication and scalability and other cloud related features (\todo{cite}). 
 
