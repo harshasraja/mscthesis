@@ -123,7 +123,7 @@ public class ValidationHandler {
     }
 
     public List<List<BaseEntity>> checkForeignKeyForUpdate() throws Exception {
-        logger.info("Checking ForeignKeyForUpdate for ColumnFamily:" + this.columnFamily);
+        logger.debug("Checking ForeignKeyForUpdate for ColumnFamily:" + this.columnFamily);
         List<List<BaseEntity>> childObjectList = new LinkedList<List<BaseEntity>>();
         List<Metadata> rConstraintNames = new LinkedList<Metadata>();
         BaseDAO dao = null;
@@ -149,7 +149,7 @@ public class ValidationHandler {
                             throw new ValidationFailedException(primaryKey + " found in child table " + metadata.getTableName());
                         } else if (!childObject.isNull() && "CASCADE}".equalsIgnoreCase(metadata.getDeleteRule())) {
                             logger.debug("Update on cascade mode");
-                            //dao.delete(childObject);
+                            dao.delete(childObject);
                         } else if (!childObject.isNull()) {
                             throw new Exception("Fatal error! Failed understanding Delete Rule " + metadata.getDeleteRule() + " METADATA");
                         }
@@ -159,8 +159,7 @@ public class ValidationHandler {
                 }
             }
         } catch (Exception e) {
-            logger.warn(e.getMessage(), e);
-            e.printStackTrace();
+            throw e;
         } finally {
             if (dao != null) {
                 dao.close();

@@ -131,7 +131,8 @@ public class Solution0 implements SolutionExperiment {
 
             enrolment.setRowId("" + currentEnrolmentId);
 
-            long currentUserId = Long.parseLong(enrolment.getUserId()) + users.size();
+            long currentUserId = Long.parseLong(enrolment.getUserId());
+            currentUserId += (currentUserId < 0 ? -users.size() : users.size());
             enrolment.setUserId("" + currentUserId);
 
             long currentCourseId = Long.parseLong(enrolment.getCourseId().substring(ArtificialData.COURSE_BASE_NAME.length()))
@@ -150,7 +151,7 @@ public class Solution0 implements SolutionExperiment {
         start = System.nanoTime();
         insertCourse();
         log.info("insertCourse() [" + DF.format((System.nanoTime() - start) / 1000.0) + "]");
-        
+
         start = System.nanoTime();
         insertEnrolment();
         log.info("insertEnrolment() [" + DF.format((System.nanoTime() - start) / 1000.0) + "]");
@@ -160,11 +161,11 @@ public class Solution0 implements SolutionExperiment {
         long start = System.nanoTime();
         updateCourse();
         log.info("updateCourse() [" + DF.format((System.nanoTime() - start) / 1000.0) + "]");
-        
+
         start = System.nanoTime();
         updateEnrolment();
         log.info("updateEnrolment() [" + DF.format((System.nanoTime() - start) / 1000.0) + "]");
-        
+
         start = System.nanoTime();
         updateUser();
         log.info("updateUser() [" + DF.format((System.nanoTime() - start) / 1000.0) + "]");
@@ -172,16 +173,16 @@ public class Solution0 implements SolutionExperiment {
 
     private void delete() throws Exception {
         long start = System.nanoTime();
-        deleteCourse();
-        log.info("deleteCourse() [" + DF.format((System.nanoTime() - start) / 1000.0) + "]");
-        
-        start = System.nanoTime();
         deleteEnrolment();
         log.info("deleteEnrolment() [" + DF.format((System.nanoTime() - start) / 1000.0) + "]");
-        
+
         start = System.nanoTime();
         deleteUser();
         log.info("deleteUser() [" + DF.format((System.nanoTime() - start) / 1000.0) + "]");
+        
+        start = System.nanoTime();
+        deleteCourse();
+        log.info("deleteCourse() [" + DF.format((System.nanoTime() - start) / 1000.0) + "]");
     }
 
     private void insertUser() throws Exception {
@@ -235,7 +236,10 @@ public class Solution0 implements SolutionExperiment {
         for (User entity : usersToUpdate) {
             Integer userId = Integer.parseInt(entity.getUserId());
             entity.setKeyForUpdate("" + (userId * -1));
+            entity.setAge("" + (Integer.parseInt(entity.getAge()) * -1));
+            log.info("BEFORE UPDATE: " + entity);
             dao.update(entity);
+            log.info("AFTER UPDATE: " + entity);
         }
         experiment.stop();
         experiment.log("update_user:" + experiment.duration() + "\n\n");
@@ -253,7 +257,7 @@ public class Solution0 implements SolutionExperiment {
             try {
                 dao.update(entity);
             } catch (Exception ex) {
-                System.out.println(ex);
+                log.info(ex);
             }
         }
         experiment.stop();
@@ -287,7 +291,7 @@ public class Solution0 implements SolutionExperiment {
 
         experiment.start();
         for (BaseEntity entity : usersToDelete) {
-            dao.delete(entity); //Cascaded
+            dao.delete(entity); 
         }
         experiment.stop();
         experiment.log("delete_user:" + experiment.duration() + "\n\n");
@@ -303,7 +307,7 @@ public class Solution0 implements SolutionExperiment {
             try {
                 dao.delete(entity); //NO DELETE
             } catch (Exception ex) {
-                System.out.println(ex);
+//                log.info(ex); //Ignore Exception
             }
         }
         experiment.stop();
@@ -317,17 +321,5 @@ public class Solution0 implements SolutionExperiment {
         }
         experiment.stop();
         experiment.log("delete_enrolment:" + experiment.duration() + "\n");
-
-        //Increase Ids
-        for (Enrolment enrolment : enrolments) {
-            long currentEnrolmentId = Long.parseLong(enrolment.getRowId()) + enrolments.size();
-            enrolment.setRowId("" + currentEnrolmentId);
-        }
-
-        //Insertion of enrolment for deleting afterwards with user
-        for (BaseEntity entity : enrolments) {
-            dao.insert(entity);
-        }
-
     }
 }

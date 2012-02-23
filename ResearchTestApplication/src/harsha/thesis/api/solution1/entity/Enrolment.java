@@ -6,7 +6,7 @@ import harsha.thesis.api.annotation.Column;
 import harsha.thesis.api.annotation.PrimaryKey;
 
 @PrimaryKey(primaryKey="RowId")
-public class Enrolment extends BaseEntity {
+public class Enrolment extends BaseEntity implements Cloneable{
 	
 	private String rowId;
 	
@@ -93,5 +93,9 @@ public class Enrolment extends BaseEntity {
 	public String getKeyForUpdate() {
 		return keyForUpdate;
 	}
+        
+        public Object clone() throws CloneNotSupportedException{
+            return (Object) super.clone();
+        }
 
 }

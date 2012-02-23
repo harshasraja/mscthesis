@@ -47,7 +47,7 @@ public class BaseDAO {
     public static final String EXPRESSION_LE = "<=";
     public static final String EXPRESSION_GE = "=>";
 
-    public BaseDAO() throws Exception{
+    public BaseDAO() throws Exception {
         logger.debug("Instantiating " + this.getClass().getName());
         connection = CloudConnector.getConnection();
     }
@@ -344,7 +344,7 @@ public class BaseDAO {
 
 
         connection.getMutator().delete(key, entity.getColumnFamilyRepresentation(), null, StringSerializer.get());
-        logger.debug("Finished delete entity:" + getStringRepresentationForLogging(entity));
+//        logger.debug("Finished delete entity:" + getStringRepresentationForLogging(entity));
     }
 
     private String getStringRepresentationForLogging(BaseEntity entity) {
@@ -370,6 +370,85 @@ public class BaseDAO {
         return strEntity;
     }
 
+//    public void update(BaseEntity entity) throws Exception {
+//        logger.debug("Starting to update:" + getStringRepresentationForLogging(entity));
+//
+//        if (null != entity.getKeyForUpdate()
+//                && !"".equals(entity.getKeyForUpdate().trim())) {
+//
+//            Method[] methods = entity.getClass().getDeclaredMethods();
+//            Annotation[] a1 = entity.getClass().getDeclaredAnnotations();
+//            //ValidationHandler helper = new ValidationHandler(entity, this);
+//            String primaryKey = null;
+//            String key = null;
+//            //Method tempMethod = entity.getC
+//
+//
+//            //This section gets the logical primary key field for the entity
+//            //from previously declared annotations for the entity
+//            // ** IT IS ASSUMED THAT THERE WOULD BE ONLY ONE PRIMARY KEY & NO COMPOSITE PRIMARYKEY
+//            // ** IF THERE IS A COMPOSITE PRIMARY KEY, LOGIC WOULD NEED TO BE REVISTED
+//            // ** AND BREAK STATEMENT INSIDE IF CONDITION SHOULD BE REMOVED
+//
+//            for (Annotation annotation : a1) {
+//                //System.out.println(annotation);
+//                if (annotation instanceof PrimaryKey) {
+//                    primaryKey = ((PrimaryKey) annotation).primaryKey();
+//                    break;
+//                }
+//            }
+//
+//            // This section fetches the actual primary key value from the entity class
+//            // this section uses dynamic method invocation
+//            // ** IT IS ASSUMED THAT THERE WOULD BE ONLY ONE PRIMARY KEY & NO COMPOSITE PRIMARYKEY
+//            // ** IF THERE IS A COMPOSITE PRIMARY KEY, LOGIC WOULD NEED TO BE REVISTED
+//            // ** AND BREAK STATEMENT INSIDE IF CONDITION SHOULD BE REMOVED
+//
+//            for (Method method : methods) {
+//                if (method.getName().contains(primaryKey)
+//                        && method.getName().equals("get" + primaryKey)) {
+//                    key = (String) method.invoke(entity);
+//                    break;
+//                }
+//            }
+//
+//            
+//
+//            if (!read(entity.getClass().getName(), key).isNull()) {
+//                ValidationHandler handler = new ValidationHandler(entity, this);
+//                List<List<BaseEntity>> childObjectList = handler.checkForeignKeyForUpdate();
+//                Map<String, String> map = handler.getReferencedKeyFieldForForeignKey();
+//                delete(entity);
+//
+//                for (Method method : methods) {
+//                    if (method.getName().contains(primaryKey)
+//                            && method.getName().equals("set" + primaryKey)) {
+//                        method.invoke(entity, entity.getKeyForUpdate());
+//                        break;
+//                    }
+//                }
+//
+//
+//                insert(entity);
+//                for (List<BaseEntity> list : childObjectList) {
+//                    Method mtd = entity.getClass().getDeclaredMethod("get" + primaryKey);
+//
+//                    String changedValue = (String) mtd.invoke(entity);
+//                    for (BaseEntity baseEntity : list) {
+//                        String referencedKey = map.get(baseEntity.getColumnFamilyRepresentation());
+//                        Method tempMethod = baseEntity.getClass().getDeclaredMethod("set" + referencedKey, mtd.getReturnType());
+//                        tempMethod.invoke(baseEntity, changedValue);
+//                        insert(baseEntity);
+//                    }
+//                }
+//            } else {
+//                logger.debug("Update record not found; hence exiting");
+//            }
+//        } else {
+//            logger.debug("Update key not specified; hence exiting");
+//        }
+//        logger.debug("Finished update entity:" + getStringRepresentationForLogging(entity));
+//    }
     public void update(BaseEntity entity) throws Exception {
         logger.debug("Starting to update:" + getStringRepresentationForLogging(entity));
 
@@ -412,37 +491,33 @@ public class BaseDAO {
                 }
             }
 
+            ValidationHandler handler = new ValidationHandler(entity, this);
+            List<List<BaseEntity>> childObjectList = handler.checkForeignKeyForUpdate();
+            Map<String, String> map = handler.getReferencedKeyFieldForForeignKey();
+            delete(entity);
 
-            if (!read(entity.getClass().getName(), key).isNull()) {
-                ValidationHandler handler = new ValidationHandler(entity, this);
-                List<List<BaseEntity>> childObjectList = handler.checkForeignKeyForUpdate();
-                Map<String, String> map = handler.getReferencedKeyFieldForForeignKey();
-                delete(entity);
-
-                for (Method method : methods) {
-                    if (method.getName().contains(primaryKey)
-                            && method.getName().equals("set" + primaryKey)) {
-                        method.invoke(entity, entity.getKeyForUpdate());
-                        break;
-                    }
+            for (Method method : methods) {
+                if (method.getName().contains(primaryKey)
+                        && method.getName().equals("set" + primaryKey)) {
+                    method.invoke(entity, entity.getKeyForUpdate());
+                    break;
                 }
-
-
-                insert(entity);
-                for (List<BaseEntity> list : childObjectList) {
-                    Method mtd = entity.getClass().getDeclaredMethod("get" + primaryKey);
-
-                    String changedValue = (String) mtd.invoke(entity);
-                    for (BaseEntity baseEntity : list) {
-                        String referencedKey = map.get(baseEntity.getColumnFamilyRepresentation());
-                        Method tempMethod = baseEntity.getClass().getDeclaredMethod("set" + referencedKey, mtd.getReturnType());
-                        tempMethod.invoke(baseEntity, changedValue);
-                        insert(baseEntity);
-                    }
-                }
-            } else {
-                logger.debug("Update record not found; hence exiting");
             }
+
+
+            insert(entity);
+            for (List<BaseEntity> list : childObjectList) {
+                Method mtd = entity.getClass().getDeclaredMethod("get" + primaryKey);
+
+                String changedValue = (String) mtd.invoke(entity);
+                for (BaseEntity baseEntity : list) {
+                    String referencedKey = map.get(baseEntity.getColumnFamilyRepresentation());
+                    Method tempMethod = baseEntity.getClass().getDeclaredMethod("set" + referencedKey, mtd.getReturnType());
+                    tempMethod.invoke(baseEntity, changedValue);
+                    insert(baseEntity);
+                }
+            }
+
         } else {
             logger.debug("Update key not specified; hence exiting");
         }

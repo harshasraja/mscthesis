@@ -165,7 +165,7 @@ public class ValidationHandler {
     }
 
     public List<List<BaseEntity>> checkForeignKeyForUpdate(BaseEntity entity) throws Exception {
-        logger.info("Checking ForeignKeyForUpdate for ColumnFamily:" + entityForValidation);
+        logger.debug("Checking ForeignKeyForUpdate for ColumnFamily:" + entityForValidation);
         List<List<BaseEntity>> childObjectList = new LinkedList<List<BaseEntity>>();
 
         BaseDAO dao = null;

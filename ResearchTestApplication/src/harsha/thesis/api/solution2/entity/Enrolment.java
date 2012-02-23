@@ -7,100 +7,99 @@ import harsha.thesis.api.annotation.Column;
 import harsha.thesis.api.annotation.PrimaryKey;
 import harsha.thesis.api.solution2.entity.Metadata;
 
-@PrimaryKey(primaryKey="RowId")
-public class Enrolment extends BaseEntity {
-	
-	private String rowId;
-	
-	@Column(columnName="UserId")
-	private String userId;
-	
-	@Column(columnName="CourseId")
-	private String courseId;
-	
-	@Column(columnName="Type")
-	private String type;
+@PrimaryKey(primaryKey = "RowId")
+public class Enrolment extends BaseEntity implements Cloneable{
 
-	public Enrolment() {
-		logger.debug("Creating Instance");
-	}
+    private String rowId;
+    @Column(columnName = "UserId")
+    private String userId;
+    @Column(columnName = "CourseId")
+    private String courseId;
+    @Column(columnName = "Type")
+    private String type;
 
-	public String getRowId() {
-		return rowId;
-	}
+    public Enrolment() {
+        logger.debug("Creating Instance");
+    }
 
-	public void setRowId(String rowId) {
-		this.rowId = rowId;
-	}
+    public String getRowId() {
+        return rowId;
+    }
 
-	public String getUserId() {
-		return userId;
-	}
+    public void setRowId(String rowId) {
+        this.rowId = rowId;
+    }
 
-	public void setUserId(String userId) {
-		this.userId = userId;
-	}
+    public String getUserId() {
+        return userId;
+    }
 
-	public String getCourseId() {
-		return courseId;
-	}
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
 
-	public void setCourseId(String courseId) {
-		this.courseId = courseId;
-	}
+    public String getCourseId() {
+        return courseId;
+    }
 
-	public String getType() {
-		return type;
-	}
+    public void setCourseId(String courseId) {
+        this.courseId = courseId;
+    }
 
-	public void setType(String type) {
-		this.type = type;
-	}
+    public String getType() {
+        return type;
+    }
 
-	@Override
-	public boolean isNull() {
-		if (null == rowId ||
-				"".equals(rowId)){
-			return true;
-		}
-		return false;
-	}
-	
-	public void setKeyForUpdate(String keyForUpdate) {
-		this.keyForUpdate = keyForUpdate;
-	}
+    public void setType(String type) {
+        this.type = type;
+    }
 
-	public String getColumnFamilyRepresentation(){
-		return this.getClass().getName().replace('.', '_');
-	}
+    @Override
+    public boolean isNull() {
+        if (null == rowId
+                || "".equals(rowId)) {
+            return true;
+        }
+        return false;
+    }
 
-	@Override
-	public String getKeyForUpdate() {
-		return super.getKeyForUpdate();
-	}
+    public void setKeyForUpdate(String keyForUpdate) {
+        this.keyForUpdate = keyForUpdate;
+    }
 
-	@Override
-	public List<Metadata> getMetaData() {
-		return super.getMetaData();
-	}
+    public String getColumnFamilyRepresentation() {
+        return this.getClass().getName().replace('.', '_');
+    }
 
-	@Override
-	public String getMetadataStringRepresentation() {
-		return super.getMetadataStringRepresentation();
-	}
+    @Override
+    public String getKeyForUpdate() {
+        return super.getKeyForUpdate();
+    }
 
-	@Override
-	public void setMetaData(List<Metadata> metaData) {
-		super.setMetaData(metaData);
-	}
+    @Override
+    public List<Metadata> getMetaData() {
+        return super.getMetaData();
+    }
 
-	@Override
-	public void setMetadataStringRepresentation(
-			String metadataStringRepresentation)
-			throws IllegalArgumentException, IllegalAccessException,
-			InvocationTargetException, InstantiationException {
-		super.setMetadataStringRepresentation(metadataStringRepresentation);
-	}
+    @Override
+    public String getMetadataStringRepresentation() {
+        return super.getMetadataStringRepresentation();
+    }
 
-	
+    @Override
+    public void setMetaData(List<Metadata> metaData) {
+        super.setMetaData(metaData);
+    }
+
+    @Override
+    public void setMetadataStringRepresentation(
+            String metadataStringRepresentation)
+            throws IllegalArgumentException, IllegalAccessException,
+            InvocationTargetException, InstantiationException {
+        super.setMetadataStringRepresentation(metadataStringRepresentation);
+    }
+
+    public Object clone() throws CloneNotSupportedException {
+        return (Object) super.clone();
+    }
 }

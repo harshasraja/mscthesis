@@ -147,4 +147,11 @@ public class HarshaConnectionObject implements Connection {
 
         return this.keyspaceObject;
     }
+    
+    public static void main(String[] args) throws Exception{
+        Connection c = CloudConnector.getConnection();
+        System.out.println(c.getMutator().getClass().getName());
+        CloudConnector.shutdown();
+        
+    }
 }

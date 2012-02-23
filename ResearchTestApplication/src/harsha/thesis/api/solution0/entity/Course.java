@@ -93,6 +93,6 @@ public class Course extends BaseEntity {
 
     public String toString() {
         return "Course[id=" + getCourseId()
-                + ", name=" + getCourseName() + ", keyForUpdate= " + getKeyForUpdate() + "]";
+                + "; name=" + getCourseName() + "; cf=" + getColumnFamilyRepresentation() + "]";
     }
 }

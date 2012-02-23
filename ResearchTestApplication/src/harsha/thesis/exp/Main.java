@@ -35,7 +35,7 @@ public class Main {
     
     
     public static String HECTOR_CONNECTION = "saddleback:9160@Test Cluster/UNIVERSITY";
-    public static String METADATA_CONNECTION = "ambeli:9161@MetadataCluster/Metadata";
+    public static String METADATA_CONNECTION = "ambeli:9161@MetadataCluster/METADATA";
 
     public static String Usage() {
         String usage = "Parameters:\n";
@@ -196,11 +196,11 @@ public class Main {
             if (initialize) {
                 log.info("Initializing experiment " + e.getCode());
                 solution.initialize();
-                log.info("Initialized experiment " + e.getCode());
+                log.info("Finished experiment " + e.getCode());
             } else {
                 log.info("Experimenting " + e.getCode());
                 solution.experiment(runs);
-                log.info("Experimented " + e.getCode());
+                log.info("Finished experiment " + e.getCode());
             }
             e.destroy();
         }

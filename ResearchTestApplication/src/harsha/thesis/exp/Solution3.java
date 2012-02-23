@@ -94,23 +94,21 @@ public class Solution3 implements SolutionExperiment {
         for (int i = 0; i < runs; ++i) {
             log.info("Run " + i);
             experiment.log("#RUN:" + (i + 1));
-            String newCourseId = (i + 1) % 2 == 0 ? ArtificialData.COURSE_BASE_NAME
-                    : ArtificialData.COURSE_ALTERNATIVE_NAME;
-            long start = System.nanoTime();
-            log.info("Inserting");
-            insert();
-            log.info("Total Insterted [" + DF.format((System.nanoTime() - start) / 1000.0) + "]");
-            updateCourse(newCourseId);
 
-//            start = System.nanoTime();
-//            log.info("Updating Enrolment");
-//            updateEnrolment();
-//            log.info("Total Updating Enrolment [" + DF.format((System.nanoTime() - start) / 1000.0) + "]");
-//
-//            start = System.nanoTime();
-//            log.info("Delete");
-//            delete();
-//            log.info("Total Deleted [" + DF.format((System.nanoTime() - start) / 1000.0) + "]");
+            long start = System.nanoTime();
+            log.info("INSERT");
+            insert();
+            log.info("Total INSERT [" + DF.format((System.nanoTime() - start) / 1000.0) + "]");
+
+            start = System.nanoTime();
+            log.info("UPDATE");
+            update();
+            log.info("Total UPDATE [" + DF.format((System.nanoTime() - start) / 1000.0) + "]");
+
+            start = System.nanoTime();
+            log.info("DELETE");
+            delete();
+            log.info("Total DELETE [" + DF.format((System.nanoTime() - start) / 1000.0) + "]");
 
             increaseIds();
         }
@@ -119,7 +117,8 @@ public class Solution3 implements SolutionExperiment {
 
     public void increaseIds() {
         for (User user : users) {
-            long currentUserId = Long.parseLong(user.getUserId()) + users.size();
+            long currentUserId = Long.parseLong(user.getUserId());
+            currentUserId += (currentUserId < 0 ? -users.size() : users.size());
             user.setUserId("" + currentUserId);
             user.setFirstName("First Name (" + currentUserId + ")");
             user.setLastName("Last Name (" + currentUserId + ")");
@@ -141,7 +140,8 @@ public class Solution3 implements SolutionExperiment {
 
             enrolment.setRowId("" + currentEnrolmentId);
 
-            long currentUserId = Long.parseLong(enrolment.getUserId()) + users.size();
+            long currentUserId = Long.parseLong(enrolment.getUserId());
+            currentUserId += (currentUserId < 0 ? -users.size() : users.size());
             enrolment.setUserId("" + currentUserId);
 
             long currentCourseId = Long.parseLong(enrolment.getCourseId().substring(ArtificialData.COURSE_BASE_NAME.length()))
@@ -153,19 +153,54 @@ public class Solution3 implements SolutionExperiment {
     }
 
     private void insert() throws Exception {
-        Random random = new Random();
+        long start = System.nanoTime();
+        insertUser();
+        log.info("insertUser() [" + DF.format((System.nanoTime() - start) / 1000.0) + "]");
+
+        start = System.nanoTime();
+        insertCourse();
+        log.info("insertCourse() [" + DF.format((System.nanoTime() - start) / 1000.0) + "]");
+
+        start = System.nanoTime();
+        insertEnrolment();
+        log.info("insertEnrolment() [" + DF.format((System.nanoTime() - start) / 1000.0) + "]");
+    }
+
+    private void update() throws Exception {
+        long start = System.nanoTime();
+        updateCourse();
+        log.info("updateCourse() [" + DF.format((System.nanoTime() - start) / 1000.0) + "]");
+
+        start = System.nanoTime();
+        updateEnrolment();
+        log.info("updateEnrolment() [" + DF.format((System.nanoTime() - start) / 1000.0) + "]");
+
+        start = System.nanoTime();
+        updateUser();
+        log.info("updateUser() [" + DF.format((System.nanoTime() - start) / 1000.0) + "]");
+    }
+
+    private void delete() throws Exception {
+        long start = System.nanoTime();
+        deleteEnrolment();
+        log.info("deleteEnrolment() [" + DF.format((System.nanoTime() - start) / 1000.0) + "]");
+
+        start = System.nanoTime();
+        deleteUser();
+        log.info("deleteUser() [" + DF.format((System.nanoTime() - start) / 1000.0) + "]");
+        
+        start = System.nanoTime();
+        deleteCourse();
+        log.info("deleteCourse() [" + DF.format((System.nanoTime() - start) / 1000.0) + "]");
+    }
+
+    private void insertUser() throws Exception {
+        Random random = new Random(Main.INSERT_USER_RANDOM_SEED);
         List<BaseEntity> usersToInsert = new ArrayList<BaseEntity>(users);
         Collections.shuffle(usersToInsert, random);
 
-        List<BaseEntity> coursesToInsert = new ArrayList<BaseEntity>(courses);
-        Collections.shuffle(coursesToInsert, random);
-
-        List<BaseEntity> enrolmentsToInsert = new ArrayList<BaseEntity>(enrolments);
-        Collections.shuffle(enrolmentsToInsert, random);
-
         //Users
-        experiment.log("#INSERT[users=" + usersToInsert.size() + "; courses=" + coursesToInsert.size()
-                + "; enrolments=" + enrolmentsToInsert.size() + "]\n");
+        experiment.log("#INSERT\n");
         experiment.start();
         for (BaseEntity entity : usersToInsert) {
             dao.insert(entity);
@@ -173,15 +208,25 @@ public class Solution3 implements SolutionExperiment {
         experiment.stop();
         experiment.log("insert_user:" + experiment.duration() + "\n");
 
-        //Courses
+    }
+
+    private void insertCourse() throws Exception {
+        Random random = new Random(Main.INSERT_COURSE_RANDOM_SEED);
+        List<BaseEntity> coursesToInsert = new ArrayList<BaseEntity>(courses);
+        Collections.shuffle(coursesToInsert, random);
+
         experiment.start();
         for (BaseEntity entity : coursesToInsert) {
             dao.insert(entity);
         }
         experiment.stop();
         experiment.log("insert_course:" + experiment.duration() + "\n");
+    }
 
-        //Enrolments
+    private void insertEnrolment() throws Exception {
+        Random random = new Random(Main.INSERT_ENROLMENT_RANDOM_SEED);
+        List<BaseEntity> enrolmentsToInsert = new ArrayList<BaseEntity>(enrolments);
+        Collections.shuffle(enrolmentsToInsert, random);
 
         experiment.start();
         for (BaseEntity entity : enrolmentsToInsert) {
@@ -191,17 +236,38 @@ public class Solution3 implements SolutionExperiment {
         experiment.log("insert_enrolment:" + experiment.duration() + "\n\n");
     }
 
-    private void updateCourse(String newBaseKey) throws Exception {
+    private void updateUser() throws Exception {
+        Random random = new Random(Main.UPDATE_USER_RANDOM_SEED);
+        List<User> usersToUpdate = new ArrayList<User>(users);
+        Collections.shuffle(usersToUpdate, random);
+
+        experiment.start();
+        for (User entity : usersToUpdate) {
+            Integer userId = Integer.parseInt(entity.getUserId());
+            entity.setKeyForUpdate("" + (userId * -1));
+            dao.update(entity);
+        }
+        experiment.stop();
+        experiment.log("update_user:" + experiment.duration() + "\n\n");
+        for (Enrolment entity:  enrolments){
+            entity.setUserId("" + (Long.parseLong(entity.getUserId()) * -1));
+        }
+    }
+
+    private void updateCourse() throws Exception {
         Random random = new Random(Main.UPDATE_COURSE_RANDOM_SEED);
         List<Course> coursesToUpdate = new ArrayList<Course>(courses);
         Collections.shuffle(coursesToUpdate, random);
 
         experiment.start();
         for (Course entity : coursesToUpdate) {
-            String keyForUpdate = newBaseKey + entity.getCourseId().substring(newBaseKey.length());
-            entity.setKeyForUpdate(keyForUpdate);
-            dao.update(entity);
-
+            //dummy set as exception to be thrown
+            entity.setKeyForUpdate(entity.getCourseId());
+            try {
+                dao.update(entity);
+            } catch (Exception ex) {
+//                log.info(ex);
+            }
         }
         experiment.stop();
         experiment.log("update_course:" + experiment.duration() + "\n\n");
@@ -227,47 +293,55 @@ public class Solution3 implements SolutionExperiment {
         experiment.log("update_enrolment:" + experiment.duration() + "\n\n");
     }
 
-    private void delete() throws Exception {
-        Random random = new Random();
+    private void deleteUser() throws Exception {
+        Random random = new Random(Main.DELETE_USER_RANDOM_SEED);
         List<BaseEntity> usersToDelete = new ArrayList<BaseEntity>(users);
         Collections.shuffle(usersToDelete, random);
 
+        experiment.start();
+        for (BaseEntity entity : usersToDelete) {
+            dao.delete(entity); //Cascaded
+        }
+        experiment.stop();
+        experiment.log("delete_user:" + experiment.duration() + "\n\n");
+    }
+
+    private void deleteCourse() throws Exception {
+        Random random = new Random(Main.DELETE_COURSE_RANDOM_SEED);
         List<BaseEntity> coursesToDelete = new ArrayList<BaseEntity>(courses);
         Collections.shuffle(coursesToDelete, random);
 
-        List<BaseEntity> enrolmentsToDelete = new ArrayList<BaseEntity>(enrolments);
-        Collections.shuffle(enrolmentsToDelete, random);
-
-//Enrolment
-        experiment.log("#DELETE\n");
         experiment.start();
-        for (BaseEntity entity : enrolmentsToDelete) {
+        for (BaseEntity entity : coursesToDelete) {
+            try {
+                dao.delete(entity); //NO DELETE
+            } catch (Exception ex) {
+//                log.info(ex); //Ignore Exception
+            }
+        }
+        experiment.stop();
+        experiment.log("delete_course:" + experiment.duration() + "\n\n");
+    }
+
+    private void deleteEnrolment() throws Exception {
+        experiment.start();
+        for (BaseEntity entity : enrolments) {
             dao.delete(entity);
         }
         experiment.stop();
         experiment.log("delete_enrolment:" + experiment.duration() + "\n");
 
-        //Courses
-        experiment.start();
-        for (BaseEntity entity : coursesToDelete) {
-            dao.delete(entity);
+        
+        //Increase Ids
+        for (Enrolment enrolment : enrolments) {
+            long currentEnrolmentId = Long.parseLong(enrolment.getRowId()) + enrolments.size();
+            enrolment.setRowId("" + currentEnrolmentId);
         }
-        experiment.stop();
-        experiment.log("delete_course:" + experiment.duration() + "\n");
 
-        //USers
-        experiment.start();
-        for (BaseEntity entity : usersToDelete) {
-            dao.delete(entity);
+        //Insertion of enrolment for deleting afterwards with user
+        for (BaseEntity entity : enrolments) {
+            dao.insert(entity);
         }
-        experiment.stop();
-        experiment.log("delete_user:" + experiment.duration() + "\n\n");
 
-    }
-
-    public static void main(String[] args) throws Exception {
-        long start = System.nanoTime();
-        Thread.sleep(1000);
-        System.out.println(DF.format((System.nanoTime() - start) / 1000.0));
     }
 }

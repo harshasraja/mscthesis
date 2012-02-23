@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package harsha.thesis.api.solution0.entity;
 
@@ -10,99 +10,98 @@ import harsha.thesis.api.annotation.PrimaryKey;
  * @author vinay
  *
  */
-@PrimaryKey(primaryKey="UserId")
+@PrimaryKey(primaryKey = "UserId")
 public class User extends BaseEntity {
-	
-	private String userId;
-	
-	@Column(columnName="FirstName")
-	private String firstName;
-	
-	@Column(columnName="LastName")
-	private String lastName;
-	
-	@Column(columnName="Email")
-	private String email;
-	
-	@Column(columnName="Age")
-	private String age;
-	
-	@Column(columnName="Type")
-	private String type;
 
-	/**
-	 * 
-	 */
-	public User() {
-		logger.debug("Creating Instance");
-	}
+    private String userId;
+    @Column(columnName = "FirstName")
+    private String firstName;
+    @Column(columnName = "LastName")
+    private String lastName;
+    @Column(columnName = "Email")
+    private String email;
+    @Column(columnName = "Age")
+    private String age;
+    @Column(columnName = "Type")
+    private String type;
 
-	public String getUserId() {
-		return userId;
-	}
+    /**
+     *
+     */
+    public User() {
+        logger.debug("Creating Instance");
+    }
 
-	public void setUserId(String userId) {
-		this.userId = userId;
-	}
+    public String getUserId() {
+        return userId;
+    }
 
-	public String getFirstName() {
-		return firstName;
-	}
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
 
-	public void setFirstName(String firstName) {
-		this.firstName = firstName;
-	}
+    public String getFirstName() {
+        return firstName;
+    }
 
-	public String getLastName() {
-		return lastName;
-	}
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
 
-	public void setLastName(String lastName) {
-		this.lastName = lastName;
-	}
+    public String getLastName() {
+        return lastName;
+    }
 
-	public String getEmail() {
-		return email;
-	}
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
 
-	public void setEmail(String email) {
-		this.email = email;
-	}
+    public String getEmail() {
+        return email;
+    }
 
-	public String getAge() {
-		return age;
-	}
+    public void setEmail(String email) {
+        this.email = email;
+    }
 
-	public void setAge(String age) {
-		this.age = age;
-	}
+    public String getAge() {
+        return age;
+    }
 
-	public String getType() {
-		return type;
-	}
+    public void setAge(String age) {
+        this.age = age;
+    }
 
-	public void setType(String type) {
-		this.type = type;
-	}
-	
-	public void setKeyForUpdate(String keyForUpdate) {
-		this.keyForUpdate = keyForUpdate;
-	}
-	
-	public String getKeyForUpdate() {
-		return keyForUpdate;
-	}
+    public String getType() {
+        return type;
+    }
 
-	public String getColumnFamilyRepresentation(){
-		return this.getClass().getName().replace('.', '_');
-	}
-	
-	public boolean isNull() {
-		if (null == userId ||
-				"".equals(userId)){
-			return true;
-		}
-		return false;
-	}
+    public void setType(String type) {
+        this.type = type;
+    }
 
+    public void setKeyForUpdate(String keyForUpdate) {
+        this.keyForUpdate = keyForUpdate;
+    }
+
+    public String getKeyForUpdate() {
+        return keyForUpdate;
+    }
+
+    public String getColumnFamilyRepresentation() {
+        return this.getClass().getName().replace('.', '_');
+    }
+
+    public boolean isNull() {
+        if (null == userId
+                || "".equals(userId)) {
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public String toString() {
+        return "User[id=" + getUserId() + "; cf=" + getColumnFamilyRepresentation() + "; keyForUpdate=" + getKeyForUpdate() + "]";
+    }
 }

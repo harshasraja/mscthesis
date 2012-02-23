@@ -1,6 +1,6 @@
 /**
-*
-*/
+ *
+ */
 package harsha.thesis.api.solution3.dao;
 
 import harsha.thesis.api.annotation.PrimaryKey;
@@ -20,21 +20,19 @@ import java.util.Map;
 import org.apache.log4j.Logger;
 
 /**
-* @author vinay
-*
+ * @author vinay
+ * 
 */
 public class ValidationHandler {
 
     private Logger logger = Logger.getLogger(this.getClass().getName());
     private BaseEntity entity = null;
     private String columnFamily = null;
-    
 
     /**
-* @throws Exception
-*
+     * @throws Exception
+     *     
 */
-
     public ValidationHandler(BaseEntity entity) throws Exception {
         logger.debug("Invoked Validation Helper");
         this.entity = entity;
@@ -42,7 +40,6 @@ public class ValidationHandler {
         logger.debug("Invoked Validation Helper for Column family:" + this.columnFamily);
     }
 
-    
     private ValidationHandler() {
     }
 
@@ -131,8 +128,9 @@ public class ValidationHandler {
                 }
             }
         } catch (Exception e) {
+            throw e;
 //        	e.printStackTrace();
-            logger.warn(e.getMessage(), e);
+//            logger.warn(e.getMessage(), e);
         } finally {
             dao.close();
         }
@@ -140,7 +138,7 @@ public class ValidationHandler {
     }
 
     public List<List<BaseEntity>> checkForeignKeyForUpdate() throws Exception {
-        logger.info("Checking ForeignKeyForUpdate for ColumnFamily:" + this.columnFamily);
+        logger.debug("Checking ForeignKeyForUpdate for ColumnFamily:" + this.columnFamily);
         List<List<BaseEntity>> childObjectList = new LinkedList<List<BaseEntity>>();
         List<Metadata> foreignKeys = new LinkedList<Metadata>();
 
@@ -184,7 +182,7 @@ public class ValidationHandler {
                 }
             }
         } catch (Exception e) {
-            logger.warn(e.getMessage(), e);
+            throw e;
         } finally {
             dao.close();
         }
