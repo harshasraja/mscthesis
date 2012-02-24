@@ -48,6 +48,7 @@ public class ValidationHandler {
         BaseDAO dao = null;
         try {
             dao = new BaseDAO();
+            
             List<Metadata> list = dao.read(entity.getColumnFamilyRepresentation().replace("_", "."), "-1").getMetaData();
             for (Metadata metadata : list) {
                 if ("R".equals(metadata.getConstraintType())) {
@@ -69,8 +70,7 @@ public class ValidationHandler {
                 }
             }
         } catch (Exception e) {
-            logger.warn(e.getMessage(), e);
-            e.printStackTrace();
+            throw e;
         } finally {
             if (dao != null) {
                 dao.close();
@@ -112,8 +112,7 @@ public class ValidationHandler {
                 }
             }
         } catch (Exception e) {
-            logger.warn(e.getMessage(), e);
-            e.printStackTrace();
+            throw e;
         } finally {
             if (dao != null) {
                 dao.close();
@@ -129,7 +128,7 @@ public class ValidationHandler {
         BaseDAO dao = null;
         try {
             dao = new BaseDAO();
-            List<Metadata> list = entity.getMetaData();
+            List<Metadata> list = dao.read(entity.getColumnFamilyRepresentation().replace("_", "."), "-1").getMetaData();
             for (Metadata metadata : list) {
 
                 if ("F".equals(metadata.getConstraintType())) {
@@ -170,9 +169,10 @@ public class ValidationHandler {
 
     }
 
-    public Map<String, String> getReferencedKeyFieldForForeignKey() {
+    public Map<String, String> getReferencedKeyFieldForForeignKey() throws Exception{
         Map<String, String> map = new HashMap<String, String>();
-        List<Metadata> list = entity.getMetaData();
+        BaseDAO dao = new BaseDAO();
+        List<Metadata> list = dao.read(entity.getColumnFamilyRepresentation().replace("_", "."), "-1").getMetaData();
         for (Metadata metadata : list) {
 
             if ("F".equals(metadata.getConstraintType())) {
@@ -215,8 +215,7 @@ public class ValidationHandler {
 
 
         } catch (Exception e) {
-            logger.warn(e.getMessage(), e);
-            e.printStackTrace();
+            throw e;
         } finally {
             if (dao != null) {
                 dao.close();
@@ -286,7 +285,7 @@ public class ValidationHandler {
                 }
             }
         } catch (Exception ex) {
-            ex.printStackTrace();
+            throw ex;
         } finally {
             dao.close();
         }

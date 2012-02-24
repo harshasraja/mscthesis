@@ -47,7 +47,7 @@ public class Solution4 implements SolutionExperiment {
         enrolments = CommonHelper.GetEnrolmentEntities(Solution.FOUR, csvFiles[2]);
 
 
-        daoMetadata = new MetadataDAO(new ValidationHandler("harsha.thesis.api.solution4.entity.Metadata"));
+        daoMetadata = new MetadataDAO(new ValidationHandler(Metadata.class.getName()));
         daoMetadata.insert(new Metadata("CONST100", "UNIVERSITY", "P", "harsha_thesis_api_solution4_entity_User", "UNIVERSITY", "", "UserId", ""));
         daoMetadata.insert(new Metadata("CONST200", "UNIVERSITY", "P", "harsha_thesis_api_solution4_entity_Course", "UNIVERSITY", "", "CourseId", ""));
         daoMetadata.insert(new Metadata("CONST300", "UNIVERSITY", "P", "harsha_thesis_api_solution4_entity_Enrolment", "UNIVERSITY", "", "RowID", ""));
@@ -58,9 +58,9 @@ public class Solution4 implements SolutionExperiment {
         daoMetadata.close();
 
 
-        daoUser = new BaseDAO(new ValidationHandler("harsha.thesis.api.solution4.User"));
-        daoCourse = new BaseDAO(new ValidationHandler("harsha.thesis.api.solution4.Course"));
-        daoEnrolment = new BaseDAO(new ValidationHandler("harsha.thesis.api.solution4.Enrolment"));
+        daoUser = new BaseDAO(new ValidationHandler(User.class.getName()));
+        daoCourse = new BaseDAO(new ValidationHandler(Course.class.getName()));
+        daoEnrolment = new BaseDAO(new ValidationHandler(Enrolment.class.getName()));
 
 
         harsha.thesis.exp.entity.User defaultUser = CommonHelper.GetDefaultUser();
@@ -102,10 +102,10 @@ public class Solution4 implements SolutionExperiment {
         enrolments = CommonHelper.GetEnrolmentEntities(Solution.FOUR, csvFiles[2]);
 
 
-        daoMetadata = new MetadataDAO(new ValidationHandler("harsha.thesis.api.solution4.entity.Metadata"));
-        daoUser = new BaseDAO(new ValidationHandler("harsha.thesis.api.solution4.User"));
-        daoCourse = new BaseDAO(new ValidationHandler("harsha.thesis.api.solution4.Course"));
-        daoEnrolment = new BaseDAO(new ValidationHandler("harsha.thesis.api.solution4.Enrolment"));
+        daoMetadata = new MetadataDAO(new ValidationHandler(Metadata.class.getName()));
+        daoUser = new BaseDAO(new ValidationHandler(User.class.getName()));
+        daoCourse = new BaseDAO(new ValidationHandler(Course.class.getName()));
+        daoEnrolment = new BaseDAO(new ValidationHandler(Enrolment.class.getName()));
 
 
 
@@ -271,7 +271,7 @@ public class Solution4 implements SolutionExperiment {
         }
         experiment.stop();
         experiment.log("update_user:" + experiment.duration() + "\n\n");
-         for (Enrolment entity:  enrolments){
+        for (Enrolment entity : enrolments) {
             entity.setUserId("" + (Long.parseLong(entity.getUserId()) * -1));
         }
     }

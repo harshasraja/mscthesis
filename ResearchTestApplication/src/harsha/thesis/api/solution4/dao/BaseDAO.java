@@ -62,12 +62,12 @@ public class BaseDAO {
         this(CloudConnector.getConnection(), vHandler);
     }
 
-    public BaseDAO(ConnectionDefinition connectionDefinition, ValidationHandler validationHandler) throws Exception {
-        logger.debug("Instantiating " + this.getClass().getName());
-//		this.connectionDefinition = connectionDefinition;
-        connection = CloudConnector.getMetadataConnection(connectionDefinition);
-        this.validationHandler = validationHandler;
-    }
+//    public BaseDAO(ConnectionDefinition connectionDefinition, ValidationHandler validationHandler) throws Exception {
+//        logger.debug("Instantiating " + this.getClass().getName());
+////		this.connectionDefinition = connectionDefinition;
+//        connection = CloudConnector.getMetadataConnection(connectionDefinition);
+//        this.validationHandler = validationHandler;
+//    }
 
     public void close() {
         CloudConnector.returnConnection(connection);

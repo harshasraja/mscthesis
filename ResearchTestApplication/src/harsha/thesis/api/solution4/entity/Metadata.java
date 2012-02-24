@@ -120,4 +120,10 @@ public class Metadata extends BaseEntity {
         }
         return false;
     }
+
+    @Override
+    public String toString() {
+        return "Metadata[keyspace=" + getKeySpace() + "; tablename=" + getTableName()
+                + "; constraintType=" + getConstraintType() + "; deleteRule=" + getDeleteRule() + "]";
+    }
 }
