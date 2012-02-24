@@ -55,6 +55,24 @@ public class Exporter {
             w.flush();
         }
 
+
+        w.write(Barplot.Definitions());
+
+        for (Solution s : solutions) {
+            String pngFile = "'" + path + s.getCode() + "-barplot.png'";
+            w.write("png(" + pngFile + ", width=640, height=480);\n");
+            w.write(Barplot.ToString(s, columnOrder));
+            w.write("dev.off();\n");
+        }
+
+
+//        String pngFile = "'" + path + "barplots.png'";
+//        w.write("png(" + pngFile + ", width=640, height=480);\n");
+//        w.write(Barplot.ToString(solutions, columnOrder) + "\n");
+//        w.write("dev.off();\n");
+
+
+
         w.close();
     }
 }

@@ -352,7 +352,7 @@ public class BaseDAO {
     }
 
     public void update(BaseEntity entity) throws Exception {
-        logger.debug("Starting to update:" + getStringRepresentationForLogging(entity));
+//        logger.debug("Starting to update:" + getStringRepresentationForLogging(entity));
 
         if (null != entity.getKeyForUpdate()
                 && !"".equals(entity.getKeyForUpdate().trim())) {
@@ -394,43 +394,42 @@ public class BaseDAO {
             }
 
 
-            if (!read(entity.getClass().getName(), key).isNull()) {
-                ValidationHandler handler = new ValidationHandler(entity, this);
-                List<List<BaseEntity>> childObjectList = handler.checkForeignKeyForUpdate();
-                Map<String, String> map = handler.getReferencedKeyFieldForForeignKey();
-                delete(entity);
 
-                for (Method method : methods) {
-                    if (method.getName().contains(primaryKey)
-                            && method.getName().equals("set" + primaryKey)) {
-                        method.invoke(entity, entity.getKeyForUpdate());
-                        break;
-                    }
+            ValidationHandler handler = new ValidationHandler(entity, this);
+            List<List<BaseEntity>> childObjectList = handler.checkForeignKeyForUpdate();
+            Map<String, String> map = handler.getReferencedKeyFieldForForeignKey();
+            delete(entity);
+
+            for (Method method : methods) {
+                if (method.getName().contains(primaryKey)
+                        && method.getName().equals("set" + primaryKey)) {
+                    method.invoke(entity, entity.getKeyForUpdate());
+                    break;
                 }
-
-
-                insert(entity);
-                for (List<BaseEntity> list : childObjectList) {
-                    Method mtd = entity.getClass().getDeclaredMethod("get" + primaryKey);
-
-                    String changedValue = (String) mtd.invoke(entity);
-                    for (BaseEntity baseEntity : list) {
-                        String referencedKey = map.get(baseEntity.getColumnFamilyRepresentation());
-                        Method tempMethod = baseEntity.getClass().getDeclaredMethod("set" + referencedKey, mtd.getReturnType());
-                        tempMethod.invoke(baseEntity, changedValue);
-                        insert(baseEntity);
-                    }
-                }
-            } else {
-                logger.debug("Update record not found; hence exiting");
             }
+
+
+            insert(entity);
+            for (List<BaseEntity> list : childObjectList) {
+                Method mtd = entity.getClass().getDeclaredMethod("get" + primaryKey);
+
+                String changedValue = (String) mtd.invoke(entity);
+                for (BaseEntity baseEntity : list) {
+                    String referencedKey = map.get(baseEntity.getColumnFamilyRepresentation());
+                    Method tempMethod = baseEntity.getClass().getDeclaredMethod("set" + referencedKey, mtd.getReturnType());
+                    tempMethod.invoke(baseEntity, changedValue);
+                    insert(baseEntity);
+                }
+            }
+
         } else {
             logger.debug("Update key not specified; hence exiting");
         }
-        logger.debug("Finished update entity:" + getStringRepresentationForLogging(entity));
+//        logger.debug("Finished update entity:" + getStringRepresentationForLogging(entity));
     }
 
     private String getStringRepresentationForLogging(BaseEntity entity) {
+        //THIS METHOD IS BUGGY -> THROWS AN EXCEPTION :P
         //This section is done purely for logging purposes
         Method[] methods = entity.getClass().getDeclaredMethods();
         String strEntity = "{";
@@ -439,11 +438,7 @@ public class BaseDAO {
                     || !method.getName().contains("MetaData")) {
                 try {
                     strEntity = strEntity + ";" + method.getName().substring(3, method.getName().length()) + ":" + (String) method.invoke(entity);
-                } catch (IllegalArgumentException e) {
-                    logger.error("Exception thrown:", e);
-                } catch (IllegalAccessException e) {
-                    logger.error("Exception thrown:", e);
-                } catch (InvocationTargetException e) {
+                } catch (Exception e) {
                     logger.error("Exception thrown:", e);
                 }
             }

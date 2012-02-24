@@ -35,7 +35,7 @@ public class CloudConnector {
 
     }
 
-    public static Connection getMetadataConnection(ConnectionDefinition conDef) throws Exception {
+    public static Connection getMetadataConnection() throws Exception {
         NUMBER_OF_CONNECTIONS++;
         return HarshaConnectionObject.GetMetadataConnection();
 //        Class<Connection> temp = (Class<Connection>) Class.forName(conDef.getConnectionClass());

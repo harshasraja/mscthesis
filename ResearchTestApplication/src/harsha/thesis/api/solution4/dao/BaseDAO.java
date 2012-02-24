@@ -52,19 +52,22 @@ public class BaseDAO {
     protected BaseDAO() {
     }
 
-    public BaseDAO(ValidationHandler vHandler) throws Exception {
+    public BaseDAO(Connection connection, ValidationHandler handler) {
         logger.debug("Instantiating " + this.getClass().getName());
-        connection = CloudConnector.getConnection();
-        this.validationHandler = vHandler;
+        this.connection = connection;
+        this.validationHandler = handler;
     }
 
-    
-    public BaseDAO(ConnectionDefinition connectionDefinition, ValidationHandler validationHandler) throws Exception {
-        logger.debug("Instantiating " + this.getClass().getName());
-//		this.connectionDefinition = connectionDefinition;
-        connection = CloudConnector.getMetadataConnection(connectionDefinition);
-        this.validationHandler = validationHandler;
+    public BaseDAO(ValidationHandler vHandler) throws Exception {
+        this(CloudConnector.getConnection(), vHandler);
     }
+
+//    public BaseDAO(ConnectionDefinition connectionDefinition, ValidationHandler validationHandler) throws Exception {
+//        logger.debug("Instantiating " + this.getClass().getName());
+////		this.connectionDefinition = connectionDefinition;
+//        connection = CloudConnector.getMetadataConnection(connectionDefinition);
+//        this.validationHandler = validationHandler;
+//    }
 
     public void close() {
         CloudConnector.returnConnection(connection);
@@ -413,39 +416,33 @@ public class BaseDAO {
             }
 
 
-            if (!read(entity.getClass().getName(), key).isNull()) {
-                List<List<BaseEntity>> childObjectList = this.validationHandler.checkForeignKeyForUpdate(entity);
-                Map<String, String> map = this.validationHandler.getReferencedKeyFieldForForeignKey();
-                delete(entity);
 
-                for (Method method : methods) {
-                    if (method.getName().contains(primaryKey)
-                            && method.getName().equals("set" + primaryKey)) {
-                        method.invoke(entity, entity.getKeyForUpdate());
-                        break;
-                    }
+            List<List<BaseEntity>> childObjectList = this.validationHandler.checkForeignKeyForUpdate(entity);
+            Map<String, String> map = this.validationHandler.getReferencedKeyFieldForForeignKey();
+            delete(entity);
+
+            for (Method method : methods) {
+                if (method.getName().contains(primaryKey)
+                        && method.getName().equals("set" + primaryKey)) {
+                    method.invoke(entity, entity.getKeyForUpdate());
+                    break;
                 }
-
-                //TODO: Check new and old code.
-//				BaseDAO baseDao = new BaseDAO(connectionDefinition, validationHandler);
-//				baseDao.insert(entity);
-                insert(entity); //New code
-                for (List<BaseEntity> list : childObjectList) {
-                    Method mtd = entity.getClass().getDeclaredMethod("get" + primaryKey);
-
-                    String changedValue = (String) mtd.invoke(entity);
-                    for (BaseEntity baseEntity : list) {
-                        String referencedKey = map.get(baseEntity.getColumnFamilyRepresentation());
-                        Method tempMethod = baseEntity.getClass().getDeclaredMethod("set" + referencedKey, mtd.getReturnType());
-                        tempMethod.invoke(baseEntity, changedValue);
-//						baseDao.insert(baseEntity);
-                        insert(baseEntity); //new code;
-                    }
-                }
-//                                baseDao.close();
-            } else {
-                logger.debug("Update record not found; hence exiting");
             }
+
+            insert(entity); 
+            for (List<BaseEntity> list : childObjectList) {
+                Method mtd = entity.getClass().getDeclaredMethod("get" + primaryKey);
+
+                String changedValue = (String) mtd.invoke(entity);
+                for (BaseEntity baseEntity : list) {
+                    String referencedKey = map.get(baseEntity.getColumnFamilyRepresentation());
+                    Method tempMethod = baseEntity.getClass().getDeclaredMethod("set" + referencedKey, mtd.getReturnType());
+                    tempMethod.invoke(baseEntity, changedValue);
+                    insert(baseEntity); 
+                }
+            }
+
+
         } else {
             logger.debug("Update key not specified; hence exiting");
         }
@@ -543,7 +540,6 @@ public class BaseDAO {
 //    public void setConnectionDefinition(ConnectionDefinition connectionDefinition) {
 //        this.connectionDefinition = connectionDefinition;
 //    }
-
     public ValidationHandler getValidationHandler() {
         return validationHandler;
     }

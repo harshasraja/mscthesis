@@ -28,7 +28,7 @@ public class MyMath {
         }
         return result;
     }
-    
+
     public static String C(List<?> x, String begin_enclosing, String end_enclosing) {
         String c = "c(";
         for (int i = 0; i < x.size(); ++i) {
@@ -49,7 +49,39 @@ public class MyMath {
         return C(x, "");
     }
 
+    public static String C(Object[] x, String begin_enclosing, String end_enclosing) {
+        String c = "c(";
+        for (int i = 0; i < x.length; ++i) {
+            c += begin_enclosing + x[i].toString() + end_enclosing;
+            if (i < x.length - 1) {
+                c += ", ";
+            }
+        }
+        c += ")";
+        return c;
+    }
+
+    public static String Paste(List<?> items, String begin_enclosing, String end_enclosing, String sep){
+        String result = "paste(";
+        for (Object item : items){
+            result+= begin_enclosing + item + end_enclosing + ",";
+        }
+        result += " sep='" + sep +"')";
+        return result;
+    }
     
+    public static String Paste(List<?> items, String enclosing, String sep){
+        return Paste(items, enclosing, enclosing, sep);
+    }
+    
+    public static String C(Object[] x, String enclosing) {
+        return C(x, enclosing, enclosing);
+    }
+
+    public static String C(Object[] x) {
+        return C(x, "");
+    }
+
     public static void main(String[] args) {
         System.out.println(MyMath.class.getName());
     }

@@ -77,7 +77,7 @@ public class Solution {
 
     public String rToDataFrame(String[] columnOrder) {
 
-        String result = getCode() + "_df = data.frame(\n";
+        String result = getCode() + ".dataframe = data.frame(\n";
         for (int i = 0; i < columnOrder.length; ++i) {
             String column = columnOrder[i];
             result += column + "=" + MyMath.C(getTimesFor(column));

@@ -301,8 +301,7 @@ public class BaseDAO {
             // This would check the referenced key except for Metadata Table
             //helper.checkUniqueKey();
 			/*
-             * if (!(entity instanceof Metadata)){ helper.checkReferenedKey();
-            }
+             * if (!(entity instanceof Metadata)){ helper.checkReferenedKey(); }
              */
 
             Mutator<String> mutator = connection.getMutator();
@@ -344,13 +343,12 @@ public class BaseDAO {
     public void delete(BaseEntity entity) throws Exception {
         //String strEntity = "";
         //strEntity = getStringRepresentationForLogging(entity);
-        logger.debug("Starting to delete:" + getStringRepresentationForLogging(entity));
+        logger.debug("Starting to delete:" + entity);
 
         //ValidationHandler helper = new ValidationHandler(entity, this);
 
         /*
-         * if (!(entity instanceof Metadata)){ helper.checkForeignKey();
-        }
+         * if (!(entity instanceof Metadata)){ helper.checkForeignKey(); }
          */
 
         String key = null;
@@ -362,13 +360,67 @@ public class BaseDAO {
             }
         }
 
-
-
         connection.getMutator().delete(key, entity.getColumnFamilyRepresentation(), null, StringSerializer.get());
-        //connection.getMutator().
-        logger.debug("Finished delete entity:" + getStringRepresentationForLogging(entity));
+        logger.debug("Finished delete entity:" + entity);
     }
 
+//    public void update(BaseEntity entity) throws Exception {
+//        logger.debug("Starting to update:" + getStringRepresentationForLogging(entity));
+//
+//        if (null != entity.getKeyForUpdate()
+//                && !"".equals(entity.getKeyForUpdate().trim())) {
+//
+//            Method[] methods = entity.getClass().getDeclaredMethods();
+//            Annotation[] a1 = entity.getClass().getDeclaredAnnotations();
+//            //ValidationHandler helper = new ValidationHandler(entity, this);
+//            String primaryKey = null;
+//            String key = null;
+//            //Method tempMethod = entity.getC
+//
+//
+//            //This section gets the logical primary key field for the entity
+//            //from previously declared annotations for the entity
+//            // ** IT IS ASSUMED THAT THERE WOULD BE ONLY ONE PRIMARY KEY & NO COMPOSITE PRIMARYKEY
+//            // ** IF THERE IS A COMPOSITE PRIMARY KEY, LOGIC WOULD NEED TO BE REVISTED
+//            // ** AND BREAK STATEMENT INSIDE IF CONDITION SHOULD BE REMOVED
+//
+//            for (Annotation annotation : a1) {
+//                //System.out.println(annotation);
+//                if (annotation instanceof PrimaryKey) {
+//                    primaryKey = ((PrimaryKey) annotation).primaryKey();
+//                    break;
+//                }
+//            }
+//
+//            // This section fetches the actual primary key value from the entity class
+//            // this section uses dynamic method invocation
+//            // ** IT IS ASSUMED THAT THERE WOULD BE ONLY ONE PRIMARY KEY & NO COMPOSITE PRIMARYKEY
+//            // ** IF THERE IS A COMPOSITE PRIMARY KEY, LOGIC WOULD NEED TO BE REVISTED
+//            // ** AND BREAK STATEMENT INSIDE IF CONDITION SHOULD BE REMOVED
+//
+//            for (Method method : methods) {
+//                if (method.getName().contains(primaryKey)
+//                        && method.getName().equals("set" + primaryKey)) {
+//                    method.invoke(entity, entity.getKeyForUpdate());
+//
+//                } else if (method.getName().contains(primaryKey)
+//                        && method.getName().equals("get" + primaryKey)) {
+//                    key = (String) method.invoke(entity);
+//                }
+//            }
+//
+//            if (!read(entity.getClass().getName(), key).isNull()) {
+//                delete(entity);
+//                insert(entity);
+//                entity.setKeyForUpdate(null);
+//            } else {
+//                logger.debug("Update record not found; hence exiting");
+//            }
+//        } else {
+//            logger.debug("Update key not specified; hence exiting");
+//        }
+//        logger.debug("Finished update entity:" + getStringRepresentationForLogging(entity));
+//    }
     public void update(BaseEntity entity) throws Exception {
         logger.debug("Starting to update:" + getStringRepresentationForLogging(entity));
 
@@ -403,23 +455,16 @@ public class BaseDAO {
             // ** IF THERE IS A COMPOSITE PRIMARY KEY, LOGIC WOULD NEED TO BE REVISTED
             // ** AND BREAK STATEMENT INSIDE IF CONDITION SHOULD BE REMOVED
 
-            for (Method method : methods) {
-                if (method.getName().contains(primaryKey)
-                        && method.getName().equals("set" + primaryKey)) {
-                    method.invoke(entity, entity.getKeyForUpdate());
 
-                } else if (method.getName().contains(primaryKey)
-                        && method.getName().equals("get" + primaryKey)) {
-                    key = (String) method.invoke(entity);
+            delete(entity);
+            for (Method method : methods) {
+                if (method.getName().equals("set" + primaryKey)) {
+                    method.invoke(entity, entity.getKeyForUpdate());
+                    break;
                 }
             }
-
-            if (!read(entity.getClass().getName(), key).isNull()) {
-                delete(entity);
-                insert(entity);
-            } else {
-                logger.debug("Update record not found; hence exiting");
-            }
+            insert(entity);
+            entity.setKeyForUpdate(null);
         } else {
             logger.debug("Update key not specified; hence exiting");
         }

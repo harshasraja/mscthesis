@@ -34,28 +34,26 @@ public class ValidationHandler {
     private ValidationHandler() {
     }
 
-    public ValidationHandler(ConnectionDefinition metadataConDef) throws Exception {
-        logger.debug("Invoked Validation Helper");
-    }
 
     public ValidationHandler(String entityType) throws Exception {
         this.entityForValidation = entityType.replace('.', '_');
-        init(CloudConnector.DEFAULT_CONNECTION_DEFINITION);
+        init();
     }
 
     public void setEntityForValidation(String entityType) {
         this.entityForValidation = entityType.replace('.', '_');
     }
 
-    public void init(ConnectionDefinition dbConDef) throws ClassNotFoundException, InstantiationException, IllegalAccessException, Exception {
+    public void init() throws ClassNotFoundException, InstantiationException, IllegalAccessException, Exception {
         logger.debug("Invoked Validation Helper -> init");
         MetadataDAO metaDao = null;
         try {
             metaDao = new MetadataDAO();
             allAssociatedMetadata = new ArrayList<Metadata>();
             List<Metadata> tempList = new ArrayList<Metadata>();
-            if (!"harsha.thesis.api.solution4.entity.Metadata".equals(entityForValidation)) {
-                List<BaseEntity> list = metaDao.read("harsha.thesis.api.solution4.entity.Metadata", "TableName", BaseDAO.EXPRESSION_EQUALS, entityForValidation, true);
+            if (!Metadata.class.getName().equals(entityForValidation)) {
+                List<BaseEntity> list = metaDao.read(Metadata.class.getName(), "TableName",
+                        BaseDAO.EXPRESSION_EQUALS, entityForValidation, true);
                 for (BaseEntity baseEntity : list) {
                     if (!(baseEntity instanceof Metadata)) {
                         throw new Exception("Fatal error! Failed loading METADATA");
@@ -80,7 +78,8 @@ public class ValidationHandler {
                     } else if ("F".equals(metadata.getConstraintType())) {
                         constraintType = "R";
                     }
-                    Metadata temp = (Metadata) metaDao.read("harsha.thesis.api.solution4.entity.Metadata", metadata.getRConstraintName());
+                    Metadata temp = (Metadata) metaDao.read(Metadata.class.getName(), 
+                            metadata.getRConstraintName());
                     if (constraintType.equals(temp.getConstraintType())) {
                         allAssociatedMetadata.add(temp);
                     }
@@ -142,6 +141,7 @@ public class ValidationHandler {
                         } else if (!childObject.isNull() && "CASCADE".equalsIgnoreCase(metadata.getDeleteRule())) {
 //                            handler = new ValidationHandler(this.entityForValidation);
 //                            tempDao = new BaseDAO(this.dbConnectionDef, handler);
+                            
                             dao.delete(childObject);
 //                            tempDao.close();
                         } else if (!childObject.isNull()) {
@@ -165,7 +165,7 @@ public class ValidationHandler {
     }
 
     public List<List<BaseEntity>> checkForeignKeyForUpdate(BaseEntity entity) throws Exception {
-        logger.info("Checking ForeignKeyForUpdate for ColumnFamily:" + entityForValidation);
+        logger.debug("Checking ForeignKeyForUpdate for ColumnFamily:" + entityForValidation);
         List<List<BaseEntity>> childObjectList = new LinkedList<List<BaseEntity>>();
 
         BaseDAO dao = null;
@@ -208,12 +208,10 @@ public class ValidationHandler {
         MetadataDAO metaDao = null;
         try {
             metaDao = new MetadataDAO();
-            List<BaseEntity> list = metaDao.read("harsha.thesis.api.solution4.entity.Metadata", "TableName", BaseDAO.EXPRESSION_EQUALS, entityForValidation, true);
+            List<BaseEntity> list = metaDao.read(Metadata.class.getName(), "TableName", BaseDAO.EXPRESSION_EQUALS, entityForValidation, true);
             List<Metadata> foreignKeys = new LinkedList<Metadata>();
 
             for (BaseEntity baseEntity : list) {
-
-
 
                 Metadata metadata = (Metadata) baseEntity;
 
@@ -223,7 +221,7 @@ public class ValidationHandler {
             }
 
             for (Metadata rConstraintName : foreignKeys) {
-                BaseEntity baseEntity = metaDao.read("harsha.thesis.api.solution4.entity.Metadata", rConstraintName.getRConstraintName());
+                BaseEntity baseEntity = metaDao.read(Metadata.class.getName(), rConstraintName.getRConstraintName());
 
                 Metadata metadata = (Metadata) baseEntity;
                 if ("R".equals(metadata.getConstraintType())) {
@@ -249,7 +247,8 @@ public class ValidationHandler {
         try {
             metaDao = new MetadataDAO();
             dao = new BaseDAO(this);
-            List<BaseEntity> list = metaDao.read("harsha.thesis.api.solution4.entity.Metadata", "TableName", BaseDAO.EXPRESSION_EQUALS, entityForValidation, true);
+            List<BaseEntity> list = metaDao.read(Metadata.class.getName(), "TableName", 
+                    BaseDAO.EXPRESSION_EQUALS, entityForValidation, true);
             for (BaseEntity baseEntity : list) {
                 if (!(baseEntity instanceof Metadata)) {
                     throw new Exception("Fatal error! Failed loading METADATA");
@@ -259,6 +258,7 @@ public class ValidationHandler {
                     constraintNames.add(metadata.getConstraintName());
                 }
             }
+            //TODO: WHAT?! What's up with not using constraint name?
             Method[] methods = entity.getClass().getDeclaredMethods();
             for (String constraintName : constraintNames) {
                 for (Method method : methods) {
@@ -266,7 +266,8 @@ public class ValidationHandler {
                         String primaryKey = (String) method.invoke(entity);
                         BaseEntity tempObject = dao.read(entity.getColumnFamilyRepresentation(), primaryKey);
                         if (tempObject != null) {
-                            throw new ValidationFailedException("ID " + primaryKey + " is not unique in table " + entity.getColumnFamilyRepresentation());
+                            throw new ValidationFailedException("ID " + primaryKey + 
+                                    " is not unique in table " + entity.getColumnFamilyRepresentation());
                         }
                     }
                 }
