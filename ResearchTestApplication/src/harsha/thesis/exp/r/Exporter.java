@@ -18,7 +18,7 @@ public class Exporter {
     }
 
     public static void main(String[] args) throws Exception {
-        String path = "/home/jcrada/Development/hr/ResearchTestApplication/logs/backup/insert-update-delete/";
+        String path = "/home/phoenix1/subramhars/workspace/ResearchTestApplication/logs/sAll-r100-sc1000/";
 
         String[] filenames = {"Solution0.log", "Solution1.log", "Solution2.log", "Solution3.log", "Solution4.log",};
 
@@ -38,8 +38,8 @@ public class Exporter {
         BufferedWriter w = new BufferedWriter(new FileWriter(out));
         String[] columnOrder = new String[]{
                     Solution.INSERT_USER, Solution.INSERT_COURSE, Solution.INSERT_ENROLMENT,
-                    Solution.UPDATE_ENROLMENT,
-                    Solution.DELETE_ENROLMENT, Solution.DELETE_COURSE, Solution.DELETE_USER
+                    Solution.UPDATE_USER, Solution.UPDATE_COURSE, Solution.UPDATE_ENROLMENT,
+                    Solution.DELETE_USER, Solution.DELETE_COURSE, Solution.DELETE_ENROLMENT,
                 };
         for (Solution s : solutions) {
             w.write(s.rToDataFrame(columnOrder) + "\n");

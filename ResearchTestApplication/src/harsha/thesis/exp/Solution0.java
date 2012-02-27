@@ -237,9 +237,7 @@ public class Solution0 implements SolutionExperiment {
             Integer userId = Integer.parseInt(entity.getUserId());
             entity.setKeyForUpdate("" + (userId * -1));
             entity.setAge("" + (Integer.parseInt(entity.getAge()) * -1));
-            log.info("BEFORE UPDATE: " + entity);
             dao.update(entity);
-            log.info("AFTER UPDATE: " + entity);
         }
         experiment.stop();
         experiment.log("update_user:" + experiment.duration() + "\n\n");

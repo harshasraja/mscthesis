@@ -120,7 +120,7 @@ public class Solution4 implements SolutionExperiment {
 
             start = System.nanoTime();
             log.info("UPDATE");
-//            update();
+            update();
             log.info("Total UPDATE [" + DF.format((System.nanoTime() - start) / 1000.0) + "]");
 
             start = System.nanoTime();
@@ -204,7 +204,7 @@ public class Solution4 implements SolutionExperiment {
 
     private void delete() throws Exception {
         long start = System.nanoTime();
-//        deleteEnrolment();
+        deleteEnrolment();
         log.info("deleteEnrolment() [" + DF.format((System.nanoTime() - start) / 1000.0) + "]");
 
         start = System.nanoTime();

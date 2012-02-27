@@ -1,13 +1,14 @@
 %ब
 \chapter{Proposed Solutions} \label{c:solutions}
 
-This chapter describes the four  solutions proposed to implement referential
-integrity constraints in a cloud \ac{NoSQL} database system.
-Section~\ref{} describes some typical ways of storing  data
-dependency information in \acp{DBMS}. Section~\ref{s:metadata} desribes how
-metadata is used for maintaining referential integrity in the proposed
-solutions. Section\ref{s:api} describes the design of the API devloped to
-implement these constraints. Section~\ref{s:baseline} presents a baseline of
+% This chapter describes the four  solutions proposed to implement referential
+% integrity constraints in a cloud \ac{NoSQL} database system.
+% Section~\ref{} describes some typical ways of storing  data
+% dependency information in \acp{DBMS}. Section~\ref{s:metadata} desribes how
+% metadata is used for maintaining referential integrity in the proposed
+% solutions. Section\ref{s:api} describes the design of the API devloped to
+% implement these constraints.
+Section~\ref{s:baseline} presents a baseline of
 the \ac{API} without any referential integrity constraints
 .
 
@@ -35,19 +36,19 @@ object dependency information for a database. The view
 a table belonging to the current user.% \cite{}.
 The information about the constraints within a database or a table that is
 stored in such tables is the metadata information. Metadata is explained in
- Section~\ref{s:cloud-databases}  
+ Section~\ref{s:cloud-databases}
 
 To understand how a cloud \ac{NoSQL} database system works and to deploy
 the proposed solutions, the cloud \ac{NoSQL} database system Cassandra
 is explored. The details of \texttt{Cassandra} is explained in
 Section~\ref{s:cassandra}.
 
-% 
+%
 
 
 As mentioned before, these proposed solutions involve using metadata in
 different ways to impose referential integrity constraints in Cassandra. The
-following section describes metadata briefly. This 
+following section describes metadata briefly. This
 
 
 \section{Metadata}\label{s:metadata}
@@ -153,8 +154,8 @@ entities, while Enrolment is a child entity.Whether data is being inserted,
 updated or deleted, referential integrity has to be adhered to. The actions and
 the checks to be performed for each of such operations are described below.
 
-\begin{description}
-  \item  [Insert :]%An insert operation would trigger a referential integrity
+\subsection{Insert}
+  %An insert operation would trigger a referential integrity
 %   validation when data is being inserted into a referencing table, i.e., the child table. In
 % such an event, prior to entering the values in the referencing table, it is
 % checked if the referencing keys exist in the referenced table. For example, when
@@ -162,7 +163,7 @@ the checks to be performed for each of such operations are described below.
 % a check is triggered to verify whether the StudentID exists in the Student
 % table. Similarly, it is also verified that the CourseID exists in the Course
 % table. If the referencing keys do not exist in the referenced tables, then the
-% insert operation is not allowed. 
+% insert operation is not allowed.
 Prior to inserting this row, insertion checks would be made to ensure
 that the SID exists in the Student Column family of the keyspace University. This piece
 of information can be retrieved from the second part of the metadata
@@ -176,7 +177,9 @@ database.
 
 Such insertion checks are introduced into all the solutions within the API.
 
- \item  [Update :]%When data is being updated either in the referencing table or
+ \subsection{Update}
+ %When data is being updated either in the referencing
+ % table or
 % the referenced table, a referential integrity validation is needed. When any
 % referenced key (primary or unique) is being updated in the referenced table,
 % then it has to be verified whether this key is a foreign key in any of the
@@ -186,8 +189,8 @@ Such insertion checks are introduced into all the solutions within the API.
 % the key in the referenced table. If the rule is "Set to NULL" or "Set to
 % default" then the associated foreign keys in the referencing table are set to
 % NULL or default values. A Restrict would prevent the update action in the
-% referenced table. 
-% 
+% referenced table.
+%
 % When any foreign key is being updated in a referencing table, then a referential
 % integrity validation has to be performed. It has to be ensured that the new
 % updated value exists as a key in the referenced table. For example, in the
@@ -208,8 +211,8 @@ A different kind of Update is the Upsert, where the values would be inserted if
 the values to be updated do not exist already. Here, the API would check if
 there are any foreign keys being inserted and would check to see if they exist
 in the mentioned keyspace prior to executing the Upsert operation.
-\begin{itemize}
-\item Updating a parent entity: When a parent entity is being updated, its
+\begin{description}
+\item [Updating a parent entity:] When a parent entity is being updated, its
 metadata information is checked to find out its 'DeleteRule'. 'DeleteRule' for an entity
 could be 'NODELETE' or 'CASCADE' and is applicable for both delete and update
 operations. If the 'DeleteRule' is 'NODELETE', then the update of the entity is
@@ -234,7 +237,7 @@ foreign key '111' are replaced with '222'. Then the 'StudentID' in Student
 column family is updated to the new value '222'. Hence, the child records are
 updated prior to updating the parent record in the referenced column families.
 
-\item Updating a child entity: When a child entity is updated, it is first
+\item [Updating a child entity:] When a child entity is updated, it is first
 verified whether the new update value exists in the referenced parent entity. If it
 exists, the foreign keys in the child entities are updated with the new value;
 else an exception is thrown as the new value does not exist in the parent
@@ -251,13 +254,14 @@ ValidationHandler method in the application (Figure 1). If no dependencies are
 found, the entity is updated. Unlike the delete operation, for update the
 ValidationHandler checks for the 'ConstraintType' 'F' which indicates a foreign
 key in the child entity.
-\end {itemize}
+\end {description}
 Hence Update operation updates the column families with the new values only if
 the referential integrity is maintained consistently across both the referenced
 and referencing column families.
 
 
- \item  [Delete :] %A delete operation would trigger a referential integrity
+ \subsection{Delete} %A delete operation would trigger a referential
+ % integrity
 % validation when data is being deleted from the referenced table. When data that is marked
 % for deletion is found to have dependencies in other referencing tables, the
 % referential integrity rule applicable for this operation has to be checked. If
@@ -292,7 +296,7 @@ in their metadata while the Student entities have a CASCADE rule. Hence, when a
 request is made to delete a Course, it is not allowed by the API and an
 exception is thrown. But despite this rule, a further check is made to see if
 the entity has any dependencies existing or not. In this dependency check, if
-the entity is found to have no dependencies on it, a delete is then allowed. 
+the entity is found to have no dependencies on it, a delete is then allowed.
 For example, if a Course entity is found to have no students enrolled for it in
 the Enrolment column family, the delete operation is allowed and the Course is
 deleted.
@@ -301,7 +305,7 @@ seen in Figure 1 . The ValidationHandler is invoked whenever a Delete, Update or
 an Insert operation is invoked on any entity. The ValidationHandler checks for
 any dependencies for the entity even when the DeleteRule  is NODELETE . If no
 dependencies are found, the entity is deleted.
- 
+
 Figure 1: Pseudocode for RI checks for NODELETE Previously, upon finding a
 NODELETE rule, any further checks for dependencies were not performed and the
 entity was strictly not allowed to be deleted. As a result, a Course entity that
@@ -310,7 +314,7 @@ By making the delete rule less rigid by accommodating deletes of entities with
 no dependencies, it allows the API to maintain proper data integrity and adhere
 to RI rules.
 
-\end{description}
+
 
 \section{Baseline:  }\label{s:baseline}
 
@@ -327,7 +331,7 @@ The first proposed solution involves saving the dependency information as a part
 of the value separated by a semicolon. Trying to achieve this in Bigtable means
 that the supercolumnfamily of 'Enrolment' would need to save the dependency
 information as a part of the value itself for every key-value pair. In this
-example, this would mean saving the dependency information as 
+example, this would mean saving the dependency information as
 ";SuperColumnFamily (Course:CourseID) REFERENCES ColumnFamily
 Course(CourseID)".This is illustrated in Figure 6. This would mean that the
 CourseID values of all Course SuperColumns are dependant on the key-value pair
@@ -385,9 +389,9 @@ University,R,Enrolment,University,SID,cascade, gives the following information:
 \item Type of constraint:Referential Integrity constraint denoted by 'R'
 \item The foreign Column family this
 constraint would be a foreign key in: Enrolment
-\item The keyspace this column family exists in: University 
+\item The keyspace this column family exists in: University
 \item The column that would be the referenced key in the foreign Column family:
-SID 
+SID
 \item The type of delete rule that would be applied on this constraint:
 cascade
 \end{itemize}
@@ -504,7 +508,7 @@ entry in this metedata table could have a unique key. This is explained later.
 \begin{figure}
 
 \begin{verbatim}
-{     
+{
     "firstName": "John"
     "lastName" : "Smith",
     "age" : 25

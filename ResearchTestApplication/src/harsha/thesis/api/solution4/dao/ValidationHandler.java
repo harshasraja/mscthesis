@@ -191,7 +191,7 @@ public class ValidationHandler {
             }
 
         } catch (Exception ex) {
-            ex.printStackTrace();
+            throw ex;
         } finally {
             if (dao != null) {
                 dao.close();

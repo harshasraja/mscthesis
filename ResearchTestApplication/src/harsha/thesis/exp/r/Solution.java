@@ -26,13 +26,14 @@ public class Solution {
     public static final String INSERT_ENROLMENT = "insert_enrolment";
     public static final String UPDATE_COURSE = "update_course";
     public static final String UPDATE_ENROLMENT = "update_enrolment";
+    public static final String UPDATE_USER = "update_user";
     public static final String DELETE_ENROLMENT = "delete_enrolment";
     public static final String DELETE_COURSE = "delete_course";
     public static final String DELETE_USER = "delete_user";
     public static String[] DEFAULT_COLUMN_ORDER =
             new String[]{
         INSERT_USER, INSERT_COURSE, INSERT_ENROLMENT,
-        UPDATE_COURSE, UPDATE_ENROLMENT,
+        UPDATE_COURSE, UPDATE_ENROLMENT, UPDATE_USER,
         DELETE_ENROLMENT, DELETE_COURSE, DELETE_USER
     };
     private String code;
