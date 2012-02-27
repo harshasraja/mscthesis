@@ -37,8 +37,8 @@ public class Solution {
         DELETE_ENROLMENT, DELETE_COURSE, DELETE_USER
     };
     private String code;
-    private Map<String, List<Integer>> results =
-            new HashMap<String, List<Integer>>();
+    private Map<String, List<Double>> results =
+            new HashMap<String, List<Double>>();
 
     public Solution(String code) {
         this.code = code;
@@ -52,7 +52,7 @@ public class Solution {
         return this.code;
     }
 
-    public void loadFrom(File f) throws Exception {
+    public void loadFrom(File f, double scale) throws Exception {
         BufferedReader r = new BufferedReader(new FileReader(f));
         String line;
         while ((line = r.readLine()) != null) {
@@ -62,20 +62,21 @@ public class Solution {
 
             String[] keyValue = line.split(":");
             String key = keyValue[0];
-            int value = Integer.parseInt(keyValue[1].trim());
-            List<Integer> times = results.get(key);
+            double value = Double.parseDouble(keyValue[1].trim()) * scale;
+            List<Double> times = results.get(key);
             if (times == null) {
-                times = new ArrayList<Integer>();
+                times = new ArrayList<Double>();
                 results.put(key, times);
             }
             times.add(value);
         }
     }
 
-    public List<Integer> getTimesFor(String operation) {
+    public List<Double> getTimesFor(String operation) {
         return results.get(operation);
     }
 
+    
     public String rToDataFrame(String[] columnOrder) {
 
         String result = getCode() + ".dataframe = data.frame(\n";
@@ -97,6 +98,4 @@ public class Solution {
         }
         return result;
     }
-
-
 }

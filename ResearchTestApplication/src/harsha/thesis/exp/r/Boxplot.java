@@ -26,7 +26,7 @@ public class Boxplot {
             }
         }
         result +=",names=" + MyMath.C(names,"'");
-        result += ", xlab='Solutions', ylab='Time (ms)', main='" + operation + "', outline=F);";
+        result += ", xlab='Solutions', ylab='Time (s)', main='" + operation + "', outline=F);";
         return result;
     }
     

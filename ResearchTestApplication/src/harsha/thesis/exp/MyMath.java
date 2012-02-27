@@ -61,25 +61,58 @@ public class MyMath {
         return c;
     }
 
-    public static String Paste(List<?> items, String begin_enclosing, String end_enclosing, String sep){
+    public static String Paste(List<?> items, String begin_enclosing, String end_enclosing, String sep) {
         String result = "paste(";
-        for (Object item : items){
-            result+= begin_enclosing + item + end_enclosing + ",";
+        for (Object item : items) {
+            result += begin_enclosing + item + end_enclosing + ",";
         }
-        result += " sep='" + sep +"')";
+        result += " sep='" + sep + "')";
         return result;
     }
-    
-    public static String Paste(List<?> items, String enclosing, String sep){
+
+    public static String Paste(List<?> items, String enclosing, String sep) {
         return Paste(items, enclosing, enclosing, sep);
     }
-    
+
     public static String C(Object[] x, String enclosing) {
         return C(x, enclosing, enclosing);
     }
 
     public static String C(Object[] x) {
         return C(x, "");
+    }
+
+    public static double Pow2(double x) {
+        return x * x;
+    }
+
+    public static double StDev(final List<? extends Number> x, double mean) {
+        double result = 0;
+        for (Number n : x) {
+            result += Pow2(n.doubleValue() - mean);
+        }
+        return Math.sqrt(result / x.size());
+    }
+
+    public static double StDev(final List<? extends Number> x) {
+        return StDev(x, Mean(x));
+
+    }
+
+    public static double Mean(final List<? extends Number> x) {
+        double result = 0;
+        for (Number n : x) {
+            result += n.doubleValue();
+        }
+        return result / x.size();
+    }
+
+    public static String Repeat(String x, int times) {
+        String result = "";
+        for (int i = 0; i < times; ++i) {
+            result += x;
+        }
+        return result;
     }
 
     public static void main(String[] args) {
