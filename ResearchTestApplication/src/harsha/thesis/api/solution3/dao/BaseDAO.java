@@ -419,7 +419,7 @@ public class BaseDAO {
             }
 
 
-            if (!read(entity.getClass().getName(), key).isNull()) {
+
                 ValidationHandler handler = new ValidationHandler(entity);
                 List<List<BaseEntity>> childObjectList = handler.checkForeignKeyForUpdate();
                 Map<String, String> map = handler.getReferencedKeyFieldForForeignKey();
@@ -446,9 +446,8 @@ public class BaseDAO {
                         insert(baseEntity);
                     }
                 }
-            } else {
-                logger.debug("Update record not found; hence exiting");
-            }
+             
+            
         } else {
             logger.debug("Update key not specified; hence exiting");
         }

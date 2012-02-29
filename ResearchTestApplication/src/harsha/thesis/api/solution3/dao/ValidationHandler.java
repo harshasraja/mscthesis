@@ -48,7 +48,7 @@ public class ValidationHandler {
         List<String> rConstraintNames = new LinkedList<String>();
         BaseDAO dao = new BaseDAO();
         try {
-            List<BaseEntity> list = dao.read("harsha.thesis.api.solution3.entity.Metadata", "TableName", BaseDAO.EXPRESSION_EQUALS, columnFamily, true);
+            List<BaseEntity> list = dao.read(Metadata.class.getName(), "TableName", BaseDAO.EXPRESSION_EQUALS, columnFamily, true);
             for (BaseEntity baseEntity : list) {
                 if (!(baseEntity instanceof Metadata)) {
                     throw new Exception("Fatal error! Failed loading METADATA");
@@ -59,7 +59,7 @@ public class ValidationHandler {
                 }
             }
             for (String rConstraintName : rConstraintNames) {
-                BaseEntity baseEntity = dao.read("harsha.thesis.api.solution3.entity.Metadata", rConstraintName);
+                BaseEntity baseEntity = dao.read(Metadata.class.getName(), rConstraintName);
                 if (!(baseEntity instanceof Metadata)) {
                     throw new Exception("Fatal error! Failed loading METADATA");
                 }
@@ -88,7 +88,7 @@ public class ValidationHandler {
         List<Metadata> foreignKeys = new LinkedList<Metadata>();
         BaseDAO dao = new BaseDAO();
         try {
-            List<BaseEntity> list = dao.read("harsha.thesis.api.solution3.entity.Metadata", "TableName", BaseDAO.EXPRESSION_EQUALS, columnFamily, true);
+            List<BaseEntity> list = dao.read(Metadata.class.getName(), "TableName", BaseDAO.EXPRESSION_EQUALS, columnFamily, true);
             for (BaseEntity baseEntity : list) {
                 if (!(baseEntity instanceof Metadata)) {
                     throw new Exception("Fatal error! Failed loading METADATA");
@@ -144,7 +144,7 @@ public class ValidationHandler {
 
         BaseDAO dao = new BaseDAO();
         try {
-            List<BaseEntity> list = dao.read("harsha.thesis.api.solution3.entity.Metadata", "TableName", BaseDAO.EXPRESSION_EQUALS, columnFamily, true);
+            List<BaseEntity> list = dao.read(Metadata.class.getName(), "TableName", BaseDAO.EXPRESSION_EQUALS, columnFamily, true);
 
             for (BaseEntity baseEntity : list) {
 
@@ -158,7 +158,7 @@ public class ValidationHandler {
                 }
             }
             for (Metadata rConstraintName : foreignKeys) {
-                BaseEntity baseEntity = dao.read("harsha.thesis.api.solution3.entity.Metadata", rConstraintName.getRConstraintName());
+                BaseEntity baseEntity = dao.read(Metadata.class.getName(), rConstraintName.getRConstraintName());
 
                 Metadata metadata = (Metadata) baseEntity;
                 if ("R".equals(metadata.getConstraintType())) {
@@ -195,7 +195,7 @@ public class ValidationHandler {
         Map<String, String> map = new HashMap<String, String>();
         BaseDAO dao = new BaseDAO();
         try {
-            List<BaseEntity> list = dao.read("harsha.thesis.api.solution3.entity.Metadata", "TableName", BaseDAO.EXPRESSION_EQUALS, columnFamily, true);
+            List<BaseEntity> list = dao.read(Metadata.class.getName(), "TableName", BaseDAO.EXPRESSION_EQUALS, columnFamily, true);
             List<Metadata> foreignKeys = new LinkedList<Metadata>();
 
             for (BaseEntity baseEntity : list) {
@@ -210,7 +210,7 @@ public class ValidationHandler {
             }
 
             for (Metadata rConstraintName : foreignKeys) {
-                BaseEntity baseEntity = dao.read("harsha.thesis.api.solution3.entity.Metadata", rConstraintName.getRConstraintName());
+                BaseEntity baseEntity = dao.read(Metadata.class.getName(), rConstraintName.getRConstraintName());
 
                 Metadata metadata = (Metadata) baseEntity;
                 if ("R".equals(metadata.getConstraintType())) {
@@ -231,7 +231,8 @@ public class ValidationHandler {
         List<String> constraintNames = new LinkedList<String>();
         BaseDAO dao = new BaseDAO();
         try {
-            List<BaseEntity> list = dao.read("harsha.thesis.api.solution3.entity.Metadata", "TableName", BaseDAO.EXPRESSION_EQUALS, columnFamily, true);
+            List<BaseEntity> list = dao.read(Metadata.class.getName(), "TableName", 
+				BaseDAO.EXPRESSION_EQUALS, columnFamily, true);
             for (BaseEntity baseEntity : list) {
                 if (!(baseEntity instanceof Metadata)) {
                     throw new Exception("Fatal error! Failed loading METADATA");

@@ -54,7 +54,7 @@ public class LatexTable {
                 result += "\\\\\n";
             }
         }
-        result += "\\bottomrule"
+        result += "\\bottomrule\n";
 
         result += "\\end{tabular}\n";
 
