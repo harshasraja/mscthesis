@@ -597,32 +597,75 @@ the classes are presented in this class diagram.
 \section{Solution 1:  Metadata with Special Characters}\label{s:sol1}
 
 	
-	The first solution saves
-	metadata as the value in a key-value pair  in
-	column-oriented key-value \acp{DBMS} .
-	The solution proposes saving the dependency information of the entities as
-	metadata and including it in the entity's value.  In this solution, the
-	different parts of the metadata
-	are separated by the special character '\texttt{,}'.
-	To achieve this in a column-oriented key-value \ac{DBMS}, the metadata is saved
-	as a part of each of the super column  in a column family.
-	In every super column,  this metadata is separated from its columns
+	The first solution saves metadata as the value in a key-value pair  in
+	column-oriented key-value \acp{DBMS} and uses special characters to identify
+	metedata from the actual data.
+	The solution saves the dependency information of the entities as
+	metadata and includes it in the entity's value. To achieve this in a column-oriented key-value
+	\ac{DBMS}, the metadata is saved as a part of each of the super column  in a column family.
+	In every super column,  this metadata is separated from its column values
 	 by storing the metadata surrounded with curly brackets. For example,  in the
 	 University keyspace example,  the column family of \texttt{Student} saves
 	 the metadata as a part of the value  for every  super
-	 column in it (Figure~\ref{}).
+	 column in it (Figure~\ref{f:sol1-Student-md}).
+	 
+	\begin{figure}[H]
+		\centering
+		%\includegraphics[width=5cm,   height=5cm]{. /figure/random. jpg}
+		\includegraphics[width=1\textwidth]{./figure/Solutions/Solution1-Student-MD.png}
+		\caption{Metadata storage in Solution 1}\label{f:sol1-Student-md}
+	\end{figure}
+	 
+	The metadata for a column family will contain its \ac{PK} constraint and
+	\ac{FK} constraints which shows the foreign keys depending on the primary key.
+	Each constraint is surrounded by curly brackets '\texttt{\{}', '\texttt{\}}'
+	and constraints are separated from each other by the special charaacter
+ 	'\texttt{;}'. For example, in the \texttt{Student} column family the first constraint 
+ 	in the meetadata is the \ac{PK} constraint \texttt{CONST100}. The
+	second constraint \texttt{CONST700} is separated from the \ac{PK} constraint by
+	a '\texttt{;}'. The constraints following the \ac{PK} constraint indicate
+	which \ac{FK} constraints are dependent on the entity.
+	In this example \texttt{CONST700} shows that \texttt{CONST400} is dependent on
+	it and this is necessary parent entities are updated or deleted as
+	it locates its child dependencies.
+	
+	
+	The different parts of each constraint are separated by the special character
+	'\texttt{;}'. For example, a '\texttt{;}' separates the \texttt{ConstraintName}
+	 and \texttt{Keyspace} and other parts in the constraints \texttt{CONST100} and
+	 \texttt{CONST700}.
 
 %|ConstraintName:CONST200;KeySpace:UNIVERSITY;ConstraintType:P;TableName:harsha_thesis_api_solution2_entity_Course;RKeySpace:UNIVERSITY;RConstraintName:;RColumn:CourseId;DeleteRule:|;
 % |ConstraintName:CONST600;KeySpace:UNIVERSITY;ConstraintType:F;TableName:harsha_thesis_api_solution2_entity_Enrolment;RKeySpace:UNIVERSITY;RConstraintName:CONST500;RColumn:CourseId;DeleteRule:NODELETE|;
 
-	For this solution,  the different parts of the metadata is
-	accessed by the \texttt{ValidationHandler}  to determine whether the entity has
-	any dependencies. The different parts of the metadata is parsed by the
-	\texttt{BaseEntity} and each constraint in the metadata is handled as a
-	\texttt{String} and the special characters '\texttt{\{}',  '\texttt{, }' and
-	'\texttt{\}}' become the delimiters for parsing the \texttt{String} and
-	splitting it into tokens. Thus, each of these tokens
-	would hold one of the parts of the constraint. For example, the metadata for
+% 	For this solution,  the different parts of the metadata is
+% 	accessed by the \texttt{ValidationHandler}  to determine whether the entity has
+% 	any dependencies. 
+	Each part and its value are separated by the special character
+	'\texttt{:}'. For example, \texttt{ConstraintName} is separated from
+	its value \texttt{CONST100} with a \texttt{:}. This helps in identifying the
+	constraint part name  and the values while parsing the metadata information
+	in the \ac{API}.
+	
+	The different parts of the metadata is parsed by the
+	\texttt{BaseEntity} where each constraint in the metadata is handled as a
+	\texttt{String}. In this example, the whole of \texttt{CONST100} is
+	considered as one \texttt{String}. All the special characters used within the
+	metadata become the delimiters for parsing the \texttt{String} and splitting it
+	into tokens.
+	The delimiters used for parsing are:
+	\begin{itemize}
+	  \item Special characters '\texttt{\{}', '\texttt{\}}' and '\texttt{;}' are
+	  the delimiters for extracting each constraint formt he metedata.
+	  \item Special character '\texttt{;}' is the delimiter for identifying each
+	  part within a constraint.
+	  \item Special character '\texttt{:}' is the delimiter for extracting the
+	  field name and the value from each part of the constraint.
+	\end{itemize}
+	
+	The steps involved in the parsing are:
+	
+	 Thus, each of these tokens would hold one of the parts of the constraint. For example, the metadata for
 	\texttt{Student} entity will be parsed into tokens where one token will
 	contain the value of \texttt{ConstraintName} \texttt{CONST100}, while another
 	will contain the \texttt{Keyspace} value \texttt{UNIVERSITY} and likewise all the
