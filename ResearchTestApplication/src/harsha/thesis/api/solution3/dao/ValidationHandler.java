@@ -100,7 +100,7 @@ public class ValidationHandler {
             }
 
             for (Metadata rConstraintName : foreignKeys) {
-                BaseEntity baseEntity = dao.read("harsha.thesis.api.solution3.entity.Metadata", rConstraintName.getRConstraintName());
+                BaseEntity baseEntity = dao.read(Metadata.class.getName(), rConstraintName.getRConstraintName());
 
                 if (!(baseEntity instanceof Metadata)) {
                     throw new Exception("Fatal error! Failed loading METADATA");
