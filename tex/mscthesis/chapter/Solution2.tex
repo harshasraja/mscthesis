@@ -1,0 +1,108 @@
+\section{Solution 2:  Metadata as Top Row}\label{s:sol2-real}
+	
+	\subsection{Metadata Storage}
+	This solution saves the metadata embedded with the actual data and exists in
+	the same column family as the data. This approach is similar to
+	Solution~1 where metadata is stored within the same column family. But unlike
+	Solution~1, this solution saves the metadata only once in the column family as a
+	top row or the first super column in a column family with the unique
+	\texttt{RowId} '\texttt{-1}'. This top row has only a single column 
+	\texttt{Metadata}  containign the metadta information and this is  unlike
+	other super columns which have different columns. This is possible since
+	Cassandra allows rows to have different number of columns, as described in
+	Section~\ref{s::key-value-data-model}. Thus, for each entity class, the
+	metadata exists only once as a single row and is common for all the instances
+	of the entity.
+	In the University example  a \texttt{Student} entity has the
+	metadata  stored as a top row in Figure~\ref{}.
+		 
+	\begin{figure}
+	\todo{ Insert metadata top row figure for Student}
+	\end{figure}
+		
+	The metadata in this solution contains
+	special characters '\texttt{\{}', '\texttt{\}}','\texttt{;}' and '\texttt{:}'
+	to distinguish all the constraints and its different parts and values.
+	The metadata stored for each column family has the following
+	constraints:
+	\begin{itemize}
+	  \item  \ac{PK} constraint showing the primary key of the column family.
+	  \item \ac{FK} constraints 
+			\begin{itemize}
+				\item In the case of a parent entity the \ac{FK} constraints are the \ac{FK}
+				constraints of type '\texttt{F}' to identify the child entities when the entity
+				is being updated or deleted.
+				\item  In the case of a child entity the \ac{FK} constraint of type '\texttt{R}'
+				would be stored along with the \ac{PK} constraint which indicates its parent
+				entities.
+				\item If an entity is both a parent and child entity, then its metadata would
+				hold its \ac{PK} constraint, and the \ac{FK} constraints of both types.
+			\end{itemize}
+	\end{itemize}
+	
+	Consider \texttt{Enrolment}  which is a child entity with parent entities
+	\texttt{Student} and \texttt{Course} (Figure~\ref{}). Its metadata thus
+	contains its \ac{PK} constraint \texttt{CONST300} and the \ac{FK} constraints
+	\texttt{CONST400} and \texttt{CONST500}. Since \texttt{Student} is a child
+	entity it  stores its \ac{PK} constraint \texttt{CONST100} and its \ac{FK}
+	constraint \texttt{CONST700}. Similarly, \texttt{Course} stores its \ac{PK} and
+	respective \ac{FK} constraints.
+
+	\begin{figure}
+	\todo{ Insert metadata top row figure for Enrolment}
+	\end{figure}
+% 	Thus, the metadats describes which is the
+% 	primary key for the entity and the \ac{FK} constraints show which child entities dependent on the
+% 	entity. The \ac{FK} constraints are particularly useful to .
+	
+	\subsection{Metadata Retrieval}
+	Since the metadata holds all the constraints and its various parts, the
+	\ac{API} needs to extract each constraint and its different parts to validate
+	referetntial integrity for an entity. For this it performs \texttt{String}
+	parsing as described in Section~\ref{s:sol1-real} since metedata is read as a
+	\texttt{String} while it is retrieved.
+	
+	In this solution, an enity class
+	for metadata with the required getter and setter access methods is created and
+	used to save the metadata of an entity whenevr any operation is invoked on it.
+	For every operation on an entity the \texttt{AbstractEntity}
+	reads its metadata from the top row of the entity class as a \texttt{String}
+	and each part of the metadata is tokenised to column names and its values.
+	The \texttt{AbstractEntity} treats metadata just like an
+	entity and sets the tokenised values using the metadata entity's setter
+	methods.
+	The parsing of the metadata and its conversion to an entity using the access methods is the same as
+	in Solution~1. The special characters become the delimiters for parsing the
+	metadata just like in Solution~1
+	
+	\subsection{Metadata Access}
+	The metadata is accessed by the \texttt{ValidationHandler} to
+	validate referential integrity for entities. Since the metedata for each entity is
+	parsed and converted ot an entity by the \texttt{AbstractEnityt}, 
+	the \texttt{ValidationHandler} uses the appropriate getter methods to retrieve
+	each part of the metedata. For instance, to get information of
+	the \texttt{DeleteRule} of a constraint on the entity,
+	\texttt{ValidationHandler} uses the \texttt{getDeleteRule} method of the
+	metadtaa entity class and likewise for all the other different parts
+	of the metadata respective getter methods are used.
+	
+	\subsection{Motivation for the approach}
+	The motivation for this solution was to overcome the redundancy of metadata
+	storage in Solution~1. In solution~1 metedata was stored in every super column
+	of a column family and replicated across the cluster along with the column
+	family. Solution~2 reduces this redundancy and centralises the
+	metedata as a top row within the column family and is common for
+	all instances in an entity class. This solution also ensures that when changes have to be made ot
+	the metadata the actual data is not accessed and only the column family of the
+	data is accessed.  Moreover when metadata is large, it
+	consumes less space as it is not replicated as widely as in Solution~1. 
+	In other words, the aim of this design was to reduce the redundancy of metadata
+	in the column family whilst having metadata accessible to all the nodes by
+	having it embedded with the actual data.
+% 	This involves using a lot of disk space for storing the
+% 	metadata, especially considering the number of times an entity class is
+% 	replicated over a cluster of nodes. When the number of entity classes and
+% 	\ac{FK} constraints between them are large, the size of the metadata also
+% 	increases. Such large metadata will involve more parsing operations and when
+% 	the metadata is repeated in every super column and widely replicated it is
+% 	redundant use of storage space.
