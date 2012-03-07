@@ -1,3 +1,88 @@
 \chapter{Conclusions and Future Work}
+##### The results show that the way dependency information is saved influences
+the time taken for an operation to complete after performing the validations.
+When metadata is saved along with every entity as in Solution~1 the time
+consumed for all operations is lesser than when metadata is saved as a separate
+column family in Solution~3.  
 
-	\blindtext
+Sol1: Tradeoff between space and performance.
+However, if metadata changes, it has to be updated in every record.
+% The advantage of having metadata in each record is that referential integrity
+% in maintained even when metadata changes. That is, you keep a history of
+% metadata and ensure that it is always consistent regardless of new changes to
+% it.
+Sol2: Tradeoff between space and an additional retrieval operation within same
+CF. It is changed in only one place per CF.
+	
+Additionally, in 1 and 2, modifying the metadata involves parsing a string into
+different constraints.
+	
+Sol3: Centralizes all the constraints into onecolumn family. Changing metadata
+requires access to only a single column family within the same cluster.
+However, there is an overhead as retrieving metadata is more costly as it has to
+be filtered according to the Cf.
+	
+Sol4: Same as 3, but in a different cluster, requiring a separate connection.
+It introduces is a single point of failure, that is, if it goes down, all goes
+down. However, it provides a dedicated cluster for metadata retrieval which is
+handful when the number of column families and constraints are large.
+Moreover, it allows the storage of multiple keyspaces into one dedicated
+cluster.
+	
+Finally, caching the metadata resulted in a significant improvement of
+performance for the slowest solution to be. In fact, solution 4 managed to be
+similar or even better in some operations than the fastest solution using
+referential integrity (i.e. sol1).
+	
+	
+Cloud storage, benefits and constraints. Especially, key-value with Cassandra as
+instance.
+	
+Referential integrity, benefits, incorporation into key-value dbs. Four
+solutions.
+	
+First solution, incorporating metadata into each record tradeoff in space and
+performance.
+	
+Second Solution, space required is less, and the performance is worse due to
+additional access to database.
+	
+Third Solution, centralized easier to maintain but worse performance as  results
+need to be filtered.
+	
+Four Solution, centralized in a dedicated cluster is favorable for storing
+metadata from multiple keyspaces. Performance is worse than all, but
+significantly improved by caching. Benefits of caching.
+	
+A final word on which implementation to use being case-dependant on the need for
+different tradeoffs. First solution favors small keyspaces. Second solution
+favors larger keyspaces. Third solution makes it easier to maintain. Four
+solution provides dedicated access to metadata in case of large keyspaces with a
+significant number of constraints.
+	
+This research can be further extended by:
+Analyzing the performance of a different middle layer like Pelops instead of
+Hector.
+Performing experimentation on real cloud environments such as amazon ec2 and
+comparing it with the results obtained from this research.
+Assessing the performance of the solutions presented making use of caching of
+metadata.
+Assess the effects in performance of reusing keys of previously (tombstone)
+deleted entities.
+Assess the impact of the approaches presented in different cluster sizes and in
+heterogeneous environments where nodes have different characteristics.
+	
+	
+	
+	
+	
+	
+	
+	
+Future work:
+	
+Caching in other solutions.
+		
+unique keys or composite primary keys
+	
+	

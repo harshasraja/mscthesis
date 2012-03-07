@@ -1,10 +1,111 @@
 \chapter{Experimental Design}
+\todo{Check number of enrolments, introduce all metadata, and retrieve 
+details of cassandra cluster from my computer}
+Cassandra cluster
+
+University example (Metadata) present example again and all metadata.
+
+
+\section{Experimental setup}\label{s:exp:setup}
+The experimentation consists on performing 100 runs where artificial data is
+randomly created, updated and deleted from column famlies in a Cassandra
+cluster.
+On each run, the time required for each operation is recorded in order to assess the
+performance of each solution as well as the throughput in terms of operations
+per unit of time. Notice that each operation on the artificial data  is
+performed in a batch, and entities from each column family are randomly sorted
+before any operation takes place. Random sorting is performed in order to
+prevent the results to be biased from possible optimization made by Cassandra in
+terms of indexes or other criteria.
+		
+The artificial data is made up of 1000 students, 1000 courses, and 10000
+enrolments which are the result of assigning 10 different courses to each
+student. Courses are assigned by dividing the number of courses
+into 100 groups of 10 courses each, and assigning a group for each student.
+Notice that such an assignment involves that X students have the same courses
+assigned. The quantity of records to be inserted for each entity was chosen
+considering an overall reasonable time for completing the experimentation of all
+solutions.
+		
+The format of the artificial data created is as follows. Student has a
+unit-increasing studentId, which is merged into the fields firstName and
+lastName as "First Name (studentId)" and "Last Name (studentId)", and trimester
+and level are random numbers. Course has a   unit-increasing courseId which is
+appended to the prefix "COMP", the course name is composed as in the student
+(merging id and field). Enrolment contains a unit-increasing rowId, and the
+respective foreign keys of student and course.
+		
+The order of the operations performed on the data is as follows. \textbf{Create}
+inserts all the students, courses and enrolments. \textbf{Update} performs
+changes on the primary key of each student and course, and on the course foreign
+key of each enrolment. Finally, \textbf{Delete} removes all the students,
+courses and enrolments. Notice that the primary keys in every column family are
+different in each run (create, update, delete) in order to avoid introducing
+biases to the results as product of the tombstone delete paradigm that Cassandra
+utilizes. That is, since Cassandra does not completely remove the primary keys
+of the inserted entities (tombstone delete), reinsertion using the same primary
+key might yield faster times as the key already exists. After each run, all
+column families (student, course, and enrolment) are empty and ready for the
+next run.  The details  of the \ac{CRUD} operations are explained further in the
+next sections.
+		
+\begin{description}
+\item[Create] The create operation inserts all the students, courses and enrolments in
+that precise order due to the nature of the referential integrity constraints
+presented in Section~\ref{s:ed:ri}. The time required to insert all of the
+entities in their respective column families  is recorded. In the Student and
+Course column families, the insertion does not trigger any constraint validation
+as these entities do not contain foreign keys. Contrarily, the insertion of
+enrolments triggers foreign key validation checks on both Student and Course
+column families.
+\item[Update] The update operation is performed after the creation of all entities.
+First, an attempt to update the primary key of each course is made. This
+triggers constraint validations and results in exceptions thrown as the
+DeleteRule of entity Course is "NODELETE". Hence, the times recorded for
+updating the Course column family represent the time required to identify a
+constraint violation and throw the respective exceptions.
+			
+Next, the Enrolment column family is updated. In this case, the courseId for
+each enrolment is changed to a different one ensuring that the distribution of
+courses and students remains the same. The update on the enrolment column family
+triggers foreign key validation checks to ensure that the course to which every
+enrolment is being updated actually exists.
+			
+Finally, the primary key for each student is updated to a new integer value that
+has never existed in the column family. This triggers a cascaded update on the
+enrolment column family by respectively updating the student foreign key in its
+existing enrolments.
+\item[Delete]The deletion of entities occurs first on the Enrolment column family,
+where all of its records are deleted without requiring referential integrity
+checks as this is a child entity. The times are recorded for such operation and
+then all of the entities are reinserted with the same primary keys in order to
+assess the cascaded delete of students.
+		
+Next, all of the students are deleted from the column family. Given the cascaded
+delete rule of these entities, the validation handler ensures to delete first
+all of the child entities before deleting an student. Hence, the times recorded
+for this operation measure the time required for performing a cascaded delete on
+the student depedencies in enrolment. Notice that the dependencies exist at this
+point as they will have been reinserted in the previous step.
+		
+Finally, all of the courses are deleted. Despite the courses having a \texttt{NO
+DELETE} rule, notice that at this point the enrolment column family is empty, so
+courses can be deleted as there are no child dependencies. Thus, the times
+recorded for this operation measure the constraint and referential integrity
+checks as well as the delete operation of the respective entity. After this last
+operation, all column families are emptied but all the primary keys still exist
+due to tombstone. However, the whole keyspace is ready for the next batch of
+operations as the primary keys of all column families will be different.
+
+
+\end{description}		
+
+			
+			
+
+		
+ 
 
 
 
-\section{Experimental setup}
-
-
-
-\section{Analysis of results}
 

@@ -131,8 +131,8 @@ public class ValidationHandler {
         try {
             dao = new BaseDAO(this);
             for (Metadata metadata : allAssociatedMetadata) {
-                if ("R".equals(metadata.getConstraintType())) {
-                    String primaryKey = getPrimaryKeyForEntity(entity).trim();
+                if ("F".equals(metadata.getConstraintType())) {
+                    String primaryKey = getPrimaryKeyForEntity(entity).trim(); //6
                     List<BaseEntity> childObjects = dao.read(metadata.getTableName().replace("_", ".").trim(), metadata.getRColumn().trim(), BaseDAO.EXPRESSION_EQUALS, primaryKey, true);
                     for (BaseEntity childObject : childObjects) {
                         if (!childObject.isNull() && "NODELETE".equalsIgnoreCase(metadata.getDeleteRule())) {

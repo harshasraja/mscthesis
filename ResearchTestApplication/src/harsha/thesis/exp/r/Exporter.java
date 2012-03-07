@@ -18,8 +18,8 @@ public class Exporter {
     }
 
     public static void main(String[] args) throws Exception {
-        String path = "/home/jcrada/Development/hr/ResearchTestApplication/logs/sAll-r100-sc1000-n10/";
-//                "/home/phoenix1/subramhars/workspace/ResearchTestApplication/logs/sAll-r100-sc1000-n10/";
+        String path = //"/home/jcrada/Development/hr/ResearchTestApplication/logs/sAll-r100-sc1000-n10/";
+                "/home/phoenix1/subramhars/workspace/ResearchTestApplication/logs/sAll-r100-sc1000-n10/";
 
         String[] filenames = {"Solution0.log", "Solution1.log", "Solution2.log", "Solution3.log", "Solution4.log",};
 
