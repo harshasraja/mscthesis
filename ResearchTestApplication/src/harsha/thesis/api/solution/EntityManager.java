@@ -55,7 +55,19 @@ public class EntityManager {
         CloudConnector.returnConnection(connection);
     }
 
-    public List<BaseEntity> find(Class<? extends BaseEntity> clazz) throws Exception {
+    protected void loadEntity(BaseEntity entity, List<HColumn<String, String>> columns)
+            throws Exception {
+        Method[] methods = entity.getClass().getDeclaredMethods();
+        for (HColumn<String, String> hColumn : columns) {
+            for (Method method : methods) {
+                if (method.getName().equals("set" + hColumn.getName())) {
+                    method.invoke(entity, hColumn.getValue());
+                }
+            }
+        }
+    }
+
+    public List<BaseEntity> read(Class<? extends BaseEntity> clazz, int number) throws Exception {
         List<BaseEntity> list = new ArrayList<BaseEntity>();
 
         BaseEntity entity = clazz.newInstance();
@@ -73,27 +85,17 @@ public class EntityManager {
 
         rangeSlicesQuery.setColumnNames((String[]) columnNames.toArray());
 
-        rangeSlicesQuery.setRowCount(1000);
+        rangeSlicesQuery.setRowCount(number);
 
         QueryResult<OrderedRows<String, String, String>> result = rangeSlicesQuery.execute();
 
 
         Rows<String, String, String> orderRows = result.get();
-
-
-        Method[] methods = entity.getClass().getDeclaredMethods();
         for (Row<String, String, String> row : orderRows) {
             List<HColumn<String, String>> columns = row.getColumnSlice().getColumns();
-            for (HColumn<String, String> hColumn : columns) {
-                for (Method method : methods) {
-                    if (method.getName().equals("set" + hColumn.getName())) {
-                        method.invoke(entity, hColumn.getValue());
-                    }
-                }
-            }
+            loadEntity(entity, columns);
             list.add(entity);
             entity = clazz.newInstance();
-
         }
 
         return list;
@@ -119,7 +121,7 @@ public class EntityManager {
         SliceQuery<String, String, String> sliceQuery = connection.getSliceQuery();
         sliceQuery.setColumnFamily(entity.getColumnFamily());
 
-        
+
         List<String> columnNames = new ArrayList<String>();
         Annotation[] annotations = entity.getClass().getDeclaredAnnotations();
         for (Annotation a : annotations) {
@@ -139,16 +141,11 @@ public class EntityManager {
         }
         List<HColumn<String, String>> columns = columnSlice.getColumns();
 
-        for (HColumn<String, String> hColumn : columns) {
-            for (Method method : methods) {
-                if (method.getName().equals("set" + hColumn.getName())) {
-                    method.invoke(entity, hColumn.getValue());
-                }
-            }
-        }
+        loadEntity(entity, columns);
         return entity;
     }
-/**
+
+    /**
      * Processes the expression for conditional lookups in printAll statements
      * For example, where courseName = SWEN100
      *
@@ -169,7 +166,7 @@ public class EntityManager {
             String columnName, String expression, String columnValue) throws Exception {
 
         IndexedSlicesQuery<String, String, String> indexedSlicesQuery = connection.getIndexedSlicesQuery();
-
+        indexedSlicesQuery.setStartKey("");
         if (EXPRESSION_EQUALS.equals(expression)) {
             indexedSlicesQuery.addEqualsExpression(columnName, columnValue);
         } else if (EXPRESSION_GT.equals(expression)) {
@@ -186,35 +183,24 @@ public class EntityManager {
             throw new Exception("Invalid expression:" + expression);
         }
 
-        List<BaseEntity> list = new ArrayList<BaseEntity>();
-
-        BaseEntity entity = clazz.newInstance();
-        Method[] methods = entity.getClass().getDeclaredMethods();
-
         List<String> columnNames = new ArrayList<String>();
-        Annotation[] annotations = entity.getClass().getDeclaredAnnotations();
+        Annotation[] annotations = clazz.getDeclaredAnnotations();
         for (Annotation a : annotations) {
             if (a instanceof Column) {
                 columnNames.add(((Column) a).columnName());
             }
         }
         indexedSlicesQuery.setColumnNames(columnNames);
-        
+
+        BaseEntity entity = clazz.newInstance();
         indexedSlicesQuery.setColumnFamily(entity.getColumnFamily());
-        indexedSlicesQuery.setStartKey("");
 
+        List<BaseEntity> list = new ArrayList<BaseEntity>();
         QueryResult<OrderedRows<String, String, String>> result = indexedSlicesQuery.execute();
-
         Rows<String, String, String> orderRows = result.get();
         for (Row<String, String, String> row : orderRows) {
             List<HColumn<String, String>> columns = row.getColumnSlice().getColumns();
-            for (HColumn<String, String> hColumn : columns) {
-                for (Method method : methods) {
-                    if (method.getName().equals("set" + hColumn.getName())) {
-                        method.invoke(entity, hColumn.getValue());
-                    } 
-                }
-            }
+            loadEntity(entity, columns);
             list.add(entity);
             entity = clazz.newInstance();
         }
@@ -222,14 +208,11 @@ public class EntityManager {
         return list;
     }
 
-    
-    
     public void insert(BaseEntity entity) throws Exception {
-//I AM HERE
         Method[] methods = entity.getClass().getDeclaredMethods();
         Annotation[] a1 = entity.getClass().getDeclaredAnnotations();
-        
-        
+
+
         //This section gets the logical primary key field for the entity
         //from previously declared annotations for the entity
         // ** IT IS ASSUMED THAT THERE WOULD BE ONLY ONE PRIMARY KEY & NO COMPOSITE PRIMARYKEY
@@ -250,7 +233,7 @@ public class EntityManager {
         // ** IF THERE IS A COMPOSITE PRIMARY KEY, LOGIC WOULD NEED TO BE REVISTED
         // ** AND BREAK STATEMENT INSIDE IF CONDITION SHOULD BE REMOVED
 
-        
+
         try {
 
             // This would check the referenced key except for Metadata Table
@@ -261,21 +244,20 @@ public class EntityManager {
 
             Mutator<String> mutator = connection.getMutator();
 
-            for (Annotation a : entity.getClass().getDeclaredAnnotations()){
-                if (a instanceof Column){
-                    
+            for (Annotation a : entity.getClass().getDeclaredAnnotations()) {
+                if (a instanceof Column) {
                 }
             }
-            
+
             for (Method method : methods) {
 //                if (!method.getName().substring(3, method.getName().length()).equalsIgnoreCase(primaryKey)) {
-                    if (method.getName().contains("get")
-                            && !method.getName().contains("ColumnFamilyRepresentation")
-                            && !method.getName().contains("KeyForUpdate")) {
+                if (method.getName().contains("get")
+                        && !method.getName().contains("ColumnFamilyRepresentation")
+                        && !method.getName().contains("KeyForUpdate")) {
 //                        mutator.addInsertion(key, entity.getColumnFamily(),
 //                                HFactory.createStringColumn(method.getName().substring(3),
 //                                (String) method.invoke(entity)));
-                        //method.i
+                    //method.i
 //                    }
                 }
             }
