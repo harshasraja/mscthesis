@@ -1,6 +1,10 @@
-%\newcommand{\B}[1]{\colorbox{light-gray}{#1}} % \begin{tabular}{ccccccc}
+\begin{table}[h]
+\newcommand{\B}[1]{\colorbox{light-gray}{#1}}
+ \centering
+\caption{Average and Standard Deviation}\label{t:}
+\begin{tabular}{ccccccc}
 \toprule
-Solution0 & Solution1 & Solution2 & Solution3 & Solution4\\
+&&Solution0 & Solution1 & Solution2 & Solution3 & Solution4\\
 \midrule
 \multirow{3}{*}{insert} & u & 0.624 (0.138) & 0.614 (0.029) & 1.140 (0.057) & 3.444 (0.070) & 0.586 (0.039)\\
  & c & 0.630 (0.069) & 0.621 (0.027) & 1.181 (0.087) & 3.447 (0.096) & 0.584 (0.030)\\
@@ -15,3 +19,27 @@ Solution0 & Solution1 & Solution2 & Solution3 & Solution4\\
  & e & 5.847 (0.294) & 5.904 (0.359) & 12.282 (0.650) & 35.070 (0.472) & 5.879 (0.240)\\
 \bottomrule
 \end{tabular}
+\end{table}
+
+\begin{table}[h]
+\newcommand{\B}[1]{\colorbox{light-gray}{#1}}
+ \centering
+\caption{Ratio}\label{t:}
+\begin{tabular}{ccccccc}
+\toprule
+&&Solution0 & Solution1 & Solution2 & Solution3 & Solution4\\
+\midrule
+\multirow{3}{*}{insert} & u & 0.624 & 0.984 & 1.826 & 5.520 & 0.938\\
+ & c & 0.630 & 0.985 & 1.874 & 5.471 & 0.927\\
+ & e & 5.708 & 2.958 & 5.996 & 9.699 & 2.688\\
+\midrule
+\multirow{3}{*}{update} & u & 1.254 & 25.761 & 19.968 & 90.553 & 38.269\\
+ & c & 1.376 & 5.492 & 7.908 & 14.006 & 5.507\\
+ & e & 7.237 & 2.519 & 4.929 & 7.843 & 2.307\\
+\midrule
+\multirow{3}{*}{delete} & u & 0.592 & 18.243 & 32.019 & 71.877 & 60.685\\
+ & c & 0.627 & 5.744 & 7.700 & 10.758 & 5.302\\
+ & e & 5.847 & 1.010 & 2.101 & 5.998 & 1.005\\
+\bottomrule
+\end{tabular}
+\end{table}

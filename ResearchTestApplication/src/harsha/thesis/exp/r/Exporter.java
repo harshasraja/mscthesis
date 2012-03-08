@@ -4,7 +4,6 @@
  */
 package harsha.thesis.exp.r;
 
-import harsha.thesis.exp.Main;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
@@ -18,13 +17,14 @@ public class Exporter {
     public Exporter() {
     }
 
-    public static String Definitions(){
+    public static String Definitions() {
         return "par(las=1);\n";
     }
 
     public static void main(String[] args) throws Exception {
-        String path = //"/home/jcrada/Development/hr/ResearchTestApplication/logs/sAll-r100-sc1000-n10/";
-                "/u/students/subramhars/workspace/ResearchTestApplication/logs/sAll-r100-sc1000-n10-final/";
+        String path =
+                "/home/jcrada/Development/hr/ResearchTestApplication/logs/sAll-r100-sc1000-n10-final/";
+//                "/u/students/subramhars/workspace/ResearchTestApplication/logs/sAll-r100-sc1000-n10-final/";
 
         String[] filenames = {"Solution0.log", "Solution1.log", "Solution2.log", "Solution3.log", "Solution4.log",};
 
@@ -38,8 +38,8 @@ public class Exporter {
         exportLatex(solutions, path);
     }
 
-    public static void exportR(Solution[] solutions, String path) throws Exception{
-        
+    public static void exportR(Solution[] solutions, String path) throws Exception {
+
         File out = new File(path + "solutions.R");
         if (out.exists()) {
             out.delete();
@@ -82,11 +82,10 @@ public class Exporter {
         String[][] setOfOperations = {
             {Solution.INSERT_USER, Solution.INSERT_COURSE, Solution.INSERT_ENROLMENT},
             {Solution.UPDATE_USER, Solution.UPDATE_COURSE, Solution.UPDATE_ENROLMENT},
-            {Solution.DELETE_USER, Solution.DELETE_COURSE, Solution.DELETE_ENROLMENT},
-        };
+            {Solution.DELETE_USER, Solution.DELETE_COURSE, Solution.DELETE_ENROLMENT},};
 
-        for (String[] operations : setOfOperations){
-            String filename = "'" + path +  "op-" + operations[0].split("_")[0] + "-barplot.png'";
+        for (String[] operations : setOfOperations) {
+            String filename = "'" + path + "op-" + operations[0].split("_")[0] + "-barplot.png'";
             w.write("png(" + filename + ", width=640, height=480);\n");
             w.write(Barplot.ToString(operations, solutions) + "\n");
             w.write("dev.off();\n");
@@ -100,8 +99,8 @@ public class Exporter {
         w.close();
 
     }
-    
-    public static void exportLatex(Solution[] solutions, String path) throws Exception{
+
+    public static void exportLatex(Solution[] solutions, String path) throws Exception {
         File out = new File(path + "solutions.tex");
         if (out.exists()) {
             out.delete();
@@ -113,9 +112,9 @@ public class Exporter {
             Solution.INSERT_USER, Solution.INSERT_COURSE, Solution.INSERT_ENROLMENT,
             Solution.UPDATE_USER, Solution.UPDATE_COURSE, Solution.UPDATE_ENROLMENT,
             Solution.DELETE_USER, Solution.DELETE_COURSE, Solution.DELETE_ENROLMENT,};
-        
-        w.write(LatexTable.ToString(solutions, columnOrder));
-        
+
+        w.write(LatexTable.ToString(solutions, columnOrder) + "\n\n\n");
+        w.write(LatexTable.RatioToString(solutions, columnOrder));
         w.flush();
         w.close();
     }

@@ -18,12 +18,14 @@ public class LatexTable {
 
     public static String ToString(Solution[] solutions, String[] operations) {
 
-        String result = "%\\newcommand{\\B}[1]{\\colorbox{light-gray}{#1}} % ";
+        String result = "\\begin{table}[h]\n";
+        result += "\\newcommand{\\B}[1]{\\colorbox{light-gray}{#1}}\n ";
+        result += "\\centering\n\\caption{Average and Standard Deviation}\\label{t:}\n";
 
         result += "\\begin{tabular}{" + MyMath.Repeat("c", solutions.length + 2) + "}\n";
 
         //header
-        result += "\\toprule\n";
+        result += "\\toprule\n&&";
         for (int i = 0; i < solutions.length; ++i) {
             Solution s = solutions[i];
             result += s.getCode();
@@ -57,7 +59,58 @@ public class LatexTable {
         result += "\\bottomrule\n";
 
         result += "\\end{tabular}\n";
+        result += "\\end{table}\n";
 
+        return result;
+    }
+
+    public static String RatioToString(Solution[] solutions, String[] operations) {
+
+        String result = "\\begin{table}[h]\n";
+        result += "\\newcommand{\\B}[1]{\\colorbox{light-gray}{#1}}\n ";
+        result += "\\centering\n\\caption{Ratio}\\label{t:}\n";
+        
+        result += "\\begin{tabular}{" + MyMath.Repeat("c", solutions.length + 2) + "}\n";
+
+        //header
+        result += "\\toprule\n&&";
+        for (int i = 0; i < solutions.length; ++i) {
+            Solution s = solutions[i];
+            result += s.getCode();
+            if (i < solutions.length - 1) {
+                result += " & ";
+            } else {
+                result += "\\\\\n";
+            }
+        }
+
+        Map<String, List<String>> crud = groupOperations(operations);
+
+        Set<String> crudKeys = crud.keySet();
+        for (String operation : crudKeys) {
+            result += "\\midrule\n";
+            result += "\\multirow{" + crudKeys.size() + "}{*}{" + operation + "}";
+            for (String table : crud.get(operation)) {
+                result += " & " + table.charAt(0) + " & ";
+                Solution baseline = solutions[0];
+                List<Double> baselineTimes = baseline.getTimesFor(operation + "_" + table);
+                result +=  DF.format(MyMath.Mean(baselineTimes)) + " & ";
+                for (int i = 1; i < solutions.length; ++i) {
+                    Solution s = solutions[i];
+                    
+                    List<Double> times = s.getTimesFor(operation + "_" + table);
+                    result += DF.format(MyMath.Mean(times) / MyMath.Mean(baselineTimes));
+                    if (i < solutions.length - 1) {
+                        result += " & ";
+                    }
+                }
+                result += "\\\\\n";
+            }
+        }
+        result += "\\bottomrule\n";
+
+        result += "\\end{tabular}\n";
+        result += "\\end{table}\n";
         return result;
     }
 
