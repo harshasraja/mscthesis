@@ -213,4 +213,56 @@ public class Barplot {
 
         return result;
     }
+
+    public static String ThroughputToString(String[] operations, Solution[] solutions) {
+        String code = operations[0].split("_")[0];
+        List<String> names = new ArrayList<String>();
+        String dataframe = "data.frame(";
+
+
+
+
+        for (int i = 0; i < solutions.length; ++i) {
+            Solution solution = solutions[i];
+            List<String> means = new ArrayList<String>();
+            for (int j = 0; j < operations.length; ++j) {
+                String operation = operations[j];
+                means.add( numberOfOperations(operation) + " / mean(" + solution.getCode() + ".dataframe$" + operation + ")");
+                names.add("" + operation.split("_")[1].charAt(0));
+            }
+            dataframe += solution.getCode() + " = " + MyMath.C(means);
+            if (i < solutions.length - 1) {
+                dataframe += ", ";
+            } else {
+                dataframe += ")";
+            }
+        }
+
+        String result = "";
+        result += code + ".barplot.means=" + dataframe + ";\n";
+        result += "barplot(as.matrix(" + code + ".barplot.means),"
+                + "beside=T, names=" + MyMath.C(names, "'") + ", ylab='Entities per second', xlab='" + code + "');\n";
+
+        Map<String, List<String>> keyValue = groupOperations(operations);
+
+
+        float start = 2.5f, by = 4.0f;
+        for (int i = 0; i < solutions.length; ++i) {
+            result += "mtext('s" + i + "', side=1, line=2, at=" + start + ");\n";
+            start += by;
+        }
+
+        return result;
+    }
+
+    public static int numberOfOperations(String table) {
+        if (table.contains("user")) {
+            return 1000;
+        } else if (table.contains("course")) {
+            return 1000;
+        } else if (table.contains("enrolment")) {
+            return 10000;
+        }
+        throw new RuntimeException("Table " + table + " NOT known");
+    }
 }

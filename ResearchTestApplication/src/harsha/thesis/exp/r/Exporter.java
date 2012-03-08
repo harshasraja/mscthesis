@@ -63,6 +63,7 @@ public class Exporter {
         for (String column : columnOrder) {
             String pngFile = "'" + path + "bp-" + column + ".png'";
             w.write("png(" + pngFile + ", width=640, height=480);\n");
+            w.write(Definitions() + "\n");
             w.write(Boxplot.ToString(solutions, column) + "\n");
             w.write("dev.off();\n");
             w.flush();
@@ -74,6 +75,7 @@ public class Exporter {
         for (Solution s : solutions) {
             String pngFile = "'" + path + s.getCode() + "-barplot.png'";
             w.write("png(" + pngFile + ", width=640, height=480);\n");
+            w.write(Definitions() + "\n");
             w.write(Barplot.ToString(s, columnOrder));
             w.write("dev.off();\n");
             w.flush();
@@ -87,7 +89,14 @@ public class Exporter {
         for (String[] operations : setOfOperations) {
             String filename = "'" + path + "op-" + operations[0].split("_")[0] + "-barplot.png'";
             w.write("png(" + filename + ", width=640, height=480);\n");
+            w.write(Definitions() + "\n");
             w.write(Barplot.ToString(operations, solutions) + "\n");
+            w.write("dev.off();\n\n");
+            
+            filename = "'" + path + "th-" + operations[0].split("_")[0] + "-barplot.png'";
+            w.write("png(" + filename + ", width=640, height=480);\n");
+            w.write(Definitions() + "\n");
+            w.write(Barplot.ThroughputToString(operations, solutions) + "\n");
             w.write("dev.off();\n");
         }
 
@@ -114,7 +123,10 @@ public class Exporter {
             Solution.DELETE_USER, Solution.DELETE_COURSE, Solution.DELETE_ENROLMENT,};
 
         w.write(LatexTable.ToString(solutions, columnOrder) + "\n\n\n");
-        w.write(LatexTable.RatioToString(solutions, columnOrder));
+        w.write(LatexTable.RatioToString(solutions, columnOrder) + "\n\n\n\n\n\n");
+        
+        w.write(LatexTable.ThroughputToString(solutions, columnOrder) + "\n\n\n");
+//        w.write(LatexTable.ThroughputRatioToString(solutions, columnOrder) + "\n\n\n\n\n\n");
         w.flush();
         w.close();
     }

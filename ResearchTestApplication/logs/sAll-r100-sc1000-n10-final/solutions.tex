@@ -21,6 +21,8 @@
 \end{tabular}
 \end{table}
 
+
+
 \begin{table}[h]
 \newcommand{\B}[1]{\colorbox{light-gray}{#1}}
  \centering
@@ -43,3 +45,34 @@
 \bottomrule
 \end{tabular}
 \end{table}
+
+
+
+
+
+
+\begin{table}[h]
+\newcommand{\B}[1]{\colorbox{light-gray}{#1}}
+ \centering
+\caption{Throughput}\label{t:}
+\begin{tabular}{ccccccc}
+\toprule
+&&Solution0 & Solution1 & Solution2 & Solution3 & Solution4\\
+\midrule
+\multirow{3}{*}{insert} & u & 1602.410 & 1628.532 & 877.509 & 290.318 & 1707.796\\
+ & c & 1587.176 & 1610.903 & 847.048 & 290.115 & 1712.329\\
+ & e & 1752.065 & 592.296 & 292.226 & 180.638 & 651.878\\
+\midrule
+\multirow{3}{*}{update} & u & 797.270 & 30.948 & 39.927 & 8.804 & 20.834\\
+ & c & 726.480 & 132.290 & 91.869 & 51.869 & 131.918\\
+ & e & 1381.708 & 548.619 & 280.321 & 176.174 & 599.015\\
+\midrule
+\multirow{3}{*}{delete} & u & 1689.475 & 92.608 & 52.766 & 23.505 & 27.840\\
+ & c & 1594.845 & 277.660 & 207.120 & 148.253 & 300.801\\
+ & e & 1710.203 & 1693.741 & 814.182 & 285.143 & 1700.990\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+
+
