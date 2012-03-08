@@ -4,6 +4,7 @@
  */
 package harsha.thesis.exp.r;
 
+import harsha.thesis.exp.Main;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
@@ -17,9 +18,13 @@ public class Exporter {
     public Exporter() {
     }
 
+    public static String Definitions(){
+        return "par(las=1);\n";
+    }
+
     public static void main(String[] args) throws Exception {
         String path = //"/home/jcrada/Development/hr/ResearchTestApplication/logs/sAll-r100-sc1000-n10/";
-                "/home/phoenix1/subramhars/workspace/ResearchTestApplication/logs/sAll-r100-sc1000-n10/";
+                "/u/students/subramhars/workspace/ResearchTestApplication/logs/sAll-r100-sc1000-n10-final/";
 
         String[] filenames = {"Solution0.log", "Solution1.log", "Solution2.log", "Solution3.log", "Solution4.log",};
 
@@ -42,6 +47,9 @@ public class Exporter {
         out.createNewFile();
 
         BufferedWriter w = new BufferedWriter(new FileWriter(out));
+
+        w.write(Definitions() + "\n");
+
         String[] columnOrder = new String[]{
             Solution.INSERT_USER, Solution.INSERT_COURSE, Solution.INSERT_ENROLMENT,
             Solution.UPDATE_USER, Solution.UPDATE_COURSE, Solution.UPDATE_ENROLMENT,
@@ -71,6 +79,18 @@ public class Exporter {
             w.flush();
         }
 
+        String[][] setOfOperations = {
+            {Solution.INSERT_USER, Solution.INSERT_COURSE, Solution.INSERT_ENROLMENT},
+            {Solution.UPDATE_USER, Solution.UPDATE_COURSE, Solution.UPDATE_ENROLMENT},
+            {Solution.DELETE_USER, Solution.DELETE_COURSE, Solution.DELETE_ENROLMENT},
+        };
+
+        for (String[] operations : setOfOperations){
+            String filename = "'" + path +  "op-" + operations[0].split("_")[0] + "-barplot.png'";
+            w.write("png(" + filename + ", width=640, height=480);\n");
+            w.write(Barplot.ToString(operations, solutions) + "\n");
+            w.write("dev.off();\n");
+        }
 
 //        String pngFile = "'" + path + "barplots.png'";
 //        w.write("png(" + pngFile + ", width=640, height=480);\n");

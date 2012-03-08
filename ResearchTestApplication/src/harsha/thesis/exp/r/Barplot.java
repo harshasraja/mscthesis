@@ -76,8 +76,6 @@ public class Barplot {
 //
 //        return result;
 //    }
-
-    
     private static Map<String, List<String>> groupOperations(String[] operations) {
         Map<String, List<String>> result = new LinkedHashMap<String, List<String>>();
         for (String operation : operations) {
@@ -134,14 +132,12 @@ public class Barplot {
 //
 //        return result;
 //    }
-    
-    
-        public static String ToString(Solution solution, String[] operations) {
+    public static String ToString(Solution solution, String[] operations) {
 
         Map<String, List<String>> map = groupOperations(operations);
         Set<String> crud = map.keySet();
 
-        
+
 
         String dataframe = "data.frame(";
         List<String> tableNames = new ArrayList<String>();
@@ -156,19 +152,62 @@ public class Barplot {
                 tableNames.add(table.charAt(0) + "");
             }
             dataframe += MyMath.C(means);
-            if (it.hasNext()){
+            if (it.hasNext()) {
                 dataframe += ",\n";
-            }else dataframe += ")";
+            } else {
+                dataframe += ")";
+            }
         }
-        
+
         String result = "";
         result += solution.getCode() + ".barplot.means=" + dataframe + ";\n";
         result += "barplot(as.matrix(" + solution.getCode() + ".barplot.means),"
-                + "beside=T, names=" + MyMath.C(tableNames,"'") + ", ylab='Time (s)');\n";
-        
+                + "beside=T, names=" + MyMath.C(tableNames, "'") + ", ylab='Time (s)', "
+                + "xlab = '" + solution.getCode() + "');\n";
+
         float start = 2.5f, by = 4.0f;
-        for (Iterator<String> it = crud.iterator() ; it.hasNext();){
-            result += "mtext('" + it.next() + "', side=1, line=2, at=" + start +");\n";
+        for (Iterator<String> it = crud.iterator(); it.hasNext();) {
+            result += "mtext('" + it.next() + "', side=1, line=2, at=" + start + ");\n";
+            start += by;
+        }
+
+        return result;
+    }
+
+    public static String ToString(String[] operations, Solution[] solutions) {
+        String code = operations[0].split("_")[0];
+        List<String> names = new ArrayList<String>();
+        String dataframe = "data.frame(";
+
+
+
+        for (int i = 0; i < solutions.length; ++i) {
+            Solution solution = solutions[i];
+            List<String> means = new ArrayList<String>();
+            for (int j = 0; j < operations.length; ++j) {
+                String operation = operations[j];
+                means.add("mean(" + solution.getCode() + ".dataframe$" + operation + ")");
+                names.add("" + operation.split("_")[1].charAt(0));
+            }
+            dataframe += solution.getCode() + " = " + MyMath.C(means);
+            if (i < solutions.length - 1) {
+                dataframe += ", ";
+            } else {
+                dataframe += ")";
+            }
+        }
+
+        String result = "";
+        result += code + ".barplot.means=" + dataframe + ";\n";
+        result += "barplot(as.matrix(" + code + ".barplot.means),"
+                + "beside=T, names=" + MyMath.C(names, "'") + ", ylab='Time (s)', xlab='" + code + "');\n";
+
+        Map<String, List<String>> keyValue = groupOperations(operations);
+
+
+        float start = 2.5f, by = 4.0f;
+        for (int i = 0; i < solutions.length; ++i) {
+            result += "mtext('s" + i + "', side=1, line=2, at=" + start + ");\n";
             start += by;
         }
 
