@@ -1,29 +1,91 @@
 \chapter{Results and Discussions}
-The results and discussion for each solution considers the time taken for
-operations to complete on each of the entities  as described in the University
-example adopted for the experiments.
+% The results and discussion for each solution considers the time taken for
+% operations to complete on each of the entities  as described in the University
+% example adopted for the experiments.
 
-Each operation that triggers the referential integrity validation for an entity
-namely the \texttt{insert}, \texttt{update}, \texttt{delete} operations are
-measured in terms of time taken to complete the operation which includes
-accessing and retrieving metadata  and the validation performed by the
-\texttt{ValidationHandler}. The measured time is thus the response time the mean
-average for the operations.
+Performance of database systems is commonly measured in terms of the
+\textit{Response time}, which is the time  a database system takes to process an
+operation and produce results to the end user (\todo{cite Demurjian}). Measuring
+reponse time for a database operations is similar to a black-box evaluation
+because it is measured  wihtout considering the inetranl functioning  of the
+database system. According to (\todo{cite Demurjian}) such an evaluation is
+ideal for a complete database system to measure its performance and to give the
+users details about its performance in terms of speed with which operations are
+carried forth. In this thesis, response time is one of the critical measures to
+guage the performance of Cassandra while refreential integrity validation
+is in place using the \ac{API}. 
 
-Section~\ref{sr:baseline} presents the results for the baseline testbed where no
-referential validation checks are implemented and the operations performed on
-the entities are just as it would be performed in Cassandra without any
-referential integrity validation.
+Reponse time for each of the  operations that trigger such a validation from all
+the solutions are measured during the experiments and this included the time
+involved to access and retrieve metadata for the entities and also the
+validations by the \texttt{ValidationHandler}. The response time of Cassandra
+when such validations are not in place is also measured and considered as a
+baseline with which to analyse the solutions. Such a comparison  determines the degree of
+change in speed of Cassandra when such overheads are introduced and gives 
+users useful information about how each solution affects the perfromance of
+the database system.
+
+The second performance measure used in the thesis is \textit{Throughput} which
+is another classical and commonly used measure of database performance
+(\todo{cite BerkleyDB}).
+Throughput measures the number of operations processed by the database system in a unit of
+time and is also . In the experiments the throughopt for all the operations
+triggerring referential integrity validation across all solutions is measured
+as operations per second.
+A single operation stands for each time an entity is inserted or updated or
+deleted. For example, inserting 1000 students means that 1000 \texttt{insert}
+operatins are processed by Cassandra. Note that only the operations that
+introduce the referential integrity validation in Cassandra is measured and thus
+\texttt{read} operations are not measured in terms of response time or
+throughpout.
+% These operations
+% which trigger referential
+% integrity validation for an entity
+% namely the \texttt{insert}, \texttt{update}, \texttt{delete} operations are
+% were measured in terms of the throughput in the experiments. Throughout commonly
+% referes to the number of operations performed
+
+It has to be noted that the operations are prone to  external factors like
+network latency, bandwidth, network routing, network workload amog others which
+typically affect a network consisting of sevral machines and users. This is
+because the Cassandra cluster used in the experiments is deployed over a
+network that is used by many users concurrently thus exposing the operations to
+such factors. Identifying such factors and analysing them is beyond the scope of
+this thesis and the analysis is strictly in terms of how the metadata storage
+and referential integrity validation affects Cassandra's performance.
+
+ The results from the experiments were used to
+analyse the performance of the four solutions with respect and this is discussed
+in the following sections. Section~\ref{sr:baseline} presents the results for
+the baseline experiment where no referential validation checks are implemented
+and the operations performed on the entities are just as it would be performed in
+Cassandra. Section~\ref{sr:insert} analyses the results of all the solutions
+for the \texttt{insert} operation. Section~\ref{sr:update} presnts the analysis
+for the \texttt{update} operation for all the solutions. Section~\ref{sr:delete}
+discusses the results of the solutions for the \texttt{delete} operation. 
 
 
 \section{Baseline}\label{sr:baseline}
-A baseline measurement to assess the performance of the implemented solutions is
-presented in Figure~\ref{fr:Solution0-barplot}.
-The factors measured were the time involved to complete each operation for every
-entity, where the operations considered were the ones that invoked referential
-integrity validation, namely, \texttt{insert}, \texttt{update} and
-\texttt{delete}. These were measured for the entities in the University example,
-namely \texttt{Student}, \texttt{Course} and \texttt{Enrolment}.
+The performance of Cassnadra when referential
+integrity validation is intorduced using any of the solutions is compared with a
+a base experiment where the operations on the entities do not trigger any
+such validations. Such a baseline is useful to determine the
+performance of the database system when validations are imposed using the
+\ac{API} and to analyse the performance of the database.
+% baseline experiment has no referential integrity validation introduced and
+In the baseline experiment, the operations on the entities represent how
+data is inserted into Cassandra without referential integrity validations. The
+results in terms of response time for the baseline experiment is presented as
+a bar-plot in Figure~\ref{fr:Solution0-barplot}. The analysis of
+the performance of each operation on an entity is discussed and analysed as follows.
+% The results are analysed in the
+% following 
+
+% The factors measured were the time involved to complete each operation for every
+% entity, where the operations considered were the ones that invoked referential
+% integrity validation, namely, \texttt{insert}, \texttt{update} and
+% \texttt{delete}. These were measured for the entities in the University example,
+% namely \texttt{Student}, \texttt{Course} and \texttt{Enrolment}.
 % The results are plotted as a histogram in Figure~\ref{}
 	
 \begin{figure}[h] \centering
@@ -32,44 +94,51 @@ namely \texttt{Student}, \texttt{Course} and \texttt{Enrolment}.
 	\end{figure}
 	
 % Present results.
-	The potential reasons for the variance of time for the completion of each
-	operations on the different entities are summarised next.
+% 	The potential reasons for the variance of time for the completion of each
+% 	operations on the different entities are summarised next.
 	\begin{description}
-	\item[Insert] The time for inserting entities into the \texttt{Student} and
-	\texttt{Course} column families are similar since the number of entities are
-	exactly the same.
+	\item[Insert] The results for the baseline experiment shows that the time for
+	inserting entities into the \texttt{Student} and \texttt{Course} column families 
+	are similar since the number of entities are exactly the same.
 	\texttt{1000} instances of \texttt{Student} and \texttt{Course} are inserted
-	into the respective column families for the baseline test. The time taken to
-	insert the \texttt{Enrolment} entities into the \texttt{Enrolment} column family
+	into the respective column families in the baseline experiment. The time taken
+	to insert the \texttt{Enrolment} entities into the \texttt{Enrolment} column family
 	is higher by approximately \texttt{4} seconds. This is because
-	\texttt{enrolment} has more entities, to be specific, it has \texttt{10,000}
-	instances. Hence, the \texttt{insert} operation takes more time to insert
-	entities into \texttt{Enrolment} column family, especially considering its
-	replication across \texttt{10} nodes, which would add to the time in
-	completing the operation.
+	\texttt{Enrolment} has more entities than the other column famliies, to be
+	specific it has \texttt{10,000} instances, 10 times more entities than
+	\texttt{Student} and \texttt{Course}.
+% 	Hence, the \texttt{insert} operation takes more time to insert entities into \texttt{Enrolment} column family, especially considering its
+% 	replication across \texttt{10} nodes, which would add to the time in
+% 	completing the operation.
 	
 	\item[Update] The time for updating the primary keys in \texttt{Student} and
 	\texttt{Course} are comparable to each other. Although the number of entities
 	updated are the same, the small difference is owing to external variables
-	(e.g. network latency, network traffic). Similar to the \texttt{insert}
+	(e.g. network latency, high network traffic). Similar to the \texttt{insert}
 	operation, updating the \texttt{Enrolment} entities takes significantly more
 	time, which is again due to the higher number of entities held within this
-	column family. The time for \texttt{update} operation on \texttt{Enrolment} is
-	higher when compared to the time taken for \texttt{insert} operation on the
-	same. This is mainly due to the additional computational resources consumed to
-	ensure the existence of an entity before updating it to new values.
+	column family. 
+	
+	The  response time of the \texttt{update} operation on
+	\texttt{Enrolment} is higher when compared to the response  time of
+	\texttt{insert} operation on the same. This is mainly due to the additional
+	computational resources consumed to ensure the existence of an entity before
+	updating it to new values.
 	
 	\item[Delete] The time involved for completion of the \texttt{delete} operation
-	on all the entities from \texttt{Student} and \texttt{Course} column families are
-	similar to each other, owing to the same number of entities and similar
-	replication strategies. This is similar to the \texttt{insert} operation in
-	terms of time taken for completion and the processes involved. This means that
-	unlike \texttt{update} both \texttt{delete} and \texttt{insert} do not
-	involve additional operations and simply adds or removes entities from the
-	column families.
-	The time involved for the \texttt{delete} operation to delete all the entities
-	in \texttt{Enrolment} is higher just as in other operations. This is again due
-	to the larger number of entities present in \texttt{Enrolment}.
+	on all the entities from \texttt{Student} and \texttt{Course} column families
+	are similar to each other owing to the same number of entities. The time
+	involved for the \texttt{delete} operation to delete all the entities in
+	\texttt{Enrolment} is higher just as in other operations. This is again due to
+	the larger number of entities present in \texttt{Enrolment}.
+	
+	Performance of the \texttt{delete} operation is similar to the\texttt{insert}
+	operation in terms of time taken for completion and the processes involved. This
+	means that unlike \texttt{update} both \texttt{delete} and \texttt{insert} do
+	not involve additional operations and simply adds or removes entities from the
+	column families. It should also be noted that extrenal factors affect the
+	performance of the operations.
+	
 	\end{description}
 
 	
@@ -78,35 +147,64 @@ namely \texttt{Student}, \texttt{Course} and \texttt{Enrolment}.
 % 	
 
 	In general, all the operations take more time to complete on the
-	\texttt{Enrolment} column family due to the larger number of entities stored
-	when compared to \texttt{Student} and \texttt{Course} column families. the
+	\texttt{Enrolment} column family due to its larger number of entities 
+	when compared to \texttt{Student} and \texttt{Course} column families. The
 	\texttt{update} operation consumes more time due to the additional search
 	involved to locate the previous state of the entity prior to updating it to new
 	values. Notice that the time involved to complete \texttt{insert} and
 	\texttt{delete} entities form all the three column families are similar.
 	
-	In the following sections the performance of each solution is discussed in
-	terms of referential integrity validation in each of the \texttt{insert},
-	\texttt{update} and \texttt{delete} operation.
+	Thefollowing sections analyse the performance of each solution  in
+	terms of how its referential integrity validation in each of the
+	\texttt{insert}, \texttt{update} and \texttt{delete} operation and its
+	metadata storage affect the performance.
 	
 \section{Insert}\label{sr:insert}
 An \texttt{insert} operation triggers a referential integrity validation
-whenever a child entity containing foreign keys is inserted. This means that
-each time a child entity is inserted the \texttt{ValidatoinHandler} in all the
-solutions validates that the foreign keys exist as primary keys in the parent
-entities. This dependency information is retrieved from the metadata saved in
-each solutions. During the experiments, the time taken to insert all the
-entities are recorded and this includes the time involved for validating
-referential integrity for the entity. Across all the solutions in the
+whenever a child entity containing foreign keys is inserted where the
+\texttt{ValidationHandler} validates that the foreign keys exist as primary keys in the parent
+entities. 
+% This dependency information is retrieved from the metadata saved in
+% each solutions. 
+In the experiments, the time taken to insert all the
+entities are recorded thus also measuring the time involved for validating
+referential integrity for each entity. Across all the solutions in the
 experiments, the \texttt{insert} operation triggers such a validation when the
 \texttt{Enrolment} entities are inserted since it is a child entity containing
-foreign keys of \texttt{student} and \texttt{course} entities. As mentioned in
-Section~\ref{s:exp:setup} the number of entities inserted into the
-\texttt{Enrolment} column family is the same for all solutions. Despite the same
-number of entities and similar validation performed, the time consumed for this
-operation in all the solutions are different and is further analysed.
+foreign keys of \texttt{Student} and \texttt{Course} entities.
+%  As mentioned in
+% Section~\ref{s:exp:setup} the number of entities inserted into the
+% \texttt{Enrolment} column family is the same for all solutions and the baseline
+% experiment.
+% Despite the same number of entities and similar validation performed, 
+The respone time and throughout of all the solutions for the \texttt{insert}
+operation is plotted in Figure~\ref{}.
+	\begin{figure}[H] \centering
+	\includegraphics[width=.8\textwidth]{./figure/result/op-insert-barplot.png}
+		\caption{}\label{fr:response-insert}
+	\end{figure}
+	
+	
+	
+	
+	\begin{figure}
+		\centering
+		\subfigure[User]{
+			\includegraphics[width=.8\textwidth]{./figure/result/op-insert-barplot.png}
+% 			\caption{Response Time for \texttt{insert}}\label{fr:response-insert}
+		}
+		\subfigure[Course]{
+			\includegraphics[width=.8\textwidth]{./figure/result/th-insert-barplot.png}
+% 			\caption{Throughput}\label{fr:through-insert}
+		} 
+	
+	\end{figure}
+	
+	
+	
+	
 		
-It can be seen from the histograms of the solutions that all the solutions take
+It can be seen from Figure~\ref{fr:Solution0-barplot} that all the solutions take
 similar amount of time to insert entities into \texttt{Student} and
 \texttt{Course} column families. This is because there are no referential
 integrity validation involved in inserting these entities since these entities
@@ -136,7 +234,7 @@ child entities in the solutions. However, it is evident that despite the
 different way of storing metadata both Solutions~1 and 4 perform better than the
 rest of the solutions to perform such a validation on \texttt{insert}.
 
-\newpage
+
 \section{Update}\label{sr:update}
 In all the solutions, the \texttt{update} operation triggers a referential
 integrity validation whenever an entity is updated. Moreover, data manipulation
@@ -354,28 +452,54 @@ is 10 times more.
 	\caption{Delete}
 \end{figure}
 
-% \newcommand{\B}[1]{\colorbox{light-gray}{#1}}
-% \begin{tabular}{ccccccc}
-% \toprule
-% &&Solution0 & Solution1 & Solution2 & Solution3 & Solution4\\
-% \midrule
-% \multirow{3}{*}{insert} & u & \rc 0.624 (0.138) & 0.614 (0.029) & 1.140 (0.057)
-% & 3.444 (0.070) & 0.586 (0.039)\\
-%  & c & 0.630 (0.069) & 0.621 (0.027) & 1.181 (0.087) & 3.447 (0.096) & 0.584 (0.030)\\
-%  & e &  5.708 (0.310) & 16.883 (0.278) & 34.220 (1.399) & 55.359 (0.351) &
-%  15.340 (0.276)\\
-% \midrule
-% \multirow{3}{*}{update} & u & 1.254 (0.051) & 32.312 (1.207) & 25.046
-% (0.986) & 113.579 (1.495) & 48.000 (1.537)\\
-%  & c &  1.376 (0.099) & 7.559 (0.297) & 10.885 (0.384) & 19.279 (0.252) &
-%  7.580 (0.288)\\
-%  & e & 7.237 (0.425) & 18.228 (0.276) & 35.673 (1.402) & 56.762 (0.420) & 16.694 (0.386)\\
-% \midrule
-% \multirow{3}{*}{delete} & u & 0.592 (0.022) & 10.798 (0.409) & 18.952
-% (0.600) & 42.544 (0.619) & 35.919 (0.576)\\
-%  & c & 0.627 (0.023) & 3.602 (0.092) & 4.828 (0.118) & 6.745 (0.120) & 3.324 (0.079)\\
-%  & e & 5.847 (0.294) & 5.904 (0.359) & 12.282 (0.650) & 35.070 (0.472) & 57.647 (0.799)\\
-% \bottomrule
-% \end{tabular}
+
+
+\newcommand{\B}[1]{\colorbox{light-gray}{#1}} %
+\begin{table} 
+\centering
+\caption{Average time and Standard Deviation}
+\begin{tabular}{ccc cccc}
+\toprule
+&&Solution0 & Solution1 & Solution2 & Solution3 & Solution4\\
+% && $\bar{x} \; (\sigma)$ & $\bar{x} \sigma$ & $\bar{x} \sigma$ & $\bar{x}\sigma$\\
+\midrule
+\multirow{3}{*}{insert} & u & 0.624 (0.138) & \B{ 0.614 (0.029)} & 1.140 (0.057)
+& 3.444 (0.070) & 0.586 (0.039)\\
+ & c & 0.630 (0.069) & 0.621 (0.027) & 1.181 (0.087) & 3.447 (0.096) & 0.584 (0.030)\\
+ & e & 5.708 (0.310) & 16.883 (0.278) & 34.220 (1.399) & 55.359 (0.351) & 15.340 (0.276)\\
+\midrule
+\multirow{3}{*}{update} & u & 1.254 (0.051) & 32.312 (1.207) & 25.046 (0.986) & 113.579 (1.495) & 48.000 (1.537)\\
+ & c & 1.376 (0.099) & 7.559 (0.297) & 10.885 (0.384) & 19.279 (0.252) & 7.580 (0.288)\\
+ & e & 7.237 (0.425) & 18.228 (0.276) & 35.673 (1.402) & 56.762 (0.420) & 16.694 (0.386)\\
+\midrule
+\multirow{3}{*}{delete} & u & 0.592 (0.022) & 10.798 (0.409) & 18.952 (0.600) & 42.544 (0.619) & 35.919 (0.576)\\
+ & c & 0.627 (0.023) & 3.602 (0.092) & 4.828 (0.118) & 6.745 (0.120) & 3.324 (0.079)\\
+ & e & 5.847 (0.294) & 5.904 (0.359) & 12.282 (0.650) & 35.070 (0.472) & 5.879 (0.240)\\
+\bottomrule
+\end{tabular}
+
+ \centering
+\caption{Ratio}\label{t:}
+\begin{tabular}{ccccccc}
+\toprule
+&&Solution0 & Solution1 & Solution2 & Solution3 & Solution4\\
+\midrule
+\multirow{3}{*}{insert} & u & 0.624 & 0.984 & 1.826 & 5.520 & 0.938\\
+ & c & 0.630 & 0.985 & 1.874 & 5.471 & 0.927\\
+ & e & 5.708 & 2.958 & 5.996 & 9.699 & 2.688\\
+\midrule
+\multirow{3}{*}{update} & u & 1.254 & 25.761 & 19.968 & 90.553 & 38.269\\
+ & c & 1.376 & 5.492 & 7.908 & 14.006 & 5.507\\
+ & e & 7.237 & 2.519 & 4.929 & 7.843 & 2.307\\
+\midrule
+\multirow{3}{*}{delete} & u & 0.592 & 18.243 & 32.019 & 71.877 & 60.685\\
+ & c & 0.627 & 5.744 & 7.700 & 10.758 & 5.302\\
+ & e & 5.847 & 1.010 & 2.101 & 5.998 & 1.005\\
+\bottomrule
+\end{tabular}
+\end{table}
 
 \section{Analysis of results}
+
+
+
