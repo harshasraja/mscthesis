@@ -4,40 +4,42 @@
 % example adopted for the experiments.
 
 Performance of database systems is commonly measured in terms of the
-\textit{Response time}, which is the time  a database system takes to process an
-operation and produce results to the end user (\todo{cite Demurjian}). Measuring
-reponse time for a database operations is similar to a black-box evaluation
-because it is measured  wihtout considering the inetranl functioning  of the
-database system. According to (\todo{cite Demurjian}) such an evaluation is
-ideal for a complete database system to measure its performance and to give the
-users details about its performance in terms of speed with which operations are
-carried forth. In this thesis, response time is one of the critical measures to
-guage the performance of Cassandra while refreential integrity validation
-is in place using the \ac{API}. 
+\textit{Response time} and \textit{Throughput}(\todo{cite Demurjian, Berkely}).
+Response time refers to the time  a database system takes to process an
+operation and produce results to the end user . Measuring response time for a
+database operation is similar to a black-box evaluation because it is measured 
+without considering the internal functioning  of the database system. According
+to (\todo{cite Demurjian}) such an evaluation is ideal for a complete database
+system to measure its performance and to give the users details about its 
+efficiency and speed in performing operations. In this thesis, response time and
+throughput are the measures used to gauge the performance of Cassandra
+while referential integrity validation is implemented using the \ac{API}.
 
-Reponse time for each of the  operations that trigger such a validation from all
-the solutions are measured during the experiments and this included the time
-involved to access and retrieve metadata for the entities and also the
-validations by the \texttt{ValidationHandler}. The response time of Cassandra
-when such validations are not in place is also measured and considered as a
+Response time for each of the  operations that trigger such a validation from
+all the solutions are measured during the experiments. This included the
+time involved to access and retrieve metadata for the entities and also the time for
+validating referential integrity by the \texttt{ValidationHandler}. The response
+time of Cassandra when such validations are not in place is also measured and considered as a
 baseline with which to analyse the solutions. Such a comparison  determines the degree of
 change in speed of Cassandra when such overheads are introduced and gives 
-users useful information about how each solution affects the perfromance of
+users useful information about how each solution affects the performance of
 the database system.
 
-The second performance measure used in the thesis is \textit{Throughput} which
+The second performance measure used is \textit{Throughput} which
 is another classical and commonly used measure of database performance
 (\todo{cite BerkleyDB}).
 Throughput measures the number of operations processed by the database system in a unit of
-time and is also . In the experiments the throughopt for all the operations
-triggerring referential integrity validation across all solutions is measured
+time. In the experiments the throughput for all the operations
+triggering referential integrity validation across all solutions is measured
 as operations per second.
 A single operation stands for each time an entity is inserted or updated or
-deleted. For example, inserting 1000 students means that 1000 \texttt{insert}
-operatins are processed by Cassandra. Note that only the operations that
+deleted. 
+% For example, inserting 1000 students means that 1000 \texttt{insert}
+% operations are processed by Cassandra. 
+Note that only the operations that
 introduce the referential integrity validation in Cassandra is measured and thus
 \texttt{read} operations are not measured in terms of response time or
-throughpout.
+throughput.
 % These operations
 % which trigger referential
 % integrity validation for an entity
@@ -46,8 +48,8 @@ throughpout.
 % referes to the number of operations performed
 
 It has to be noted that the operations are prone to  external factors like
-network latency, bandwidth, network routing, network workload amog others which
-typically affect a network consisting of sevral machines and users. This is
+network latency, bandwidth, network routing, network workload among others which
+typically affect a network consisting of several machines and users. This is
 because the Cassandra cluster used in the experiments is deployed over a
 network that is used by many users concurrently thus exposing the operations to
 such factors. Identifying such factors and analysing them is beyond the scope of
@@ -55,29 +57,31 @@ this thesis and the analysis is strictly in terms of how the metadata storage
 and referential integrity validation affects Cassandra's performance.
 
  The results from the experiments were used to
-analyse the performance of the four solutions with respect and this is discussed
-in the following sections. Section~\ref{sr:baseline} presents the results for
-the baseline experiment where no referential validation checks are implemented
-and the operations performed on the entities are just as it would be performed in
+analyse the performance of the four solutions with respect to  response
+time and throughput and this is discussed in the following sections.
+Section~\ref{sr:baseline} presents the results for the baseline experiment where 
+% no referential validation checks are implemented
+% and t
+the operations performed on the entities are just as it would be performed in
 Cassandra. Section~\ref{sr:insert} analyses the results of all the solutions
-for the \texttt{insert} operation. Section~\ref{sr:update} presnts the analysis
+for the \texttt{insert} operation. Section~\ref{sr:update} presents the analysis
 for the \texttt{update} operation for all the solutions. Section~\ref{sr:delete}
 discusses the results of the solutions for the \texttt{delete} operation. 
 
 
 \section{Baseline}\label{sr:baseline}
-The performance of Cassnadra when referential
-integrity validation is intorduced using any of the solutions is compared with a
+The performance of Cassandra when referential
+integrity validation is introduced using any of the solutions is compared with a
 a base experiment where the operations on the entities do not trigger any
 such validations. Such a baseline is useful to determine the
 performance of the database system when validations are imposed using the
-\ac{API} and to analyse the performance of the database.
+\ac{API} and to analyse the performance of the solutions.
 % baseline experiment has no referential integrity validation introduced and
 In the baseline experiment, the operations on the entities represent how
 data is inserted into Cassandra without referential integrity validations. The
 results in terms of response time for the baseline experiment is presented as
 a bar-plot in Figure~\ref{fr:Solution0-barplot}. The analysis of
-the performance of each operation on an entity is discussed and analysed as follows.
+the performance of each operation on an entity is discussed as follows.
 % The results are analysed in the
 % following 
 
@@ -97,15 +101,17 @@ the performance of each operation on an entity is discussed and analysed as foll
 % 	The potential reasons for the variance of time for the completion of each
 % 	operations on the different entities are summarised next.
 	\begin{description}
-	\item[Insert] The results for the baseline experiment shows that the time for
+	\item[Insert] The results from the baseline experiment show that the time for
 	inserting entities into the \texttt{Student} and \texttt{Course} column families 
-	are similar since the number of entities are exactly the same.
-	\texttt{1000} instances of \texttt{Student} and \texttt{Course} are inserted
-	into the respective column families in the baseline experiment. The time taken
+	are similar. This is because the number of entities inserted into these
+	column families are exactly the same.
+% 	\texttt{1000} instances of \texttt{Student} and \texttt{Course} are inserted
+% 	into the respective column families in the baseline experiment. 
+	The time taken
 	to insert the \texttt{Enrolment} entities into the \texttt{Enrolment} column family
 	is higher by approximately \texttt{4} seconds. This is because
-	\texttt{Enrolment} has more entities than the other column famliies, to be
-	specific it has \texttt{10,000} instances, 10 times more entities than
+	\texttt{Enrolment} has more entities than the other column families, to be
+	specific it has \texttt{10,000} instances which is 10 times more entities than
 	\texttt{Student} and \texttt{Course}.
 % 	Hence, the \texttt{insert} operation takes more time to insert entities into \texttt{Enrolment} column family, especially considering its
 % 	replication across \texttt{10} nodes, which would add to the time in
@@ -136,10 +142,10 @@ the performance of each operation on an entity is discussed and analysed as foll
 	operation in terms of time taken for completion and the processes involved. This
 	means that unlike \texttt{update} both \texttt{delete} and \texttt{insert} do
 	not involve additional operations and simply adds or removes entities from the
-	column families. It should also be noted that extrenal factors affect the
+	column families. It should also be noted that external factors affect the
 	performance of the operations.
 	
-	\end{description}
+	\end{description} 
 
 	
 	
@@ -154,7 +160,7 @@ the performance of each operation on an entity is discussed and analysed as foll
 	values. Notice that the time involved to complete \texttt{insert} and
 	\texttt{delete} entities form all the three column families are similar.
 	
-	Thefollowing sections analyse the performance of each solution  in
+	The following sections analyse the performance of each solution  in
 	terms of how its referential integrity validation in each of the
 	\texttt{insert}, \texttt{update} and \texttt{delete} operation and its
 	metadata storage affect the performance.
@@ -177,161 +183,344 @@ foreign keys of \texttt{Student} and \texttt{Course} entities.
 % \texttt{Enrolment} column family is the same for all solutions and the baseline
 % experiment.
 % Despite the same number of entities and similar validation performed, 
-The respone time and throughout of all the solutions for the \texttt{insert}
-operation is plotted in Figure~\ref{}.
-	\begin{figure}[H] \centering
-	\includegraphics[width=.8\textwidth]{./figure/result/op-insert-barplot.png}
-		\caption{}\label{fr:response-insert}
-	\end{figure}
+The response time and throughout of the \texttt{insert} operation in all the
+solutions and the baseline experiment are plotted in
+Figure~\ref{fr:insert-result}.
+% 	\begin{figure}[H] \centering
+% 	\includegraphics[width=.8\textwidth]{./figure/result/op-insert-barplot.png}
+% 		\caption{}\label{fr:response-insert}
+% 	\end{figure}
 	
 	
 	
 	
-	\begin{figure}
+	
+	
+	
+	
+The results of all the solutions as seen in Figure~\ref{fr:insert-result} with
+respect to response time  is discussed as follows based on the different
+entities on which the \texttt{insert} operation is applied.
+\subsection{Response Time}
+\begin{itemize}
+  \item The results show that the response time of all
+  the solutions to insert entities into \texttt{Student} and \texttt{Course}
+  column families is similar and always lesser than 5 seconds. This is because
+  no referential integrity validation is invoked when parent entities are
+  inserted as these do not contain any foreign keys. Note that the metadata for
+  any entity is accessed and checked by the \texttt{ValidationHandler}
+  to determine if it has dependencies or not. It is during this
+  check that it is determined if an entity is a parent or child. 
+  So across all solutions even when parent entities \texttt{Student} and
+  \texttt{Course} are inserted their metadata is accessed.
+  
+  Solutions~1, 2  and 4 have approximately similar response times since the metadata 
+  access for these solutions are easier as metadata is a part of the entity and 
+  no additional connection to a metadata column family is required. Solution~3
+  takes slightly longer than the rest of the solutions and this is because of the way
+  the metadata is accessed for the entities in this solution. 
+% irrespective of whether an entity is a parent or child the
+% \texttt{ValidationHandler} performs the same check the metedata of the entity
+% for all the solutions. It is when this check is made it is clear if the entity
+% is a parent or child. 
+  In this solution accessing the metadata for every 
+  \texttt{Student} and \texttt{Course} entity causes the slower
+  response time since a different \texttt{Metadata} column family has to be
+  accessed using the connection object. This is because metadata is not cached
+  for re-use in this solution. Unlike this, Solution~4 caches  metadata for
+  entities and re-uses it thus saving time by not having to access a separate
+  column family for each entity insertion.
+  
+  When compared to the baseline experiment the insertion of parent entities
+  in all the solutions, except Solution~3, take similar response times despite
+  the initial metadata access. Solution~3 takes only a few seconds
+  longer to complete the operation when compared to the baseline.
+  
+
+
+  \item The response time involved for inserting the \texttt{Enrolment}
+  entities differs across solutions. Since these entities have existing \ac{FK}
+  constraints in their metadata indicating they are dependent on a parent
+  entity, referential integrity validations are triggered. The results in
+  Figure~\ref{fr:insert-result} show that Solutions~1 and 4 take approximately 15 seconds to
+  insert  \texttt{Enrolment}entities and take the least time when compared
+  to the other solutions.  Solution~2 takes lesser than 35 seconds while
+  Solution~3 takes longer than the rest of the solutions 
+  This is mainly due to the way metadata is accessed and read from  a different
+  \texttt{Metadata} column family in this solution. In the rest of the solutions the 
+  metadata is either a part of the entity, making the access easier or it is
+  cached as in Solution~4 thus requiring no extra connections to a column family. 
+  
+  As seen in the baseline experiment inserting \texttt{Enrolment} entities  has
+  a higher response time in the solutions. But the response time for this
+  operation on \texttt{Enrolment} is higher in the solutions when compared to
+  the baseline experiment. This means that referential integrity validation in
+  each solution increases the response time slightly, depending on the way the
+  metadata is accessed for the entities in the solutions. Moreover, the entities
+  inserted into the \texttt{Enrolment} column family is ten times more than the
+  other column families.
+% The validation involves accessing the columns of the  column family in this
+% solution to get each value of the constraint.
+\end{itemize}
+
+Generally, the response time for inserting child entities is higher across the
+solutions when compared to the response time for inserting parent entities. In
+the baseline experiment this was solely because of the larger number of entities
+in the child entity class, while in the solutions it was due to the referential
+validation triggered while inserting child entities and also the larger number
+of entities. Inserting parent entities is similar in the baseline
+experiment and the solutions despite the metadata access present in the
+solutions. This is so because no additional validations are triggered in the
+solutions. 
+
+
+\subsection{Throughput}
+
+To summarise this operation, the results show that Solutions~1 and 4 perform
+similarly with respect to inserting child and parent entities and are faster
+ than the rest of the solutions while Solution~3 is the slowest for both the
+ cases. the different response times for the solutions are owing to the
+ different styles of metadata storage as explained previously.
+
+%  It can be that the response time  
+%  On the other hand, Solution~4 caches the metadata information for entities and
+%  does not need to connect to the metadata column family each time any operaion
+%  is triggered on an entity. Solutions~1 and 2 take approximately the same time
+%  and the metadata access for these solutions are easier as it comes as a part of
+%  the entity and no additional connetion to the metadata is required. 
+%  
+% 
+% On the other hand the time consumed to insert \texttt{Enrolment} entities varies
+% across the solutions since there is referential integrity validation where
+% metadata constraints are read and validated.
+
+		
+% Performing the \texttt{insert} operation for the 10000 entities in
+% \texttt{Enrolment} is thus more time consuming for all the solutions when
+% compared to inserting entities into other column families and this is similar to
+% the baseline experiment where inserting \texttt{Enrolment} entities was more
+% time consuming.
+% However in the solutions, the time taken to insert entities into
+% \texttt{Enrolment} is higher when compared to the same in the baseline tests and
+% this is  due to the referential validation that is triggered while inserting
+% child entities in the solutions. 
+\newpage
+
+\newcommand{\Width}{.8\textwidth}
+	\begin{figure}[H] \label{fr:insert-result}
 		\centering
-		\subfigure[User]{
-			\includegraphics[width=.8\textwidth]{./figure/result/op-insert-barplot.png}
+		\subfigure[Response Time]{
+			\includegraphics[width=\Width]{./figure/result/op-insert-barplot.png}
 % 			\caption{Response Time for \texttt{insert}}\label{fr:response-insert}
 		}
-		\subfigure[Course]{
-			\includegraphics[width=.8\textwidth]{./figure/result/th-insert-barplot.png}
+		\subfigure[throughput]{
+			\includegraphics[width=\Width]{./figure/result/th-insert-barplot.png}
 % 			\caption{Throughput}\label{fr:through-insert}
 		} 
-	
+	\caption{Response time and Throughput of \texttt{insert} operation}
 	\end{figure}
-	
-	
-	
-	
-		
-It can be seen from Figure~\ref{fr:Solution0-barplot} that all the solutions take
-similar amount of time to insert entities into \texttt{Student} and
-\texttt{Course} column families. This is because there are no referential
-integrity validation involved in inserting these entities since these entities
-do not contain any foreign keys. On the other hand the time consumed to insert
-\texttt{Enrolment} entities varies across the solutions since there is
-referential integrity validation where metadata constraints are read and
-validated.
-The results show that Solutions~1 and 4 take approximately 15 seconds to insert
-entities into \texttt{Enrolment} while Solution~2 takes lesser than 35 seconds. Solution~3
-takes slightly more than 35 seconds and takes the most time to insert the
-records into the \texttt{Enrolment} column family when compared to all the other
-solutions and the baseline. This is mainly due to the way metadata is accessed
-and read from an external location or a different column family in this
-solution. The validation involves accessing the  columns of the
-\texttt{Metadata} column family in this solution to get each value of the
-constraint.
-		
-Performing the \texttt{insert} operation for the 10000 entities in
-\texttt{Enrolment} is thus more time consuming for all the solutions when
-compared to inserting entities into other column families and this is similar to
-the baseline experiment where inserting \texttt{Enrolment} entities was more
-time consuming.
-However in the solutions, the time taken to insert entities into
-\texttt{Enrolment} is higher when compared to the same in the baseline tests and
-this is  due to the referential validation that is triggered while inserting
-child entities in the solutions. However, it is evident that despite the
-different way of storing metadata both Solutions~1 and 4 perform better than the
-rest of the solutions to perform such a validation on \texttt{insert}.
-
 
 \section{Update}\label{sr:update}
 In all the solutions, the \texttt{update} operation triggers a referential
-integrity validation whenever an entity is updated. Moreover, data manipulation
-rules are also applied which specifies whether the \texttt{update} is a
-\texttt{Cascade} or \texttt{NoDelete}. The \texttt{ValidationHandler} of all the
+integrity validation whenever an entity is updated with new values. 
+% Moreover,
+% data manipulation rules are also applied which specifies whether the \texttt{update} is a
+% \texttt{Cascade} or \texttt{NoDelete}. 
+The \texttt{ValidationHandler} in all the
 solutions perform these validations and accesses metadata and its various parts
-to determine whether the referential integrity is violated or not. This is
-unlike the baseline where there are no referential integrity validations and any
-value is allowed to be changed without checking its correctness or validity. In
-all the solutions the time taken to update the primary keys in \texttt{Student}
-and \texttt{Course} and time taken to update the foreign key \texttt{CourseId}
-in \texttt{Enrolment} is measured and this is different for each solution.The
-performance of the solutions in the different cases involved in \texttt{update}
-is discussed next.
+to determine whether referential integrity is violated or not. This is
+unlike the baseline experiment where  no referential integrity
+validations  are performed and entities are updated without
+checking its correctness or validity. 
 
+In all the solutions the time taken to update the primary keys in
+\texttt{Student} and \texttt{Course} column families and the time taken to
+update the foreign key \texttt{CourseId} in \texttt{Enrolment} is measured
+in terms of response time and throughput. The
+results are presented in Figure~\ref{fr:update-result} and the performance of
+the solutions in an \texttt{update} is discussed next.
+
+	\begin{figure}[h] \label{fr:update-result}
+		\centering
+		\subfigure[Response Time]{
+			\includegraphics[width=\Width]{./figure/result/op-update-barplot.png}
+% 			\caption{Response Time for \texttt{insert}}\label{fr:response-insert}
+		}
+		\subfigure[Throughput]{
+			\includegraphics[width=\Width]{./figure/result/th-update-barplot.png}
+% 			\caption{Throughput}\label{fr:through-insert}
+		} 
+	\caption{Response time and Throughput of \texttt{insert} operation}
+	\end{figure}
+	
+	\subsection{Response Time}
+	The response time of the solutions based on the results fro the experiments are
+	analysed and is categorised on the different cases applicable in the
+	\texttt{update} operation. The different cases are a cascaded
+	and \texttt{NoDelete} \texttt{update} operations on primary keys and 
+	the foreign key updates in child entities.
+	
+	
 	\begin{itemize}
-	  \item Updating \texttt{Student} entities involve cascading the changes within the
-	child entity \texttt{Enrolment}.
-	%  while updating \texttt{Course} throws an
+	  \item The \texttt{update} operation on \texttt{Student} entities is
+	  cascaded since the \texttt{DeleteRule} for \texttt{Student} is
+	  \texttt{Cascade} . Note that for the cascaded \texttt{update} operation
+	  the dependent values in \texttt{Enrolment} is also updated, 
+	  which incurs additional time for this operation to complete.
+% 	  Updating \texttt{Student} entities involve cascading
+% 	  the changes within the child entity \texttt{Enrolment}.
+% 	%  while updating \texttt{Course} throws an
 	% exception since \texttt{course} entities have a \texttt{NoDelete} manipulation
 	% rule in its metadata, thus preventing the \texttt{update}. 
-	Both Solutions~1 and 4 take slightly more than
-	25 seconds to perform a cascaded \texttt{update} for \texttt{Student} entities.
-	Solution~2 takes slightly more than 20 seconds and takes lesser time than other
-	solutions, while Solution~3 takes the most time of more than 60 seconds. All the
-	solutions takes more time to insert \texttt{Student} entities when compared to
+	The results in Figure~\ref{fr:update-result} show that all the solutions have
+	different response times for updating \texttt{Student} entities.
+	Solution~2 takes the least time to perform the updates when compared to the
+	other solutions while Solution~1 takes approximately 10 seconds more than
+	Solution~2.(\todo{check update of Sol2}) Solution~3 has the highest response
+	time of 100 seconds and this is because for each \texttt{update} operation
+	on \texttt{Student} entities, the metadata column family in this solution is
+	accessed and the metadata is processed each time by the
+	\texttt{ValidationHandler} to validate referential integrity. Solution~4 is
+	faster than Solution~3 mainly because it caches the metadata for the entity
+	class and uses the cached metadata for all the entities of the entity class.
+	This helps in saving time as \texttt{ValidationHandler} does not have to access
+	a separate column family for each operation.  
+	% slightly more than 25 seconds to
+	% perform a cascaded \texttt{update} for \texttt{Student} entities.
+	But Solution~4 takes longer than Solutions~1 and 2 because despite the cached
+	metadata it has to initially fetch the metadata from an external location unlike
+	the latter solutions. 
+	% olution~2 takes slightly more than 20 seconds and takes
+	% lesser time than other solutions, while Solution~3 takes the most time of more than 60 seconds. 
+	All the solutions takes more time to insert \texttt{Student} entities when compared to
 	the baseline due to the referential integrity validation and the cascaded
 	operations, which additionally accesses \texttt{Enrolment} to complete the
-	\texttt{update} operation.
+	\texttt{update} operation. The difference in response time when referential
+	integrity validation is in place and when it is not in the baseline experiment
+	ranges from more than 20 seconds to above 100 seconds.
 	
 	  \item Updating \texttt{Course} entities involves identifying the metadata
 	constraints and raising an exception due to the \texttt{NoDelete} rule applicable for every
-	\texttt{Course} entity, which prevents the \texttt{update} operation. From the
-	results it can inferred that both Solutions~1 and 4 take the least time amongst
-	all solutions, where Solution~1 takes less than 5 seconds and Solution~4
-	close to it. Solution~2 is not far behind form these solutions and
-	takes slightly more than 5 seconds, but Solution~3 takes twice the amount of
-	time than the rest of the solutions to update the \texttt{Course} entities.
-	When compared to the baseline, updating \texttt{Course} takes more time in all
-	solutions since  validations are triggered and  exceptions raised unlike the
-	baseline. The only difference between this operation in the solutions and
-	the baseline is the time involved in the validation and handling the
-	exceptions.
+	\texttt{Course} entity. From the
+	results in Figures~\ref{fr:update-result} it can inferred that both Solutions~1 and 4 take
+	the least time amongst all solutions to insert \texttt{Course} entities. These
+	solutions take least time since for the former the metadata is easily accessed
+	being a part of the entity thus not requiring additional accessing time.
+	Solution~4 access the entity metadata from the cached metadata maintained in
+	this solution, making it faster to fetch the metadata for all entities of a
+	particular entity class. 
+% 	where Solution~1 takes less than 5 seconds and
+% 	Solution~4 close to it.
+	Solution~2 is not far behind form these solutions and
+	takes slightly more than 5 seconds. This is because in Solution~2 the metadata
+	is accessed for each entity after searching for the top row incurring some
+	additional time every time an entity is updated. Solution~3 takes nearly twice
+	the amount of time than the rest of the solutions for this operation. Just as
+	in updating \texttt{Student} entities this is due to the separate access
+	required to the \texttt{Metadata} column family and identifying the appropriate constraints for an entity class in it. 
 	
-	\item When \texttt{Enrolment} is updated the values are changed only within the
-	\texttt{Enrolment} column family but \texttt{Student} and \texttt{course}
-	families are accessed to verify the validity of the foreign keys.The results
-	show that Solutions~1 and 4 almost take the same time of slightly more than 15
-	seconds, while Solution~2 takes more than 35 seconds. Solution~3 takes the most
-	time which is slightly less than 40 seconds. 
+	When compared to the baseline, updating \texttt{Course} takes more time in all
+	solutions since  validations are triggered and  exceptions are raised unlike
+	the baseline. The only difference between this operation in the solutions and the
+	baseline experiment is the time involved in accessing the metadata and
+	determining the \texttt{DeleteRule} and handling the exceptions.
+	
+	\item When \texttt{Enrolment} entities are  updated the changes are applied
+	only within the
+	\texttt{Enrolment} column family although \texttt{Student} and
+	\texttt{Course} column families are accessed to ensure the new
+	foreign keys exist. The results in Figure~\ref{fr:update-result} show that
+	Solutions~1 and 4 almost take almost the same time. This is similar to the
+	\texttt{update} on \texttt{course} entities and is because of the way the
+	metadata is accessed and used by the \texttt{ValidationHandler}. 
+	Solution~2 takes slightly more than Solutions~1 and 4 because of the way it
+	has to search for the top row to identify the entities metadata each time.
+	As seen in previous cases, Solution~3 takes the highest time and this is owing
+	to the separate access to \texttt{Metadata}. column family.
+	
+	When compared to the baseline experiment, the solutions are slower because
+	parent column families are accessed always  to check the existence of the new
+	values in every validation by the \texttt{ValidationHandler}. 
 	\end{itemize}
+	
 Generally, in all the solutions updating the \texttt{Course} entities take the
 least time when compared to updating \texttt{Student} or \texttt{Course}
-entities.
-This is because \texttt{update} for \texttt{Course} entities trigger validation
-but does not involve updating the entities nor are any cascade operations performed.
-The time involved in updating \texttt{Enrolment} is lesser than updating the
-\texttt{Student} entities since it does not involve cascading operations but
-updates only values within itself and limits the validation to only accessing
-the parent entities to ensure the existence of the foreign keys. This takes more
-time than \texttt{update} on \texttt{Course} since updating \texttt{Enrolment}
-involves changing the values after the validation and accessing the parent
-entity classes for validation unlike \texttt{update} on \texttt{Course} where
+entities. This is because although \texttt{update} on \texttt{Course} entities trigger
+validation, the entities are not updated and neither are any cascade operations
+performed.
+The time involved in updating \texttt{Students} is higher than updating the
+\texttt{Enrolment} entities due to the cascading operations  and
+the changes made in child column families.
+Moreover for \texttt{update} on \texttt{Enrolment} the validation is limited to
+accessing the parent entities to ensure the existence of the foreign keys.
+The \texttt{update} on \texttt{Enrolment} takes more time than \texttt{update}
+on \texttt{Course} since updating \texttt{Enrolment} involves changing the
+values and accessing the parent entity classes for
+validation unlike \texttt{update} on
+\texttt{Course} where
 validation takes place but no other column families are accessed nor are values
-changed. It is interesting to note that in 	Solution~2 the time for updating the
-\texttt{Enrolment} entities is more than updating \texttt{Student} entities
-unlike all the solutions. This is mainly because an \texttt{update} involves an
-\texttt{insert} and \texttt{delete} operation. It can be seen that this
-\texttt{update} on \texttt{Enrolment} is similar to the time taken to
-\texttt{insert} the \texttt{Enrolment} entities in this solution. The difference
-in the way metadata is stored and retrieved is also another cause for this
-anomaly and is further explained in Section~\ref{}.
+changed. 
+
+	%		Take to Summary of Solutions
+% 													Overall, it is clear that Solution~3 takes more time  to update all the
+% 													different entities, while Solutions~1 takes the least time to update all the entities.
+% 													Some cases of the \texttt{update} operations are similar in speed in both
+% 													Solutions~1 and 4. Solution~2 is slower than Solutions~1 and 4 but faster than
+% 													Solution~4.
+
+
+% It is interesting to note that in 	Solution~2 the time for updating the
+% \texttt{Enrolment} entities is more than updating \texttt{Student} entities
+% unlike all the solutions. This is mainly because an \texttt{update} involves an
+% \texttt{insert} and \texttt{delete} operation. It can be seen that this
+% \texttt{update} on \texttt{Enrolment} is similar to the time taken to
+% \texttt{insert} the \texttt{Enrolment} entities in this solution. The difference
+% in the way metadata is stored and retrieved is also another cause for this
+% anomaly and is further explained in Section~\ref{}.
 
 
 \section{Delete}\label{sr:delete}
 In all the solutions, the \texttt{delete} operation triggers a referential
 integrity validation whenever a parent entity is deleted. Just as in an
-\texttt{update}, data manipulation rules are  applied specifying whether the
-\texttt{delete} is a \texttt{Cascade} or \texttt{NoDelete}. In all the solutions
-the time taken to delete the entities  are recorded and experiments are designed
-to test every case of the \texttt{delete} operation. This means that both
-cascaded deletes of \texttt{Student} entities and deletions of
-\texttt{Course} entities with no dependencies are tested. The performance of the
+\texttt{update}, a cascaded 
+\texttt{delete} requires that dependent entities are removed from
+\texttt{Enrolment}.
+In all the solutions the time taken to delete the entities  are recorded and
+experiments are designed to test every case of the \texttt{delete} operation.
+This means that both cascaded deletes of \texttt{Student} entities and deletions
+of
+\texttt{Course} entities with no dependencies are tested. The results of the
+experiment is presented in Figure~\ref{fr:delete-result}The performance of the
 solutions in these different cases involved is discussed next.
+
+	\begin{figure}[h] \label{fr:delete-result}
+		\centering
+		\subfigure[Response Time]{
+			\includegraphics[width=\Width]{./figure/result/op-delete-barplot.png}
+% 			\caption{Response Time for \texttt{insert}}\label{fr:response-insert}
+		}
+		\subfigure[Throughput]{
+			\includegraphics[width=\Width]{./figure/result/th-delete-barplot.png}
+% 			\caption{Throughput}\label{fr:through-insert}
+		} 
+	\caption{Response time and Throughput of \texttt{delete} operation}
+	\end{figure}
 
 \begin{itemize}
   \item Deleting \texttt{Student} entities involved  deleting  the \texttt{Enrolment} 
-  entities that had foreign keys of \texttt{Student}. This cascaded delete was
-  determined from the \texttt{DeleteRule} of the \ac{PK} constraint of \texttt{Student} entities.
-%   this operation involved deleting \texttt{enrolment} entities that had the
+  entities that had dependent foreign keys. Similar to the \texttt{update}
+  operation, this meant some additional time to complete the operation.
+%   This cascaded delete was determined
+%   from the \texttt{DeleteRule} of the \ac{PK} constraint of \texttt{Student}
+%   entities.
+% this operation involved deleting \texttt{enrolment} entities that had the
 %   \texttt{StudentId} of the \texttt{Student} entity marked for deltion as a
 %   foreign key. 
-  In this case, the time measured involved the cascaded delete of
-  entities from \texttt{Enrolment} and then the deletion of the \texttt{Student}
-  entity from the \texttt{Student} column family. From the results it can be
-  summarised that Solutions~2 and 4 performed similarly and took slightly more
-  than 15 seconds. Solution~1 took the least amount of time with less than 10
+%   In this case, the time measured involved the cascaded delete of
+%   entities from \texttt{Enrolment} and then the deletion of the \texttt{Student}
+%   entity from the \texttt{Student} column family. 
+  From Figure~\ref{fr:delete-result}, it can be
+  summarised that Solution~1 took the least amount of time with less than 10
   seconds and Solution~3 took more than 20 seconds to complete the cascaded
   deletion.When compared to the baseline, all the solutions take considerably
   longer to perform the \texttt{delete} on \texttt{Student} entities. This is
@@ -379,7 +568,7 @@ is 10 times more.
 
 
 
-\newcommand{\Width}{.5\textwidth}
+% \newcommand{\Width}{.5\textwidth}
 % 	Explain update. Student and course are similar, small difference to external
 % 	variables (e.g. network latency). Same, enrolment is higher. Blame update
 % 	higher times than insert due to additional computational resources spent
