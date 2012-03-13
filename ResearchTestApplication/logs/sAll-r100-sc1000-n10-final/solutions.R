@@ -1,6 +1,6 @@
-par(las=1);
+par(las=1, mar=c(2.5,4.2,2,0), cex.axis=1.1, cex.lab=1.3);
 
-Solution0.dataframe = data.frame(
+Baseline.dataframe = data.frame(
 insert_user=c(1.881, 0.89, 0.5710000000000001, 0.5710000000000001, 0.62, 0.551, 0.579, 0.604, 0.6940000000000001, 0.597, 0.583, 0.849, 0.591, 0.584, 0.5750000000000001, 0.522, 0.648, 0.577, 0.607, 0.619, 0.6, 0.594, 0.605, 0.637, 0.59, 0.599, 0.596, 0.602, 0.635, 0.588, 0.624, 0.614, 0.623, 0.618, 0.585, 0.583, 0.648, 0.627, 0.598, 0.592, 0.6, 0.928, 0.5760000000000001, 0.607, 0.605, 0.5720000000000001, 0.599, 0.617, 0.622, 0.601, 0.594, 0.586, 0.595, 0.624, 0.6, 0.588, 0.605, 0.599, 0.593, 0.603, 0.589, 0.604, 0.607, 0.604, 0.591, 0.621, 0.623, 0.602, 0.584, 0.636, 0.5720000000000001, 0.606, 0.61, 0.627, 0.651, 0.622, 0.612, 0.66, 0.595, 0.606, 0.578, 0.59, 0.5690000000000001, 0.579, 0.618, 0.5750000000000001, 0.625, 0.589, 0.641, 0.624, 0.589, 0.615, 0.587, 0.602, 0.602, 0.623, 0.589, 0.586, 0.606, 0.612),
 insert_course=c(1.248, 0.638, 0.662, 0.587, 0.5670000000000001, 0.586, 0.587, 0.583, 0.577, 0.709, 0.612, 0.6, 0.615, 0.619, 0.669, 0.658, 0.707, 0.586, 0.629, 0.611, 0.596, 0.612, 0.653, 0.645, 0.585, 0.635, 0.612, 0.626, 0.626, 0.609, 0.627, 0.614, 0.649, 0.6900000000000001, 0.667, 0.614, 0.609, 0.67, 0.638, 0.626, 0.591, 0.589, 0.7030000000000001, 0.616, 0.587, 0.585, 0.624, 0.62, 0.601, 0.595, 0.621, 0.646, 0.611, 0.598, 0.601, 0.655, 0.628, 0.636, 0.613, 0.628, 0.617, 0.605, 0.633, 0.632, 0.637, 0.619, 0.671, 0.613, 0.645, 0.604, 0.617, 0.614, 0.608, 0.644, 0.642, 0.599, 0.618, 0.624, 0.636, 0.591, 0.6, 0.607, 0.6, 0.607, 0.615, 0.623, 0.622, 0.651, 0.617, 0.603, 0.614, 0.602, 0.656, 0.7020000000000001, 0.635, 0.616, 0.664, 0.634, 0.608, 0.659),
 insert_enrolment=c(8.501, 5.883, 5.688, 5.6370000000000005, 5.62, 5.688, 5.853, 5.67, 5.605, 5.561, 5.599, 5.7250000000000005, 5.968, 5.729, 5.458, 5.714, 5.651, 5.728, 5.681, 5.674, 5.688, 5.573, 5.595, 5.4670000000000005, 5.698, 5.659, 5.676, 5.723, 5.628, 5.564, 5.711, 5.682, 5.672, 5.711, 5.362, 5.4750000000000005, 5.609, 5.698, 5.7540000000000004, 5.729, 5.628, 5.74, 5.558, 5.679, 5.668, 5.682, 5.55, 6.054, 5.58, 5.493, 5.752, 5.5760000000000005, 5.687, 5.731, 5.604, 5.5680000000000005, 5.771, 5.658, 5.67, 5.68, 5.578, 5.615, 5.585, 5.694, 5.623, 5.78, 5.747, 6.062, 5.579, 5.716, 5.774, 5.667, 5.546, 5.603, 5.71, 5.625, 5.672, 5.748, 5.662, 5.752, 5.672, 5.6690000000000005, 6.388, 5.752, 5.655, 5.606, 5.626, 5.698, 5.648, 5.755, 5.651, 5.5760000000000005, 5.735, 5.542, 5.671, 6.1080000000000005, 5.68, 5.627, 5.703, 5.619),
@@ -56,67 +56,67 @@ delete_course=c(3.049, 3.075, 3.244, 3.1510000000000002, 3.225, 3.168, 3.354, 3.
 delete_enrolment=c(6.014, 5.728, 5.715, 5.823, 5.821, 5.747, 5.768, 7.188, 5.6690000000000005, 5.65, 5.68, 5.746, 5.691, 5.8580000000000005, 5.7700000000000005, 6.1290000000000004, 5.6450000000000005, 6.199, 5.644, 5.737, 5.716, 5.715, 5.724, 6.1160000000000005, 6.247, 5.6080000000000005, 5.7410000000000005, 5.727, 5.9910000000000005, 5.795, 6.055, 5.824, 6.524, 6.288, 5.952, 5.7, 5.729, 5.777, 5.761, 5.66, 5.729, 5.782, 5.719, 5.695, 5.712, 5.784, 5.751, 6.035, 5.8, 5.8020000000000005, 5.841, 6.594, 5.7620000000000005, 5.75, 5.873, 5.966, 5.824, 5.774, 5.804, 6.636, 6.324, 5.775, 5.711, 5.772, 6.0280000000000005, 5.841, 5.8100000000000005, 5.789, 5.893, 5.981, 5.696, 5.75, 5.813, 5.952, 5.767, 5.892, 5.828, 6.316, 5.928, 5.761, 5.776, 6.132000000000001, 5.764, 5.823, 5.891, 5.873, 5.995, 6.058, 6.085, 5.7010000000000005, 5.811, 5.788, 5.822, 5.835, 6.072, 5.827, 6.184, 5.736, 5.792, 5.796));
 
 png('/home/jcrada/Development/hr/ResearchTestApplication/logs/sAll-r100-sc1000-n10-final/bp-insert_user.png', width=640, height=480);
-par(las=1);
+par(las=1, mar=c(2.5,4.2,2,0), cex.axis=1.1, cex.lab=1.3);
 
-boxplot(Solution0.dataframe$insert_user,Solution1.dataframe$insert_user,Solution2.dataframe$insert_user,Solution3.dataframe$insert_user,Solution4.dataframe$insert_user,names=c('Solution0', 'Solution1', 'Solution2', 'Solution3', 'Solution4'), xlab='Solutions', ylab='Time (s)', main='insert_user', outline=F);
+boxplot(Baseline.dataframe$insert_user,Solution1.dataframe$insert_user,Solution2.dataframe$insert_user,Solution3.dataframe$insert_user,Solution4.dataframe$insert_user,names=c('Baseline', 'Solution1', 'Solution2', 'Solution3', 'Solution4'), xlab='Solutions', ylab='Time (s)', main='insert_user', outline=F);
 dev.off();
 png('/home/jcrada/Development/hr/ResearchTestApplication/logs/sAll-r100-sc1000-n10-final/bp-insert_course.png', width=640, height=480);
-par(las=1);
+par(las=1, mar=c(2.5,4.2,2,0), cex.axis=1.1, cex.lab=1.3);
 
-boxplot(Solution0.dataframe$insert_course,Solution1.dataframe$insert_course,Solution2.dataframe$insert_course,Solution3.dataframe$insert_course,Solution4.dataframe$insert_course,names=c('Solution0', 'Solution1', 'Solution2', 'Solution3', 'Solution4'), xlab='Solutions', ylab='Time (s)', main='insert_course', outline=F);
+boxplot(Baseline.dataframe$insert_course,Solution1.dataframe$insert_course,Solution2.dataframe$insert_course,Solution3.dataframe$insert_course,Solution4.dataframe$insert_course,names=c('Baseline', 'Solution1', 'Solution2', 'Solution3', 'Solution4'), xlab='Solutions', ylab='Time (s)', main='insert_course', outline=F);
 dev.off();
 png('/home/jcrada/Development/hr/ResearchTestApplication/logs/sAll-r100-sc1000-n10-final/bp-insert_enrolment.png', width=640, height=480);
-par(las=1);
+par(las=1, mar=c(2.5,4.2,2,0), cex.axis=1.1, cex.lab=1.3);
 
-boxplot(Solution0.dataframe$insert_enrolment,Solution1.dataframe$insert_enrolment,Solution2.dataframe$insert_enrolment,Solution3.dataframe$insert_enrolment,Solution4.dataframe$insert_enrolment,names=c('Solution0', 'Solution1', 'Solution2', 'Solution3', 'Solution4'), xlab='Solutions', ylab='Time (s)', main='insert_enrolment', outline=F);
+boxplot(Baseline.dataframe$insert_enrolment,Solution1.dataframe$insert_enrolment,Solution2.dataframe$insert_enrolment,Solution3.dataframe$insert_enrolment,Solution4.dataframe$insert_enrolment,names=c('Baseline', 'Solution1', 'Solution2', 'Solution3', 'Solution4'), xlab='Solutions', ylab='Time (s)', main='insert_enrolment', outline=F);
 dev.off();
 png('/home/jcrada/Development/hr/ResearchTestApplication/logs/sAll-r100-sc1000-n10-final/bp-update_user.png', width=640, height=480);
-par(las=1);
+par(las=1, mar=c(2.5,4.2,2,0), cex.axis=1.1, cex.lab=1.3);
 
-boxplot(Solution0.dataframe$update_user,Solution1.dataframe$update_user,Solution2.dataframe$update_user,Solution3.dataframe$update_user,Solution4.dataframe$update_user,names=c('Solution0', 'Solution1', 'Solution2', 'Solution3', 'Solution4'), xlab='Solutions', ylab='Time (s)', main='update_user', outline=F);
+boxplot(Baseline.dataframe$update_user,Solution1.dataframe$update_user,Solution2.dataframe$update_user,Solution3.dataframe$update_user,Solution4.dataframe$update_user,names=c('Baseline', 'Solution1', 'Solution2', 'Solution3', 'Solution4'), xlab='Solutions', ylab='Time (s)', main='update_user', outline=F);
 dev.off();
 png('/home/jcrada/Development/hr/ResearchTestApplication/logs/sAll-r100-sc1000-n10-final/bp-update_course.png', width=640, height=480);
-par(las=1);
+par(las=1, mar=c(2.5,4.2,2,0), cex.axis=1.1, cex.lab=1.3);
 
-boxplot(Solution0.dataframe$update_course,Solution1.dataframe$update_course,Solution2.dataframe$update_course,Solution3.dataframe$update_course,Solution4.dataframe$update_course,names=c('Solution0', 'Solution1', 'Solution2', 'Solution3', 'Solution4'), xlab='Solutions', ylab='Time (s)', main='update_course', outline=F);
+boxplot(Baseline.dataframe$update_course,Solution1.dataframe$update_course,Solution2.dataframe$update_course,Solution3.dataframe$update_course,Solution4.dataframe$update_course,names=c('Baseline', 'Solution1', 'Solution2', 'Solution3', 'Solution4'), xlab='Solutions', ylab='Time (s)', main='update_course', outline=F);
 dev.off();
 png('/home/jcrada/Development/hr/ResearchTestApplication/logs/sAll-r100-sc1000-n10-final/bp-update_enrolment.png', width=640, height=480);
-par(las=1);
+par(las=1, mar=c(2.5,4.2,2,0), cex.axis=1.1, cex.lab=1.3);
 
-boxplot(Solution0.dataframe$update_enrolment,Solution1.dataframe$update_enrolment,Solution2.dataframe$update_enrolment,Solution3.dataframe$update_enrolment,Solution4.dataframe$update_enrolment,names=c('Solution0', 'Solution1', 'Solution2', 'Solution3', 'Solution4'), xlab='Solutions', ylab='Time (s)', main='update_enrolment', outline=F);
+boxplot(Baseline.dataframe$update_enrolment,Solution1.dataframe$update_enrolment,Solution2.dataframe$update_enrolment,Solution3.dataframe$update_enrolment,Solution4.dataframe$update_enrolment,names=c('Baseline', 'Solution1', 'Solution2', 'Solution3', 'Solution4'), xlab='Solutions', ylab='Time (s)', main='update_enrolment', outline=F);
 dev.off();
 png('/home/jcrada/Development/hr/ResearchTestApplication/logs/sAll-r100-sc1000-n10-final/bp-delete_user.png', width=640, height=480);
-par(las=1);
+par(las=1, mar=c(2.5,4.2,2,0), cex.axis=1.1, cex.lab=1.3);
 
-boxplot(Solution0.dataframe$delete_user,Solution1.dataframe$delete_user,Solution2.dataframe$delete_user,Solution3.dataframe$delete_user,Solution4.dataframe$delete_user,names=c('Solution0', 'Solution1', 'Solution2', 'Solution3', 'Solution4'), xlab='Solutions', ylab='Time (s)', main='delete_user', outline=F);
+boxplot(Baseline.dataframe$delete_user,Solution1.dataframe$delete_user,Solution2.dataframe$delete_user,Solution3.dataframe$delete_user,Solution4.dataframe$delete_user,names=c('Baseline', 'Solution1', 'Solution2', 'Solution3', 'Solution4'), xlab='Solutions', ylab='Time (s)', main='delete_user', outline=F);
 dev.off();
 png('/home/jcrada/Development/hr/ResearchTestApplication/logs/sAll-r100-sc1000-n10-final/bp-delete_course.png', width=640, height=480);
-par(las=1);
+par(las=1, mar=c(2.5,4.2,2,0), cex.axis=1.1, cex.lab=1.3);
 
-boxplot(Solution0.dataframe$delete_course,Solution1.dataframe$delete_course,Solution2.dataframe$delete_course,Solution3.dataframe$delete_course,Solution4.dataframe$delete_course,names=c('Solution0', 'Solution1', 'Solution2', 'Solution3', 'Solution4'), xlab='Solutions', ylab='Time (s)', main='delete_course', outline=F);
+boxplot(Baseline.dataframe$delete_course,Solution1.dataframe$delete_course,Solution2.dataframe$delete_course,Solution3.dataframe$delete_course,Solution4.dataframe$delete_course,names=c('Baseline', 'Solution1', 'Solution2', 'Solution3', 'Solution4'), xlab='Solutions', ylab='Time (s)', main='delete_course', outline=F);
 dev.off();
 png('/home/jcrada/Development/hr/ResearchTestApplication/logs/sAll-r100-sc1000-n10-final/bp-delete_enrolment.png', width=640, height=480);
-par(las=1);
+par(las=1, mar=c(2.5,4.2,2,0), cex.axis=1.1, cex.lab=1.3);
 
-boxplot(Solution0.dataframe$delete_enrolment,Solution1.dataframe$delete_enrolment,Solution2.dataframe$delete_enrolment,Solution3.dataframe$delete_enrolment,Solution4.dataframe$delete_enrolment,names=c('Solution0', 'Solution1', 'Solution2', 'Solution3', 'Solution4'), xlab='Solutions', ylab='Time (s)', main='delete_enrolment', outline=F);
+boxplot(Baseline.dataframe$delete_enrolment,Solution1.dataframe$delete_enrolment,Solution2.dataframe$delete_enrolment,Solution3.dataframe$delete_enrolment,Solution4.dataframe$delete_enrolment,names=c('Baseline', 'Solution1', 'Solution2', 'Solution3', 'Solution4'), xlab='Solutions', ylab='Time (s)', main='delete_enrolment', outline=F);
 dev.off();
 def.barplot.width=1; #bar width
 def.barplot.sepwidth=0; #separation bar width
 def.barplot.space=0; #space between bars
 def.barplot.groupspace=1; #space between groups
-png('/home/jcrada/Development/hr/ResearchTestApplication/logs/sAll-r100-sc1000-n10-final/Solution0-barplot.png', width=640, height=480);
-par(las=1);
+png('/home/jcrada/Development/hr/ResearchTestApplication/logs/sAll-r100-sc1000-n10-final/Baseline-barplot.png', width=640, height=480);
+par(las=1, mar=c(2.5,4.2,2,0), cex.axis=1.1, cex.lab=1.3);
 
-Solution0.barplot.means=data.frame(insert=c(mean(Solution0.dataframe$insert_user), mean(Solution0.dataframe$insert_course), mean(Solution0.dataframe$insert_enrolment)),
-update=c(mean(Solution0.dataframe$update_user), mean(Solution0.dataframe$update_course), mean(Solution0.dataframe$update_enrolment)),
-delete=c(mean(Solution0.dataframe$delete_user), mean(Solution0.dataframe$delete_course), mean(Solution0.dataframe$delete_enrolment)));
-barplot(as.matrix(Solution0.barplot.means),beside=T, names=c('u', 'c', 'e', 'u', 'c', 'e', 'u', 'c', 'e'), ylab='Time (s)', xlab = 'Solution0');
+Baseline.barplot.means=data.frame(insert=c(mean(Baseline.dataframe$insert_user), mean(Baseline.dataframe$insert_course), mean(Baseline.dataframe$insert_enrolment)),
+update=c(mean(Baseline.dataframe$update_user), mean(Baseline.dataframe$update_course), mean(Baseline.dataframe$update_enrolment)),
+delete=c(mean(Baseline.dataframe$delete_user), mean(Baseline.dataframe$delete_course), mean(Baseline.dataframe$delete_enrolment)));
+barplot(as.matrix(Baseline.barplot.means),beside=T, names=c('u', 'c', 'e', 'u', 'c', 'e', 'u', 'c', 'e'), ylab='Time (s)', xlab = 'Baseline');
 mtext('insert', side=1, line=2, at=2.5);
 mtext('update', side=1, line=2, at=6.5);
 mtext('delete', side=1, line=2, at=10.5);
 dev.off();
 png('/home/jcrada/Development/hr/ResearchTestApplication/logs/sAll-r100-sc1000-n10-final/Solution1-barplot.png', width=640, height=480);
-par(las=1);
+par(las=1, mar=c(2.5,4.2,2,0), cex.axis=1.1, cex.lab=1.3);
 
 Solution1.barplot.means=data.frame(insert=c(mean(Solution1.dataframe$insert_user), mean(Solution1.dataframe$insert_course), mean(Solution1.dataframe$insert_enrolment)),
 update=c(mean(Solution1.dataframe$update_user), mean(Solution1.dataframe$update_course), mean(Solution1.dataframe$update_enrolment)),
@@ -127,7 +127,7 @@ mtext('update', side=1, line=2, at=6.5);
 mtext('delete', side=1, line=2, at=10.5);
 dev.off();
 png('/home/jcrada/Development/hr/ResearchTestApplication/logs/sAll-r100-sc1000-n10-final/Solution2-barplot.png', width=640, height=480);
-par(las=1);
+par(las=1, mar=c(2.5,4.2,2,0), cex.axis=1.1, cex.lab=1.3);
 
 Solution2.barplot.means=data.frame(insert=c(mean(Solution2.dataframe$insert_user), mean(Solution2.dataframe$insert_course), mean(Solution2.dataframe$insert_enrolment)),
 update=c(mean(Solution2.dataframe$update_user), mean(Solution2.dataframe$update_course), mean(Solution2.dataframe$update_enrolment)),
@@ -138,7 +138,7 @@ mtext('update', side=1, line=2, at=6.5);
 mtext('delete', side=1, line=2, at=10.5);
 dev.off();
 png('/home/jcrada/Development/hr/ResearchTestApplication/logs/sAll-r100-sc1000-n10-final/Solution3-barplot.png', width=640, height=480);
-par(las=1);
+par(las=1, mar=c(2.5,4.2,2,0), cex.axis=1.1, cex.lab=1.3);
 
 Solution3.barplot.means=data.frame(insert=c(mean(Solution3.dataframe$insert_user), mean(Solution3.dataframe$insert_course), mean(Solution3.dataframe$insert_enrolment)),
 update=c(mean(Solution3.dataframe$update_user), mean(Solution3.dataframe$update_course), mean(Solution3.dataframe$update_enrolment)),
@@ -149,7 +149,7 @@ mtext('update', side=1, line=2, at=6.5);
 mtext('delete', side=1, line=2, at=10.5);
 dev.off();
 png('/home/jcrada/Development/hr/ResearchTestApplication/logs/sAll-r100-sc1000-n10-final/Solution4-barplot.png', width=640, height=480);
-par(las=1);
+par(las=1, mar=c(2.5,4.2,2,0), cex.axis=1.1, cex.lab=1.3);
 
 Solution4.barplot.means=data.frame(insert=c(mean(Solution4.dataframe$insert_user), mean(Solution4.dataframe$insert_course), mean(Solution4.dataframe$insert_enrolment)),
 update=c(mean(Solution4.dataframe$update_user), mean(Solution4.dataframe$update_course), mean(Solution4.dataframe$update_enrolment)),
@@ -160,9 +160,9 @@ mtext('update', side=1, line=2, at=6.5);
 mtext('delete', side=1, line=2, at=10.5);
 dev.off();
 png('/home/jcrada/Development/hr/ResearchTestApplication/logs/sAll-r100-sc1000-n10-final/op-insert-barplot.png', width=640, height=480);
-par(las=1);
+par(las=1, mar=c(2.5,4.2,2,0), cex.axis=1.1, cex.lab=1.3);
 
-insert.barplot.means=data.frame(Solution0 = c(mean(Solution0.dataframe$insert_user), mean(Solution0.dataframe$insert_course), mean(Solution0.dataframe$insert_enrolment)), Solution1 = c(mean(Solution1.dataframe$insert_user), mean(Solution1.dataframe$insert_course), mean(Solution1.dataframe$insert_enrolment)), Solution2 = c(mean(Solution2.dataframe$insert_user), mean(Solution2.dataframe$insert_course), mean(Solution2.dataframe$insert_enrolment)), Solution3 = c(mean(Solution3.dataframe$insert_user), mean(Solution3.dataframe$insert_course), mean(Solution3.dataframe$insert_enrolment)), Solution4 = c(mean(Solution4.dataframe$insert_user), mean(Solution4.dataframe$insert_course), mean(Solution4.dataframe$insert_enrolment)));
+insert.barplot.means=data.frame(Baseline = c(mean(Baseline.dataframe$insert_user), mean(Baseline.dataframe$insert_course), mean(Baseline.dataframe$insert_enrolment)), Solution1 = c(mean(Solution1.dataframe$insert_user), mean(Solution1.dataframe$insert_course), mean(Solution1.dataframe$insert_enrolment)), Solution2 = c(mean(Solution2.dataframe$insert_user), mean(Solution2.dataframe$insert_course), mean(Solution2.dataframe$insert_enrolment)), Solution3 = c(mean(Solution3.dataframe$insert_user), mean(Solution3.dataframe$insert_course), mean(Solution3.dataframe$insert_enrolment)), Solution4 = c(mean(Solution4.dataframe$insert_user), mean(Solution4.dataframe$insert_course), mean(Solution4.dataframe$insert_enrolment)));
 barplot(as.matrix(insert.barplot.means),beside=T, names=c('u', 'c', 'e', 'u', 'c', 'e', 'u', 'c', 'e', 'u', 'c', 'e', 'u', 'c', 'e'), ylab='Time (s)', xlab='insert');
 mtext('s0', side=1, line=2, at=2.5);
 mtext('s1', side=1, line=2, at=6.5);
@@ -173,9 +173,9 @@ mtext('s4', side=1, line=2, at=18.5);
 dev.off();
 
 png('/home/jcrada/Development/hr/ResearchTestApplication/logs/sAll-r100-sc1000-n10-final/th-insert-barplot.png', width=640, height=480);
-par(las=1);
+par(las=1, mar=c(2.5,4.2,2,0), cex.axis=1.1, cex.lab=1.3);
 
-insert.barplot.means=data.frame(Solution0 = c(1000 / mean(Solution0.dataframe$insert_user), 1000 / mean(Solution0.dataframe$insert_course), 10000 / mean(Solution0.dataframe$insert_enrolment)), Solution1 = c(1000 / mean(Solution1.dataframe$insert_user), 1000 / mean(Solution1.dataframe$insert_course), 10000 / mean(Solution1.dataframe$insert_enrolment)), Solution2 = c(1000 / mean(Solution2.dataframe$insert_user), 1000 / mean(Solution2.dataframe$insert_course), 10000 / mean(Solution2.dataframe$insert_enrolment)), Solution3 = c(1000 / mean(Solution3.dataframe$insert_user), 1000 / mean(Solution3.dataframe$insert_course), 10000 / mean(Solution3.dataframe$insert_enrolment)), Solution4 = c(1000 / mean(Solution4.dataframe$insert_user), 1000 / mean(Solution4.dataframe$insert_course), 10000 / mean(Solution4.dataframe$insert_enrolment)));
+insert.barplot.means=data.frame(Baseline = c(1000 / mean(Baseline.dataframe$insert_user), 1000 / mean(Baseline.dataframe$insert_course), 10000 / mean(Baseline.dataframe$insert_enrolment)), Solution1 = c(1000 / mean(Solution1.dataframe$insert_user), 1000 / mean(Solution1.dataframe$insert_course), 10000 / mean(Solution1.dataframe$insert_enrolment)), Solution2 = c(1000 / mean(Solution2.dataframe$insert_user), 1000 / mean(Solution2.dataframe$insert_course), 10000 / mean(Solution2.dataframe$insert_enrolment)), Solution3 = c(1000 / mean(Solution3.dataframe$insert_user), 1000 / mean(Solution3.dataframe$insert_course), 10000 / mean(Solution3.dataframe$insert_enrolment)), Solution4 = c(1000 / mean(Solution4.dataframe$insert_user), 1000 / mean(Solution4.dataframe$insert_course), 10000 / mean(Solution4.dataframe$insert_enrolment)));
 barplot(as.matrix(insert.barplot.means),beside=T, names=c('u', 'c', 'e', 'u', 'c', 'e', 'u', 'c', 'e', 'u', 'c', 'e', 'u', 'c', 'e'), ylab='Entities per second', xlab='insert');
 mtext('s0', side=1, line=2, at=2.5);
 mtext('s1', side=1, line=2, at=6.5);
@@ -185,9 +185,9 @@ mtext('s4', side=1, line=2, at=18.5);
 
 dev.off();
 png('/home/jcrada/Development/hr/ResearchTestApplication/logs/sAll-r100-sc1000-n10-final/op-update-barplot.png', width=640, height=480);
-par(las=1);
+par(las=1, mar=c(2.5,4.2,2,0), cex.axis=1.1, cex.lab=1.3);
 
-update.barplot.means=data.frame(Solution0 = c(mean(Solution0.dataframe$update_user), mean(Solution0.dataframe$update_course), mean(Solution0.dataframe$update_enrolment)), Solution1 = c(mean(Solution1.dataframe$update_user), mean(Solution1.dataframe$update_course), mean(Solution1.dataframe$update_enrolment)), Solution2 = c(mean(Solution2.dataframe$update_user), mean(Solution2.dataframe$update_course), mean(Solution2.dataframe$update_enrolment)), Solution3 = c(mean(Solution3.dataframe$update_user), mean(Solution3.dataframe$update_course), mean(Solution3.dataframe$update_enrolment)), Solution4 = c(mean(Solution4.dataframe$update_user), mean(Solution4.dataframe$update_course), mean(Solution4.dataframe$update_enrolment)));
+update.barplot.means=data.frame(Baseline = c(mean(Baseline.dataframe$update_user), mean(Baseline.dataframe$update_course), mean(Baseline.dataframe$update_enrolment)), Solution1 = c(mean(Solution1.dataframe$update_user), mean(Solution1.dataframe$update_course), mean(Solution1.dataframe$update_enrolment)), Solution2 = c(mean(Solution2.dataframe$update_user), mean(Solution2.dataframe$update_course), mean(Solution2.dataframe$update_enrolment)), Solution3 = c(mean(Solution3.dataframe$update_user), mean(Solution3.dataframe$update_course), mean(Solution3.dataframe$update_enrolment)), Solution4 = c(mean(Solution4.dataframe$update_user), mean(Solution4.dataframe$update_course), mean(Solution4.dataframe$update_enrolment)));
 barplot(as.matrix(update.barplot.means),beside=T, names=c('u', 'c', 'e', 'u', 'c', 'e', 'u', 'c', 'e', 'u', 'c', 'e', 'u', 'c', 'e'), ylab='Time (s)', xlab='update');
 mtext('s0', side=1, line=2, at=2.5);
 mtext('s1', side=1, line=2, at=6.5);
@@ -198,9 +198,9 @@ mtext('s4', side=1, line=2, at=18.5);
 dev.off();
 
 png('/home/jcrada/Development/hr/ResearchTestApplication/logs/sAll-r100-sc1000-n10-final/th-update-barplot.png', width=640, height=480);
-par(las=1);
+par(las=1, mar=c(2.5,4.2,2,0), cex.axis=1.1, cex.lab=1.3);
 
-update.barplot.means=data.frame(Solution0 = c(1000 / mean(Solution0.dataframe$update_user), 1000 / mean(Solution0.dataframe$update_course), 10000 / mean(Solution0.dataframe$update_enrolment)), Solution1 = c(1000 / mean(Solution1.dataframe$update_user), 1000 / mean(Solution1.dataframe$update_course), 10000 / mean(Solution1.dataframe$update_enrolment)), Solution2 = c(1000 / mean(Solution2.dataframe$update_user), 1000 / mean(Solution2.dataframe$update_course), 10000 / mean(Solution2.dataframe$update_enrolment)), Solution3 = c(1000 / mean(Solution3.dataframe$update_user), 1000 / mean(Solution3.dataframe$update_course), 10000 / mean(Solution3.dataframe$update_enrolment)), Solution4 = c(1000 / mean(Solution4.dataframe$update_user), 1000 / mean(Solution4.dataframe$update_course), 10000 / mean(Solution4.dataframe$update_enrolment)));
+update.barplot.means=data.frame(Baseline = c(1000 / mean(Baseline.dataframe$update_user), 1000 / mean(Baseline.dataframe$update_course), 10000 / mean(Baseline.dataframe$update_enrolment)), Solution1 = c(1000 / mean(Solution1.dataframe$update_user), 1000 / mean(Solution1.dataframe$update_course), 10000 / mean(Solution1.dataframe$update_enrolment)), Solution2 = c(1000 / mean(Solution2.dataframe$update_user), 1000 / mean(Solution2.dataframe$update_course), 10000 / mean(Solution2.dataframe$update_enrolment)), Solution3 = c(1000 / mean(Solution3.dataframe$update_user), 1000 / mean(Solution3.dataframe$update_course), 10000 / mean(Solution3.dataframe$update_enrolment)), Solution4 = c(1000 / mean(Solution4.dataframe$update_user), 1000 / mean(Solution4.dataframe$update_course), 10000 / mean(Solution4.dataframe$update_enrolment)));
 barplot(as.matrix(update.barplot.means),beside=T, names=c('u', 'c', 'e', 'u', 'c', 'e', 'u', 'c', 'e', 'u', 'c', 'e', 'u', 'c', 'e'), ylab='Entities per second', xlab='update');
 mtext('s0', side=1, line=2, at=2.5);
 mtext('s1', side=1, line=2, at=6.5);
@@ -210,9 +210,9 @@ mtext('s4', side=1, line=2, at=18.5);
 
 dev.off();
 png('/home/jcrada/Development/hr/ResearchTestApplication/logs/sAll-r100-sc1000-n10-final/op-delete-barplot.png', width=640, height=480);
-par(las=1);
+par(las=1, mar=c(2.5,4.2,2,0), cex.axis=1.1, cex.lab=1.3);
 
-delete.barplot.means=data.frame(Solution0 = c(mean(Solution0.dataframe$delete_user), mean(Solution0.dataframe$delete_course), mean(Solution0.dataframe$delete_enrolment)), Solution1 = c(mean(Solution1.dataframe$delete_user), mean(Solution1.dataframe$delete_course), mean(Solution1.dataframe$delete_enrolment)), Solution2 = c(mean(Solution2.dataframe$delete_user), mean(Solution2.dataframe$delete_course), mean(Solution2.dataframe$delete_enrolment)), Solution3 = c(mean(Solution3.dataframe$delete_user), mean(Solution3.dataframe$delete_course), mean(Solution3.dataframe$delete_enrolment)), Solution4 = c(mean(Solution4.dataframe$delete_user), mean(Solution4.dataframe$delete_course), mean(Solution4.dataframe$delete_enrolment)));
+delete.barplot.means=data.frame(Baseline = c(mean(Baseline.dataframe$delete_user), mean(Baseline.dataframe$delete_course), mean(Baseline.dataframe$delete_enrolment)), Solution1 = c(mean(Solution1.dataframe$delete_user), mean(Solution1.dataframe$delete_course), mean(Solution1.dataframe$delete_enrolment)), Solution2 = c(mean(Solution2.dataframe$delete_user), mean(Solution2.dataframe$delete_course), mean(Solution2.dataframe$delete_enrolment)), Solution3 = c(mean(Solution3.dataframe$delete_user), mean(Solution3.dataframe$delete_course), mean(Solution3.dataframe$delete_enrolment)), Solution4 = c(mean(Solution4.dataframe$delete_user), mean(Solution4.dataframe$delete_course), mean(Solution4.dataframe$delete_enrolment)));
 barplot(as.matrix(delete.barplot.means),beside=T, names=c('u', 'c', 'e', 'u', 'c', 'e', 'u', 'c', 'e', 'u', 'c', 'e', 'u', 'c', 'e'), ylab='Time (s)', xlab='delete');
 mtext('s0', side=1, line=2, at=2.5);
 mtext('s1', side=1, line=2, at=6.5);
@@ -223,9 +223,9 @@ mtext('s4', side=1, line=2, at=18.5);
 dev.off();
 
 png('/home/jcrada/Development/hr/ResearchTestApplication/logs/sAll-r100-sc1000-n10-final/th-delete-barplot.png', width=640, height=480);
-par(las=1);
+par(las=1, mar=c(2.5,4.2,2,0), cex.axis=1.1, cex.lab=1.3);
 
-delete.barplot.means=data.frame(Solution0 = c(1000 / mean(Solution0.dataframe$delete_user), 1000 / mean(Solution0.dataframe$delete_course), 10000 / mean(Solution0.dataframe$delete_enrolment)), Solution1 = c(1000 / mean(Solution1.dataframe$delete_user), 1000 / mean(Solution1.dataframe$delete_course), 10000 / mean(Solution1.dataframe$delete_enrolment)), Solution2 = c(1000 / mean(Solution2.dataframe$delete_user), 1000 / mean(Solution2.dataframe$delete_course), 10000 / mean(Solution2.dataframe$delete_enrolment)), Solution3 = c(1000 / mean(Solution3.dataframe$delete_user), 1000 / mean(Solution3.dataframe$delete_course), 10000 / mean(Solution3.dataframe$delete_enrolment)), Solution4 = c(1000 / mean(Solution4.dataframe$delete_user), 1000 / mean(Solution4.dataframe$delete_course), 10000 / mean(Solution4.dataframe$delete_enrolment)));
+delete.barplot.means=data.frame(Baseline = c(1000 / mean(Baseline.dataframe$delete_user), 1000 / mean(Baseline.dataframe$delete_course), 10000 / mean(Baseline.dataframe$delete_enrolment)), Solution1 = c(1000 / mean(Solution1.dataframe$delete_user), 1000 / mean(Solution1.dataframe$delete_course), 10000 / mean(Solution1.dataframe$delete_enrolment)), Solution2 = c(1000 / mean(Solution2.dataframe$delete_user), 1000 / mean(Solution2.dataframe$delete_course), 10000 / mean(Solution2.dataframe$delete_enrolment)), Solution3 = c(1000 / mean(Solution3.dataframe$delete_user), 1000 / mean(Solution3.dataframe$delete_course), 10000 / mean(Solution3.dataframe$delete_enrolment)), Solution4 = c(1000 / mean(Solution4.dataframe$delete_user), 1000 / mean(Solution4.dataframe$delete_course), 10000 / mean(Solution4.dataframe$delete_enrolment)));
 barplot(as.matrix(delete.barplot.means),beside=T, names=c('u', 'c', 'e', 'u', 'c', 'e', 'u', 'c', 'e', 'u', 'c', 'e', 'u', 'c', 'e'), ylab='Entities per second', xlab='delete');
 mtext('s0', side=1, line=2, at=2.5);
 mtext('s1', side=1, line=2, at=6.5);
@@ -234,3 +234,111 @@ mtext('s3', side=1, line=2, at=14.5);
 mtext('s4', side=1, line=2, at=18.5);
 
 dev.off();
+pdf('insert_user-rp-barplot.pdf');
+par(las=1, mar=c(2.5,4.2,2,0), cex.axis=1.1, cex.lab=1.3);
+
+barplot(c(0.6240600000000002, 0.6140499999999998, 1.13959, 3.4444999999999997, 0.5855499999999999), names=c('Baseline', 'Solution1', 'Solution2', 'Solution3', 'Solution4'), col=gray.colors(5), xlab='', ylab='Time in seconds');
+dev.off();
+
+pdf('insert_user-tp-barplot.pdf');
+par(las=1, mar=c(2.5,4.2,2,0), cex.axis=1.1, cex.lab=1.3);
+
+barplot(c(1602.410024677114, 1628.5318785115226, 877.5085776463465, 290.3178980984178, 1707.796089146956), names=c('Baseline', 'Solution1', 'Solution2', 'Solution3', 'Solution4'), col=gray.colors(5), xlab='', ylab='Entities per second');
+dev.off();
+
+pdf('insert_course-rp-barplot.pdf');
+par(las=1, mar=c(2.5,4.2,2,0), cex.axis=1.1, cex.lab=1.3);
+
+barplot(c(0.63005, 0.6207700000000003, 1.1805700000000008, 3.446910000000001, 0.584), names=c('Baseline', 'Solution1', 'Solution2', 'Solution3', 'Solution4'), col=gray.colors(5), xlab='', ylab='Time in seconds');
+dev.off();
+
+pdf('insert_course-tp-barplot.pdf');
+par(las=1, mar=c(2.5,4.2,2,0), cex.axis=1.1, cex.lab=1.3);
+
+barplot(c(1587.1756209824616, 1610.9025887204593, 847.0484596423756, 290.1149145176404, 1712.328767123288), names=c('Baseline', 'Solution1', 'Solution2', 'Solution3', 'Solution4'), col=gray.colors(5), xlab='', ylab='Entities per second');
+dev.off();
+
+pdf('insert_enrolment-rp-barplot.pdf');
+par(las=1, mar=c(2.5,4.2,2,0), cex.axis=1.1, cex.lab=1.3);
+
+barplot(c(5.707549999999999, 16.883460000000003, 34.22012, 55.35918999999999, 15.340299999999992), names=c('Baseline', 'Solution1', 'Solution2', 'Solution3', 'Solution4'), col=gray.colors(5), xlab='', ylab='Time in seconds');
+dev.off();
+
+pdf('insert_enrolment-tp-barplot.pdf');
+par(las=1, mar=c(2.5,4.2,2,0), cex.axis=1.1, cex.lab=1.3);
+
+barplot(c(1752.0652469097954, 592.2956550375337, 292.2257432177327, 180.63848116274826, 651.8777338122466), names=c('Baseline', 'Solution1', 'Solution2', 'Solution3', 'Solution4'), col=gray.colors(5), xlab='', ylab='Entities per second');
+dev.off();
+
+pdf('update_user-rp-barplot.pdf');
+par(las=1, mar=c(2.5,4.2,2,0), cex.axis=1.1, cex.lab=1.3);
+
+barplot(c(1.2542800000000005, 32.31201000000001, 25.04584000000001, 113.57884, 47.99956000000001), names=c('Baseline', 'Solution1', 'Solution2', 'Solution3', 'Solution4'), col=gray.colors(5), xlab='', ylab='Time in seconds');
+dev.off();
+
+pdf('update_user-tp-barplot.pdf');
+par(las=1, mar=c(2.5,4.2,2,0), cex.axis=1.1, cex.lab=1.3);
+
+barplot(c(797.2701470166148, 30.94824494050354, 39.926790237420654, 8.804456886511607, 20.833524307306146), names=c('Baseline', 'Solution1', 'Solution2', 'Solution3', 'Solution4'), col=gray.colors(5), xlab='', ylab='Entities per second');
+dev.off();
+
+pdf('update_course-rp-barplot.pdf');
+par(las=1, mar=c(2.5,4.2,2,0), cex.axis=1.1, cex.lab=1.3);
+
+barplot(c(1.3764999999999998, 7.559160000000002, 10.885099999999992, 19.279489999999996, 7.580459999999997), names=c('Baseline', 'Solution1', 'Solution2', 'Solution3', 'Solution4'), col=gray.colors(5), xlab='', ylab='Time in seconds');
+dev.off();
+
+pdf('update_course-tp-barplot.pdf');
+par(las=1, mar=c(2.5,4.2,2,0), cex.axis=1.1, cex.lab=1.3);
+
+barplot(c(726.480203414457, 132.28983114525948, 91.86870125217047, 51.868591959642096, 131.91811578716863), names=c('Baseline', 'Solution1', 'Solution2', 'Solution3', 'Solution4'), col=gray.colors(5), xlab='', ylab='Entities per second');
+dev.off();
+
+pdf('update_enrolment-rp-barplot.pdf');
+par(las=1, mar=c(2.5,4.2,2,0), cex.axis=1.1, cex.lab=1.3);
+
+barplot(c(7.237420000000001, 18.22757, 35.673379999999995, 56.762080000000005, 16.694079999999992), names=c('Baseline', 'Solution1', 'Solution2', 'Solution3', 'Solution4'), col=gray.colors(5), xlab='', ylab='Time in seconds');
+dev.off();
+
+pdf('update_enrolment-tp-barplot.pdf');
+par(las=1, mar=c(2.5,4.2,2,0), cex.axis=1.1, cex.lab=1.3);
+
+barplot(c(1381.707846166175, 548.6194813680595, 280.32106853906197, 176.17395275155525, 599.0147405547358), names=c('Baseline', 'Solution1', 'Solution2', 'Solution3', 'Solution4'), col=gray.colors(5), xlab='', ylab='Entities per second');
+dev.off();
+
+pdf('delete_user-rp-barplot.pdf');
+par(las=1, mar=c(2.5,4.2,2,0), cex.axis=1.1, cex.lab=1.3);
+
+barplot(c(0.5919000000000001, 10.798169999999997, 18.951770000000003, 42.54407999999999, 35.91924), names=c('Baseline', 'Solution1', 'Solution2', 'Solution3', 'Solution4'), col=gray.colors(5), xlab='', ylab='Time in seconds');
+dev.off();
+
+pdf('delete_user-tp-barplot.pdf');
+par(las=1, mar=c(2.5,4.2,2,0), cex.axis=1.1, cex.lab=1.3);
+
+barplot(c(1689.47457340767, 92.60828455191947, 52.76552005432737, 23.50503289764405, 27.840232699800996), names=c('Baseline', 'Solution1', 'Solution2', 'Solution3', 'Solution4'), col=gray.colors(5), xlab='', ylab='Entities per second');
+dev.off();
+
+pdf('delete_course-rp-barplot.pdf');
+par(las=1, mar=c(2.5,4.2,2,0), cex.axis=1.1, cex.lab=1.3);
+
+barplot(c(0.6270199999999999, 3.6015300000000012, 4.828110000000001, 6.745239999999999, 3.3244599999999997), names=c('Baseline', 'Solution1', 'Solution2', 'Solution3', 'Solution4'), col=gray.colors(5), xlab='', ylab='Time in seconds');
+dev.off();
+
+pdf('delete_course-tp-barplot.pdf');
+par(las=1, mar=c(2.5,4.2,2,0), cex.axis=1.1, cex.lab=1.3);
+
+barplot(c(1594.8454594749771, 277.6597723745185, 207.12038458113005, 148.2526937514455, 300.80073154737914), names=c('Baseline', 'Solution1', 'Solution2', 'Solution3', 'Solution4'), col=gray.colors(5), xlab='', ylab='Entities per second');
+dev.off();
+
+pdf('delete_enrolment-rp-barplot.pdf');
+par(las=1, mar=c(2.5,4.2,2,0), cex.axis=1.1, cex.lab=1.3);
+
+barplot(c(5.847259999999998, 5.90409, 12.28227, 35.070159999999994, 5.878930000000002), names=c('Baseline', 'Solution1', 'Solution2', 'Solution3', 'Solution4'), col=gray.colors(5), xlab='', ylab='Time in seconds');
+dev.off();
+
+pdf('delete_enrolment-tp-barplot.pdf');
+par(las=1, mar=c(2.5,4.2,2,0), cex.axis=1.1, cex.lab=1.3);
+
+barplot(c(1710.2027274313104, 1693.7411184450102, 814.1817432770978, 285.14269681119225, 1700.9898059680922), names=c('Baseline', 'Solution1', 'Solution2', 'Solution3', 'Solution4'), col=gray.colors(5), xlab='', ylab='Entities per second');
+dev.off();
+

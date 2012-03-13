@@ -214,6 +214,41 @@ public class Barplot {
         return result;
     }
 
+    
+    public static String ResponseTimeToString(String operation, Solution[] solutions){
+        String result= "barplot(";
+        
+        List<Double> mean = new ArrayList<Double>();
+        List<String> names = new ArrayList<String>();
+        for (Solution s : solutions){
+            mean.add(MyMath.Mean(s.getTimesFor(operation)));
+            names.add(s.getCode());
+        }
+        result += MyMath.C(mean) + ", names=" + MyMath.C(names,"'") 
+                + ", col=gray.colors(" + solutions.length + "), xlab='', ylab='Time in seconds'";
+        result += ");";
+        
+        return result;
+    }
+    
+    public static String ThoughputToString(String operation, Solution[] solutions){
+        String result= "barplot(";
+        
+        List<Double> mean = new ArrayList<Double>();
+        List<String> names = new ArrayList<String>();
+        for (Solution s : solutions){
+            mean.add(numberOfOperations(operation) / MyMath.Mean(s.getTimesFor(operation)));
+            names.add(s.getCode());
+        }
+        result += MyMath.C(mean) + ", names=" + MyMath.C(names,"'") 
+                + ", col=gray.colors(" + solutions.length + "), xlab='', ylab='Entities per second'";
+        result += ");";
+        
+        return result;
+    }
+    
+    
+    
     public static String ThroughputToString(String[] operations, Solution[] solutions) {
         String code = operations[0].split("_")[0];
         List<String> names = new ArrayList<String>();
