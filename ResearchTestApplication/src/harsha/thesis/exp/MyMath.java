@@ -14,6 +14,11 @@ import org.apache.cassandra.utils.Pair;
  */
 public class MyMath {
 
+    public static double Scale(double src_min, double src_max, double value,
+            double target_min, double target_max) {
+        return value / ((src_max - src_min) / (target_max - target_min)) + target_min;
+    }
+
     public static List<Pair<Double, Double>> Overlap(
             double min, double max, int number_of_sections) {
         List<Pair<Double, Double>> result = new ArrayList<Pair<Double, Double>>();
@@ -113,6 +118,12 @@ public class MyMath {
             result += x;
         }
         return result;
+    }
+
+    public static void Multiply(List<Double> list, double k) {
+        for (int i = 0; i < list.size(); ++i) {
+            list.set(i, list.get(i) * k);
+        }
     }
 
     public static void main(String[] args) {

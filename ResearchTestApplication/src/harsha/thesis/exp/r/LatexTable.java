@@ -19,8 +19,7 @@ public class LatexTable {
     public static String ToString(Solution[] solutions, String[] operations) {
 
         String result = "\\begin{table}[h]\n";
-        result += "\\newcommand{\\B}[1]{\\colorbox{light-gray}{#1}}\n ";
-        result += "\\centering\n\\caption{Average and Standard Deviation}\\label{t:}\n";
+        result += "\\centering\n\\caption{Response time}\\label{t:}\n";
 
         result += "\\begin{tabular}{" + MyMath.Repeat("c", solutions.length + 2) + "}\n";
 
@@ -28,7 +27,7 @@ public class LatexTable {
         result += "\\toprule\n&&";
         for (int i = 0; i < solutions.length; ++i) {
             Solution s = solutions[i];
-            result += s.getCode();
+            result += "\\textbf{" + s.getCode() + "}";
             if (i < solutions.length - 1) {
                 result += " & ";
             } else {
@@ -41,9 +40,14 @@ public class LatexTable {
         Set<String> crudKeys = crud.keySet();
         for (String operation : crudKeys) {
             result += "\\midrule\n";
-            result += "\\multirow{" + crudKeys.size() + "}{*}{" + operation + "}";
+            result += "\\multirow{" + crudKeys.size() + "}{*}{\\textbf{" + operation + "}}";
             for (String table : crud.get(operation)) {
-                result += " & " + table.charAt(0) + " & ";
+                String tableChar = "" + table.charAt(0);
+                if ("u".equals(tableChar)) {
+                    tableChar = "s";
+                }
+                tableChar = "\\textbf{" + tableChar + "}";
+                result += " & " + tableChar + " & ";
                 for (int i = 0; i < solutions.length; ++i) {
                     Solution s = solutions[i];
                     List<Double> times = s.getTimesFor(operation + "_" + table);
@@ -63,11 +67,10 @@ public class LatexTable {
 
         return result;
     }
-    
-      public static String ThroughputToString(Solution[] solutions, String[] operations) {
 
+    public static String ThroughputToString(Solution[] solutions, String[] operations) {
+        DecimalFormat DF = new DecimalFormat("0");
         String result = "\\begin{table}[h]\n";
-        result += "\\newcommand{\\B}[1]{\\colorbox{light-gray}{#1}}\n ";
         result += "\\centering\n\\caption{Throughput}\\label{t:}\n";
 
         result += "\\begin{tabular}{" + MyMath.Repeat("c", solutions.length + 2) + "}\n";
@@ -76,7 +79,7 @@ public class LatexTable {
         result += "\\toprule\n&&";
         for (int i = 0; i < solutions.length; ++i) {
             Solution s = solutions[i];
-            result += s.getCode();
+            result += "\\textbf{" + s.getCode() + "}";
             if (i < solutions.length - 1) {
                 result += " & ";
             } else {
@@ -89,13 +92,22 @@ public class LatexTable {
         Set<String> crudKeys = crud.keySet();
         for (String operation : crudKeys) {
             result += "\\midrule\n";
-            result += "\\multirow{" + crudKeys.size() + "}{*}{" + operation + "}";
+            result += "\\multirow{" + crudKeys.size() + "}{*}{\\textbf{" + operation + "}}";
             for (String table : crud.get(operation)) {
-                result += " & " + table.charAt(0) + " & ";
+                String tableChar = "" + table.charAt(0);
+                if ("u".equals(tableChar)) {
+                    tableChar = "s";
+                }
+                tableChar = "\\textbf{" + tableChar + "}";
+                result += " & " + tableChar + " & ";
                 for (int i = 0; i < solutions.length; ++i) {
                     Solution s = solutions[i];
-                    List<Double> times = s.getTimesFor(operation + "_" + table);
-                    result += DF.format(numberOfOperations(table) / MyMath.Mean(times));
+                    List<Double> throughput = new ArrayList<Double>();
+                    for (Double x : s.getTimesFor(operation + "_" + table)) {
+                        throughput.add(numberOfOperations(table) / x);
+                    }
+                    result += DF.format(MyMath.Mean(throughput))
+                            + " (" + DF.format(MyMath.StDev(throughput)) + ")";
                     if (i < solutions.length - 1) {
                         result += " & ";
                     }
@@ -110,31 +122,34 @@ public class LatexTable {
 
         return result;
     }
-      
-       public static int numberOfOperations(String table) {
+
+    public static int numberOfOperations(String table) {
         if (table.contains("user")) {
             return 1000;
-        } else if (table.contains("course")) {
-            return 1000;
-        } else if (table.contains("enrolment")) {
-            return 10000;
+        } else {
+            if (table.contains("course")) {
+                return 1000;
+            } else {
+                if (table.contains("enrolment")) {
+                    return 10000;
+                }
+            }
         }
         throw new RuntimeException("Table " + table + " NOT known");
     }
 
     public static String RatioToString(Solution[] solutions, String[] operations) {
-
+        DecimalFormat DF = new DecimalFormat("0.00");
         String result = "\\begin{table}[h]\n";
-        result += "\\newcommand{\\B}[1]{\\colorbox{light-gray}{#1}}\n ";
-        result += "\\centering\n\\caption{Ratio}\\label{t:}\n";
-        
+        result += "\\centering\n\\caption{Response time ratio}\\label{t:}\n";
+
         result += "\\begin{tabular}{" + MyMath.Repeat("c", solutions.length + 2) + "}\n";
 
         //header
         result += "\\toprule\n&&";
         for (int i = 0; i < solutions.length; ++i) {
             Solution s = solutions[i];
-            result += s.getCode();
+            result += "\\textbf{" + s.getCode() + "}";
             if (i < solutions.length - 1) {
                 result += " & ";
             } else {
@@ -147,15 +162,20 @@ public class LatexTable {
         Set<String> crudKeys = crud.keySet();
         for (String operation : crudKeys) {
             result += "\\midrule\n";
-            result += "\\multirow{" + crudKeys.size() + "}{*}{" + operation + "}";
+            result += "\\multirow{" + crudKeys.size() + "}{*}{\\textbf{" + operation + "}}";
             for (String table : crud.get(operation)) {
-                result += " & " + table.charAt(0) + " & ";
+                String tableChar = "" + table.charAt(0);
+                if ("u".equals(tableChar)) {
+                    tableChar = "s";
+                }
+                result += " & \\textbf{" + tableChar + "} & ";
                 Solution baseline = solutions[0];
                 List<Double> baselineTimes = baseline.getTimesFor(operation + "_" + table);
-                result +=  DF.format(MyMath.Mean(baselineTimes)) + " & ";
+
+                result += DF.format(MyMath.Mean(baselineTimes)) + " & ";
                 for (int i = 1; i < solutions.length; ++i) {
                     Solution s = solutions[i];
-                    
+
                     List<Double> times = s.getTimesFor(operation + "_" + table);
                     result += DF.format(MyMath.Mean(times) / MyMath.Mean(baselineTimes));
                     if (i < solutions.length - 1) {
@@ -171,21 +191,20 @@ public class LatexTable {
         result += "\\end{table}\n";
         return result;
     }
-    
-    
-     public static String ThroughputRatioToString(Solution[] solutions, String[] operations) {
 
+    public static String ThroughputRatioToString(Solution[] solutions, String[] operations) {
+        DecimalFormat DF = new DecimalFormat("0.00");
+        DecimalFormat DFB = new DecimalFormat("0");
         String result = "\\begin{table}[h]\n";
-        result += "\\newcommand{\\B}[1]{\\colorbox{light-gray}{#1}}\n ";
-        result += "\\centering\n\\caption{Throughput Ratio}\\label{t:}\n";
-        
+        result += "\\centering\n\\caption{Throughput inverse ratio}\\label{t:}\n";
+
         result += "\\begin{tabular}{" + MyMath.Repeat("c", solutions.length + 2) + "}\n";
 
         //header
         result += "\\toprule\n&&";
         for (int i = 0; i < solutions.length; ++i) {
             Solution s = solutions[i];
-            result += s.getCode();
+            result += "\\textbf{" + s.getCode() + "}";
             if (i < solutions.length - 1) {
                 result += " & ";
             } else {
@@ -198,18 +217,32 @@ public class LatexTable {
         Set<String> crudKeys = crud.keySet();
         for (String operation : crudKeys) {
             result += "\\midrule\n";
-            result += "\\multirow{" + crudKeys.size() + "}{*}{" + operation + "}";
+            result += "\\multirow{" + crudKeys.size() + "}{*}{\\textbf{" + operation + "}}";
             for (String table : crud.get(operation)) {
-                result += " & " + table.charAt(0) + " & ";
+                String tableChar = "" + table.charAt(0);
+                if ("u".equals(tableChar)) {
+                    tableChar = "s";
+                }
+                result += " & \\textbf{" + tableChar + "} & ";
                 Solution baseline = solutions[0];
                 List<Double> baselineTimes = baseline.getTimesFor(operation + "_" + table);
-                result +=  DF.format(numberOfOperations(table)  / MyMath.Mean(baselineTimes)) + " & ";
+                List<Double> baselineThrouhput = new ArrayList<Double>();
+                for (Double x : baselineTimes) {
+                    baselineThrouhput.add(numberOfOperations(table) / x);
+                }
+
+                result += DFB.format(MyMath.Mean(baselineThrouhput)) + " & ";
                 for (int i = 1; i < solutions.length; ++i) {
                     Solution s = solutions[i];
-                    
+
                     List<Double> times = s.getTimesFor(operation + "_" + table);
-                    result += DF.format( (numberOfOperations(table) / MyMath.Mean(baselineTimes)) / 
-                            (numberOfOperations(table) / MyMath.Mean(times)));
+                    List<Double> throuhput = new ArrayList<Double>();
+                    for (Double x : times) {
+                        throuhput.add(numberOfOperations(table) / x);
+                    }
+
+                    result += DF.format(MyMath.Mean(baselineThrouhput) / MyMath.Mean(throuhput));
+
                     if (i < solutions.length - 1) {
                         result += " & ";
                     }
