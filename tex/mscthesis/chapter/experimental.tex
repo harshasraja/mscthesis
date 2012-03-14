@@ -21,9 +21,15 @@ Cassandra. The characteristics of these nodes are:
 
 
 \section{Experimental setup}\label{s:exp:setup}
-The experimentation consists on performing 100 runs where artificial data is
-randomly created, updated and deleted from column famlies in a Cassandra
-cluster.
+
+--include how response itme and throughput became the measures. Commonly used
+metrics.
+--measuring throughput by logging it using our code. Can quote IBM on this. Most
+benchmarks like TPC- cannot be used in our case as we dont use SQL and neither
+is Cassandra an OLTP which supports transactions.
+
+ The experimentation consists
+on performing 100 runs where artificial data is randomly created, updated and deleted from column famlies in a Cassandra cluster.
 On each run, the time required for each operation is recorded in order to assess the
 performance of each solution as well as the throughput in terms of operations
 per unit of time. Notice that each operation on the artificial data  is
