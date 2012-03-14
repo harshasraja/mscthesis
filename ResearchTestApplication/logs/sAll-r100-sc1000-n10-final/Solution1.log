@@ -9,8 +9,8 @@
 #	CreateCsv: true
 #	Initialize: false
 #RUN:1#INSERT
-insert_user:597
-insert_course:559
+insert_user:697
+insert_course:659
 insert_enrolment:18501
 
 update_course:9502
@@ -25,8 +25,8 @@ delete_user:11099
 delete_course:3919
 
 #RUN:2#INSERT
-insert_user:647
-insert_course:600
+insert_user:747
+insert_course:700
 insert_enrolment:16749
 
 update_course:7841
@@ -41,8 +41,8 @@ delete_user:10708
 delete_course:3585
 
 #RUN:3#INSERT
-insert_user:588
-insert_course:566
+insert_user:688
+insert_course:666
 insert_enrolment:16930
 
 update_course:7287
@@ -57,8 +57,8 @@ delete_user:10526
 delete_course:3368
 
 #RUN:4#INSERT
-insert_user:568
-insert_course:567
+insert_user:668
+insert_course:667
 insert_enrolment:16683
 
 update_course:7040
@@ -73,8 +73,8 @@ delete_user:10552
 delete_course:3470
 
 #RUN:5#INSERT
-insert_user:561
-insert_course:592
+insert_user:661
+insert_course:692
 insert_enrolment:16637
 
 update_course:7493
@@ -89,8 +89,8 @@ delete_user:10539
 delete_course:3452
 
 #RUN:6#INSERT
-insert_user:587
-insert_course:588
+insert_user:687
+insert_course:688
 insert_enrolment:16976
 
 update_course:7244
@@ -105,8 +105,8 @@ delete_user:10842
 delete_course:3567
 
 #RUN:7#INSERT
-insert_user:552
-insert_course:586
+insert_user:652
+insert_course:686
 insert_enrolment:16738
 
 update_course:7181
@@ -121,8 +121,8 @@ delete_user:10571
 delete_course:3524
 
 #RUN:8#INSERT
-insert_user:617
-insert_course:588
+insert_user:717
+insert_course:688
 insert_enrolment:16839
 
 update_course:7277
@@ -137,8 +137,8 @@ delete_user:10791
 delete_course:3503
 
 #RUN:9#INSERT
-insert_user:646
-insert_course:621
+insert_user:746
+insert_course:721
 insert_enrolment:16899
 
 update_course:7297
@@ -153,8 +153,8 @@ delete_user:10791
 delete_course:3712
 
 #RUN:10#INSERT
-insert_user:605
-insert_course:606
+insert_user:705
+insert_course:706
 insert_enrolment:17039
 
 update_course:7467
@@ -169,8 +169,8 @@ delete_user:10541
 delete_course:3440
 
 #RUN:11#INSERT
-insert_user:594
-insert_course:595
+insert_user:694
+insert_course:695
 insert_enrolment:16533
 
 update_course:7343
@@ -185,8 +185,8 @@ delete_user:10478
 delete_course:3402
 
 #RUN:12#INSERT
-insert_user:647
-insert_course:628
+insert_user:747
+insert_course:728
 insert_enrolment:17004
 
 update_course:7289
@@ -201,8 +201,8 @@ delete_user:10424
 delete_course:3663
 
 #RUN:13#INSERT
-insert_user:583
-insert_course:607
+insert_user:683
+insert_course:707
 insert_enrolment:16880
 
 update_course:7329
@@ -217,8 +217,8 @@ delete_user:11158
 delete_course:3799
 
 #RUN:14#INSERT
-insert_user:613
-insert_course:631
+insert_user:713
+insert_course:731
 insert_enrolment:16956
 
 update_course:7332
@@ -233,8 +233,8 @@ delete_user:10588
 delete_course:3534
 
 #RUN:15#INSERT
-insert_user:647
-insert_course:592
+insert_user:747
+insert_course:692
 insert_enrolment:16582
 
 update_course:7219
@@ -249,8 +249,8 @@ delete_user:10853
 delete_course:3615
 
 #RUN:16#INSERT
-insert_user:599
-insert_course:611
+insert_user:699
+insert_course:711
 insert_enrolment:17385
 
 update_course:7321
@@ -265,8 +265,8 @@ delete_user:10679
 delete_course:3530
 
 #RUN:17#INSERT
-insert_user:630
-insert_course:694
+insert_user:730
+insert_course:794
 insert_enrolment:16753
 
 update_course:7869
@@ -281,8 +281,8 @@ delete_user:10578
 delete_course:3580
 
 #RUN:18#INSERT
-insert_user:609
-insert_course:596
+insert_user:709
+insert_course:696
 insert_enrolment:16814
 
 update_course:7510
@@ -297,8 +297,8 @@ delete_user:10576
 delete_course:3687
 
 #RUN:19#INSERT
-insert_user:616
-insert_course:607
+insert_user:716
+insert_course:707
 insert_enrolment:17029
 
 update_course:7567
@@ -313,8 +313,8 @@ delete_user:10627
 delete_course:3547
 
 #RUN:20#INSERT
-insert_user:620
-insert_course:614
+insert_user:720
+insert_course:714
 insert_enrolment:16773
 
 update_course:7457
@@ -329,8 +329,8 @@ delete_user:10602
 delete_course:3525
 
 #RUN:21#INSERT
-insert_user:611
-insert_course:592
+insert_user:711
+insert_course:692
 insert_enrolment:16925
 
 update_course:7562
@@ -345,8 +345,8 @@ delete_user:10616
 delete_course:3594
 
 #RUN:22#INSERT
-insert_user:601
-insert_course:666
+insert_user:701
+insert_course:766
 insert_enrolment:16801
 
 update_course:7657
@@ -361,8 +361,8 @@ delete_user:10668
 delete_course:3667
 
 #RUN:23#INSERT
-insert_user:591
-insert_course:624
+insert_user:691
+insert_course:724
 insert_enrolment:16718
 
 update_course:7618
@@ -377,8 +377,8 @@ delete_user:10716
 delete_course:3593
 
 #RUN:24#INSERT
-insert_user:604
-insert_course:639
+insert_user:704
+insert_course:739
 insert_enrolment:16881
 
 update_course:7324
@@ -393,8 +393,8 @@ delete_user:12079
 delete_course:3681
 
 #RUN:25#INSERT
-insert_user:610
-insert_course:627
+insert_user:710
+insert_course:727
 insert_enrolment:16980
 
 update_course:7461
@@ -409,8 +409,8 @@ delete_user:10897
 delete_course:3514
 
 #RUN:26#INSERT
-insert_user:590
-insert_course:602
+insert_user:690
+insert_course:702
 insert_enrolment:16566
 
 update_course:7285
@@ -425,8 +425,8 @@ delete_user:10595
 delete_course:3536
 
 #RUN:27#INSERT
-insert_user:649
-insert_course:631
+insert_user:749
+insert_course:731
 insert_enrolment:16720
 
 update_course:7611
@@ -441,8 +441,8 @@ delete_user:10417
 delete_course:3574
 
 #RUN:28#INSERT
-insert_user:678
-insert_course:614
+insert_user:778
+insert_course:714
 insert_enrolment:16412
 
 update_course:7326
@@ -457,8 +457,8 @@ delete_user:12232
 delete_course:3540
 
 #RUN:29#INSERT
-insert_user:670
-insert_course:671
+insert_user:770
+insert_course:771
 insert_enrolment:16779
 
 update_course:7461
@@ -473,8 +473,8 @@ delete_user:10563
 delete_course:3549
 
 #RUN:30#INSERT
-insert_user:633
-insert_course:593
+insert_user:733
+insert_course:693
 insert_enrolment:16918
 
 update_course:7502
@@ -489,8 +489,8 @@ delete_user:10848
 delete_course:3649
 
 #RUN:31#INSERT
-insert_user:621
-insert_course:626
+insert_user:721
+insert_course:726
 insert_enrolment:17100
 
 update_course:7611
@@ -505,8 +505,8 @@ delete_user:10737
 delete_course:3669
 
 #RUN:32#INSERT
-insert_user:589
-insert_course:606
+insert_user:689
+insert_course:706
 insert_enrolment:16900
 
 update_course:8229
@@ -521,8 +521,8 @@ delete_user:10609
 delete_course:3604
 
 #RUN:33#INSERT
-insert_user:667
-insert_course:680
+insert_user:767
+insert_course:780
 insert_enrolment:16761
 
 update_course:7482
@@ -537,8 +537,8 @@ delete_user:10640
 delete_course:3555
 
 #RUN:34#INSERT
-insert_user:567
-insert_course:648
+insert_user:667
+insert_course:748
 insert_enrolment:16713
 
 update_course:7458
@@ -553,8 +553,8 @@ delete_user:10640
 delete_course:3703
 
 #RUN:35#INSERT
-insert_user:647
-insert_course:605
+insert_user:747
+insert_course:705
 insert_enrolment:16713
 
 update_course:7683
@@ -569,8 +569,8 @@ delete_user:10952
 delete_course:3505
 
 #RUN:36#INSERT
-insert_user:616
-insert_course:606
+insert_user:716
+insert_course:706
 insert_enrolment:16760
 
 update_course:7684
@@ -585,8 +585,8 @@ delete_user:10521
 delete_course:3526
 
 #RUN:37#INSERT
-insert_user:575
-insert_course:594
+insert_user:675
+insert_course:694
 insert_enrolment:16779
 
 update_course:7385
@@ -601,8 +601,8 @@ delete_user:12429
 delete_course:3556
 
 #RUN:38#INSERT
-insert_user:596
-insert_course:618
+insert_user:696
+insert_course:718
 insert_enrolment:16890
 
 update_course:7563
@@ -617,8 +617,8 @@ delete_user:10600
 delete_course:3529
 
 #RUN:39#INSERT
-insert_user:609
-insert_course:635
+insert_user:709
+insert_course:735
 insert_enrolment:16827
 
 update_course:7537
@@ -633,8 +633,8 @@ delete_user:10631
 delete_course:3550
 
 #RUN:40#INSERT
-insert_user:591
-insert_course:611
+insert_user:691
+insert_course:711
 insert_enrolment:16908
 
 update_course:7596
@@ -649,8 +649,8 @@ delete_user:11187
 delete_course:3710
 
 #RUN:41#INSERT
-insert_user:683
-insert_course:587
+insert_user:783
+insert_course:687
 insert_enrolment:16984
 
 update_course:8280
@@ -665,8 +665,8 @@ delete_user:10614
 delete_course:3659
 
 #RUN:42#INSERT
-insert_user:631
-insert_course:655
+insert_user:731
+insert_course:755
 insert_enrolment:16814
 
 update_course:7527
@@ -681,8 +681,8 @@ delete_user:10426
 delete_course:3428
 
 #RUN:43#INSERT
-insert_user:581
-insert_course:617
+insert_user:681
+insert_course:717
 insert_enrolment:16903
 
 update_course:7496
@@ -697,8 +697,8 @@ delete_user:10698
 delete_course:3609
 
 #RUN:44#INSERT
-insert_user:601
-insert_course:613
+insert_user:701
+insert_course:713
 insert_enrolment:16757
 
 update_course:7611
@@ -713,8 +713,8 @@ delete_user:10697
 delete_course:3600
 
 #RUN:45#INSERT
-insert_user:595
-insert_course:697
+insert_user:695
+insert_course:797
 insert_enrolment:16812
 
 update_course:7561
@@ -729,8 +729,8 @@ delete_user:11012
 delete_course:3630
 
 #RUN:46#INSERT
-insert_user:639
-insert_course:613
+insert_user:739
+insert_course:713
 insert_enrolment:16829
 
 update_course:7483
@@ -745,8 +745,8 @@ delete_user:11330
 delete_course:3729
 
 #RUN:47#INSERT
-insert_user:607
-insert_course:625
+insert_user:707
+insert_course:725
 insert_enrolment:16974
 
 update_course:7535
@@ -761,8 +761,8 @@ delete_user:10726
 delete_course:3585
 
 #RUN:48#INSERT
-insert_user:649
-insert_course:621
+insert_user:749
+insert_course:721
 insert_enrolment:16931
 
 update_course:7316
@@ -777,8 +777,8 @@ delete_user:10676
 delete_course:3679
 
 #RUN:49#INSERT
-insert_user:647
-insert_course:601
+insert_user:747
+insert_course:701
 insert_enrolment:16870
 
 update_course:7521
@@ -793,8 +793,8 @@ delete_user:11512
 delete_course:3702
 
 #RUN:50#INSERT
-insert_user:610
-insert_course:632
+insert_user:710
+insert_course:732
 insert_enrolment:16783
 
 update_course:7583
@@ -809,8 +809,8 @@ delete_user:10623
 delete_course:3611
 
 #RUN:51#INSERT
-insert_user:588
-insert_course:658
+insert_user:688
+insert_course:758
 insert_enrolment:16734
 
 update_course:7502
@@ -825,8 +825,8 @@ delete_user:10694
 delete_course:3577
 
 #RUN:52#INSERT
-insert_user:646
-insert_course:600
+insert_user:746
+insert_course:700
 insert_enrolment:16852
 
 update_course:7559
@@ -841,8 +841,8 @@ delete_user:10753
 delete_course:3510
 
 #RUN:53#INSERT
-insert_user:617
-insert_course:628
+insert_user:717
+insert_course:728
 insert_enrolment:16989
 
 update_course:7773
@@ -857,8 +857,8 @@ delete_user:10918
 delete_course:3751
 
 #RUN:54#INSERT
-insert_user:587
-insert_course:614
+insert_user:687
+insert_course:714
 insert_enrolment:16985
 
 update_course:7511
@@ -873,8 +873,8 @@ delete_user:10523
 delete_course:3656
 
 #RUN:55#INSERT
-insert_user:614
-insert_course:630
+insert_user:714
+insert_course:730
 insert_enrolment:16791
 
 update_course:7656
@@ -889,8 +889,8 @@ delete_user:10688
 delete_course:3610
 
 #RUN:56#INSERT
-insert_user:661
-insert_course:609
+insert_user:761
+insert_course:709
 insert_enrolment:16850
 
 update_course:7548
@@ -905,8 +905,8 @@ delete_user:10661
 delete_course:3557
 
 #RUN:57#INSERT
-insert_user:616
-insert_course:604
+insert_user:716
+insert_course:704
 insert_enrolment:17752
 
 update_course:7445
@@ -921,8 +921,8 @@ delete_user:10871
 delete_course:3665
 
 #RUN:58#INSERT
-insert_user:607
-insert_course:622
+insert_user:707
+insert_course:722
 insert_enrolment:16737
 
 update_course:7566
@@ -937,8 +937,8 @@ delete_user:10570
 delete_course:3662
 
 #RUN:59#INSERT
-insert_user:593
-insert_course:619
+insert_user:693
+insert_course:719
 insert_enrolment:16814
 
 update_course:7649
@@ -953,8 +953,8 @@ delete_user:10621
 delete_course:3731
 
 #RUN:60#INSERT
-insert_user:610
-insert_course:619
+insert_user:710
+insert_course:719
 insert_enrolment:16869
 
 update_course:7520
@@ -969,8 +969,8 @@ delete_user:11838
 delete_course:3597
 
 #RUN:61#INSERT
-insert_user:633
-insert_course:619
+insert_user:733
+insert_course:719
 insert_enrolment:16941
 
 update_course:7419
@@ -985,8 +985,8 @@ delete_user:10707
 delete_course:3579
 
 #RUN:62#INSERT
-insert_user:599
-insert_course:624
+insert_user:699
+insert_course:724
 insert_enrolment:16599
 
 update_course:7607
@@ -1001,8 +1001,8 @@ delete_user:11408
 delete_course:3635
 
 #RUN:63#INSERT
-insert_user:619
-insert_course:661
+insert_user:719
+insert_course:761
 insert_enrolment:17054
 
 update_course:7519
@@ -1017,8 +1017,8 @@ delete_user:10488
 delete_course:3595
 
 #RUN:64#INSERT
-insert_user:565
-insert_course:627
+insert_user:665
+insert_course:727
 insert_enrolment:16991
 
 update_course:7483
@@ -1033,8 +1033,8 @@ delete_user:10520
 delete_course:3594
 
 #RUN:65#INSERT
-insert_user:575
-insert_course:625
+insert_user:675
+insert_course:725
 insert_enrolment:17006
 
 update_course:7788
@@ -1049,8 +1049,8 @@ delete_user:11931
 delete_course:3639
 
 #RUN:66#INSERT
-insert_user:637
-insert_course:674
+insert_user:737
+insert_course:774
 insert_enrolment:16473
 
 update_course:7467
@@ -1065,8 +1065,8 @@ delete_user:10576
 delete_course:3628
 
 #RUN:67#INSERT
-insert_user:596
-insert_course:628
+insert_user:696
+insert_course:728
 insert_enrolment:17013
 
 update_course:7491
@@ -1081,8 +1081,8 @@ delete_user:10689
 delete_course:3625
 
 #RUN:68#INSERT
-insert_user:603
-insert_course:621
+insert_user:703
+insert_course:721
 insert_enrolment:16920
 
 update_course:7488
@@ -1097,8 +1097,8 @@ delete_user:10586
 delete_course:3686
 
 #RUN:69#INSERT
-insert_user:586
-insert_course:592
+insert_user:686
+insert_course:692
 insert_enrolment:17054
 
 update_course:7575
@@ -1113,8 +1113,8 @@ delete_user:11283
 delete_course:3646
 
 #RUN:70#INSERT
-insert_user:595
-insert_course:651
+insert_user:695
+insert_course:751
 insert_enrolment:18215
 
 update_course:7637
@@ -1129,8 +1129,8 @@ delete_user:10423
 delete_course:3682
 
 #RUN:71#INSERT
-insert_user:609
-insert_course:616
+insert_user:709
+insert_course:716
 insert_enrolment:16715
 
 update_course:7549
@@ -1145,8 +1145,8 @@ delete_user:10626
 delete_course:3411
 
 #RUN:72#INSERT
-insert_user:624
-insert_course:595
+insert_user:724
+insert_course:695
 insert_enrolment:17121
 
 update_course:7320
@@ -1161,8 +1161,8 @@ delete_user:10483
 delete_course:3463
 
 #RUN:73#INSERT
-insert_user:659
-insert_course:574
+insert_user:759
+insert_course:674
 insert_enrolment:16836
 
 update_course:7440
@@ -1177,8 +1177,8 @@ delete_user:10664
 delete_course:3512
 
 #RUN:74#INSERT
-insert_user:669
-insert_course:637
+insert_user:769
+insert_course:737
 insert_enrolment:16885
 
 update_course:7508
@@ -1193,8 +1193,8 @@ delete_user:11789
 delete_course:3623
 
 #RUN:75#INSERT
-insert_user:655
-insert_course:605
+insert_user:755
+insert_course:705
 insert_enrolment:16817
 
 update_course:7410
@@ -1209,8 +1209,8 @@ delete_user:10516
 delete_course:3444
 
 #RUN:76#INSERT
-insert_user:589
-insert_course:637
+insert_user:689
+insert_course:737
 insert_enrolment:16553
 
 update_course:7538
@@ -1225,8 +1225,8 @@ delete_user:10576
 delete_course:3466
 
 #RUN:77#INSERT
-insert_user:596
-insert_course:573
+insert_user:696
+insert_course:673
 insert_enrolment:16709
 
 update_course:7324
@@ -1241,8 +1241,8 @@ delete_user:10675
 delete_course:3614
 
 #RUN:78#INSERT
-insert_user:609
-insert_course:622
+insert_user:709
+insert_course:722
 insert_enrolment:16895
 
 update_course:8029
@@ -1257,8 +1257,8 @@ delete_user:10514
 delete_course:3550
 
 #RUN:79#INSERT
-insert_user:610
-insert_course:586
+insert_user:710
+insert_course:686
 insert_enrolment:16872
 
 update_course:7414
@@ -1273,8 +1273,8 @@ delete_user:10562
 delete_course:3499
 
 #RUN:80#INSERT
-insert_user:621
-insert_course:621
+insert_user:721
+insert_course:721
 insert_enrolment:16885
 
 update_course:7324
@@ -1289,8 +1289,8 @@ delete_user:10684
 delete_course:3591
 
 #RUN:81#INSERT
-insert_user:610
-insert_course:602
+insert_user:710
+insert_course:702
 insert_enrolment:17037
 
 update_course:7470
@@ -1305,8 +1305,8 @@ delete_user:10499
 delete_course:3650
 
 #RUN:82#INSERT
-insert_user:611
-insert_course:632
+insert_user:711
+insert_course:732
 insert_enrolment:16864
 
 update_course:7535
@@ -1321,8 +1321,8 @@ delete_user:10965
 delete_course:3611
 
 #RUN:83#INSERT
-insert_user:591
-insert_course:632
+insert_user:691
+insert_course:732
 insert_enrolment:16804
 
 update_course:7579
@@ -1337,8 +1337,8 @@ delete_user:10675
 delete_course:3689
 
 #RUN:84#INSERT
-insert_user:613
-insert_course:622
+insert_user:713
+insert_course:722
 insert_enrolment:16924
 
 update_course:7649
@@ -1353,8 +1353,8 @@ delete_user:10741
 delete_course:3629
 
 #RUN:85#INSERT
-insert_user:683
-insert_course:619
+insert_user:783
+insert_course:719
 insert_enrolment:16903
 
 update_course:7656
@@ -1369,8 +1369,8 @@ delete_user:10712
 delete_course:3607
 
 #RUN:86#INSERT
-insert_user:609
-insert_course:626
+insert_user:709
+insert_course:726
 insert_enrolment:16881
 
 update_course:7416
@@ -1385,8 +1385,8 @@ delete_user:10801
 delete_course:3716
 
 #RUN:87#INSERT
-insert_user:611
-insert_course:612
+insert_user:711
+insert_course:712
 insert_enrolment:17039
 
 update_course:7604
@@ -1401,8 +1401,8 @@ delete_user:10657
 delete_course:3763
 
 #RUN:88#INSERT
-insert_user:600
-insert_course:691
+insert_user:700
+insert_course:791
 insert_enrolment:17272
 
 update_course:8443
@@ -1417,8 +1417,8 @@ delete_user:10522
 delete_course:3731
 
 #RUN:89#INSERT
-insert_user:602
-insert_course:618
+insert_user:702
+insert_course:718
 insert_enrolment:16885
 
 update_course:7492
@@ -1433,8 +1433,8 @@ delete_user:10486
 delete_course:3595
 
 #RUN:90#INSERT
-insert_user:610
-insert_course:622
+insert_user:710
+insert_course:722
 insert_enrolment:16578
 
 update_course:7460
@@ -1449,8 +1449,8 @@ delete_user:11327
 delete_course:3601
 
 #RUN:91#INSERT
-insert_user:610
-insert_course:665
+insert_user:710
+insert_course:765
 insert_enrolment:16693
 
 update_course:7566
@@ -1465,8 +1465,8 @@ delete_user:10684
 delete_course:3593
 
 #RUN:92#INSERT
-insert_user:610
-insert_course:627
+insert_user:710
+insert_course:727
 insert_enrolment:16688
 
 update_course:7572
@@ -1481,8 +1481,8 @@ delete_user:12075
 delete_course:3683
 
 #RUN:93#INSERT
-insert_user:601
-insert_course:640
+insert_user:701
+insert_course:740
 insert_enrolment:16899
 
 update_course:7484
@@ -1497,8 +1497,8 @@ delete_user:10504
 delete_course:3524
 
 #RUN:94#INSERT
-insert_user:576
-insert_course:606
+insert_user:676
+insert_course:706
 insert_enrolment:16544
 
 update_course:7562
@@ -1513,8 +1513,8 @@ delete_user:10758
 delete_course:3599
 
 #RUN:95#INSERT
-insert_user:580
-insert_course:692
+insert_user:680
+insert_course:792
 insert_enrolment:16690
 
 update_course:7507
@@ -1529,8 +1529,8 @@ delete_user:10862
 delete_course:3632
 
 #RUN:96#INSERT
-insert_user:665
-insert_course:650
+insert_user:765
+insert_course:750
 insert_enrolment:17016
 
 update_course:7512
@@ -1545,8 +1545,8 @@ delete_user:10653
 delete_course:3562
 
 #RUN:97#INSERT
-insert_user:607
-insert_course:648
+insert_user:707
+insert_course:748
 insert_enrolment:16701
 
 update_course:8380
@@ -1561,8 +1561,8 @@ delete_user:10658
 delete_course:3550
 
 #RUN:98#INSERT
-insert_user:600
-insert_course:624
+insert_user:700
+insert_course:724
 insert_enrolment:16879
 
 update_course:7538
@@ -1577,8 +1577,8 @@ delete_user:10731
 delete_course:3734
 
 #RUN:99#INSERT
-insert_user:704
-insert_course:625
+insert_user:804
+insert_course:725
 insert_enrolment:16904
 
 update_course:7590
@@ -1593,8 +1593,8 @@ delete_user:10822
 delete_course:3664
 
 #RUN:100#INSERT
-insert_user:640
-insert_course:636
+insert_user:740
+insert_course:736
 insert_enrolment:16810
 
 update_course:8029

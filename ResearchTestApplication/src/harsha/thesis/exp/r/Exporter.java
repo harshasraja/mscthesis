@@ -215,8 +215,10 @@ public class Exporter {
 
         w.write(LatexTable.ToString(solutions, columnOrder) + "\n\n\n");
         w.write(LatexTable.RatioToString(solutions, columnOrder) + "\n\n\n\n\n\n");
-
+        
         w.write(LatexTable.ThroughputToString(solutions, columnOrder) + "\n\n\n");
+        w.write(LatexTable.ThroughputRatioToString(solutions, columnOrder) + "\n\n\n\n\n\n");
+        
 //        w.write(LatexTable.ThroughputRatioToString(solutions, columnOrder) + "\n\n\n\n\n\n");
         w.flush();
         w.close();

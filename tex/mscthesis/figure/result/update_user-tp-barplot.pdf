@@ -2,8 +2,8 @@
 %âãÏÓ\r
 1 0 obj
 <<
-/CreationDate (D:20120313182423)
-/ModDate (D:20120313182423)
+/CreationDate (D:20120314133638)
+/ModDate (D:20120314133638)
 /Title (R Graphics Output)
 /Producer (R 2.13.1)
 /Creator (R)
@@ -41,7 +41,7 @@ Q q
 /sRGB cs 0.533 0.533 0.533 scn
 161.87 40.35 70.80 16.88 re B
 /sRGB cs 0.682 0.682 0.682 scn
-246.84 40.35 70.80 21.78 re B
+246.84 40.35 70.80 8.13 re B
 /sRGB cs 0.800 0.800 0.800 scn
 331.80 40.35 70.80 4.80 re B
 /sRGB cs 0.902 0.902 0.902 scn
@@ -61,7 +61,7 @@ BT
 /F2 1 Tf 13.00 0.00 -0.00 13.00 340.11 10.08 Tm (Solution3) Tj
 ET
 BT
-/F2 1 Tf 13.00 0.00 -0.00 13.00 425.07 10.08 Tm (Solution4) Tj
+/F2 1 Tf 13.00 0.00 -0.00 13.00 421.10 10.08 Tm (Solution4F) Tj
 ET
 Q q
 BT
