@@ -18,7 +18,7 @@ import java.util.Set;
  * @author jcrada
  */
 public class Barplot {
-
+    
     public static final String BAR_WIDTH = "def.barplot.width";
     public static final String BAR_SEP_WIDTH = "def.barplot.sepwidth";
     public static final String BAR_SPACE = "def.barplot.space";
@@ -29,8 +29,11 @@ public class Barplot {
                 + BAR_SEP_WIDTH + "=0; #separation bar width\n"
                 + BAR_SPACE + "=0; #space between bars\n"
                 + BAR_GROUP_SPACE + "=1; #space between groups\n";
-
         return def;
+    }
+    
+    public static String Par(){
+        return "par(las=1, mar=c(2.5,4.2,2,0), cex.axis=1.1, cex.lab=1.3);\n";
     }
 
 //    public static String ToString(Solution[] solutions, String[] operations) {
@@ -163,7 +166,7 @@ public class Barplot {
         result += solution.getCode() + ".barplot.means=" + dataframe + ";\n";
         result += "barplot(as.matrix(" + solution.getCode() + ".barplot.means),"
                 + "beside=T, names=" + MyMath.C(tableNames, "'") + ", ylab='Time (s)', "
-                + "xlab = '" + solution.getCode() + "');\n";
+                + "xlab = '');\n";
 
         float start = 2.5f, by = 4.0f;
         for (Iterator<String> it = crud.iterator(); it.hasNext();) {
@@ -200,7 +203,7 @@ public class Barplot {
         String result = "";
         result += code + ".barplot.means=" + dataframe + ";\n";
         result += "barplot(as.matrix(" + code + ".barplot.means),"
-                + "beside=T, names=" + MyMath.C(names, "'") + ", ylab='Time (s)', xlab='" + code + "');\n";
+                + "beside=T, names=" + MyMath.C(names, "'") + ", ylab='Time (s)', xlab='');\n";
 
         Map<String, List<String>> keyValue = groupOperations(operations);
 
@@ -276,7 +279,7 @@ public class Barplot {
         String result = "";
         result += code + ".barplot.means=" + dataframe + ";\n";
         result += "barplot(as.matrix(" + code + ".barplot.means),"
-                + "beside=T, names=" + MyMath.C(names, "'") + ", ylab='Entities per second', xlab='" + code + "');\n";
+                + "beside=T, names=" + MyMath.C(names, "'") + ", ylab='Entities per second', xlab='');\n";
 
         Map<String, List<String>> keyValue = groupOperations(operations);
 
