@@ -19,7 +19,6 @@ public class LatexTable {
     public static String ToString(Solution[] solutions, String[] operations) {
 
         String result = "\\begin{table}[h]\n";
-        result += "\\newcommand{\\B}[1]{\\colorbox{light-gray}{#1}}\n ";
         result += "\\centering\n\\caption{Response time}\\label{t:}\n";
 
         result += "\\begin{tabular}{" + MyMath.Repeat("c", solutions.length + 2) + "}\n";
@@ -72,7 +71,6 @@ public class LatexTable {
     public static String ThroughputToString(Solution[] solutions, String[] operations) {
         DecimalFormat DF = new DecimalFormat("0");
         String result = "\\begin{table}[h]\n";
-        result += "\\newcommand{\\B}[1]{\\colorbox{light-gray}{#1}}\n ";
         result += "\\centering\n\\caption{Throughput}\\label{t:}\n";
 
         result += "\\begin{tabular}{" + MyMath.Repeat("c", solutions.length + 2) + "}\n";
@@ -143,7 +141,6 @@ public class LatexTable {
     public static String RatioToString(Solution[] solutions, String[] operations) {
         DecimalFormat DF = new DecimalFormat("0.00");
         String result = "\\begin{table}[h]\n";
-        result += "\\newcommand{\\B}[1]{\\colorbox{light-gray}{#1}}\n ";
         result += "\\centering\n\\caption{Response time ratio}\\label{t:}\n";
 
         result += "\\begin{tabular}{" + MyMath.Repeat("c", solutions.length + 2) + "}\n";
@@ -199,7 +196,6 @@ public class LatexTable {
         DecimalFormat DF = new DecimalFormat("0.00");
         DecimalFormat DFB = new DecimalFormat("0");
         String result = "\\begin{table}[h]\n";
-        result += "\\newcommand{\\B}[1]{\\colorbox{light-gray}{#1}}\n ";
         result += "\\centering\n\\caption{Throughput inverse ratio}\\label{t:}\n";
 
         result += "\\begin{tabular}{" + MyMath.Repeat("c", solutions.length + 2) + "}\n";

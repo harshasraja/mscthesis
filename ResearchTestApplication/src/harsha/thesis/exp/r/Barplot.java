@@ -18,7 +18,7 @@ import java.util.Set;
  * @author jcrada
  */
 public class Barplot {
-    
+
     public static final String BAR_WIDTH = "def.barplot.width";
     public static final String BAR_SEP_WIDTH = "def.barplot.sepwidth";
     public static final String BAR_SPACE = "def.barplot.space";
@@ -31,8 +31,8 @@ public class Barplot {
                 + BAR_GROUP_SPACE + "=1; #space between groups\n";
         return def;
     }
-    
-    public static String Par(){
+
+    public static String Par() {
         return "par(las=1, mar=c(2.5,4.2,2,0), cex.axis=1.1, cex.lab=1.3);\n";
     }
 
@@ -152,7 +152,12 @@ public class Barplot {
             for (String table : tables) {
                 means.add("mean(" + solution.getCode() + ".dataframe$"
                         + op + "_" + table + ")");
-                tableNames.add(table.charAt(0) + "");
+
+                String tableChar = "" + table.charAt(0);
+                if ("u".equals(tableChar)) {
+                    tableChar = "s";
+                }
+                tableNames.add(tableChar);
             }
             dataframe += MyMath.C(means);
             if (it.hasNext()) {
@@ -190,7 +195,11 @@ public class Barplot {
             for (int j = 0; j < operations.length; ++j) {
                 String operation = operations[j];
                 means.add("mean(" + solution.getCode() + ".dataframe$" + operation + ")");
-                names.add("" + operation.split("_")[1].charAt(0));
+                String tableChar = "" + operation.split("_")[1].charAt(0);
+                if ("u".equals(tableChar)) {
+                    tableChar = "s";
+                }
+                names.add(tableChar);
             }
             dataframe += solution.getCode() + " = " + MyMath.C(means);
             if (i < solutions.length - 1) {
@@ -207,51 +216,48 @@ public class Barplot {
 
         Map<String, List<String>> keyValue = groupOperations(operations);
 
-
+        
         float start = 2.5f, by = 4.0f;
-        for (int i = 0; i < solutions.length; ++i) {
-            result += "mtext('s" + i + "', side=1, line=2, at=" + start + ");\n";
+        for (Solution solution : solutions) {
+            result += "mtext('" + solution.getCode() + "', side=1, line=2, at=" + start + ");\n";
             start += by;
         }
 
         return result;
     }
 
-    
-    public static String ResponseTimeToString(String operation, Solution[] solutions){
-        String result= "barplot(";
-        
+    public static String ResponseTimeToString(String operation, Solution[] solutions) {
+        String result = "barplot(";
+
         List<Double> mean = new ArrayList<Double>();
         List<String> names = new ArrayList<String>();
-        for (Solution s : solutions){
+        for (Solution s : solutions) {
             mean.add(MyMath.Mean(s.getTimesFor(operation)));
             names.add(s.getCode());
         }
-        result += MyMath.C(mean) + ", names=" + MyMath.C(names,"'") 
+        result += MyMath.C(mean) + ", names=" + MyMath.C(names, "'")
                 + ", col=gray.colors(" + solutions.length + "), xlab='', ylab='Time in seconds'";
         result += ");";
-        
+
         return result;
     }
-    
-    public static String ThoughputToString(String operation, Solution[] solutions){
-        String result= "barplot(";
-        
+
+    public static String ThoughputToString(String operation, Solution[] solutions) {
+        String result = "barplot(";
+
         List<Double> mean = new ArrayList<Double>();
         List<String> names = new ArrayList<String>();
-        for (Solution s : solutions){
+        for (Solution s : solutions) {
             mean.add(numberOfOperations(operation) / MyMath.Mean(s.getTimesFor(operation)));
             names.add(s.getCode());
         }
-        result += MyMath.C(mean) + ", names=" + MyMath.C(names,"'") 
+        result += MyMath.C(mean) + ", names=" + MyMath.C(names, "'")
                 + ", col=gray.colors(" + solutions.length + "), xlab='', ylab='Entities per second'";
         result += ");";
-        
+
         return result;
     }
-    
-    
-    
+
     public static String ThroughputToString(String[] operations, Solution[] solutions) {
         String code = operations[0].split("_")[0];
         List<String> names = new ArrayList<String>();
@@ -265,8 +271,12 @@ public class Barplot {
             List<String> means = new ArrayList<String>();
             for (int j = 0; j < operations.length; ++j) {
                 String operation = operations[j];
-                means.add( numberOfOperations(operation) + " / mean(" + solution.getCode() + ".dataframe$" + operation + ")");
-                names.add("" + operation.split("_")[1].charAt(0));
+                means.add(numberOfOperations(operation) + " / mean(" + solution.getCode() + ".dataframe$" + operation + ")");
+                String tableChar = "" + operation.split("_")[1].charAt(0);
+                if ("u".equals(tableChar)) {
+                    tableChar = "s";
+                }
+                names.add(tableChar);
             }
             dataframe += solution.getCode() + " = " + MyMath.C(means);
             if (i < solutions.length - 1) {
@@ -285,8 +295,8 @@ public class Barplot {
 
 
         float start = 2.5f, by = 4.0f;
-        for (int i = 0; i < solutions.length; ++i) {
-            result += "mtext('s" + i + "', side=1, line=2, at=" + start + ");\n";
+        for (Solution solution : solutions) {
+            result += "mtext('" + solution.getCode() + "', side=1, line=2, at=" + start + ");\n";
             start += by;
         }
 
@@ -296,10 +306,14 @@ public class Barplot {
     public static int numberOfOperations(String table) {
         if (table.contains("user")) {
             return 1000;
-        } else if (table.contains("course")) {
-            return 1000;
-        } else if (table.contains("enrolment")) {
-            return 10000;
+        } else {
+            if (table.contains("course")) {
+                return 1000;
+            } else {
+                if (table.contains("enrolment")) {
+                    return 10000;
+                }
+            }
         }
         throw new RuntimeException("Table " + table + " NOT known");
     }

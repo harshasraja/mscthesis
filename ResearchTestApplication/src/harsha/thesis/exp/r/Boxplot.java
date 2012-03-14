@@ -26,8 +26,35 @@ public class Boxplot {
             }
         }
         result +=",names=" + MyMath.C(names,"'");
-        result += ", xlab='Solutions', ylab='Time (s)', outline=F, horizontal=F);";
+        result += ", xlab='Solutions', ylab='Time in seconds', outline=F, horizontal=F);";
         return result;
     }
     
+       
+    public static String ThroughputToString(Solution[] solutions,
+            String operation){
+        List<String> names = new ArrayList<String>();
+        String result = "boxplot(";
+        for (int i = 0 ; i < solutions.length; ++i){
+            names.add(solutions[i].getCode());
+            result += numberOfOperations(operation) + " / " +solutions[i].getCode() + ".dataframe$" + operation;
+            if (i < solutions.length - 1){
+                result += ",";
+            }
+        }
+        result +=",names=" + MyMath.C(names,"'");
+        result += ", xlab='Solutions', ylab='Entities per second', outline=F, horizontal=F);";
+        return result;
+    }
+    
+     public static int numberOfOperations(String table) {
+        if (table.contains("user")) {
+            return 1000;
+        } else if (table.contains("course")) {
+            return 1000;
+        } else if (table.contains("enrolment")) {
+            return 10000;
+        }
+        throw new RuntimeException("Table " + table + " NOT known");
+    }
 }

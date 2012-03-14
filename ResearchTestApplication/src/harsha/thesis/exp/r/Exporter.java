@@ -67,10 +67,16 @@ public class Exporter {
 
         for (String column : columnOrder) {
             String par = "par(las=1, mar=c(3,4.2,0.5,0.5), cex.axis=1.1, cex.lab=1.3);\n";
-            String pngFile = "'" + path + "bp-" + column + ".pdf'";
+            String pngFile = "'" + path + "boxplot-" + column + "-rt.pdf'";
             w.write("pdf(" + pngFile + ");\n");
             w.write(par + "\n");
             w.write(Boxplot.ToString(solutions, column) + "\n");
+            w.write("dev.off();\n");
+            
+            pngFile = "'" + path + "boxplot-" + column + "-tp.pdf'";
+            w.write("pdf(" + pngFile + ");\n");
+            w.write(par + "\n");
+            w.write(Boxplot.ThroughputToString(solutions, column) + "\n");
             w.write("dev.off();\n");
             w.flush();
         }
@@ -80,7 +86,7 @@ public class Exporter {
 
         for (Solution s : solutions) {
             String par = "par(las=1, mar=c(3,4.2,2,0), cex.axis=1.1, cex.lab=1.3);\n";
-            String pngFile = "'" + path + s.getCode() + "-barplot.pdf'";
+            String pngFile = "'" + path + "barplot-" + s.getCode() + ".pdf'";
             w.write("pdf(" + pngFile + ");\n");
             w.write(par + "\n");
             w.write(Barplot.ToString(s, columnOrder));
@@ -95,13 +101,13 @@ public class Exporter {
 
         for (String[] operations : setOfOperations) {
             String par = "par(las=1, mar=c(3,4.2,0.5,0), cex.axis=1.1, cex.lab=1.3);\n";
-            String filename = "'" + path + "op-" + operations[0].split("_")[0] + "-barplot.pdf'";
+            String filename = "'" + path + "barplot-" + operations[0].split("_")[0] + "-rt.pdf'";
             w.write("pdf(" + filename + " );\n");
             w.write(par + "\n");
             w.write(Barplot.ToString(operations, solutions) + "\n");
             w.write("dev.off();\n\n");
 
-            filename = "'" + path + "th-" + operations[0].split("_")[0] + "-barplot.pdf'";
+            filename = "'" + path + "barplot-" + operations[0].split("_")[0] + "-tp.pdf'";
             w.write("pdf(" + filename + ");\n");
             w.write(par + "\n");
             w.write(Barplot.ThroughputToString(operations, solutions) + "\n");
@@ -110,13 +116,13 @@ public class Exporter {
 
         for (String operation : columnOrder) {
             String par = "par(las=1, mar=c(2.5,4.2,2,0), cex.axis=1.1, cex.lab=1.3);\n";
-            String filename = "'" + operation + "-rp-barplot.pdf'";
+            String filename = "'" + path + "barplot-" + operation + "-rt.pdf'";
             w.write("pdf(" + filename + ");\n");
             w.write(par + "\n");
             w.write(Barplot.ResponseTimeToString(operation, solutions) + "\n");
             w.write("dev.off();\n\n");
 
-            filename = "'" + operation + "-tp-barplot.pdf'";
+            filename = "'" + path + "barplot-" + operation + "-tp.pdf'";
             w.write("pdf(" + filename + ");\n");
             w.write(par + "\n");
             w.write(Barplot.ThoughputToString(operation, solutions) + "\n");
