@@ -1,12 +1,31 @@
 %ब
 \chapter{Implementation} \label{c:Implementation}
 
+The design of the four solutions presented the abstracted representation of the
+way metadata is stored in a unique way in each of the solutions. Metadata in the
+solutions are accessed whenever referential integrity validations are triggered
+to extract information about \ac{FK} constraints. Since the metadtas storage is
+different in ecah soltuion, accessing and processing the  metadata is different
+in each solution too.
+Specific methods are designed in all the solutions to read and process the
+metadata to validate referential integrity.  These methods and all the solutions
+are incorporated into a single experimental \ac{API}. The \ac{API} implements
+the design of the solutions and provides methods and logic for the various
+operations and validations to be performed. It also provides methods to
+implement methods t access and process metadata in each solution.
 
-\input{chapter/api}
+Section~\ref{s:implementation-API} presnts the experimental \ac{API} designed to
+implement the four solutions. Section~\ref{s:Implementation-Solution1} describes
+the way Solution~1 accesses and processes metadata.
+Section~\ref{s:Implementation-Solution2} describes how metadata access and
+retrieval are implemented in Solution~2. 
+
+
+\input{chapter/Implementation-API}
 	
-\input{chapter/Solution1}
+\input{chapter/Implementation-Solution1}
 
-\input{chapter/Solution2} 
+\input{chapter/Implementation-Solution2} 
 
 \section{Solution 3:  Metadata Column Family}\label{s:sol3}
 
