@@ -20,7 +20,7 @@ Most popular traditional \acp{RDBMS}
 preserve such dependency information in their \texttt{System} tables or data
 dictionaries.   These tables store the necessary information  which is required
 to maintain valid dependencies.  The information stored in such tables include table
-names,   primary and foreign keys among others. 
+names,   primary and foreign keys, among others. 
 This can be seen in popular \acp{RDBMS} like  MS SQL Server,   PostgreSQL, 
 Oracle,  and so on.   
 
@@ -31,7 +31,7 @@ stores the mappings of  foreign keys to the referenced primary key columns
 (\todo{\citep{sys:msdn}}). 
 Information in these \texttt{System} tables consist of  the
 names of tables and its constraints,   unique identifiers of 
-referenced and referencing columns,   among others.  
+referenced and referencing columns and others.  
 In PostgreSQL,  such information is presented to users as views but it is stored
 in base tables which contain the dependency information of data items in a database.
 The view \texttt{table\_constraints} contains the information for all the
@@ -71,7 +71,7 @@ Section~\ref{s:design-Metadata} describes the metadata used by the solutions
 % Finally,  Section~\ref{s:solutions-summary} presents a brief summary of this
 % chapter.  
 
-\input{chapter/Metadata}
+\input{chapter/Design-Metadata}
 
 \input{chapter/Design-Solution1}
 
@@ -103,8 +103,8 @@ caching the metadata  to save operational time and reduce database connections.
 
 The way metadata is accessed and processed are different in each of the
 solutions since metadata storage is unique in each  solution.  The way the
-\ac{API} retrieves and processes the metadata in each solution and how it
-handles all the \ac{CRUD} operations and the referential integrity validations 
+experimental \ac{API} retrieves and processes the metadata in each solution and
+how it handles all the \ac{CRUD} operations and the referential integrity validations 
 are discussed in detail in Chapter~\ref{c:Implementation}. 
 % It also explains how each of the solutions retrieves and processes the
 % metadata. 

@@ -20,8 +20,8 @@ The different parts of the constraints are saved as separate columns in the
 \texttt{Metadata} column family. Thus,  no special characters are required to
 identify the various parts as seen in Solutions~1 and 2.  When an operation is
 invoked on a column family in the keyspace referential integrity validations
-are triggered.  For these validations,  the \ac{API} connects to \texttt{Metadata}
-column family and retrieves the relevant constraints for the column family on
+are triggered.  For these validations,  the experimental \ac{API} connects to
+\texttt{Metadata} column family and retrieves the relevant constraints for the column family on
 which the operation is invoked. 
 The different parts of the constraints are accessed by identifying the
 correct columns in the \texttt{Metadata} column family and necessary values are
@@ -58,5 +58,5 @@ since these can be searched based on the column names once the constraint is
 identified. 
 More importantly,  it is now easier to add or remove constraints for a column
 family since metadata  is centrally stored.  Any changes to metadata affects
-only the \texttt{Metadata} column family and the \ac{API} does not have to access actual
-data to perform such changes. 
+only the \texttt{Metadata} column family and the experimental \ac{API} does not
+have to access actual data to perform such changes. 

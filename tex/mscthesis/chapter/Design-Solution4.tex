@@ -31,13 +31,13 @@ into another cluster,  namely \texttt{KeyspaceCluster}.
 	4}\label{fd:MetadataCluster-Solution4}
 	
 \end{figure}
- The \ac{API} connects to the Metadata cluster as well as
+ The experimental \ac{API} connects to the Metadata cluster as well as
 the cluster containing the keyspace to perform any operations on the actual
-data.  Whenever a \ac{CRUD} operation is invoked on a column family,  the \ac{API}
-accesses its relevant metadata and caches it to re-use it for future operations
-on this column family. 
-Additionally,  the \ac{API} can perform validations without disruptions using the
-cached metadata when the metadata cluster is unresponsive or not active . 
+data.  Whenever a \ac{CRUD} operation is invoked on a column family,  the
+experimental \ac{API} accesses its relevant metadata and caches it to re-use it
+for future operations on this column family. 
+Additionally,  the experimental \ac{API} can perform validations without
+disruptions using the cached metadata when the metadata cluster is unresponsive or not active . 
 Having metadata in a persistence layer is effective since metadata is not
 expected to be as frequently changed as the actual data.  This also saves
 operational time by not having to connect to the

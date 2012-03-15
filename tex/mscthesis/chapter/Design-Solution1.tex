@@ -6,12 +6,12 @@
 In this  solution,   metadata is embedded with the actual data and is
 stored in the column family of the actual data.  In this approach,  metadata is
 stored in every super column of a column family  as the value of column
-\texttt{Metadata} (Figure~\ref{fd:Metadata-Solution1}(a)).  Since metadata is
+\texttt{Metadata} (Figure~\ref{fd:Metadata-Solution1-A}).  Since metadata is
 common for all the super columns in a column family,  every super column
 contains the same  value in the \texttt{Metadata} column. 
 % For example,  in the
 % University keyspace,  metadata in \texttt{Student} is  as seen in
-Figure~\ref{fd:Metadata-Solution1} presents how metadata is stored in every
+Figure~\ref{fd:Metadata-Solution1-B} presents how metadata is stored in every
 super column of the example \texttt{Student} column family in the University
 keyspace. 
 	
@@ -30,14 +30,18 @@ each of the column families.
 		  \item  \ac{PK} constraint showing the primary key of the column family. 
 		  \item \ac{FK} constraints 
 				\begin{itemize}
-					\item In the case of a parent column family the \ac{FK} constraints are the
-					\ac{FK} constraints of type '\texttt{F}' to identify the child column
-					families. 
-					\item  In the case of a child column family the \ac{FK} constraint of type
-					'\texttt{R}' is stored to indicate the parent column families. 
+					\item In the case of a parent column family, the \ac{FK} constraints refer
+					to those of type '\texttt{F}' in order to identify the child column
+					families.
+					\item  In the case of a child column family, the \ac{FK} constraints of
+					type '\texttt{R}' are stored to indicate the parent column families. 
 					\item If a column family is both a parent and a child,  then its metadata
 					stores its \ac{PK} constraint and the \ac{FK} constraints of both types to
-					indicate its parent and child column families. 
+					indicate its parent and child column families. For example, if
+					\texttt{Enrolment} had a child dependency, it will be a parent to
+					that child column family whilst it is also a child of \texttt{Student} and
+					\texttt{Course} column families. Its metadata will contain its \ac{PK}
+					constraint and \ac{FK} constraints of types '\texttt{R}' and '\texttt{F}'.
 				\end{itemize}
 		\end{itemize}
 		
@@ -62,21 +66,32 @@ it  stores its \ac{PK} constraint \texttt{CONST300} and its \ac{FK} constraints
 			\centering
 			\subfigure[Metadata Column] {
 				\includegraphics[width=.6\textwidth]{./figure/Solutions/Sol1-MD-Col.png}
+				\label{fd:Metadata-Solution1-A}
 	% 			\caption{Response Time for \texttt{insert}}\label{fr:response-insert}
 			}
 			\subfigure[Metadata in Super columns]{
 				\includegraphics[width=.8\textwidth]{./figure/Solutions/Sol1-MD-ColumnFamily.png}
+				\label{fd:Metadata-Solution1-B}
 	% 			\caption{Throughput}\label{fr:through-insert}
 			} 
 			\caption{Metadata storage in Solution 1}
 		\end{figure}
+		
 Since the relevant constraints of a column family are saved
 together in the \texttt{Metadata} column,  it is essential that each constraint
-is easily identifiable and accessible to the \ac{API}.  To separate the constraints
-and to identify its different parts special characters are used within the
-metadata.  The special characters used in this solution are '\texttt{\{}', 
-'\texttt{\}}', '\texttt{;}' and '\texttt{:}'.  The special characters are used the
-following way:
+is easily identifiable and accessible.  To separate
+the constraints and to identify its different parts special characters are used within the
+metadata.  The special characters used in this solution are \texttt{'\{'}, 
+'\texttt{\}}', '\texttt{;}' and '\texttt{:}'. 
+The metadata with these special characters is shown in
+Figure~\ref{fd:Metadata-Solution1-String}:
+
+		\begin{figure}[H]
+			\centering
+			\includegraphics[width=.8\textwidth]{./figure/Solutions/Solution1-MD-String.png}
+			\label{fd:Metadata-Solution1-String}
+		\end{figure}
+The special characters are used the following way:
 	
 		\begin{itemize}
 			\item Each constraint is enclosed in curly brackets and the
@@ -99,12 +114,14 @@ following way:
 			
 		\end{itemize}
 		
+
+		
 The special characters help in identifying the values of every constraint in the
 metadata information for this solution.  The metadata is extracted from each
 super column and processed by specific methods within the solution so that
 relevant constraints are used for validating referential integrity.  Different
-methods are built in the \ac{API} to support these functionalities and
-these are described in Chapter~\ref{c:Implementation}. 
+methods are built in the experimental \ac{API} to support these functionalities
+and these are described in Chapter~\ref{c:Implementation}. 
 
 % In this solution,  the metadata is  repeated several times within the
 % same column family and due to the replicated nature of the \ac{NoSQL} \acp{DBMS}
