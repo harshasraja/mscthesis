@@ -51,9 +51,43 @@ it  stores its \ac{PK} constraint \texttt{CONST300} and its \ac{FK} constraints
 \texttt{Course} store its \ac{PK} and respective \ac{FK} constraints. 
 	
 	\begin{landscape}
+	\newcommand{\BG}{\cellcolor{RoyalBlue!15!White}}
+	\newcommand{\Header}[1]{\cellcolor{RoyalBlue!50!White}{\textbf{#1}}}
+	\newcommand{\Value}[1]{\cellcolor{RoyalBlue!15!White}``#1''}
+	\newcommand{\Timestamp}[1]{\cellcolor{RoyalBlue!15!White}#1}
+	\newcommand{\MetadataW}{6cm}
 	\begin{figure}
 	\centering
-	\includegraphics[width=1.5\textwidth]{./figure/Solutions/Sol1-MD-ColumnFamily.png}
+% 	\includegraphics[width=1.5\textwidth]{./figure/Solutions/Sol1-MD-ColumnFamily.png}
+% \renewcommand{\tabcolsep}{3cm}
+	\begin{tabular}{cc cc cc}
+		\toprule
+		\textbf{Row Key} &
+		\multicolumn{5}{c}{\textbf{Values}} \\ 
+		\midrule
+		 \multirow{3}{*}{100} &
+		\multicolumn{5}{c<{\rowcolor{RoyalBlue!75!White}}}{\textbf{Super Column
+		Values}}\\
+		
+			 & \Header{First Name} & \Header{Last Name} & \Header{Email} &
+			\Header{Age} & \Header{Metadata}\\
+			 & \Value{John} & \Value{Smith} &
+			\Value{john\@example.com} & \Value{21} & \multicolumn{1}{p{\MetadataW}}{\Value{\blindtext}}\\
+			 &\Timestamp{132875791734} & \Timestamp{132875791987} &
+			\Timestamp{132875791788} & \Timestamp{132875791998} &
+			\Timestamp{1328754442133}\\
+			
+			\multirow{4}{*}{101} & \multicolumn{5}{c}{\textbf{Super Column Values}}\\
+			& \Header{First Name} & \Header{Last Name} & \Header{Email} & \Header{Age} &
+			\Header{Metadata}\\
+			& \Value{Jane} & \Value{Smith} & \Value{jane\@example.com} & \Value{22} &
+			\multicolumn{1}{p{\MetadataW}}{\Value{\blindtext}}\\
+			&\Timestamp{1328757392000} & \Timestamp{1328757391222} &
+			\Timestamp{1328757392777} & \Timestamp{132875796666} &
+			\Timestamp{1328754442133}\\
+		
+	\end{tabular}
+
 	\caption{Metadata in Solution 1}
 	\end{figure}
 	\end{landscape}
