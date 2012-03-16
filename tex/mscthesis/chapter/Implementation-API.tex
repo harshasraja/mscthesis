@@ -15,7 +15,7 @@ with different approaches to meet different requirements. However, with
  every one of these solutions,  the referential integrity constraint is
  implemented in Cassandra.
 
-The  class diagram of the \ac{API} is presented seen in
+The  class diagram of the \ac{API} is presented  in
  Figure~\ref{f:classDiagram} alongside with the example classes that belong to 
 the University keyspace. The main components are the Entities, Entity Managers,
 and Validation handlers, all of which are described in the next sections.  
@@ -130,8 +130,8 @@ explanation of the functioning of the \ac{API}.
 		
 		\subsubsection{Update}\label{ss:update}
 		In an \texttt{update} operation the existing contents of an entity are merged
-		with new contents.  In other words, the  values of their columns they
-		represent are updated to new values and committed into the column families.  
+		with new contents.  In other words, the  values of the columns an entity
+		represents are updated to new values and committed into the column families.  
 		 The \texttt{EntityManager} provides two types of updates, one in which it
 		 uses the primary key of the entity to update it, and the other one in
 		 which uses the especial field \texttt{keyForUpdate} to update the primary as
@@ -181,7 +181,7 @@ explanation of the functioning of the \ac{API}.
 		In all the solutions,  a \texttt{Delete} operation triggers a referential
 		integrity validation every time a parent entity is deleted.  This validation
 		is performed by the \texttt{onDelete} method of the
-		\texttt{ValidationHandler}, which is explained in next section. 
+		\texttt{ValidationHandler}, which is explained in the next section. 
 		 
 		 The 	\texttt{EntityManager} passes the entity information to the
 		\texttt{delete} method of the \texttt{Mutator} object.
@@ -225,19 +225,19 @@ explanation of the functioning of the \ac{API}.
 		\renewcommand{\labelenumiii}{\arabic{enumi}.\arabic{enumii}.\arabic{enumiii}}
 		
 		\begin{enumerate}
-		\item if entity has \ac{FK} constraints
+		\item If entity has \ac{FK} constraints
 				\begin{enumerate}
 				\item Identify parent entity class from the \ac{FK} constraint.
-				\item if foreign keys exist as  primary key in  parent entity class
+				\item If foreign keys exist as  primary key in  parent entity class
 				  		\begin{enumerate}
 				  		\item \texttt{EntityManager} inserts the entity.
 				  		\end{enumerate}
-				\item else
+				\item Else
 				   		\begin{enumerate}
 				   		  \item Raise exception and cancel \texttt{insert}.
 				   		\end{enumerate}
 				\end{enumerate}   	
-		\item else if no \ac{FK} constraints exist
+		\item Else if no \ac{FK} constraints exist
 		  		\begin{enumerate}
 		  		\item \texttt{EnityManager} inserts entity.
 		  		\end{enumerate}
@@ -254,27 +254,27 @@ explanation of the functioning of the \ac{API}.
 		\renewcommand{\labelenumiii}{\arabic{enumi}.\arabic{enumii}.\arabic{enumiii}}
 		%\renewcommand{\labelenumiiii}{\arabic{enumi}.\arabic{enumii}.\arabic{enumiii}.\arabic{enumiiii}}
 		\begin{enumerate}
-		  \item if \ac{FK} constraints on primary key exist
+		  \item If \ac{FK} constraints on primary key exist
 		  	\begin{enumerate}		  	
-		    \item if \texttt{DeleteRule} for the \ac{FK} constraint is
+		    \item If \texttt{DeleteRule} for the \ac{FK} constraint is
 		    \texttt{Cascade}
 		    	\begin{enumerate}
 		    	  \item Pass any existing child entities to the \texttt{EntityManager} to
 		    	  allow update of both primary and foreign keys.
 				\end{enumerate}
-			\item else if \texttt{DeleteRule}  is \texttt{NoDelete}
+			\item Else if \texttt{DeleteRule}  is \texttt{NoDelete}
 				\begin{enumerate}
-				  \item if no child entities exist
+				  \item If no child entities exist
 				  		\begin{enumerate}
 				  		  \item \texttt{EntityManager} performs update on  the primary key.
 				  		\end{enumerate}
-				  \item else if child entities exist
+				  \item Else if child entities exist
 				   		\begin{enumerate}
 				    	\item Raise exception and rollback \texttt{update}. 
 				    	\end{enumerate}
 				\end{enumerate}
 			\end{enumerate}
-		  \item else if no \ac{FK} constraints are found 
+		  \item Else if no \ac{FK} constraints are found 
 		  		\begin{enumerate}
 		  		  \item \texttt{EntityManager} performs update on the primary key.
 				\end{enumerate}
@@ -301,11 +301,11 @@ explanation of the functioning of the \ac{API}.
 		metadata and locates its \ac{FK} constraints. It then follows these steps:
 		\begin{enumerate}
 		  \item Identify parent entity class from the \ac{FK} constraint.
-		  \item if new foreign keys exist as primary key in parent entity class
+		  \item If new foreign keys exist as primary key in parent entity class
 			\begin{enumerate}
 				\item \texttt{EntityManager} updates  the foreign key.
 			\end{enumerate}
-		  \item else 
+		  \item Else 
 			\begin{enumerate}
 				\item Raise exception.
 			\end{enumerate}
@@ -326,26 +326,26 @@ explanation of the functioning of the \ac{API}.
 		
 		\begin{enumerate}
 		  \item Identify existing \ac{FK} constraints on the entity.
-		  \item if \ac{FK} constraints exist,
+		  \item If \ac{FK} constraints exist,
 		  		\begin{enumerate}
-		  		  \item if \texttt{DeleteRule} is \texttt{Cascade}
+		  		  \item If \texttt{DeleteRule} is \texttt{Cascade}
 		  		 		\begin{enumerate}
 		  		 		   \item Pass any existing child entities to the \texttt{EntityManager}
 		  		 		   to allow delete of child  and parent entities.
 		  		 		\end{enumerate}
-		  		  \item else if \texttt{DeleteRule}  is \texttt{NoDelete}
+		  		  \item Else if \texttt{DeleteRule}  is \texttt{NoDelete}
 						\begin{enumerate}
-						  \item if no child entities exist
+						  \item If no child entities exist
 						  		\begin{enumerate}
 						  		  \item \texttt{EntityManager} deletes the entity.
 						  		\end{enumerate}
-						  \item else if child entities exist
+						  \item Else if child entities exist
 						   		\begin{enumerate}
 						    		\item Raise exception. 
 						    	\end{enumerate}
 						\end{enumerate}
 						
-				  \item else if no \ac{FK} constraints are found 
+				  \item Else if no \ac{FK} constraints are found 
 				  		\begin{enumerate}
 				  		  \item \texttt{EntityManager} deletes the entity.
 						\end{enumerate}
@@ -371,11 +371,9 @@ explanation of the functioning of the \ac{API}.
 % 		
 		The referential integrity validation logic, implementation of the \ac{CRUD}
 		operations and Cassandra connection settings are common for all the solutions
-		in the \ac{API}.
-		
-		The following sections describe each of the four solutions in terms of how
-		these store ,decipher, access and retrieve the metadata. The motivation for
-		each of the solution is also discussed. 
+		in the \ac{API}. However, the metadata access, retrieval and
+		processing are unique to each solution. The following sections describe each
+		of the four solutions in terms of how these decipher, access and process the metadata. 
 % 		how metadata is accessed and retrieved
 % 		and the motivation for the solution's design.
 

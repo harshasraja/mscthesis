@@ -1,2 +1,58 @@
 %ब
 \section{Solution 3:  Metadata Column Family}\label{s:Implementation-Solution3}
+
+In Solution~3, metadata is saved in a separate column family called
+\texttt{Metadata}within the cluster, which contains all the constraints within a
+keyspace. To validate referential integrity, the appropriate constraints of an
+entity have to be retrieved and accessed from \texttt{Metadata} by the handlers
+in the experimental \ac{API}. The way metadata is retrieved, deciphered and accessed
+are discussed in the following sections.
+ 
+\subsection{Metadata Retrieval}
+In this solution, constraints are inserted into \texttt{Metadata} column family
+in the same way as entities are inserted into their respective entity
+classes. 
+% For example, students are inserted into \texttt{Student} entity
+% class. 
+Here, constraints are treated as entities of \texttt{Metadata} entity
+class. Note that users of the experimental \ac{API} have to provide the
+constraints of the entire keyspace to insert them into \texttt{Metadata}. Moreover, 
+ constraints are inserted into \texttt{Metadata} using the \texttt{insert}
+operation and this operation is designed to prevent referential
+integrity validations for metadata entities.
+
+In this solution, \texttt{Metadata} is considered as an entity class and has the
+necessary setter and getter access methods for its attributes. The attributes
+for this entity class are the different parts of a constraint. The
+\texttt{Metadata} entity class is the same as shown in
+Figure~\ref{fi:MetadataEntityClass}. Unlike Solutions~1 and 2, Solution~3
+performs no additional operations like String parsing  to
+retrieve constraint information from the metadata.
+
+\subsection{Metadata Access}
+
+% To ensure referential integrity, the \texttt{ValidationHandler} accesses the
+% relevant constraints of an entity.
+
+
+For the \texttt{ValidationHandler} to perform validations, it is essential that
+it accesses only the relevant constraints of an entity from all the constraints
+stored in the \texttt{Metadata} entity class. To distinguish the relevant
+constraints of an entity, the \texttt{ValidationHandler} iterates through the
+constraints of \texttt{Metadata} and identifies the constraint that have the
+entity as the value for its \texttt{ColumnFamily}.
+Consider Figure~\ref{fd:Metadata-Solution3} which shows a few constraints in
+\texttt{Metadata}. To locate the constraints of \texttt{Student} entity class,
+the constraints with \texttt{ColumnFamily} containing the value
+\texttt{Student} have to be identified, which in this example is constraint
+\texttt{CONST100}.
+Thus, the relevant \ac{PK} and \ac{FK} constraints of an entity are identified
+by the \texttt{ValidationHandler}.
+
+ Once the relevant constraints are
+accessed,  the\texttt{ValidationHandler} performs
+the necessary validations by accessing the values from the relevant
+constraints using \texttt{Metadata} getter methods, similar to Solutions~1 and
+2.
+
+

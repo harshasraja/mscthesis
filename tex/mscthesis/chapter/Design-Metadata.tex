@@ -1,0 +1,220 @@
+% ब
+\section{Metadata}\label{s:design-Metadata}
+Metadata in \acp{DBMS} provide information about the data stored within the
+databases.
+It may contain details related to schemas, constraints,  primary and foreign
+keys, and so on.   As previously mentioned,  most traditional \acp{RDBMS}
+maintain such metadata within their \texttt{System}  tables or data
+dictionaries.
+In Apache Cassandra, the \ac{DBMS} of interest, metadata is stored in a keyspace
+named \texttt{System} and it contains information about the cluster and its
+nodes along with information related to the keyspaces, column families, and so
+on (\todo{cite BOOK}).
+ Even when Cassandra has a  \texttt{System} keyspace to store metadata, it is
+ read-only and therefore it cannot be modified to store additional metadata
+ about referential integrity constraints.
+% As previously mentioned ,  most traditional \acp{RDBMS} maintain such metadata
+% within their \texttt{System} tables or data dictionaries.
+% Such metadata is decoupled from the actual data and its operations,  so that
+% retrieving the metadata is faster since it does not involve handling the
+% actual data(\todo{cite Duval}).
+% It has been studied that the \ac{DaaS} is moving towards maintaining metadata
+% in the cloud \acp{DBMS},  where commonly this metadata stores information
+% about the nodes in a distributed cluster (\todo{cite Bin(2010)}).  For 
+% maintaining the scalability required in such cloud \acp{DBMS}, metadata is
+% often decoupled from the actual data so that accessing metadata does not cause
+% a bottleneck in performance.  Cassandra maintains  metadata about the nodes in
+% a cluster  in a separate keyspace named \texttt{System}, which stores the
+% properties of every node, for example the node tokens,  the name of the
+% cluster to which  nodes belongs to, information about the stored keyspaces and
+% column families and so on(\todo{cite BOOK}).
+% As per the design of Cassandra,  the \texttt{System} keyspace cannot be
+% modified and thus  the metadata for the   solutions cannot be incorporated in
+% this \texttt{System} keyspace.  Hence,  for preserving the metadata in each
+% solution implements a  different strategy In other words, metadata is
+% associated with actual data in different ways.  Associations can be classified
+% as (\todo{cite Duval}):
+Hence,  for preserving the metadata, each of the solutions implement a 
+different strategy in which metadata is associated with actual data. Solutions~1
+and~2 use embedded metadata, that is, metadata is created with the actual data
+(\todo{cite Duval2009}); while solutions~3 and~4 associate metadata separately
+from the actual data.  Notice that, the structure
+ of the metadata is kept the same across all the solutions even when  the way of
+ storing and associating this metadata is different in each.
+
+The role of metadata in  the solutions is primarily to hold the necessary
+ information required to maintain referential integrity. The metadata contains  
+ information about primary keys,   foreign keys,  referenced and referencing
+ column family details, constraints, and others.  The constraints considered in
+ the solutions can be either \ac{PK} or \ac{FK}
+constraints. \ac{PK} constraints specify which column is the primary key of a
+column family and notice that only single column primary keys are
+considered in the solutions. \ac{FK} constraints (or referential integrity
+constraints) determine the foreign key relationship between two column families, that is, the
+ column of a column family which  is dependent on the primary key  column of
+ another column family.  Hence, for each column family with a primary key,  the
+metadata  contains one \ac{PK} constraint  and  as
+many \ac{FK} constraints as foreign key relationships. 
+% Notice that, throughout
+%  the solutions, the structure of metadata containing these constraints is
+% consistent despite.  
+
+The structure of the metadata is shown in
+Figure~\ref{fd:Metadata-Constraints}.  This structure contains information about a
+University keyspace example in which  a simple schema is applied for the
+keyspace. In this example,  the details of the students are saved in  the
+\texttt{Student} column family and the course
+ details in the \texttt{Course} column family.
+ The enrolment details of students are saved in the 
+\texttt{Enrolment} column family by associating students to courses and
+hence having foreign key relationships to both \texttt{Student} and
+\texttt{Course} column families.
+All the column families have unique primary keys and their \ac{PK} constraints are saved in
+the metadata as presented in Figure~\ref{fd:Metadata-Constraints}, while the
+foreign key relationships between \texttt{Enrolment}, \texttt{Student} and
+\texttt{Course} are saved as \ac{FK} constraints.  For instance, consider in
+ Figure~\ref{fd:Metadata-Constraints} the \ac{PK} constraint \texttt{CONST100},
+ for the \texttt{Student} column family, and the \ac{FK} constraint  
+ \texttt{CONST400} for the foreign key relationship between
+\texttt{Enrolment} and \texttt{Student}.
+
+\begin{figure}[h] 
+	\centering
+	
+	\newcolumntype{C}{@{\hspace{2.5pt}}>{\scriptsize}c@{\hspace{2.5pt}}}
+	\begin{tabular}{CCC CCC CC}
+		\toprule
+		\bfseries ConstraintName & \bfseries Keyspace & \bfseries ConstraintType &
+		\bfseries ColumnFamily & \bfseries RKeyspace & \bfseries RConstraintName &
+		\bfseries RColumn & \bfseries DeleteRule\\
+		\midrule
+		CONST100 & University & P & Student & University & & StudentId &\\
+		\rc CONST200 & University & P & Course & University & & CourseId &\\
+		CONST300 & University & P & Enrolment & University & & RowId &\\
+% 		\hline
+% 		\hline
+		\rc CONST400 & University & R & Enrolment & University & CONST100 & StudentId
+		& CASCADE\\
+		CONST500 & University & R & Enrolment & University & CONST200 & CourseId &
+		NODELETE\\
+		\rc CONST600 & University & F & Course & University & CONST500 & CourseId &
+		NODELETE\\
+		CONST700 & University & F & Student & University & CONST400 & StudentId &
+		CASCADE\\
+		\bottomrule
+	\end{tabular}
+	\caption{Metadata for the Solutions}\label{fd:Metadata-Constraints}
+\end{figure}
+
+
+Specifically, the structure of the metadata contains:
+
+\begin{itemize}
+  
+  \item \texttt{ConstraintName:} is the name assigned for
+  every constraint and it uniquely identifies an
+  existing \ac{PK} or \ac{FK} constraint in the metadata. 
+   For example,  \texttt{CONST100} and \texttt{CONST400} are 
+  \texttt{ConstraintNames}.
+  
+  \item \texttt{Keyspace:}represents the name of the Keyspace the constraint
+  belongs to. 
+  
+  \item \texttt{ConstraintType:} denotes the type of the constraint and the
+  possible values are '\texttt{P}', '\texttt{R}' and '\texttt{F}'.
+% The former referes to  a \ac{PK} constraint while the latter represents  a
+% \ac{FK} constraint.
+	A \ac{PK} constraint is referred by '\texttt{P}', while '\texttt{R}' and
+	'\texttt{F}' are two representations of \ac{FK} constraints.
+	'\texttt{R}' represents the Referential Integrity Constraint (or  \ac{FK}
+	constraint) a child entity has on a parent primary key, and '\texttt{F}' shows
+	the  existing dependencies on a parent entity .
+	For example, \texttt{CONST400} shows that the the parent entity for
+	\texttt{Enrolment} is \texttt{Student} by looking up \texttt{RConstraintName}
+	which is explained below. \texttt{CONST700} shows that parent entity
+	\texttt{Student} has child dependencies on it. Notice that, the constraint type
+	'\texttt{F}' is primarily used to locate the child dependencies for a parent
+	when it is deleted or updated.
+% \begin{itemize} \item  '\texttt{P}' represents a \ac{PK} constraint \item
+% '\texttt{R}' represents a
+
+   
+  \item \texttt{ColumnFamily:} refers to the column family this constraint
+  exists in. For example,  the \ac{PK} constraint
+  \texttt{CONST100}  exists in column family \texttt{Student} and the column
+  family of the \ac{FK} constraint \texttt{CONST400}
+  is \texttt{Enrolment}.
+  
+  \item \texttt{RKeyspace:}is the name of the keyspace on which this constraint
+  is applied.  In the example, constraints  are applied in  the keyspace
+  \texttt{University}.
+  
+    %   In other words, it indicates which primary key
+%   is referenced or which . 
+  \item \texttt{RConstraintName:} For \ac{FK}
+  constraints, \texttt{RConstraintName} represents the constraint that is
+  referenced. 
+%   For the constraint type '\texttt{R}' this field represents the
+%   referenced parent column families for a column family and for the constraint
+%   type '\texttt{F}' it shows the child dependencies for a column
+%   family.
+  For the constraint type '\texttt{R}' this represents the
+  referenced \ac{PK} constraint and for the constraint type '\texttt{F}' it
+  shows the child dependencies for a parent entity.
+  In the example, the \ac{FK} constraint
+  \texttt{CONST400} references the \ac{PK} constraint \texttt{CONST100},  which
+  means that \texttt{Enrolment} has a foreign key relationship with
+  \texttt{Student}.
+   In \texttt{CONST700} this field indicates that \ac{FK} constraint
+   \texttt{CONST400} exists for \texttt{Student}. Notice that in a \ac{PK}
+   constraint this field is left blank since it has no references to other keys.
+  
+  \item \texttt{RColumn:}  indicates the primary key column on which this
+  constraint is applicable.  For \ac{PK} constraints,  this holds the name of
+  the primary key column. For \ac{FK} constraints, this field denotes
+  the referenced column.  This example shows that the \ac{PK} constraint
+  \texttt{CONST100} is applied on the primary key column \texttt{StudentId} of
+  \texttt{Student} column family . The \ac{FK} constraint \texttt{CONST400}
+  shows that the referenced column is \texttt{StudentId},  indicating that
+  \texttt{Enrolment} references  primary key column \texttt{StudentId} of
+  \texttt{Student}.
+  
+  \item \texttt{DeleteRule:}stores the type of data manipulation rule applicable
+  on this constraint for a delete or update operation. The possible values are
+  \texttt{Cascade} and \texttt{NoDelete}.   For the sake of
+  clarity and conciseness, other values like \texttt{Null} or \texttt{Default}
+  are not considered in the solutions. Notice that, this field is not
+  applicable for \ac{PK} constraints since data manipulation rules are 
+  associated with constraints that hold dependency information like the
+  \ac{FK} constraints.
+  
+
+  
+\end{itemize} 
+
+In the solutions, metadata  is accessed whenever referential integrity
+validations are triggered each time 
+% to extract information about \ac{FK} constraints.
+% % Specific methods are designed in all the solutions to retrieve and process the
+% % metadata in order to validate referential integrity.
+% Referential integrity validations are triggered when
+ a \ac{CRUD} operation is
+performed on a column family. Relevant \ac{FK} constraints are accessed form the
+metadata to perform such validations. Each solution stores metadata in a
+distinct way and provides specific methods to access and process the metadata to
+support the validation. The logic for validating the referential integrity is
+consistent across all the solutions and specific handlers  in the
+experimental \ac{API} are used to perform these processes. The way these
+solutions store metadata and the motivation
+behind the design of its metadata storage is presented in the following
+sections.
+
+
+
+
+
+
+
+
+
+

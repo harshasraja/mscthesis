@@ -1,21 +1,21 @@
 %ब
 
-\section{Solution1:  Metadata with Special Characters} \label{s:design-sol1}
+\section{Solution 1:  Metadata with Special Characters} \label{s:design-sol1}
 
 % \subsection{Metadata Storage}
 In this  solution,   metadata is embedded with the actual data and is
 stored in the column family of the actual data.  In this approach,  metadata is
 stored in every super column of a column family  as the value of column
-\texttt{Metadata} (Figure~\ref{fd:Metadata-Solution1-A}).  Since metadata is
+\texttt{Metadata} (Figure~\ref{fd:Metadata-Column}).  Since metadata is
 common for all the super columns in a column family,  every super column
 contains the same  value in the \texttt{Metadata} column. 
 % For example,  in the
 % University keyspace,  metadata in \texttt{Student} is  as seen in
-Figure~\ref{fd:Metadata-Solution1-B} presents how metadata is stored in every
+Figure~\ref{fd:Metadata-Solution1} presents how metadata is stored in every
 super column of the example \texttt{Student} column family in the University
 keyspace. 
 	
-
+ 
 		
 In this approach,  metadata contains all the parts as 
 % the structure of the
@@ -53,79 +53,67 @@ the \ac{FK} constraint \texttt{CONST700}.  Since \texttt{Enrolment} is a child e
 it  stores its \ac{PK} constraint \texttt{CONST300} and its \ac{FK} constraints
 \texttt{CONST400} and \texttt{CONST500}.  Similarly,  other entities like
 \texttt{Course} store its \ac{PK} and respective \ac{FK} constraints. 
-	
-	\begin{landscape}
-	\newcommand{\BG}{\cellcolor{RoyalBlue!15!White}}
-	\newcommand{\Header}[1]{\cellcolor{RoyalBlue!50!White}{\textbf{#1}}}
-	\newcommand{\Value}[1]{\cellcolor{RoyalBlue!15!White}``#1''}
-	\newcommand{\Timestamp}[1]{\cellcolor{RoyalBlue!15!White}#1}
-	\newcommand{\MetadataW}{6cm}
-	\begin{figure}
-	\centering
-% 	\includegraphics[width=1.5\textwidth]{./figure/Solutions/Sol1-MD-ColumnFamily.png}
-% \renewcommand{\tabcolsep}{3cm}
-	\begin{tabular}{cc cc cc}
-		\toprule
-		\textbf{Row Key} &
-		\multicolumn{5}{c}{\textbf{Values}} \\ 
-		\midrule
-		 \multirow{3}{*}{100} &
-		\multicolumn{5}{c<{\rowcolor{RoyalBlue!75!White}}}{\textbf{Super Column
-		Values}}\\
-		
-			 & \Header{First Name} & \Header{Last Name} & \Header{Email} &
-			\Header{Age} & \Header{Metadata}\\
-			 & \Value{John} & \Value{Smith} &
-			\Value{john\@example.com} & \Value{21} & \multicolumn{1}{p{\MetadataW}}{\Value{\blindtext}}\\
-			 &\Timestamp{132875791734} & \Timestamp{132875791987} &
-			\Timestamp{132875791788} & \Timestamp{132875791998} &
-			\Timestamp{1328754442133}\\
-			
-			\multirow{4}{*}{101} & \multicolumn{5}{c}{\textbf{Super Column Values}}\\
-			& \Header{First Name} & \Header{Last Name} & \Header{Email} & \Header{Age} &
-			\Header{Metadata}\\
-			& \Value{Jane} & \Value{Smith} & \Value{jane\@example.com} & \Value{22} &
-			\multicolumn{1}{p{\MetadataW}}{\Value{\blindtext}}\\
-			&\Timestamp{1328757392000} & \Timestamp{1328757391222} &
-			\Timestamp{1328757392777} & \Timestamp{132875796666} &
-			\Timestamp{1328754442133}\\
-		
-	\end{tabular}
 
-	\caption{Metadata in Solution 1}
-	\end{figure}
-	\end{landscape}
-	
-		\begin{figure}[h] \label{fd:Metadata-Solution1}
+	\begin{figure}[h] 
 			\centering
-			\subfigure[Metadata Column] {
-				\includegraphics[width=.6\textwidth]{./figure/Solutions/Sol1-MD-Col.png}
-				\label{fd:Metadata-Solution1-A}
-	% 			\caption{Response Time for \texttt{insert}}\label{fr:response-insert}
-			}
-			\subfigure[Metadata in Super columns]{
-				\includegraphics[width=.8\textwidth]{./figure/Solutions/Sol1-MD-ColumnFamily.png}
-				\label{fd:Metadata-Solution1-B}
-	% 			\caption{Throughput}\label{fr:through-insert}
-			} 
-			\caption{Metadata storage in Solution 1}
-		\end{figure}
+				\includegraphics[width=.8\textwidth]{./figure/Solutions/Sol1-MD-Col.png}
+				\caption{Metadata Column in Solution 1}
+				\label{fd:Metadata-Column}
+	\end{figure}
+	
+	\begin{sidewaysfigure}
+		\begin{landscape}
+			\centering
+			\includegraphics[width=1\textwidth]{./figure/Solutions/Sol1-MD-ColumnFamily.png}
+			
+			\caption{Metadata in Solution 1}\label{fd:Metadata-Solution1}
+			\end{landscape}
+		\end{sidewaysfigure}
+	
+% 	
+% 		\begin{figure}[h] \label{fd:Metadata-Solution1}
+% 			\centering
+% 			\subfigure[Metadata Column] {
+% 				\includegraphics[width=.6\textwidth]{./figure/Solutions/Sol1-MD-Col.png}
+% 				\label{fd:Metadata-Solution1-A}
+% 	% 			\caption{Response Time for \texttt{insert}}\label{fr:response-insert}
+% 			}
+% 			\subfigure[Metadata in Super columns]{
+% 				\includegraphics[width=.8\textwidth]{./figure/Solutions/Sol1-MD-ColumnFamily.png}
+% 				\label{fd:Metadata-Solution1-B}
+% 	% 			\caption{Throughput}\label{fr:through-insert}
+% 			} 
+% 			\caption{Metadata storage in Solution 1}
+% 		\end{figure}
 		
 Since the relevant constraints of a column family are saved
 together in the \texttt{Metadata} column,  it is essential that each constraint
 is easily identifiable and accessible.  To separate
-the constraints and to identify its different parts special characters are used within the
-metadata.  The special characters used in this solution are \texttt{'\{'}, 
-'\texttt{\}}', '\texttt{;}' and '\texttt{:}'. 
-The metadata with these special characters is shown in
-Figure~\ref{fd:Metadata-Solution1-String}:
+the constraints and to identify its different parts, special characters are used
+within the metadata as shown in Figure~\ref{fd:Metadata-Column}. These   
+characters are curly brackets ('\texttt{\{}', '\texttt{\}}') and
+semi-colon and colon ('\texttt{;}', '\texttt{:}'). These special characters are
+used as follows. 
 
-		\begin{figure}[H]
-			\centering
-			\includegraphics[width=.8\textwidth]{./figure/Solutions/Solution1-MD-String.png}
-			\label{fd:Metadata-Solution1-String}
-		\end{figure}
-The special characters are used the following way:
+
+
+% 
+% {\setlength{\fboxsep}{6pt}%
+% \setlength{\fboxrule}{1pt}%
+% 
+% \fbox{\parbox{.9\linewidth}{\tt\centering
+% % \{ConstraintName:CONST100;KeySpace:UNIVERSITY;ConstraintType:P;\\
+% % TableName:Student;RKeySpace:UNIVERSITY;RConstraintName:;\\
+% % RColumn:StudentId;DeleteRule:;\};\\
+% \{ConstraintName:CONST700;KeySpace:UNIVERSITY;ConstraintType:F;\\
+%  TableName:Studentt;RKeySpace:UNIVERSITY;RConstraintName:CONST400;\\
+%  RColumn:StudentId;DeleteRule:NODELETE;\};\\
+% }}
+% }
+
+% \vspace{12pt}
+
+% The special characters :
 	
 		\begin{itemize}
 			\item Each constraint is enclosed in curly brackets and the
@@ -147,15 +135,17 @@ The special characters are used the following way:
 			its value \texttt{CONST100} with a '\texttt{:}'.  
 			
 		\end{itemize}
-		
+
+
 
 		
 The special characters help in identifying the values of every constraint in the
 metadata information for this solution.  The metadata is extracted from each
 super column and processed by specific methods within the solution so that
-relevant constraints are used for validating referential integrity.  Different
-methods are built in the experimental \ac{API} to support these functionalities
-and these are described in Chapter~\ref{c:Implementation}. 
+relevant constraints are used for validating referential integrity.  
+% Different
+% methods are built in the experimental \ac{API} to support these functionalities
+% and these are described in Chapter~\ref{c:Implementation}. 
 
 % In this solution,  the metadata is  repeated several times within the
 % same column family and due to the replicated nature of the \ac{NoSQL} \acp{DBMS}
@@ -163,9 +153,9 @@ and these are described in Chapter~\ref{c:Implementation}.
 % increases the redundancy of the metadata and much space would be consumed
 % unnecessarily if the metadata is large.  
 
-This design was inspired by the experiments done by Hackl et al.   (2010) on a
-popular \ac{NoSQL} \ac{DBMS} named Tokyo Cabinet.  Tokyo Cabinet is similar to
-Cassandra as data is stored in key-value pairs but it does not involve data
+This design was inspired by the experiments done by (\todo{Hackl et al.  
+(2010)}) on a popular \ac{NoSQL} \ac{DBMS} named Tokyo Cabinet.  Tokyo Cabinet
+is similar to Cassandra as data is stored in key-value pairs but it does not involve data
 types or columns and column families as in Cassandra(\todo{cite}). 
 % They proposed to store
 % the metadata  information   stored in
@@ -179,21 +169,23 @@ types or columns and column families as in Cassandra(\todo{cite}).
 % key-value \acp{DBMS} were more efficient in terms of speed,   memory and resource
 % consumption when compared to popular \acp{RDBMS}. 
 As a part of their experiments to manage metadata for huge file systems,  they
-adopted an interesting approach to store metadata in as a part of the value in a
-key-value pair in Tokyo Cabinet.  In their approach this value  is associated
+adopted an approach to store metadata  as a part of the value in a
+key-value pair in Tokyo Cabinet.  In their approach, this value  is associated
 with a unique key and the different parts of the metadata are separated by
-semicolons (Hackl et al.   2010)
+semicolons.
 % where
 % records are stored as simple key-value pairs in data files.  
 % In their approach,   metadata about the file system used in their experiment is
 % inserted. 
-Their results were encouraging since it showed that such a metadata
+Their results showed that such a metadata
 storage provided high speed metadata access where valuable information was 
-integrated with the actual data.  This solution derives this method of saving
+integrated with the actual data.  
+
+Solution~1 derives this method of saving
 metadata using special characters and integrating it with the actual data as
-value in a key-value pair in Cassandra.  The metadata in this solution thus
+value in a key-value pair in Cassandra.  The metadata in this solution 
 contains only the necessary constraints pertinent to a column family and uses
-special characters to distinguish the constraints and its various parts. 
+the special characters to distinguish the constraints and its various parts. 
 
 
 

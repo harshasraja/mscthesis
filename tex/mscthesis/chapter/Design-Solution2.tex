@@ -1,26 +1,26 @@
 %ब
 
-\section{Solution2:  Metadata as a Top Row} \label{s:design-sol2}
+\section{Solution 2:  Metadata as a Top Row} \label{s:design-sol2}
 
 
-In this solution,   metadata is embedded with the actual data and exists in the
+In Solution~2,   metadata is embedded with the actual data and exists in the
 same column family as the actual data which is similar to Solution~1. 
 % where metadata is stored within the same column family. 
 However,  in this solution   metadata is saved only once in the column family as
-a top row or the first super column in a column family with the unique
+a top row (i.e. the first super column in a column family) with the unique
 \texttt{RowId} '\texttt{-1}'.  This top row has only the \texttt{Metadata} 
 column containing the metadata information as its value while the rest of the
 super columns in the same column family have different columns containing the
 actual data.  This design is possible since Cassandra allows rows to have
-different number of columns,  as described in
-Section~\ref{s::key-value-data-model}.  The \texttt{Metadata} column is similar
-to the Solution~1 as shown in Figure~\ref{fd:Metadata-Solution1} (a).  Thus,  for
+different number of columns within a column family.  The \texttt{Metadata}
+column is similar to the Solution~1 as shown in Figure~\ref{fd:Metadata-Solution1} (a).  Thus,  for
 each column family,  its metadata exists only once as a single row and is common
-for all its super columns.  In the University example,   \texttt{Student} column
-family has the metadata  stored as a top row as  shown in
-Figure~\ref{fd:Metadata-Solution2}.  This approach helps preserve the dependency
-information while also making it easily accessible for the referential integrity 
-validations. 
+for all its super columns.  In the University example, the  \texttt{Student}
+column family has the metadata  stored as a top row as  shown in
+Figure~\ref{fd:Metadata-Solution2}.  
+% This approach helps preserve the dependency
+% information while also making it easily accessible for the referential integrity 
+% validations. 
 		 
 	\begin{figure}[h]  
 		\centering 
@@ -31,29 +31,13 @@ validations.
 Similar to Solution~1,   metadata in this solution contains special characters
 '\texttt{\{}',  '\texttt{\}}', '\texttt{;}' and '\texttt{:}' to distinguish all
 the constraints and its different parts and values.  Metadata  for each
-column family contains it \ac{PK} constraints and its associated \ac{FK}
-constraints.  This is again as modelled in Solution~1.  Thus,  in this Solution too
-the metadata for \texttt{Student} will contain its \ac{PK} constraint
+column family contains its \ac{PK} constraints and its associated \ac{FK}
+constraints. Thus,  in this Solutions, 
+the metadata for \texttt{Student}  contains its \ac{PK} constraint
 \texttt{CONST100} and \ac{FK} constraint \texttt{CONST700} as its metadata in
-the top row (Figure~\ref{fd:Metadata-Solution2}). Thus,  this solution differs
-from Solution~1 only in the way the metadata is stored to improve resource
-utilisation and the way special characters are used and saving only the
-relevant constraints for a column family are  the same as in Solution~1. 
-% 	\begin{itemize}
-% 	  \item   constraint showing the primary key of the column family. 
-% 	  \item \ac{FK} constraints 
-% 			\begin{itemize}
-% 				\item In the case of a parent entity the \ac{FK} constraints are the \ac{FK}
-% 				constraints of type '\texttt{F}' to identify the child entities when the entity
-% 				is being updated or deleted. 
-% 				\item  In the case of a child entity the \ac{FK} constraint of type '\texttt{R}'
-% 				would be stored along with the \ac{PK} constraint which indicates its parent
-% 				entities. 
-% 				\item If an entity is both a parent and child entity,  then its metadata would
-% 				hold its \ac{PK} constraint,  and the \ac{FK} constraints of both types. 
-% 			\end{itemize}
-% 	\end{itemize}
-	
+the top row as shown in Figure~\ref{fd:Metadata-Solution2}. 
+
+
 % Consider \texttt{Enrolment}  which is a child entity with parent entities
 % \texttt{Student} and \texttt{Course} (Figure~\ref{}).  Its metadata thus contains
 % its \ac{PK} constraint \texttt{CONST300} and the \ac{FK} constraints
@@ -73,13 +57,13 @@ The motivation behind this solution is to overcome the redundancy of metadata
 storage in Solution~1.  In Solution~1,  metadata is stored in every super column
 of a column family and replicated across the cluster along with the column
 family.  Solution~2 reduces this redundancy and centralises the metadata as a top
-row within the column family.  Thus,  when metadata is large lesser space is
-consumed since it is not replicated as widely as in Solution~1. In other words, 
-the aim of this design was to reduce the redundancy of metadata in the column
-family whilst having metadata accessible to all the nodes by having it embedded
-with the actual data. 
-Furthermore,  this solution  ensures that when changes are made to the metadata
-the actual data is not accessed and only the
+row within the column family.  Thus,  when metadata is large, lesser space is
+consumed since it is not replicated as widely as in Solution~1. 
+% In other words, the aim of this design was to reduce the redundancy of metadata in the column
+% family whilst having metadata accessible to all the nodes by having it embedded
+% with the actual data. 
+Furthermore,  this solution  ensures that, when changes are made to the
+metadata, the actual data is not accessed and only the
 column family  is accessed to fetch the top row containing the metadata. 
 
 

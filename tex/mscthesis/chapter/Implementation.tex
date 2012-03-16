@@ -1,25 +1,42 @@
 %ब
 \chapter{Implementation} \label{c:Implementation}
 
-The design of the four solutions presented the abstracted representation of the
-way metadata is stored in a unique way in each of the solutions. Metadata in the
-solutions are accessed whenever referential integrity validations are triggered
-to extract information about \ac{FK} constraints. Since the metadtas storage is
-different in ecah soltuion, accessing and processing the  metadata is different
-in each solution too.
-Specific methods are designed in all the solutions to read and process the
-metadata to validate referential integrity.  These methods and all the solutions
-are incorporated into a single experimental \ac{API}. The \ac{API} implements
-the design of the solutions and provides methods and logic for the various
-operations and validations to be performed. It also provides methods to
-implement methods t access and process metadata in each solution.
+The four solutions presented in this thesis save the foreign key relationships
+between column families as metadata and each solution saves the metadata in its
+own unique way.  The design of the four solutions presented  an abstracted
+representation of the way metadata is stored in a unique way in the solutions.
+Metadata in the solutions are accessed whenever referential integrity
+validations are triggered when \ac{CRUD} operations are invoked on column
+families. The relevant  \ac{FK} constraints of a column family and
+its associated \ac{PK} constraint are accessed from its metadata and processed
+in order to extract the values held in the constraints. 
 
-Section~\ref{s:implementation-API} presnts the experimental \ac{API} designed to
-implement the four solutions. Section~\ref{s:Implementation-Solution1} describes
+Since the metadata storage is different in
+every solution, accessing and processing the  metadata is different in each
+solution as well. 
+Specific methods are designed in all the solutions to retrieve and process the
+metadata and these methods along with all the
+solutions are incorporated into a single experimental \ac{API}. The
+experimental \ac{API} implements the design of the solutions and provides
+handlers to execute the \ac{CRUD} operations and referential
+integrity validations. 
+% It also implements methods to access and process metadata
+% in each solution.
+
+This chapter describes  the experimental \ac{API} and
+the implementation details of the  four solutions .
+Section~\ref{s:implementation-API} presents the experimental \ac{API} designed
+to implement the four solutions. Section~\ref{s:Implementation-Solution1} describes
 the way Solution~1 accesses and processes metadata.
 Section~\ref{s:Implementation-Solution2} describes how metadata access and
-retrieval are implemented in Solution~2. 
-
+retrieval are implemented in Solution~2.
+Section~\ref{s:Implementation-Solution3} presents how Solution~3 accesses and
+handles metadata.
+Solution~\ref{s:Implementation-Solution4} explains metadata access and
+processing techniques in Solution~4. Lastly,
+Section~\ref{s:Implementation-summary} reviews the implementation of the four
+solutions and presents the assumptions and limitations of the implementations.
+ 
 
 \input{chapter/Implementation-API}
 	
@@ -31,7 +48,41 @@ retrieval are implemented in Solution~2.
 
 \input{chapter/Implementation-Solution4}  
 
-\section{Summary}\label{s:solutions-summary}
+\section{Summary}\label{s:Implementation-summary}
+
+The approach used in all the solutions to retrieve, process and access metadata
+are different since the metadata storage is unique in each solution. Solution~1
+performs String parsing of the metadata to extract the constraints and its
+values. Similarly, Solution~2 parses the metadata but executes an additional
+operation to search and identify the top row in a column family. Solution~3
+requires no additional operations to retrieve metadata but  has to iterate
+through the \texttt{Metadata} column family to identify the relevant constraints
+of an entity, in order to access the various values of the constraints.
+Similarly, Solution~4 performs a search to retrieve the relevant constraints
+from \texttt{Metadata} but requires to maintain an additional connection to the
+metadata cluster. 
+
+Similarities exist in solutions that have similar approaches of metadata
+storage. Solutions~1 and 2 have a similar embedded metadata storage and they
+have similar metadata retrieval approaches where  these solutions use
+special characters and perform String parsing and treats metadata as an entity class. Solutions~3
+and 4 have a similar metadata storage where metadata is stored away from the
+actual data. Hence their metadata retrieval and access are similar except for
+the additional connection and metadata cache in Solution~4.
+
+Although some aspects of the implementation are similar in some solutions,
+ every solution has its own uniqueness and perform differently when its
+ implementation is evaluated. The next chapter presents the experimental setup
+ designed to assess the experimental \ac{API} and to evaluate the performance of
+ each solution.
+% For example,
+% Solution~2 includes an additional search withint the colum family, Solution~3
+% requires a scan of the \texttt{Metadata} column family to locate the ocorrect
+% constraints and Solution~4 requires an additional connection.
+% The parsing of the metadata and its conversion to an entity
+% using the access methods is consistent in Solutions~1 and 2 while . The special
+% characters become the delimiters for parsing the metadata just like in Solution~1
+
 Also mention limitations here
 
 \section{Comments}

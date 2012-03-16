@@ -1,0 +1,48 @@
+%ब
+\section{Solution 4:  Metadata Cluster}\label{s:Implementation-Solution4}
+In Solution~4, metadata is saved in a separate column family called
+\texttt{Metadata} similar to Solution~3, but it is stored and maintained in a
+separate cluster. Figure~\ref{fd:MetadataCluster-Solution4} illustrates the
+separate clusters used in this solution. To access the metadata of an entity for 
+performing validations, the
+metadata cluster has to be accessed primarily. The approach to retrieve, process
+and access metadata are discussed in the sections below.
+
+\subsection{Metadata Retrieval}
+The constraints are treated as entities and inserted into the \texttt{Metadata}
+entity class as in Solution~3. Like Solution~3, the constraints
+are provided by the users and inserted using the \texttt{insert} operation which
+is designed to prevent referential integrity validations for metadata entities.
+ To insert constraints into \texttt{Metadata}, a separate
+connection is established to the \texttt{MetadataCluster} and to insert the other entities
+into their respective entity classes in the keyspace another connection is
+maintained to the \texttt{KeyspaceCluster}.
+
+The constraints are retrieved from  \texttt{Metadata}, which 
+maintained in the \texttt{MetadataCluster}, using the connection object
+established for connecting to this cluster.  \texttt{Metadata}
+has the necessary getter and setter methods to access its attributes which are
+the different parts of a constraint. Additional operations like string parsing
+are not required in this solution although a separate connection is required.
+
+\subsection{Metadata Access}
+
+ 
+Whenever an operation is invoked on an entity, the \texttt{ValidationHandler}
+accesses \texttt{Metadata} and the relevant constraints of the entity are
+extracted from \texttt{Metadata} by identifying constraints that have  the entity as the value
+for its \texttt{ColumnFamily} field, which is similar to Solution~3.The relevant constraints
+are stored as a list and maintained as cache till the operation is completed.
+Hence, all the relevant \ac{PK} and \ac{FK} constraints for an entity class are
+stored in the cache and reused for future operations on the entities of that
+type.% 
+% stored as cache by . For all the operations on entities of the entity class, the
+% cached metadata is used. A connection is established to the metadata cluster in
+% order to access the \texttt{Metadata} column family.  
+The \texttt{ValidationHandler} accesses the values form the relevant constraints
+using the getter methods of the \texttt{Metadata} and validates referential
+integrity for entities.
+
+% In this solution, the relevant constraints of an
+% entity are accessed from the \texttt{Metadata} entity class using its getter
+%  methods, similar to the previous solutions.

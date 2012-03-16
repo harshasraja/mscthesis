@@ -1,10 +1,10 @@
 %ब
-\section{Solution4:  Metadata Cluster} \label{s:design-sol4}
+\section{Solution 4:  Metadata Cluster} \label{s:design-sol4}
 
-In this solution,  metadata  is saved in a separate column family,  which is
-similar to Solution~3 (Figure~\ref{fd:Metadata-Solution3}). 
+In Solution~4,  metadata  is saved in a separate column family
+similar to Solution~3. 
 However,  in this solution,  the \texttt{Metadata} column family is saved in a
-separate Cassandra cluster instead of saving the metadata as a column family
+separate Cassandra cluster instead of saving it
 within the same keyspace.  This means that the metadata storage
 is decentralised and separated from the Cassandra cluster containing the
 keyspace with actual data. 
@@ -36,9 +36,10 @@ the cluster containing the keyspace to perform any operations on the actual
 data.  Whenever a \ac{CRUD} operation is invoked on a column family,  the
 experimental \ac{API} accesses its relevant metadata and caches it to re-use it
 for future operations on this column family. 
-Additionally,  the experimental \ac{API} can perform validations without
-disruptions using the cached metadata when the metadata cluster is unresponsive or not active . 
-Having metadata in a persistence layer is effective since metadata is not
+Additionally, if the metadata cluster is unresponsive or not active,  the
+experimental \ac{API} can continue performing validations despite such
+disruptions using the cached metadata.
+Having metadata cached is effective since metadata is not
 expected to be as frequently changed as the actual data.  This also saves
 operational time by not having to connect to the
 \texttt{Metadata} column family each time  metadata is accessed. 
@@ -67,25 +68,25 @@ operational time by not having to connect to the
 % column family in the ‘Metadata Cluster’.  Once this information is processed, 
 % the API connects to the referencing column families in the ‘Test Cluster’ and
 % completes the insert operation. 
-This  approach is very useful when an application handles multiple keyspaces
-and have to store and maintain metadata (which can be large) for its several
+This  approach is useful when an application handles multiple keyspaces
+and have to store and maintain large amounts of metadata  for  several
 keyspaces. 
-In such cases it is straightforward and simple to maintain all the metadata  in a
+In such cases it is straightforward  to maintain all the metadata  in a
 separate cluster  decoupled from the actual data and avoids having to handle
 the actual data. 
 % Even if the metadata
 % cluster is unresponsive or not active the \ac{API} can perform operations with 
 % the cached metadata. 
  
- This approach is inspired from the way most distributed systems
- save metadata in \ac{MDS} clusters (Lin Xia et al.  2009). 
- For better scalability and efficient access of metadata,  \ac{MDS} are
- often separate clusters in large distributed environments.  In distributed
- systems such clusters  have a master \ac{MDS} and subordinate \acp{MDS},  with
- each server running on a different node.  But in this solution such delegations
- of tasks are not required since all nodes in a Cassandra cluster  have the same
- responsibilities and do not have a master-slave configuration.  This solution
- thus adopts the design of having a cluster of dedicated nodes to save metadata
- information and to have a central location to preserve and maintain metadata
- for many keyspaces. 
+ This approach is inspired from the way most distributed systems save metadata
+ in Metadata Server clusters (Lin Xia et al.  2009).
+ For better scalability and efficient access of metadata,  these clusters are
+ often separately maintained in large distributed environments where a master
+ metadata server and subordinate metadata servers handle various
+ responsibilities within the cluster.
+ In Solution~4 such delegations of tasks are not required since all nodes in a
+ Cassandra cluster  have the same responsibilities and do not have a
+ master-slave configuration.  Thus, Solution~4  adopts the design of having
+ a cluster of dedicated nodes to save metadata information and to have a central
+ location to preserve and maintain metadata for many keyspaces.
  
