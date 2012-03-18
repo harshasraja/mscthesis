@@ -3,19 +3,20 @@
 
 The four solutions presented in this thesis save the foreign key relationships
 between column families as metadata and each solution saves the metadata in its
-own unique way.  The design of the four solutions presented  an abstracted
-representation of the way metadata is stored in a unique way in the solutions.
-Metadata in the solutions are accessed whenever referential integrity
-validations are triggered when \ac{CRUD} operations are invoked on column
-families. The relevant  \ac{FK} constraints of a column family and
-its associated \ac{PK} constraint are accessed from its metadata and processed
+own unique way.  The design of the four solutions presented in the previous
+chapter was shown as an  abstract representation of the way metadata is
+stored.
+Such metadata is accessed whenever referential integrity
+validations are triggered, that is, when \ac{CRUD} operations are invoked on
+column families. The relevant  \ac{FK} constraints of a column family and
+its associated \ac{PK} constraints are accessed from its metadata and processed
 in order to extract the values held in the constraints. 
 
 Since the metadata storage is different in
 every solution, accessing and processing the  metadata is different in each
 solution as well. 
 Specific methods are designed in all the solutions to retrieve and process the
-metadata and these methods along with all the
+metadata, and these methods along with all the
 solutions are incorporated into a single experimental \ac{API}. The
 experimental \ac{API} implements the design of the solutions and provides
 handlers to execute the \ac{CRUD} operations and referential
@@ -24,322 +25,309 @@ integrity validations.
 % in each solution.
 
 This chapter describes  the experimental \ac{API} and
-the implementation details of the  four solutions .
-Section~\ref{s:implementation-API} presents the experimental \ac{API} designed
-to implement the four solutions. Section~\ref{s:Implementation-Solution1} describes
-the way Solution~1 accesses and processes metadata.
-Section~\ref{s:Implementation-Solution2} describes how metadata access and
-retrieval are implemented in Solution~2.
-Section~\ref{s:Implementation-Solution3} presents how Solution~3 accesses and
-handles metadata.
-Solution~\ref{s:Implementation-Solution4} explains metadata access and
-processing techniques in Solution~4. Lastly,
-Section~\ref{s:Implementation-summary} reviews the implementation of the four
-solutions and presents the assumptions and limitations of the implementations.
+the implementation details of the  four solutions.
+Section~\ref{s:implementation-API} presents the experimental \ac{API} and
+describes its most relevant components.
+Section~\ref{s:implementation-MDinSolutions} describes the approaches taken by
+the four solutions to retrieve and process metadata.
+% Section~\ref{s:Implementation-Solution1} describes the way Solution~1 accesses and processes metadata.
+% Section~\ref{s:Implementation-Solution2} describes how metadata access and
+% retrieval are implemented in Solution~2.
+% Section~\ref{s:Implementation-Solution3} presents how Solution~3 accesses and
+% handles metadata.
+% Solution~\ref{s:Implementation-Solution4} explains metadata access and
+% processing techniques in Solution~4. 
+Lastly, Section~\ref{s:Implementation-summary} presents a summary of the
+chapter.
  
 
 \input{chapter/Implementation-API}
 	
-\input{chapter/Implementation-Solution1}
+\input{chapter/Implementation-Metadata}
 
-\input{chapter/Implementation-Solution2}
-
-\input{chapter/Implementation-Solution3} 
-
-\input{chapter/Implementation-Solution4}  
+% \input{chapter/Implementation-Solution1}
+% 
+% \input{chapter/Implementation-Solution2}
+% 
+% \input{chapter/Implementation-Solution3} 
+% 
+% \input{chapter/Implementation-Solution4}  
 
 \section{Summary}\label{s:Implementation-summary}
 
-The approach used in all the solutions to retrieve, process and access metadata
-are different since the metadata storage is unique in each solution. Solution~1
-performs String parsing of the metadata to extract the constraints and its
-values. Similarly, Solution~2 parses the metadata but executes an additional
-operation to search and identify the top row in a column family. Solution~3
-requires no additional operations to retrieve metadata but  has to iterate
-through the \texttt{Metadata} column family to identify the relevant constraints
-of an entity, in order to access the various values of the constraints.
-Similarly, Solution~4 performs a search to retrieve the relevant constraints
-from \texttt{Metadata} but requires to maintain an additional connection to the
-metadata cluster. 
+\todo{Talk more about API, its components and the relationship between EM and
+VH}
 
-Similarities exist in solutions that have similar approaches of metadata
-storage. Solutions~1 and 2 have a similar embedded metadata storage and they
-have similar metadata retrieval approaches where  these solutions use
-special characters and perform String parsing and treats metadata as an entity class. Solutions~3
-and 4 have a similar metadata storage where metadata is stored away from the
-actual data. Hence their metadata retrieval and access are similar except for
-the additional connection and metadata cache in Solution~4.
+The experimental \ac{API} encapsulates all the solutions and provides methods
+and handlers to manage entitites and perform referential intergrity validations.
+These methods are designed to support the different metadata storage in each
+solution and provide 
 
-Although some aspects of the implementation are similar in some solutions,
- every solution has its own uniqueness and perform differently when its
- implementation is evaluated. The next chapter presents the experimental setup
- designed to assess the experimental \ac{API} and to evaluate the performance of
- each solution.
-% For example,
-% Solution~2 includes an additional search withint the colum family, Solution~3
-% requires a scan of the \texttt{Metadata} column family to locate the ocorrect
-% constraints and Solution~4 requires an additional connection.
-% The parsing of the metadata and its conversion to an entity
-% using the access methods is consistent in Solutions~1 and 2 while . The special
-% characters become the delimiters for parsing the metadata just like in Solution~1
+ All the solutions have
+different metadata storage, but retrieving and processing  is implemented using either a string of text or an entity.
+%  approach used in all the solutions to retrieve, process and access metadata
+% are different since the metadata storage is unique in each solution. 
+Solution~1 saves the metadata as text within the entities and Solution~2 saves
+it as text in the top row. Both solutions require the \texttt{EntityManager} to
+parse and extract the necessary information of the constraints. These
+constraints are then loaded into a list of entities which the
+\texttt{ValidationHandler} uses to ensure the referential integrity.
+ Solution~3
+ and~4 store the metadata in column families, thus, having their own
+ \texttt{Metadata} entities which can be retrieved by using the
+ \texttt{EntityManager}.  However, Solution~4 keeps the metadata in cache once
+ it is extracted in order to avoid additional connections to another cluster.
 
-Also mention limitations here
+The next chapter presents the experimental design used to evaluate  the
+performance of each solution implemented within the \ac{API}.
 
-\section{Comments}
-% 
-% % As mentioned previously,  cloud column-oriented key-value \acp{DBMS} lack
-% % referential integrity constraints to maintain foreign key relationships,  as
-% % seen in traditional \acp{RDBMS},  due to its non-relational data model. 
-% % Moreover,  these cloud \acp{DBMS} do not normalise data nor maintain
-% % relationships.
-% Traditionally, referential
-% integrity constraints are imposed on data items of a database to maintain
-% foreign key relationships. These relationships are
-%  maintained by correctly identifying and preserving the data dependencies 
-%  existing between the data items.
-% % Traditionally, foreign key relationships are
-% % maintained by correctly identifying and preserving the data dependencies existing between data items in a database.
-% % These dependencies are maintained and  validated by imposing referential
-% % integrity constraints on data items. 
-% Most popular traditional \acp{RDBMS}
-% preserve such dependency information in their \texttt{System} tables or data
-% dictionaries.  These tables store the necessary information  which is required
-% to maintain valid dependencies. The information stored in such tables include table
-% names,  primary and foreign keys among others.
+% parsing of the metadata to extract the constraint values and uses the getter methods of the
+% \texttt{Metadata} entity class  to access these values.
+% Similarly, Solution~2 also saves metadata as text , but executes an
+% additional operation to search and identify the top row in a column family.
+% Solution~3 saves metadata as an entity and requires no
+% additional operations to process metadata, but has to iterate through the
+% \texttt{Metadata} column family to identify the relevant constraints of an
+% entity.
+% Likewise, Solution~4 saves metadata as an entity and performs a search to
+% retrieve the relevant constraints from \texttt{Metadata}, but caches the
+% metadata to avoid connecting to the metadata cluster in every operation.
+
+% Similarities exist in solutions that have similar approaches of metadata
+% storage. Some of the approaches to extract metadata and 
+% Solutions~1 and 2 adopt similar approaches of implementing metadata and they
+% have similar metadata retrieval approaches where  these solutions use special characters and
+% perform String parsing and treats metadata as an entity class. Solutions~3 and 4
+% have a similar metadata storage where metadata is stored away from the actual
+% data. Hence their metadata retrieval and access are similar except for the
+% additional connection and metadata cache in Solution~4.
+
+% Although approaches to implement metadata are similar in some solutions, every
+% solution has a different metadata storage and thus 
+% perform some adadopts
+% different approaches to extract and process metadata and 
+% perform differently when its implementation is evaluated. 
+
+% For example, Solution~2 includes an additional search withint the colum
+% family, Solution~3 requires a scan of the \texttt{Metadata} column family to
+% locate the ocorrect constraints and Solution~4 requires an additional
+% connection.
+% The parsing of the metadata and its conversion to an entity using the access
+% methods is consistent in Solutions~1 and 2 while. The special characters
+% become the delimiters for parsing the metadata just like in Solution~1
+
+
+%  % As mentioned previously,  cloud column-oriented key-value \acp{DBMS} lack %
+% referential integrity constraints to maintain foreign key relationships,  as %
+% seen in traditional \acp{RDBMS},  due to its non-relational data model.
+% % Moreover,  these cloud \acp{DBMS} do not normalise data nor maintain %
+% relationships.
+% Traditionally, referential integrity constraints are imposed on data items of
+% a database to maintain foreign key relationships. These relationships are
+% maintained by correctly identifying and preserving the data dependencies
+% existing between the data items.
+% % Traditionally, foreign key relationships are % maintained by correctly
+% identifying and preserving the data dependencies existing between data items
+% in a database.
+% % These dependencies are maintained and  validated by imposing referential %
+% integrity constraints on data items.
+% Most popular traditional \acp{RDBMS} preserve such dependency information in
+% their \texttt{System} tables or data dictionaries.  These tables store the
+% necessary information  which is required to maintain valid dependencies. The
+% information stored in such tables include table names,  primary and foreign
+% keys among others.
 % This can be seen in popular \acp{RDBMS} like  MS SQL Server,  PostgreSQL,
-% Oracle, and so on.  
-% 
-% For example,  in MS SQL Server 2000, \texttt{sysforeignkeys}
-% is a \texttt{System} table which stores the information of all 
-% foreign keys of every table in a database, and \texttt{sysreferences}
-% stores the mappings of  foreign keys to the referenced primary key columns
-% (\todo{\citep{sys:msdn}}).
-% Information in these \texttt{System} tables consist of  the
-% names of tables and its constraints,  unique identifiers of 
-% referenced and referencing columns,  among others. 
+% Oracle, and so on.
+%  For example,  in MS SQL Server 2000, \texttt{sysforeignkeys} is a
+% \texttt{System} table which stores the information of all foreign keys of
+% every table in a database, and \texttt{sysreferences} stores the mappings of 
+% foreign keys to the referenced primary key columns (\todo{\citep{sys:msdn}}).
+% Information in these \texttt{System} tables consist of  the names of tables
+% and its constraints,  unique identifiers of referenced and referencing
+% columns,  among others.
 % In PostgreSQL, such information is saved as views which contain the dependency
 % information of data items in a database.
 % The view \texttt{table\_constraints} contains the information for all the
-% constraints in every table owned by the current user. (\todo{\cite{}}). 
+% constraints in every table owned by the current user. (\todo{\cite{}}).
 % Similarly, Oracle uses a \texttt{SYSTEM} meta-database to hold such constraint
 % information.
-%  In general, \texttt{System} tables or views with information
-% about the existing dependencies  are looked up by these \acp{RDBMS} whenever
-% referential integrity checks are triggered \citep{sys:msdn}.
-% 
-% 
-% The solutions presented in this chapter save the dependency information as
-% metadata. This metadata contains relevant  information about  foreign
-% key relationships in keyspaces and primary keys of column families. It is
-% accessed whenever an operation is performed on the data and referential
-% integrity needs to be validated.
-% 
-% 
-% This chapter describes  four  solutions  that implement referential
+% In general, \texttt{System} tables or views with information about the
+% existing dependencies  are looked up by these \acp{RDBMS} whenever referential
+% integrity checks are triggered \citep{sys:msdn}.
+%   The solutions presented in this chapter save the dependency information as
+% metadata. This metadata contains relevant  information about  foreign key
+% relationships in keyspaces and primary keys of column families. It is accessed
+% whenever an operation is performed on the data and referential integrity needs
+% to be validated.
+%   This chapter describes  four  solutions  that implement referential
 % integrity constraints in a cloud \ac{NoSQL} \ac{DBMS}.
-% Section~\ref{s:Metadata} describes the metadata used by the solutions 
-%  to store the dependency information.
-% Section~\ref{s:API} describes the design and implementation of the experimental
-% API developed to integrate all the four
-% solutions. 
+% Section~\ref{s:Metadata} describes the metadata used by the solutions to store
+% the dependency information.
+% Section~\ref{s:API} describes the design and implementation of the
+% experimental API developed to integrate all the four solutions.
 % Section~\ref{s:sol1} describes  the first solution, which implements
-% referential integrity constraints by saving metadata along with the actual data.
-% Section~\ref{s:sol2} describes the second  solution where metadata is
-% saved as a top row. Section~\ref{s:sol3} describes the third   
-% solution which saves metadata separate from the actual data.   
-% Section~\ref{s:sol4}  describes the fourth solution which saves metadata in a separate cluster.
+% referential integrity constraints by saving metadata along with the actual
+% data.
+% Section~\ref{s:sol2} describes the second  solution where metadata is saved as
+% a top row. Section~\ref{s:sol3} describes the third solution which saves
+% metadata separate from the actual data.
+% Section~\ref{s:sol4}  describes the fourth solution which saves metadata in a
+% separate cluster.
 % Finally, Section~\ref{s:solutions-summary} presents a brief summary of this
-% chapter. 
-% 
-% \section{Metadata}\label{s:Metadata}
-% Metadata in \acp{DBMS} provide information about the data stored within the
-% databases.
-% It may contain details related to schemas, constraints,  primary and foreign keys, and
-% so on.   As previously mentioned,  most traditional \acp{RDBMS} maintain such
-% metadata within their \texttt{System}  tables or data dictionaries.  
-% In Apache Cassandra, the \ac{DBMS} of interest, metadata is stored in a 
-% keyspace named \texttt{System} and it contains information
-% about the cluster and its nodes along with information related to the
-% keyspaces, column families, and so on (\todo{cite BOOK}).
-%  Even when Cassandra has a  \texttt{System} keyspace to store metadata, it 
-%  is read-only and hence it cannot be modified to store additional metadata
-%  about referential integrity constraints. 
-% %  As
-% % previously mentioned ,  most traditional \acp{RDBMS}
-% % maintain such metadata within their \texttt{System} tables or data dictionaries.
+% chapter.
+%  \section{Metadata}\label{s:Metadata} Metadata in \acp{DBMS} provide
+% information about the data stored within the databases.
+% It may contain details related to schemas, constraints,  primary and foreign
+% keys, and so on.   As previously mentioned,  most traditional \acp{RDBMS}
+% maintain such metadata within their \texttt{System}  tables or data
+% dictionaries.
+% In Apache Cassandra, the \ac{DBMS} of interest, metadata is stored in a
+% keyspace named \texttt{System} and it contains information about the cluster
+% and its nodes along with information related to the keyspaces, column
+% families, and so on (\todo{cite BOOK}).
+% Even when Cassandra has a  \texttt{System} keyspace to store metadata, it is
+% read-only and hence it cannot be modified to store additional metadata about
+% referential integrity constraints.
+% %  As % previously mentioned ,  most traditional \acp{RDBMS} % maintain such
+% metadata within their \texttt{System} tables or data dictionaries.
 % % Such metadata is decoupled from the actual data and its operations,  so that
-% % retrieving the metadata is faster since it does not involve handling the actual
-% % data(\todo{cite Duval}). 
-% % It has been studied that the \ac{DaaS} is moving towards maintaining metadata in
-% % the cloud \acp{DBMS},  where commonly this metadata stores information about the
-% % nodes in a distributed cluster (\todo{cite Bin(2010)}).  For  maintaining the
-% % scalability required in such cloud \acp{DBMS}, metadata is often decoupled from
-% % the actual data so that accessing metadata does not cause a bottleneck in
-% % performance.  Cassandra maintains  metadata about the nodes in a
-% % cluster  in a separate keyspace named \texttt{System}, which stores the
-% % properties of every node, for example the node tokens,  the name of the
-% % cluster to which  nodes belongs to, information about the stored keyspaces and
-% % column families and so on(\todo{cite BOOK}). 
-% % As per the design of Cassandra,  the \texttt{System} keyspace cannot be modified
-% % and thus  the metadata for the   solutions cannot be incorporated in this
-% % \texttt{System} keyspace.  Hence,  for preserving the metadata in each 
-% % solution implements a  different strategy In other words, metadata is associated
-% % with actual data in different ways.  Associations can be classified as
-% % (\todo{cite Duval}):
-% Hence,  for preserving the metadata, each 
-% solution implements a  different strategy in which metadata is associated
-% with actual data. Solutions~1 and~2 use embedded metadata, that is, metadata
-% is created with the actual data (\todo{cite Duval2009}); while solutions~3 and~4
-% associate metadata separately from the actual data.  Notice that, the structure
-%  of the metadata is kept the same across all the solutions even when  the way of
-%  storing and associating this metadata is different in each. 
-% 
-% The role of metadata in  the solutions is primarily to hold the necessary
-%  information required to maintain referential integrity. The metadata contains  
-%  information about primary keys,   foreign keys,  referenced and referencing
-%  column family details, constraints, and others.  The constraints considered in
-%  the solutions can be either \ac{PK} or \ac{FK} 
-% constraints. \ac{PK}
-% constraints specify which column is the primary key of a column family, while 
+% % retrieving the metadata is faster since it does not involve handling the
+% actual % data(\todo{cite Duval}).
+% % It has been studied that the \ac{DaaS} is moving towards maintaining
+% metadata in % the cloud \acp{DBMS},  where commonly this metadata stores
+% information about the % nodes in a distributed cluster (\todo{cite
+% Bin(2010)}).  For  maintaining the % scalability required in such cloud
+% \acp{DBMS}, metadata is often decoupled from % the actual data so that
+% accessing metadata does not cause a bottleneck in % performance.  Cassandra
+% maintains  metadata about the nodes in a % cluster  in a separate keyspace
+% named \texttt{System}, which stores the % properties of every node, for
+% example the node tokens,  the name of the % cluster to which  nodes belongs
+% to, information about the stored keyspaces and % column families and so
+% on(\todo{cite BOOK}).
+% % As per the design of Cassandra,  the \texttt{System} keyspace cannot be
+% modified % and thus  the metadata for the   solutions cannot be incorporated
+% in this % \texttt{System} keyspace.  Hence,  for preserving the metadata in
+% each % solution implements a  different strategy In other words, metadata is
+% associated % with actual data in different ways.  Associations can be
+% classified as % (\todo{cite Duval}):
+% Hence,  for preserving the metadata, each solution implements a  different
+% strategy in which metadata is associated with actual data. Solutions~1 and~2
+% use embedded metadata, that is, metadata is created with the actual data
+% (\todo{cite Duval2009}); while solutions~3 and~4 associate metadata separately
+% from the actual data.  Notice that, the structure of the metadata is kept the
+% same across all the solutions even when  the way of storing and associating
+% this metadata is different in each.
+%  The role of metadata in  the solutions is primarily to hold the necessary
+% information required to maintain referential integrity. The metadata contains
+% information about primary keys,   foreign keys,  referenced and referencing
+% column family details, constraints, and others.  The constraints considered in
+% the solutions can be either \ac{PK} or \ac{FK} constraints. \ac{PK}
+% constraints specify which column is the primary key of a column family, while
 % \ac{FK} constraints (or referential integrity constraints) determine the
-% foreign key relationship between two column families, that is, the
-%  column of a column family which  is dependent on the primary key  column of
-%  another column family.  Hence, for each column family with a primary key,  the
-% metadata  contains one \ac{PK} constraint  and  as
-% many \ac{FK} constraints as foreign key relationships. 
-% % Notice that, throughout
-% %  the solutions, the structure of metadata containing these constraints is
-% % consistent despite.  
-% 
-% The structure of the metadata is shown in
-% Figure~\ref{f:metadataInSolutions}.  This structure contains information about a
-% University keyspace example in which  a simple schema is applied for the
-% keyspace. In this example,  the details of the students are saved in  the
-% \texttt{Student} column family and the course
-%  details in the \texttt{Course} column family.
-%  The enrolment details of students are saved in the 
-% \texttt{Enrolment} column family by associating students to courses and
-% hence having foreign key relationships to both \texttt{Student} and
-% \texttt{Course} column families.
-% All the column families have unique primary keys and their \ac{PK} constraints are saved in
-% the metadata as presented in Figure~\ref{f:metadataInSolutions}, while the
-% foreign key relationships between \texttt{Enrolment}, \texttt{Student} and
-% \texttt{Course} are saved as \ac{FK} constraints.  For instance, consider in
-%  Figure~\ref{f:metadataInSolutions} the \ac{PK} constraint \texttt{CONST100},
-%  for the \texttt{Student} column family, and the \ac{FK} constraint  
-%  \texttt{CONST400} for the foreign key relationship between
+% foreign key relationship between two column families, that is, the column of a
+% column family which  is dependent on the primary key  column of another column
+% family.  Hence, for each column family with a primary key,  the metadata 
+% contains one \ac{PK} constraint  and  as many \ac{FK} constraints as foreign
+% key relationships.
+% % Notice that, throughout %  the solutions, the structure of metadata
+% containing these constraints is % consistent despite.
+%  The structure of the metadata is shown in Figure~\ref{f:metadataInSolutions}.
+%  This structure contains information about a University keyspace example in
+% which  a simple schema is applied for the keyspace. In this example,  the
+% details of the students are saved in  the \texttt{Student} column family and
+% the course details in the \texttt{Course} column family.
+% The enrolment details of students are saved in the \texttt{Enrolment} column
+% family by associating students to courses and hence having foreign key
+% relationships to both \texttt{Student} and \texttt{Course} column families.
+% All the column families have unique primary keys and their \ac{PK} constraints
+% are saved in the metadata as presented in Figure~\ref{f:metadataInSolutions},
+% while the foreign key relationships between \texttt{Enrolment},
+% \texttt{Student} and \texttt{Course} are saved as \ac{FK} constraints.  For
+% instance, consider in Figure~\ref{f:metadataInSolutions} the \ac{PK}
+% constraint \texttt{CONST100}, for the \texttt{Student} column family, and the
+% \ac{FK} constraint \texttt{CONST400} for the foreign key relationship between
 % \texttt{Enrolment} and \texttt{Student}.
-% 
-% \begin{figure}[h]
-% 	\centering
-% 	
-% 	\newcolumntype{C}{@{\hspace{2.5pt}}>{\scriptsize}c@{\hspace{2.5pt}}}
-% 	\begin{tabular}{CCC CCC CC}
-% 		\toprule
-% 		\bfseries ConstraintName & \bfseries Keyspace & \bfseries ConstraintType &
-% 		\bfseries ColumnFamily & \bfseries RKeyspace & \bfseries RConstraintName &
-% 		\bfseries RColumn & \bfseries DeleteRule\\
-% 		\midrule
-% 		CONST100 & University & P & Student & University & & StudentId &\\
-% 		\rc CONST200 & University & P & Course & University & & CourseId &\\
-% 		CONST300 & University & P & Enrolment & University & & RowId &\\
-% % 		\hline
-% % 		\hline
-% 		\rc CONST400 & University & R & Enrolment & University & CONST100 & StudentId
-% 		& CASCADE\\
-% 		CONST500 & University & R & Enrolment & University & CONST200 & CourseId &
-% 		NODELETE\\
-% 		\rc CONST600 & University & F & Course & University & CONST500 & CourseId &
-% 		NODELETE\\
-% 		CONST700 & University & F & Student & University & CONST400 & StudentId &
-% 		CASCADE\\
-% 		\bottomrule
-% 	\end{tabular}
-% 	\caption{Metadata for the Solutions}\label{f:metadataInSolutions}
-% \end{figure}
-% 
-% 
-% Specifically, the structure of the metadata contains:
-% 
-% \begin{itemize}
-%   
-%   \item \texttt{ConstraintName:} is the name assigned for
-%   every constraint and it uniquely identifies an
-%   existing \ac{PK} or \ac{FK} constraint in the metadata. 
-%    For example,  \texttt{CONST100} and \texttt{CONST400} are the
-%   \texttt{ConstraintNames}.
-%   
-%   \item \texttt{Keyspace:}represents the name of the Keyspace the constraint
-%   belongs to. 
-%   
-%   \item \texttt{ConstraintType:} denotes the type of the constraint and the
-%   possible values are '\texttt{P}', '\texttt{R}' and '\texttt{F}'.
+%  \begin{figure}[h] \centering 
+% \newcolumntype{C}{@{\hspace{2.5pt}}>{\scriptsize}c@{\hspace{2.5pt}}}
+% \begin{tabular}{CCC CCC CC} \toprule \bfseries ConstraintName & \bfseries
+% Keyspace & \bfseries ConstraintType & \bfseries ColumnFamily & \bfseries
+% RKeyspace & \bfseries RConstraintName & \bfseries RColumn & \bfseries
+% DeleteRule\\
+% \midrule CONST100 & University & P & Student & University & & StudentId &\\
+% \rc CONST200 & University & P & Course & University & & CourseId &\\
+% CONST300 & University & P & Enrolment & University & & RowId &\\
+% %   \hline %   \hline \rc CONST400 & University & R & Enrolment & University &
+% CONST100 & StudentId & CASCADE\\
+% CONST500 & University & R & Enrolment & University & CONST200 & CourseId &
+% NODELETE\\
+% \rc CONST600 & University & F & Course & University & CONST500 & CourseId &
+% NODELETE\\
+% CONST700 & University & F & Student & University & CONST400 & StudentId &
+% CASCADE\\
+% \bottomrule \end{tabular} \caption{Metadata for the
+% Solutions}\label{f:metadataInSolutions} \end{figure}   Specifically, the
+% structure of the metadata contains:
+%  \begin{itemize}  \item \texttt{ConstraintName:} is the name assigned for
+% every constraint and it uniquely identifies an existing \ac{PK} or \ac{FK}
+% constraint in the metadata.
+% For example,  \texttt{CONST100} and \texttt{CONST400} are the
+% \texttt{ConstraintNames}.
+%  \item \texttt{Keyspace:}represents the name of the Keyspace the constraint
+% belongs to.
+%  \item \texttt{ConstraintType:} denotes the type of the constraint and the
+% possible values are '\texttt{P}', '\texttt{R}' and '\texttt{F}'.
 % %   The former referes to  a \ac{PK} constraint while the latter represents  a
-% %    \ac{FK} constraint. 
-% 	A \ac{PK} constraint is referred by '\texttt{P}' while '\texttt{R}' and
-% 	'\texttt{F}' are two representations of \ac{FK} constraints.
-% 		'\texttt{R}' represents the Referential Integrity
-% 	Constraint (or the \ac{FK} constraint) a child entity has on a parent primary
-% 	key and '\texttt{F}' shows the  existing dependencies on a parent
-% 	entity.
-% 	For example, \texttt{CONST400} shows that the the parent entity
-% 	 for \texttt{Enrolment} is \texttt{Student}. \texttt{CONST700}
-% 	shows that parent entity \texttt{Student} has child dependencies on it. Notice
-% 	that, the constraint type '\texttt{F}'
-% 	is primarily used to locate the child dependencies for a parent when it
-% 	is deleted or updated.
-% % 	\begin{itemize}
-% % 	  \item  '\texttt{P}' represents a \ac{PK} constraint
-% % 	  \item '\texttt{R}' represents a 
-% 
-%    
-%   \item \texttt{ColumnFamily:} refers to the column family this constraint
-%   exists in. For example,  the \ac{PK} constraint
-%   \texttt{CONST100}  exists in column family \texttt{Student} and the column
-%   family of the \ac{FK} constraint \texttt{CONST400}
-%   is \texttt{Enrolment}.
-%   
-%   \item \texttt{RKeyspace:}is the name of the keyspace on which this constraint
-%   is applied.  In the example, constraints  are applied in  the keyspace
-%   \texttt{University}.
-%   
-%     %   In other words, it indicates which primary key
-% %   is referenced or which . 
-%   \item \texttt{RConstraintName:} For \ac{FK}
-%   constraints, \texttt{RConstraintName} represents the constraint that is
-%   referenced. For constraint type '\texttt{R}' this represents the referenced
-%   \ac{PK} constraint and for constraint type '\texttt{F}' it shows  the child
-%   dependencies for a parent entity. In the example, the \ac{FK} constraint
-%   \texttt{CONST400} references the \ac{PK} constraint \texttt{CONST100},  which
-%   means that \texttt{Enrolment} has a foreign key relationship with
-%   \texttt{Student}.
-%    In \texttt{CONST700} this field indicates that \ac{FK} constraint
-%    \texttt{CONST400} exists for \texttt{Student}. Notice that in a \ac{PK}
-%    constraint this field is left blank since it has no references to other keys.
-%   
-%   \item \texttt{RColumn:}  indicates the primary key column on which this
-%   constraint is applicable.  For \ac{PK} constraints,  this holds the name of
-%   the primary key column. For \ac{FK} constraints, this field denotes
-%   the referenced column.  This example shows that the \ac{PK} constraint
-%   \texttt{CONST100} is applied on the primary key column \texttt{StudentId} of
-%   \texttt{Student} column family . The \ac{FK} constraint \texttt{CONST400}
-%   shows that the referenced column is \texttt{StudentId},  indicating that
-%   \texttt{Enrolment} references  primary key column \texttt{StudentId} of
-%   \texttt{Student}.
-%   
-%   \item \texttt{DeleteRule:}stores the type of data manipulation rule applicable
-%   on this constraint. The possible values are  \texttt{Cascade} and
-%   \texttt{NoDelete}.  This field is not applicable  for \ac{PK} constraints
-%    since data manipulation rules are associated with constraints that hold
-%   dependency information like the \ac{FK} constraints.
-%   
-% \end{itemize}
-% 
-% Metadata in the solutions are accessed whenever referential integrity
-% validations are triggered to extract information about \ac{FK} constraints. 
+% %    \ac{FK} constraint.
+% A \ac{PK} constraint is referred by '\texttt{P}' while '\texttt{R}' and
+% '\texttt{F}' are two representations of \ac{FK} constraints.
+% '\texttt{R}' represents the Referential Integrity Constraint (or the \ac{FK}
+% constraint) a child entity has on a parent primary key and '\texttt{F}' shows
+% the  existing dependencies on a parent entity.
+% For example, \texttt{CONST400} shows that the the parent entity for
+% \texttt{Enrolment} is \texttt{Student}. \texttt{CONST700} shows that parent
+% entity \texttt{Student} has child dependencies on it. Notice that, the
+% constraint type '\texttt{F}' is primarily used to locate the child
+% dependencies for a parent when it is deleted or updated.
+% %  \begin{itemize} %    \item  '\texttt{P}' represents a \ac{PK} constraint % 
+%   \item '\texttt{R}' represents a   \item \texttt{ColumnFamily:} refers to the
+% column family this constraint exists in. For example,  the \ac{PK} constraint
+% \texttt{CONST100}  exists in column family \texttt{Student} and the column
+% family of the \ac{FK} constraint \texttt{CONST400} is \texttt{Enrolment}.
+%  \item \texttt{RKeyspace:}is the name of the keyspace on which this constraint
+% is applied.  In the example, constraints  are applied in  the keyspace
+% \texttt{University}.
+%  %   In other words, it indicates which primary key %   is referenced or which
+%.
+% \item \texttt{RConstraintName:} For \ac{FK} constraints,
+% \texttt{RConstraintName} represents the constraint that is referenced. For
+% constraint type '\texttt{R}' this represents the referenced \ac{PK} constraint
+% and for constraint type '\texttt{F}' it shows  the child dependencies for a
+% parent entity. In the example, the \ac{FK} constraint \texttt{CONST400}
+% references the \ac{PK} constraint \texttt{CONST100},  which means that
+% \texttt{Enrolment} has a foreign key relationship with \texttt{Student}.
+% In \texttt{CONST700} this field indicates that \ac{FK} constraint
+% \texttt{CONST400} exists for \texttt{Student}. Notice that in a \ac{PK}
+% constraint this field is left blank since it has no references to other keys.
+%  \item \texttt{RColumn:}  indicates the primary key column on which this
+% constraint is applicable.  For \ac{PK} constraints,  this holds the name of
+% the primary key column. For \ac{FK} constraints, this field denotes the
+% referenced column.  This example shows that the \ac{PK} constraint
+% \texttt{CONST100} is applied on the primary key column \texttt{StudentId} of
+% \texttt{Student} column family. The \ac{FK} constraint \texttt{CONST400}
+% shows that the referenced column is \texttt{StudentId},  indicating that
+% \texttt{Enrolment} references  primary key column \texttt{StudentId} of
+% \texttt{Student}.
+%  \item \texttt{DeleteRule:}stores the type of data manipulation rule
+% applicable on this constraint. The possible values are  \texttt{Cascade} and
+% \texttt{NoDelete}.  This field is not applicable  for \ac{PK} constraints
+% since data manipulation rules are associated with constraints that hold
+% dependency information like the \ac{FK} constraints.
+%  \end{itemize}  Metadata in the solutions are accessed whenever referential
+% integrity validations are triggered to extract information about \ac{FK}
+% constraints.
 % Specific methods are designed in all the solutions to retrieve and process the
-% metadata in order to validate referential integrity.  These methods and all the
-% solutions are incorporated  into an experimental \ac{API}, which is
+% metadata in order to validate referential integrity.  These methods and all
+% the solutions are incorporated  into an experimental \ac{API}, which is
 % described in the following section.
 
 
