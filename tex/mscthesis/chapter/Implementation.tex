@@ -1,5 +1,6 @@
 %ब
-\chapter{Implementation} \label{c:Implementation}
+\chapter{Implementation of Referential Integrity Constraints in NoSQL DBMSs}
+\label{c:Implementation}
 
 The four solutions presented in this thesis save the foreign key relationships
 between column families as metadata and each solution saves the metadata in its
@@ -41,7 +42,7 @@ Lastly, Section~\ref{s:Implementation-summary} presents a summary of the
 chapter.
  
 
-\input{chapter/Implementation-API}
+\input{chapter/Implementation-API} 
 	
 \input{chapter/Implementation-Metadata}
 
@@ -55,31 +56,37 @@ chapter.
 
 \section{Summary}\label{s:Implementation-summary}
 
-\todo{Talk more about API, its components and the relationship between EM and
-VH}
+This chapter presented the implementation details of the experimental \ac{API}
+and the way the solutions retrieve and process metadata. The experimental
+\ac{API} is composed of a class \texttt{Entity} which maps to columns in the
+column families, a class \texttt{EntityManager} which  performs all the
+\ac{CRUD} operations on the entities, and a class \texttt{ValidationHandler}
+which is in charge of checking and ensuring that referential integrity is
+maintained in the keyspace at all times. These classes, while providing the fundamental
+operations on generic entities, can also be derived to suit custom
+application requirements. 
 
-The experimental \ac{API} encapsulates all the solutions and provides methods
-and handlers to manage entitites and perform referential intergrity validations.
-These methods are designed to support the different metadata storage in each
-solution and provide 
-
- All the solutions have
-different metadata storage, but retrieving and processing  is implemented using either a string of text or an entity.
-%  approach used in all the solutions to retrieve, process and access metadata
-% are different since the metadata storage is unique in each solution. 
-Solution~1 saves the metadata as text within the entities and Solution~2 saves
-it as text in the top row. Both solutions require the \texttt{EntityManager} to
-parse and extract the necessary information of the constraints. These
-constraints are then loaded into a list of entities which the
-\texttt{ValidationHandler} uses to ensure the referential integrity.
- Solution~3
- and~4 store the metadata in column families, thus, having their own
- \texttt{Metadata} entities which can be retrieved by using the
- \texttt{EntityManager}.  However, Solution~4 keeps the metadata in cache once
- it is extracted in order to avoid additional connections to another cluster.
+In order for the \texttt{ValidationHandler} to ensure referential integrity, it
+must retrieve the metadata associated to the entity upon validation.  Even when
+solutions store the metadata in different ways, retrieving and processing it comes down to  either using a string of text or
+using a \texttt{Metadata} entity.
+Solution~1 and~2 store the  metadata as text, the former  within the
+entities while the latter in the top row of the column family. Hence,
+both solutions require the \texttt{EntityManager} to
+first parse and extract the necessary information of the constraints, and then .
+load these constraints into a list of \texttt{Metadata} entities in order to
+simplify its handling.
+  Solution~3 and~4 store the metadata in column families, the former within the
+  same cluster while the latter uses a dedicated metadata cluster. Since
+  metadata has its own column family, each constraint is naturally mapped into
+  a \texttt{Metadata} entity. Thus, metadata can be   retrieved by using
+  the \texttt{EntityManager} and handling the \texttt{Metadata} as any other
+  entity. 
 
 The next chapter presents the experimental design used to evaluate  the
 performance of each solution implemented within the \ac{API}.
+
+
 
 % parsing of the metadata to extract the constraint values and uses the getter methods of the
 % \texttt{Metadata} entity class  to access these values.
