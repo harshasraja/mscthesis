@@ -10,7 +10,7 @@ import harsha.thesis.api.annotation.PrimaryKey;
  * @author vinay
  *
  */
-public class Course extends BaseEntity {
+public class Course extends Entity {
 
     @Column(columnName = "CourseName")
     private String courseName;

@@ -2,7 +2,7 @@ package harsha.thesis.api.solution.entity;
 
 import harsha.thesis.api.annotation.Column;
 
-public class Enrolment extends BaseEntity {
+public class Enrolment extends Entity {
 
     @Column(columnName = "UserId")
     private String userId;

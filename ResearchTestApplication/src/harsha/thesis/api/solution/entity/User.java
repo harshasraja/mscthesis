@@ -9,7 +9,7 @@ import harsha.thesis.api.annotation.Column;
  * @author vinay
  *
  */
-public class User extends BaseEntity {
+public class User extends Entity {
 
     @Column(columnName = "FirstName")
     private String firstName;

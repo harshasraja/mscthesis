@@ -4,7 +4,7 @@ import harsha.thesis.api.annotation.Column;
 import harsha.thesis.api.annotation.PrimaryKey;
 import harsha.thesis.api.connection.CloudConnector;
 import harsha.thesis.api.connection.Connection;
-import harsha.thesis.api.solution.entity.BaseEntity;
+import harsha.thesis.api.solution.entity.Entity;
 
 
 import java.lang.annotation.Annotation;
@@ -27,7 +27,6 @@ import me.prettyprint.hector.api.ddl.ColumnFamilyDefinition;
 import me.prettyprint.hector.api.ddl.ColumnIndexType;
 import me.prettyprint.hector.api.ddl.ComparatorType;
 import me.prettyprint.hector.api.exceptions.HInvalidRequestException;
-import me.prettyprint.hector.api.factory.HFactory;
 import me.prettyprint.hector.api.mutation.MutationResult;
 import me.prettyprint.hector.api.mutation.Mutator;
 import me.prettyprint.hector.api.query.QueryResult;
@@ -38,26 +37,36 @@ import org.apache.log4j.Logger;
 
 public class EntityManager {
 
-    protected Logger logger = Logger.getLogger(this.getClass().getName());
-    protected Connection connection = null;
+    protected static final Logger logger = Logger.getLogger(EntityManager.class);
     public static final String EXPRESSION_EQUALS = "=";
     public static final String EXPRESSION_LT = "<";
     public static final String EXPRESSION_GT = ">";
     private static final String EXPRESSION_NE = "<>";
     public static final String EXPRESSION_LE = "<=";
     public static final String EXPRESSION_GE = "=>";
+    protected Connection connection;
+    protected ValidationHandler validationHandler;
 
-    public EntityManager() throws Exception {
-        connection = CloudConnector.getConnection();
+    public EntityManager(ValidationHandler validationHandler) throws Exception {
+        this.connection = CloudConnector.getConnection();
+        this.validationHandler = validationHandler;
+    }
+
+    public void setValidationHandler(ValidationHandler validationHandler) {
+        this.validationHandler = validationHandler;
+    }
+
+    public ValidationHandler getValidationHandler() {
+        return this.validationHandler;
     }
 
     public void close() {
         CloudConnector.returnConnection(connection);
     }
 
-    protected void loadEntity(BaseEntity entity, List<HColumn<String, String>> columns)
+    protected void loadEntity(Entity entity, List<HColumn<String, String>> columns)
             throws Exception {
-        Method[] methods = entity.getClass().getDeclaredMethods();
+        Method[] methods = entity.getClass().getMethods();
         for (HColumn<String, String> hColumn : columns) {
             for (Method method : methods) {
                 if (method.getName().equals("set" + hColumn.getName())) {
@@ -65,27 +74,24 @@ public class EntityManager {
                 }
             }
         }
+        entity.setMetadata(validationHandler.retrieveMetadata());
     }
 
-    public List<BaseEntity> read(Class<? extends BaseEntity> clazz, int number) throws Exception {
-        List<BaseEntity> list = new ArrayList<BaseEntity>();
+    public List<Entity> read(Class<? extends Entity> clazz) throws Exception {
+        return read(clazz, Integer.MAX_VALUE);
+    }
 
-        BaseEntity entity = clazz.newInstance();
+    public List<Entity> read(Class<? extends Entity> clazz, int number) throws Exception {
+        List<Entity> list = new ArrayList<Entity>();
+
+        Entity entity = clazz.newInstance();
 
         RangeSlicesQuery<String, String, String> rangeSlicesQuery = connection.getRangeSliceQuery();
         rangeSlicesQuery.setColumnFamily(entity.getColumnFamily());
         rangeSlicesQuery.setKeys("", "");
-        Annotation[] annotations = entity.getClass().getDeclaredAnnotations();
-        List<String> columnNames = new ArrayList<String>();
-        for (Annotation a : annotations) {
-            if (a instanceof Column) {
-                columnNames.add(((Column) a).columnName());
-            }
-        }
-
-        rangeSlicesQuery.setColumnNames((String[]) columnNames.toArray());
-
+        rangeSlicesQuery.setRange("", "", false, clazz.getMethods().length); //TODO: Check if the size of range is correct
         rangeSlicesQuery.setRowCount(number);
+
 
         QueryResult<OrderedRows<String, String, String>> result = rangeSlicesQuery.execute();
 
@@ -111,37 +117,20 @@ public class EntityManager {
      * @return
      * @throws Exception
      */
-    public BaseEntity find(Class<? extends BaseEntity> clazz, String id) throws Exception {
-
-
-        BaseEntity entity = clazz.newInstance();
-
-        Method[] methods = entity.getClass().getDeclaredMethods();
+    public Entity find(Class<? extends Entity> clazz, String id) throws Exception {
+        Entity entity = clazz.newInstance();
 
         SliceQuery<String, String, String> sliceQuery = connection.getSliceQuery();
         sliceQuery.setColumnFamily(entity.getColumnFamily());
-
-
-        List<String> columnNames = new ArrayList<String>();
-        Annotation[] annotations = entity.getClass().getDeclaredAnnotations();
-        for (Annotation a : annotations) {
-            if (a instanceof Column) {
-                columnNames.add(((Column) a).columnName());
-            }
-        }
-        sliceQuery.setColumnNames((String[]) columnNames.toArray());
+        sliceQuery.setRange("", "", false, clazz.getMethods().length); //TODO: Check if the size of range is correct
         sliceQuery.setKey(id);
 
-        QueryResult<ColumnSlice<String, String>> results = sliceQuery.execute();
-
-        ColumnSlice<String, String> columnSlice = results.get();
-
-        if (columnSlice.getColumns().size() != columnNames.size()) {
-            logger.warn("columnSlice.getColumns().size() != columnNames.size()");
-        }
+        QueryResult<ColumnSlice<String, String>> result = sliceQuery.execute();
+        ColumnSlice<String, String> columnSlice = result.get();
         List<HColumn<String, String>> columns = columnSlice.getColumns();
 
         loadEntity(entity, columns);
+
         return entity;
     }
 
@@ -162,40 +151,50 @@ public class EntityManager {
      * @throws IllegalAccessException
      * @throws Exception
      */
-    public List<BaseEntity> query(Class<? extends BaseEntity> clazz,
+    public List<Entity> query(Class<? extends Entity> clazz,
             String columnName, String expression, String columnValue) throws Exception {
 
         IndexedSlicesQuery<String, String, String> indexedSlicesQuery = connection.getIndexedSlicesQuery();
         indexedSlicesQuery.setStartKey("");
         if (EXPRESSION_EQUALS.equals(expression)) {
             indexedSlicesQuery.addEqualsExpression(columnName, columnValue);
-        } else if (EXPRESSION_GT.equals(expression)) {
-            indexedSlicesQuery.addGtExpression(columnName, columnValue);
-        } else if (EXPRESSION_LT.equals(expression)) {
-            indexedSlicesQuery.addLtExpression(columnName, columnValue);
-        } else if (EXPRESSION_NE.equals(expression)) {
-            //???
-        } else if (EXPRESSION_LE.equals(expression)) {
-            indexedSlicesQuery.addLteExpression(columnName, columnValue);
-        } else if (EXPRESSION_GE.equals(expression)) {
-            indexedSlicesQuery.addGteExpression(columnName, columnValue);
         } else {
-            throw new Exception("Invalid expression:" + expression);
-        }
-
-        List<String> columnNames = new ArrayList<String>();
-        Annotation[] annotations = clazz.getDeclaredAnnotations();
-        for (Annotation a : annotations) {
-            if (a instanceof Column) {
-                columnNames.add(((Column) a).columnName());
+            if (EXPRESSION_GT.equals(expression)) {
+                indexedSlicesQuery.addGtExpression(columnName, columnValue);
+            } else {
+                if (EXPRESSION_LT.equals(expression)) {
+                    indexedSlicesQuery.addLtExpression(columnName, columnValue);
+                } else {
+                    if (EXPRESSION_NE.equals(expression)) {
+                        //???
+                    } else {
+                        if (EXPRESSION_LE.equals(expression)) {
+                            indexedSlicesQuery.addLteExpression(columnName, columnValue);
+                        } else {
+                            if (EXPRESSION_GE.equals(expression)) {
+                                indexedSlicesQuery.addGteExpression(columnName, columnValue);
+                            } else {
+                                throw new Exception("Invalid expression:" + expression);
+                            }
+                        }
+                    }
+                }
             }
         }
-        indexedSlicesQuery.setColumnNames(columnNames);
 
-        BaseEntity entity = clazz.newInstance();
+//        List<String> columnNames = new ArrayList<String>();
+//        Annotation[] annotations = clazz.getDeclaredAnnotations();
+//        for (Annotation a : annotations) {
+//            if (a instanceof Column) {
+//                columnNames.add(((Column) a).columnName());
+//            }
+//        }
+//        indexedSlicesQuery.setColumnNames(columnNames);
+
+        Entity entity = clazz.newInstance();
         indexedSlicesQuery.setColumnFamily(entity.getColumnFamily());
 
-        List<BaseEntity> list = new ArrayList<BaseEntity>();
+        List<Entity> list = new ArrayList<Entity>();
         QueryResult<OrderedRows<String, String, String>> result = indexedSlicesQuery.execute();
         Rows<String, String, String> orderRows = result.get();
         for (Row<String, String, String> row : orderRows) {
@@ -208,7 +207,7 @@ public class EntityManager {
         return list;
     }
 
-    public void insert(BaseEntity entity) throws Exception {
+    public void insert(Entity entity) throws Exception {
         Method[] methods = entity.getClass().getDeclaredMethods();
         Annotation[] a1 = entity.getClass().getDeclaredAnnotations();
 
@@ -282,7 +281,7 @@ public class EntityManager {
 
     }
 
-    public void delete(BaseEntity entity) throws Exception {
+    public void delete(Entity entity) throws Exception {
         //String strEntity = "";
         //strEntity = getStringRepresentationForLogging(entity);
         logger.debug("Starting to delete:" + getStringRepresentationForLogging(entity));
@@ -309,7 +308,7 @@ public class EntityManager {
         logger.debug("Finished delete entity:" + getStringRepresentationForLogging(entity));
     }
 
-    public void update(BaseEntity entity) throws Exception {
+    public void update(Entity entity) throws Exception {
         logger.debug("Starting to update:" + getStringRepresentationForLogging(entity));
 
         if (null != entity.getKeyForUpdate()
@@ -348,9 +347,11 @@ public class EntityManager {
                         && method.getName().equals("set" + primaryKey)) {
                     method.invoke(entity, entity.getKeyForUpdate());
 
-                } else if (method.getName().contains(primaryKey)
-                        && method.getName().equals("get" + primaryKey)) {
-                    key = (String) method.invoke(entity);
+                } else {
+                    if (method.getName().contains(primaryKey)
+                            && method.getName().equals("get" + primaryKey)) {
+                        key = (String) method.invoke(entity);
+                    }
                 }
             }
 
@@ -366,7 +367,7 @@ public class EntityManager {
         logger.debug("Finished update entity:" + getStringRepresentationForLogging(entity));
     }
 
-    private String getStringRepresentationForLogging(BaseEntity entity) {
+    private String getStringRepresentationForLogging(Entity entity) {
         //This section is done purely for logging purposes
         Method[] methods = entity.getClass().getDeclaredMethods();
         String strEntity = "{";
@@ -389,7 +390,7 @@ public class EntityManager {
         return strEntity;
     }
 
-    private String getPrimaryKeyFieldForEntity(BaseEntity entity) {
+    private String getPrimaryKeyFieldForEntity(Entity entity) {
         String primaryKey = null;
         Annotation[] a1 = entity.getClass().getDeclaredAnnotations();
         for (Annotation annotation : a1) {
@@ -401,7 +402,7 @@ public class EntityManager {
         return primaryKey;
     }
 
-    public void createColumFamily(BaseEntity entity) {
+    public void createColumFamily(Entity entity) {
 
         String primaryKey = getPrimaryKeyFieldForEntity(entity);
 
