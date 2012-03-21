@@ -1,0 +1,2 @@
+"UserId","FirstName","LastName","Email","Age","Type","KeyForUpdate","MetadataStringRepresentation"
+-1,,,,,,,"|ConstraintName:CONST100;KeySpace:UNIVERSITY;ConstraintType:P;TableName:harsha_thesis_api_solution2_entity_User;RKeySpace:UNIVERSITY;RConstraintName:;RColumn:UserId;DeleteRule:|;|ConstraintName:CONST700;KeySpace:UNIVERSITY;ConstraintType:F;TableName:harsha_thesis_api_solution2_entity_Enrolment;RKeySpace:UNIVERSITY;RConstraintName:CONST400;RColumn:UserId;DeleteRule:CASCADE|;"
