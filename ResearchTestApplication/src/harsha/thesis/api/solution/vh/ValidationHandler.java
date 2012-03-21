@@ -4,8 +4,8 @@
  */
 package harsha.thesis.api.solution.vh;
 
-import harsha.thesis.api.solution.entity.Entity;
 import harsha.thesis.api.solution.entity.Constraint;
+import harsha.thesis.api.solution.entity.Entity;
 import java.util.List;
 
 /**

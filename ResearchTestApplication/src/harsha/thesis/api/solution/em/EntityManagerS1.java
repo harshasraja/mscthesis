@@ -4,9 +4,9 @@
  */
 package harsha.thesis.api.solution.em;
 
-import harsha.thesis.api.solution.vh.ValidationHandlerS1;
 import harsha.thesis.api.solution.entity.Constraint;
 import harsha.thesis.api.solution.entity.Entity;
+import harsha.thesis.api.solution.vh.ValidationHandlerS1;
 
 /**
  *

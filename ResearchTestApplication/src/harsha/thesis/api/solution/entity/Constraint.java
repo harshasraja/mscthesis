@@ -7,6 +7,9 @@ package harsha.thesis.api.solution.entity;
 import harsha.thesis.api.annotation.Column;
 import harsha.thesis.api.annotation.ColumnFamily;
 import harsha.thesis.api.annotation.PrimaryKey;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.StringTokenizer;
 
 /**
  *
@@ -99,12 +102,76 @@ public class Constraint extends Entity {
     public void setDeleteRule(String deleteRule) {
         this.deleteRule = deleteRule;
     }
-    
-    public void fromString(String metadata){
-        
+
+    public void fromString(String metadata) {
     }
-    
-    public String toString(){
+
+    public String toString() {
         return "";
+    }
+
+    public static List<Constraint> Parse(String metadata) {
+        List<String> constraints = new ArrayList<String>();
+
+
+
+        int openBracket = metadata.indexOf("{");
+
+        while (openBracket != -1) {
+            int closeBracket = metadata.indexOf("}");
+            if (closeBracket == -1) {
+                throw new RuntimeException("Malformed metadata string");
+            }
+            String constraint = metadata.substring(openBracket, closeBracket + 1 );
+            constraints.add(constraint);
+            System.out.println(constraint);
+            metadata = metadata.substring(closeBracket + 1);
+            openBracket = metadata.indexOf("{");
+        }
+
+        for (String constraint : constraints){
+            StringTokenizer tokenizer = new StringTokenizer(constraint,";");
+            while(tokenizer.hasMoreTokens()){
+                String token = tokenizer.nextToken().replaceAll("\\{|\\}", "");
+                String[] keyValue = token.split(":");
+                I AM HERE
+            }
+        }
+        
+
+        return null;
+
+
+
+    }
+
+    public static void main(String[] args) {
+        
+        String constraints =
+                "{ConstraintName:CONST200;KeySpace:UNIVERSITY;ConstraintType:P;"
+                + "TableName:harsha_thesis_api_solution2_entity_Course;"
+                + "RKeySpace:UNIVERSITY;RConstraintName:;RColumn:CourseId;DeleteRule:};"
+                + ""
+                + "{ConstraintName:CONST600;KeySpace:UNIVERSITY;ConstraintType:F;"
+                + "TableName:harsha_thesis_api_solution2_entity_Enrolment;"
+                + "RKeySpace:UNIVERSITY;RConstraintName:CONST500;RColumn:CourseId;"
+                + "DeleteRule:NODELETE};"
+                + ""
+                + "{ConstraintName:CONST200;KeySpace:UNIVERSITY;ConstraintType:P;"
+                + "TableName:harsha_thesis_api_solution2_entity_Course;"
+                + "RKeySpace:UNIVERSITY;RConstraintName:;RColumn:CourseId;DeleteRule:};"
+                + ""
+                + "{ConstraintName:CONST600;KeySpace:UNIVERSITY;ConstraintType:F;"
+                + "TableName:harsha_thesis_api_solution2_entity_Enrolment;"
+                + "RKeySpace:UNIVERSITY;RConstraintName:CONST500;RColumn:CourseId;"
+                + "DeleteRule:NODELETE}";
+        
+//        Parse(constraints);
+//        System.out.println(constraints.replaceAll("\\{|\\}", "X"));
+        String k = "Key:";
+        String[] pair = k.split(":");
+        System.out.println("size:" + pair.length);
+        
+        
     }
 }

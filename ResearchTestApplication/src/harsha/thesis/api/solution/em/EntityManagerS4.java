@@ -5,9 +5,9 @@
 package harsha.thesis.api.solution.em;
 
 import harsha.thesis.api.connection.CloudConnector;
-import harsha.thesis.api.solution.vh.ValidationHandlerS4;
 import harsha.thesis.api.solution.entity.Constraint;
 import harsha.thesis.api.solution.entity.Entity;
+import harsha.thesis.api.solution.vh.ValidationHandlerS4;
 import java.util.List;
 
 /**

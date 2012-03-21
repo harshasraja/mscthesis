@@ -77,12 +77,8 @@ public abstract class CommonValidationHandler implements ValidationHandler {
 
     @Override
     public List<Entity> retrieveDependencies(Entity entity) throws Exception {
-        
-        
         List<Entity> dependencies = new ArrayList<Entity>();
         
-        
-
         return dependencies;
     }
 }

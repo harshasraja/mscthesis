@@ -32,6 +32,8 @@ public class ValidationHandlerS1 extends CommonValidationHandler {
         //do parse.
         return result;
     }
-    
-    
+
+    public List<Constraint> parse(String metadata) {
+        
+    }
 }

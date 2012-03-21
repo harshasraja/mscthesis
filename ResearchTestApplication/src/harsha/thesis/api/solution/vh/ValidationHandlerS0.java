@@ -15,6 +15,8 @@ import java.util.List;
  */
 public class ValidationHandlerS0 implements ValidationHandler{
 
+    //No referential integrity
+    
     @Override
     public void onDelete(Entity entity) throws Exception {
         //do nothing
