@@ -1,0 +1,8 @@
+ConstraintName,KeySpace,ConstraintType,TableName,RKeySpace,RConstraintName,RColumn,DeleteRule,KeyForUpdate
+CONST100,UNIVERSITY,P,harsha_thesis_api_solution3_entity_User,UNIVERSITY,,UserId,,
+CONST200,UNIVERSITY,P,harsha_thesis_api_solution3_entity_Course,UNIVERSITY,,CourseId,,
+CONST300,UNIVERSITY,P,harsha_thesis_api_solution3_entity_Enrolment,UNIVERSITY,,RowID,,
+CONST400,UNIVERSITY,R,harsha_thesis_api_solution3_entity_Enrolment,UNIVERSITY,CONST100,UserId,CASCADE,
+CONST500,UNIVERSITY,R,harsha_thesis_api_solution3_entity_Enrolment,UNIVERSITY,CONST200,CourseId,NODELETE,
+CONST600,UNIVERSITY,F,harsha_thesis_api_solution3_entity_Course,UNIVERSITY,CONST500,CourseId,NODELETE,
+CONST700,UNIVERSITY,F,harsha_thesis_api_solution3_entity_User,UNIVERSITY,CONST400,UserId,CASCADE,
