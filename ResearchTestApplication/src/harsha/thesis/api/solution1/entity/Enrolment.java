@@ -2,8 +2,8 @@ package harsha.thesis.api.solution1.entity;
 
 import java.lang.reflect.InvocationTargetException;
 
-import harsha.thesis.api.annotation.Column;
-import harsha.thesis.api.annotation.PrimaryKey;
+import harsha.api.annotation.Column;
+import harsha.api.annotation.PrimaryKey;
 
 @PrimaryKey(primaryKey="RowId")
 public class Enrolment extends BaseEntity implements Cloneable{

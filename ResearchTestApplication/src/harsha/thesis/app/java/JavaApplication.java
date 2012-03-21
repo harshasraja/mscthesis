@@ -1,7 +1,7 @@
 package harsha.thesis.app.java;
 
-import harsha.thesis.api.connection.ConnectionDefinition;
-import harsha.thesis.api.connection.hector.HectorConnectionObject;
+import harsha.api.connection.ConnectionDefinition;
+import harsha.api.connection.HectorConnectionObject;
 import harsha.thesis.api.exception.ValidationFailedException;
 import harsha.thesis.api.solution0.dao.BaseDAO;
 import harsha.thesis.api.solution0.entity.BaseEntity;

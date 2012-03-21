@@ -6,8 +6,8 @@ package harsha.thesis.api.solution2.entity;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
-import harsha.thesis.api.annotation.Column;
-import harsha.thesis.api.annotation.PrimaryKey;
+import harsha.api.annotation.Column;
+import harsha.api.annotation.PrimaryKey;
 import harsha.thesis.api.solution2.entity.Metadata;
 
 /**

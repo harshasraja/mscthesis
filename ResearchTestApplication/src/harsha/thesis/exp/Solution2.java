@@ -4,6 +4,7 @@
  */
 package harsha.thesis.exp;
 
+import harsha.api.test.Recorder;
 import harsha.thesis.api.solution2.dao.BaseDAO;
 import harsha.thesis.api.solution2.entity.BaseEntity;
 import harsha.thesis.api.solution2.entity.Course;
@@ -27,7 +28,7 @@ public class Solution2 implements SolutionExperiment {
     private static DecimalFormat DF = new DecimalFormat("# ### ###, ###");
     private Logger log = Logger.getLogger(Solution2.class);
     
-    private Experiment experiment;
+    private Recorder experiment;
     private String[] csvFiles;
     //
     private List<User> users;
@@ -35,7 +36,7 @@ public class Solution2 implements SolutionExperiment {
     private List<Enrolment> enrolments;
     private BaseDAO dao;
 
-    public Solution2(Experiment experiment, String[] csvFiles) {
+    public Solution2(Recorder experiment, String[] csvFiles) {
         this.experiment = experiment;
         this.csvFiles = csvFiles;
     }

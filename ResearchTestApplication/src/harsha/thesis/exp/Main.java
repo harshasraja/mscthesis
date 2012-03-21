@@ -4,7 +4,8 @@
  */
 package harsha.thesis.exp;
 
-import harsha.thesis.api.connection.CloudConnector;
+import harsha.api.test.Recorder;
+import harsha.api.connection.CloudConnector;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
@@ -148,15 +149,15 @@ public class Main {
             System.out.println("CSV files created");
         }
 
-        List<Experiment> experiments = new ArrayList<Experiment>();
+        List<Recorder> experiments = new ArrayList<Recorder>();
         for (Character solution : solutions) {
-            Experiment experiment = new Experiment("Solution" + solution, "", logPath);
+            Recorder experiment = new Recorder("Solution" + solution, "", logPath);
             experiment.initialize();
             experiments.add(experiment);
         }
 
 
-        for (Experiment e : experiments) {
+        for (Recorder e : experiments) {
             System.out.println("#EXPERIMENT: " + e.getCode());
             String out = "#\tWorking Directory" + System.getProperty("user.dir") + "\n";
             out += "#\tSolution: " + e.getCode() + "\n";
@@ -202,7 +203,7 @@ public class Main {
                 solution.experiment(runs);
                 log.info("Finished experiment " + e.getCode());
             }
-            e.destroy();
+            e.close();
         }
         System.out.println("#Total duration: " + (System.currentTimeMillis() - startTime) + "ms");
         System.out.println("#Number of Connections:" + CloudConnector.NUMBER_OF_CONNECTIONS);

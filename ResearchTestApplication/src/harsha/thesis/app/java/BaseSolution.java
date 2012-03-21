@@ -1,7 +1,7 @@
 package harsha.thesis.app.java;
 
 
-import harsha.thesis.api.connection.ConnectionDefinition;
+import harsha.api.connection.ConnectionDefinition;
 
 
 public abstract class BaseSolution {

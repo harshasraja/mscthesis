@@ -1,6 +1,6 @@
 package harsha.thesis.api.solution1.helper;
 
-import harsha.thesis.api.annotation.PrimaryKey;
+import harsha.api.annotation.PrimaryKey;
 import harsha.thesis.api.solution1.entity.BaseEntity;
 
 import java.io.FileReader;

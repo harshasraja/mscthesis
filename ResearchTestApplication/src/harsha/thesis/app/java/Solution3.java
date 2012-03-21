@@ -1,6 +1,6 @@
 package harsha.thesis.app.java;
 
-import harsha.thesis.api.connection.CloudConnector;
+import harsha.api.connection.CloudConnector;
 import harsha.thesis.api.exception.ValidationFailedException;
 import harsha.thesis.api.solution3.dao.BaseDAO;
 import harsha.thesis.api.solution3.entity.BaseEntity;
