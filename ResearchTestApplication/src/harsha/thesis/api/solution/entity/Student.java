@@ -4,13 +4,19 @@
 package harsha.thesis.api.solution.entity;
 
 import harsha.thesis.api.annotation.Column;
+import harsha.thesis.api.annotation.ColumnFamily;
+import harsha.thesis.api.annotation.PrimaryKey;
 
 /**
  * @author vinay
  *
  */
-public class User extends Entity {
+@ColumnFamily(columnFamily = "Student")
+@PrimaryKey(primaryKey = "StudentId")
+public class Student extends Entity {
 
+    @Column(columnName = "StudentId")
+    private String studentId;
     @Column(columnName = "FirstName")
     private String firstName;
     @Column(columnName = "LastName")
@@ -21,6 +27,18 @@ public class User extends Entity {
     private String age;
     @Column(columnName = "Type")
     private String type;
+
+    public Student(){
+        
+    }
+    
+    public String getStudentId() {
+        return studentId;
+    }
+
+    public void setStudentId(String studentId) {
+        this.studentId = studentId;
+    }
 
     public String getFirstName() {
         return firstName;

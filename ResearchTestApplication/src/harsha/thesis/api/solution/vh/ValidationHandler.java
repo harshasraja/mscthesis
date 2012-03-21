@@ -2,10 +2,10 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package harsha.thesis.api.solution;
+package harsha.thesis.api.solution.vh;
 
 import harsha.thesis.api.solution.entity.Entity;
-import harsha.thesis.api.solution.entity.Metadata;
+import harsha.thesis.api.solution.entity.Constraint;
 import java.util.List;
 
 /**
@@ -14,7 +14,11 @@ import java.util.List;
  */
 public interface ValidationHandler {
     
-    public List<Metadata> retrieveMetadata() throws Exception;
+    public String solution();
+    
+    public List<Constraint> retrieveMetadata(Entity entity) throws Exception;
+    
+    public List<Entity> retrieveDependencies(Entity entity) throws Exception;
     
     public void onInsert(Entity entity) throws Exception;
     

@@ -4,22 +4,40 @@
 package harsha.thesis.api.solution.entity;
 
 import harsha.thesis.api.annotation.Column;
+import harsha.thesis.api.annotation.ColumnFamily;
 import harsha.thesis.api.annotation.PrimaryKey;
 
 /**
- * @author vinay
+ * @author harshasraja
  *
  */
+@ColumnFamily(columnFamily = "Course")
+@PrimaryKey(primaryKey = "CourseId")
 public class Course extends Entity {
 
+    @Column(columnName = "CourseId")
+    private String courseId;
     @Column(columnName = "CourseName")
     private String courseName;
-    @Column(columnName = "Trimister")
-    private String trimister;
+    @Column(columnName = "Trimester")
+    private String trimester;
     @Column(columnName = "Level")
     private String level;
     @Column(columnName = "Year")
     private String year;
+
+    
+    public Course(){
+        
+    }
+    
+    public String getCourseId() {
+        return courseId;
+    }
+
+    public void setCourseId(String courseId) {
+        this.courseId = courseId;
+    }
 
     public String getCourseName() {
         return courseName;
@@ -29,12 +47,12 @@ public class Course extends Entity {
         this.courseName = courseName;
     }
 
-    public String getTrimister() {
-        return trimister;
+    public String getTrimester() {
+        return trimester;
     }
 
-    public void setTrimister(String trimister) {
-        this.trimister = trimister;
+    public void setTrimester(String trimester) {
+        this.trimester = trimester;
     }
 
     public String getLevel() {
