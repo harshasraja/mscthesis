@@ -29,7 +29,7 @@ import me.prettyprint.hector.api.query.SliceQuery;
 
 import org.apache.log4j.Logger;
 
-public  class EntityManager {
+public class EntityManager {
 
     public enum Expression {
 
@@ -112,11 +112,11 @@ public  class EntityManager {
     }
 
     public String columnFamily(Class<? extends Entity> clazz) {
-        return validationHandler.solution() + "_" + Entity.GetName(clazz);
+        return validationHandler.solution() + "_" + Entity.GetColumnFamily(clazz);
     }
 
     public <T extends Entity> List<T> read(Class<T> clazz) throws Exception {
-        return read(clazz, Integer.MAX_VALUE);
+        return read(clazz, (int) 1e7);
     }
 
     public <T extends Entity> List<T> read(Class<T> clazz, int number) throws Exception {
@@ -229,14 +229,15 @@ public  class EntityManager {
 
         indexedSlicesQuery.setColumnFamily(columnFamily(clazz));
         indexedSlicesQuery.setColumnNames(getColumnsFor(clazz));
+        
         LOG.warn("TODO: check how to retrieve all columnNames");
-
-
+        
 
         List<T> result = new ArrayList<T>();
         QueryResult<OrderedRows<String, String, String>> queryResult =
                 indexedSlicesQuery.execute();
         Rows<String, String, String> orderRows = queryResult.get();
+        LOG.debug("Retrieval of " + orderRows.getCount() + " rows");
         for (Row<String, String, String> row : orderRows) {
             List<HColumn<String, String>> columns = row.getColumnSlice().getColumns();
             T entity = clazz.newInstance();
@@ -245,7 +246,7 @@ public  class EntityManager {
                 result.add(entity);
             }
         }
-
+        
         return result;
     }
 
@@ -326,6 +327,10 @@ public  class EntityManager {
     }
 
     public void createColumFamily(Class<? extends Entity> clazz) throws Exception {
+        createColumFamily(clazz, false);
+    }
+
+    public void createColumFamily(Class<? extends Entity> clazz, boolean dropIfExists) throws Exception {
         LOG.debug("Creating CF:" + columnFamily(clazz));
         KeyspaceDefinition keyspaceDefinition = getConnection().getCluster().describeKeyspace(
                 getConnection().getKeyspace().getKeyspaceName());
@@ -333,7 +338,16 @@ public  class EntityManager {
         List<ColumnFamilyDefinition> columnFamilies = keyspaceDefinition.getCfDefs();
         for (ColumnFamilyDefinition columnFamily : columnFamilies) {
             if (columnFamily.getName().equals(columnFamily(clazz))) {
-                throw new Exception("ColumnFamily [" + columnFamily(clazz) + "] already exists");
+                if (!dropIfExists) {
+                    return;
+                }
+                LOG.debug("Dropping existing CF: " + columnFamily.getName());
+                try {
+                    getConnection().getCluster().dropColumnFamily(
+                            columnFamily.getKeyspaceName(), columnFamily.getName());
+                } catch (Exception ex) {
+                    LOG.error("Error dropping existing CF: " + columnFamily.getName());
+                }
             }
         }
 

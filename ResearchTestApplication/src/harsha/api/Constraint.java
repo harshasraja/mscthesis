@@ -16,7 +16,7 @@ import java.util.StringTokenizer;
  *
  * @author jcrada
  */
-@ColumnFamily(columnFamily = "Metadata")
+@ColumnFamily(columnFamily = "Constraint")
 @PrimaryKey(primaryKey = "ConstraintName")
 public class Constraint extends Entity {
 

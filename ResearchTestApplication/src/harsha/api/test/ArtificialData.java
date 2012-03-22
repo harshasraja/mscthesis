@@ -50,8 +50,6 @@ public class ArtificialData {
         this.numberOfCourses = numberOfCourses;
     }
 
-    
-    
     public int getNumberOfCoursesPerStudent() {
         return numberOfCoursesPerStudent;
     }
@@ -110,8 +108,8 @@ public class ArtificialData {
                 Enrolment entity = new Enrolment();
                 Entity.SetValue("RowId", "" + rowId, entity);
                 Entity.SetValue("StudentId", "" + studentId, entity);
-                Entity.SetValue("CourseId", COURSE_BASENAME + 
-                        (INITIAL_ID + (courseId % getNumberOfCourses())), entity);
+                Entity.SetValue("CourseId", COURSE_BASENAME
+                        + (INITIAL_ID + (courseId % getNumberOfCourses())), entity);
                 Entity.SetValue("Type", "STUDENT", entity);
                 LOG.warn("TODO: Check STUDENT??");
                 result.add(entity);

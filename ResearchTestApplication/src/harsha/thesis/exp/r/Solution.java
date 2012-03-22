@@ -4,12 +4,11 @@
  */
 package harsha.thesis.exp.r;
 
+import static harsha.api.test.Experiment.*;
 import harsha.thesis.exp.MyMath;
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileReader;
-import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -21,20 +20,11 @@ import java.util.Map;
  */
 public class Solution {
 
-    public static final String INSERT_USER = "insert_user";
-    public static final String INSERT_COURSE = "insert_course";
-    public static final String INSERT_ENROLMENT = "insert_enrolment";
-    public static final String UPDATE_COURSE = "update_course";
-    public static final String UPDATE_ENROLMENT = "update_enrolment";
-    public static final String UPDATE_USER = "update_user";
-    public static final String DELETE_ENROLMENT = "delete_enrolment";
-    public static final String DELETE_COURSE = "delete_course";
-    public static final String DELETE_USER = "delete_user";
     public static String[] DEFAULT_COLUMN_ORDER =
             new String[]{
-        INSERT_USER, INSERT_COURSE, INSERT_ENROLMENT,
-        UPDATE_COURSE, UPDATE_ENROLMENT, UPDATE_USER,
-        DELETE_ENROLMENT, DELETE_COURSE, DELETE_USER
+        INSERT_STUDENT, INSERT_COURSE, INSERT_ENROLMENT,
+        UPDATE_COURSE, UPDATE_ENROLMENT, UPDATE_STUDENT,
+        DELETE_ENROLMENT, DELETE_COURSE, DELETE_STUDENT
     };
     private String code;
     private Map<String, List<Double>> results =
@@ -76,7 +66,6 @@ public class Solution {
         return results.get(operation);
     }
 
-    
     public String rToDataFrame(String[] columnOrder) {
 
         String result = getCode() + ".dataframe = data.frame(\n";

@@ -4,9 +4,9 @@
  */
 package harsha.api.solutions.vh;
 
-import harsha.api.ValidationHandler;
 import harsha.api.Constraint;
 import harsha.api.Entity;
+import harsha.api.ValidationHandler;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,26 +14,22 @@ import java.util.List;
  *
  * @author jcrada
  */
-public class ValidationHandlerS0 implements ValidationHandler{
+public class ValidationHandlerS0 implements ValidationHandler {
 
     //No referential integrity
-    
     @Override
     public void onDelete(Entity entity) throws Exception {
         //do nothing
-        return ;
     }
 
     @Override
     public void onInsert(Entity entity) throws Exception {
         //do nothing
-        return ;
     }
 
     @Override
     public void onUpdate(Entity entity) throws Exception {
         //do nothing
-        return ;
     }
 
     @Override
@@ -50,5 +46,4 @@ public class ValidationHandlerS0 implements ValidationHandler{
     public String solution() {
         return "solution0";
     }
-    
 }

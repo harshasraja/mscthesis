@@ -227,7 +227,6 @@ public class BaseDAO {
             }
             list.add(entity);
             entity = tempClass.newInstance();
-            ;
         }
 
 

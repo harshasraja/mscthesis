@@ -55,7 +55,6 @@ public class HarshaConnectionObject implements Connection {
         return METADATA_CONNECTION;
     }
 
-    
     private HarshaConnectionObject(ConnectionDefinition connDef) {
         this.connectionDefinition = connDef;
     }
@@ -89,14 +88,13 @@ public class HarshaConnectionObject implements Connection {
         logger.info("SliceQuery Created.");
 
         logger.debug("Creating IndexedSlicesQuery.......");
-        this.indexedSlicesQuery = HFactory.createIndexedSlicesQuery(getKeyspace(), stringSerializer, stringSerializer, stringSerializer);
+//        this.indexedSlicesQuery = HFactory.createIndexedSlicesQuery(getKeyspace(), stringSerializer, stringSerializer, stringSerializer);
         logger.info("Indexed SlicesQuery Created.");
 
         logger.info("Connected to [IP Address]" + connectionDefinition.getIpAddress()
                 + " [Port]" + connectionDefinition.getPort() + " [Cluster Name]"
                 + connectionDefinition.getClusterName() + " [Key Space]" + connectionDefinition.getKeySpace());
     }
-
 
     @Override
     public void close() {
@@ -129,7 +127,8 @@ public class HarshaConnectionObject implements Connection {
 
     @Override
     public IndexedSlicesQuery<String, String, String> getIndexedSlicesQuery() {
-        return this.indexedSlicesQuery;
+//        return this.indexedSlicesQuery; This is buggy in hector as after one query it doesn't work for a different one
+        return HFactory.createIndexedSlicesQuery(getKeyspace(), stringSerializer, stringSerializer, stringSerializer);
     }
 
     @Override
@@ -145,11 +144,11 @@ public class HarshaConnectionObject implements Connection {
     public Keyspace getKeyspace() {
         return this.keyspaceObject;
     }
-    
-    public static void main(String[] args) throws Exception{
+
+    public static void main(String[] args) throws Exception {
         Connection c = CloudConnector.getConnection();
         System.out.println(c.getMutator().getClass().getName());
         CloudConnector.shutdown();
-        
+
     }
 }

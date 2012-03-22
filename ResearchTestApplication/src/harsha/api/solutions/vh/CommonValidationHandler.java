@@ -69,23 +69,24 @@ public abstract class CommonValidationHandler implements ValidationHandler {
 
     @Override
     public void onUpdate(Entity entity) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet.");
+//        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
     public void onDelete(Entity entity) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet.");
+//        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
     public List<Entity> retrieveDependencies(Entity entity) throws Exception {
-        List<Constraint> metadata = retrieveMetadata(entity);
-        for (Constraint constraint : metadata){
-            
-        }
-        
-        List<Entity> dependencies = new ArrayList<Entity>();
-        
-        return dependencies;
+        return new ArrayList<Entity>();
+//        List<Constraint> metadata = retrieveMetadata(entity);
+//        for (Constraint constraint : metadata){
+//            
+//        }
+//        
+//        List<Entity> dependencies = new ArrayList<Entity>();
+//        
+//        return dependencies;
     }
 }

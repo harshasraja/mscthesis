@@ -1,6 +1,7 @@
 package harsha.api;
 
 import harsha.api.annotation.Column;
+import harsha.api.annotation.ColumnFamily;
 import harsha.api.annotation.PrimaryKey;
 import harsha.api.example.Course;
 import harsha.api.example.Enrolment;
@@ -11,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 import org.apache.log4j.Logger;
 
-public abstract class Entity implements Cloneable {
+public abstract class Entity implements Cloneable, Comparable<Entity> {
 
     protected static final Logger LOG = Logger.getLogger(Entity.class);
     protected String keyForUpdate;
@@ -58,6 +59,15 @@ public abstract class Entity implements Cloneable {
         return key.primaryKey();
     }
 
+    public static String GetColumnFamily(Class<? extends Entity> clazz) {
+        ColumnFamily result = clazz.getAnnotation(ColumnFamily.class);
+        if (result == null) {
+            throw new RuntimeException("Class " + clazz.toString() + " does not have annotation for ColumnFamily");
+        }
+        return result.columnFamily();
+
+    }
+
     public static String GetName(Class<? extends Entity> clazz) {
         return clazz.getSimpleName();
     }
@@ -69,6 +79,9 @@ public abstract class Entity implements Cloneable {
             result = (String) getter.invoke(entity);
         } catch (Exception ex) {
             throw new RuntimeException(ex);
+        }
+        if (result == null) {
+            result = "";
         }
         return result;
     }
@@ -95,6 +108,13 @@ public abstract class Entity implements Cloneable {
             parent = parent.getSuperclass();
         } while (Entity.class.isAssignableFrom(parent));
         return result;
+    }
+
+    @Override
+    public int compareTo(Entity o) {
+        String id = GetValue(GetPrimaryKey(this.getClass()), this);
+        String o_id = GetValue(GetPrimaryKey(o.getClass()), o);
+        return id.compareTo(o_id);
     }
 
     public static void main(String[] args) {

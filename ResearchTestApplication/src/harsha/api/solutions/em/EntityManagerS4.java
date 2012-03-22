@@ -21,8 +21,10 @@ public class EntityManagerS4 extends EntityManager {
 
     public EntityManagerS4() {
         super();
-        emMetadata = new EntityManager(CloudConnector.getMetadataConnection());
         validationHandler = new ValidationHandlerS4(this, emMetadata);
+        
+        emMetadata = new EntityManager(CloudConnector.getMetadataConnection());
+        emMetadata.setValidationHandler(validationHandler);
     }
 
     @Override
@@ -86,11 +88,11 @@ public class EntityManagerS4 extends EntityManager {
     }
 
     @Override
-    public void createColumFamily(Class<? extends Entity> clazz) throws Exception {
+    public void createColumFamily(Class<? extends Entity> clazz, boolean dropIfExists) throws Exception {
         if (clazz.equals(Constraint.class)) {
-            emMetadata.createColumFamily(clazz);
+            emMetadata.createColumFamily(clazz, dropIfExists);
         } else {
-            super.createColumFamily(clazz);
+            super.createColumFamily(clazz, dropIfExists);
         }
     }
 }

@@ -4,10 +4,9 @@
  */
 package harsha.api.solutions.vh;
 
-import harsha.api.EntityManager;
 import harsha.api.Constraint;
 import harsha.api.Entity;
-import java.util.ArrayList;
+import harsha.api.EntityManager;
 import java.util.List;
 import me.prettyprint.hector.api.beans.ColumnSlice;
 import me.prettyprint.hector.api.beans.HColumn;

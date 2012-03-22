@@ -24,15 +24,15 @@ public class Experiment {
 
     protected static final Logger log = Logger.getLogger(Experiment.class);
     protected static final DecimalFormat DF = new DecimalFormat("# ### ###, ###");
-    private static final String INSERT_STUDENT = "insert_student";
-    private static final String INSERT_COURSE = "insert_course";
-    private static final String INSERT_ENROLMENT = "insert_enrolment";
-    private static final String UPDATE_STUDENT = "update_student";
-    private static final String UPDATE_COURSE = "update_course";
-    private static final String UPDATE_ENROLMENT = "update_enrolment";
-    private static final String DELETE_STUDENT = "delete_student";
-    private static final String DELETE_COURSE = "delete_course";
-    private static final String DELETE_ENROLMENT = "delete_enrolment";
+    public static final String INSERT_STUDENT = "insert_student";
+    public static final String INSERT_COURSE = "insert_course";
+    public static final String INSERT_ENROLMENT = "insert_enrolment";
+    public static final String UPDATE_STUDENT = "update_student";
+    public static final String UPDATE_COURSE = "update_course";
+    public static final String UPDATE_ENROLMENT = "update_enrolment";
+    public static final String DELETE_STUDENT = "delete_student";
+    public static final String DELETE_COURSE = "delete_course";
+    public static final String DELETE_ENROLMENT = "delete_enrolment";
     private static final long INSERT_STUDENT_RANDOM_SEED = INSERT_STUDENT.hashCode();
     private static final long INSERT_COURSE_RANDOM_SEED = INSERT_COURSE.hashCode();
     private static final long INSERT_ENROLMENT_RANDOM_SEED = INSERT_ENROLMENT.hashCode();
@@ -323,12 +323,12 @@ public class Experiment {
     public void setCode(String code) {
         this.code = code;
     }
-    
-    public void setRecorder(Recorder recorder){
+
+    public void setRecorder(Recorder recorder) {
         this.recorder = recorder;
     }
-    
-    public Recorder getRecorder(){
+
+    public Recorder getRecorder() {
         return this.recorder;
     }
 

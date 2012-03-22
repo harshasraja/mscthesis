@@ -5,17 +5,8 @@
 package harsha.api.test;
 
 import harsha.api.EntityManager;
-import harsha.thesis.exp.*;
-import harsha.api.test.Recorder;
 import harsha.api.connection.CloudConnector;
-import harsha.api.solutions.em.EntityManagerS0;
-import harsha.api.solutions.em.EntityManagerS1;
-import harsha.api.solutions.em.EntityManagerS2;
-import harsha.api.solutions.em.EntityManagerS3;
-import harsha.api.solutions.em.EntityManagerS4;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
+import harsha.api.solutions.em.*;
 import java.util.ArrayList;
 import java.util.List;
 import org.apache.log4j.Level;
