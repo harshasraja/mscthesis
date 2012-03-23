@@ -4,8 +4,9 @@
  */
 package harsha.thesis.exp;
 
-import harsha.thesis.api.connection.ConnectionDefinition;
-import harsha.thesis.api.connection.hector.HectorConnectionObject;
+import harsha.api.test.Recorder;
+import harsha.api.connection.ConnectionDefinition;
+import harsha.api.connection.HectorConnectionObject;
 import harsha.thesis.api.solution3.dao.BaseDAO;
 import harsha.thesis.api.solution3.entity.BaseEntity;
 import harsha.thesis.api.solution3.entity.Course;
@@ -28,7 +29,7 @@ public class Solution3 implements SolutionExperiment {
 
     private static Logger log = Logger.getLogger(Solution3.class);
     private static DecimalFormat DF = new DecimalFormat("# ### ###, ###");
-    private Experiment experiment;
+    private Recorder experiment;
     private String[] csvFiles;
     //
     private List<User> users;
@@ -36,7 +37,7 @@ public class Solution3 implements SolutionExperiment {
     private List<Enrolment> enrolments;
     private BaseDAO dao;
 
-    public Solution3(Experiment experiment, String[] csvFiles) {
+    public Solution3(Recorder experiment, String[] csvFiles) {
         this.experiment = experiment;
         this.csvFiles = csvFiles;
     }

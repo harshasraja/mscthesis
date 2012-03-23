@@ -1,8 +1,8 @@
 package harsha.thesis.api.solution0.dao;
 
-import harsha.thesis.api.annotation.PrimaryKey;
-import harsha.thesis.api.connection.CloudConnector;
-import harsha.thesis.api.connection.Connection;
+import harsha.api.annotation.PrimaryKey;
+import harsha.api.connection.CloudConnector;
+import harsha.api.connection.Connection;
 import harsha.thesis.api.solution0.entity.BaseEntity;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.InvocationTargetException;

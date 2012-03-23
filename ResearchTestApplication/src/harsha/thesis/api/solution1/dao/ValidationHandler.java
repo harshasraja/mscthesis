@@ -3,7 +3,7 @@
  */
 package harsha.thesis.api.solution1.dao;
 
-import harsha.thesis.api.annotation.PrimaryKey;
+import harsha.api.annotation.PrimaryKey;
 import harsha.thesis.api.exception.ValidationFailedException;
 import harsha.thesis.api.solution1.entity.BaseEntity;
 import harsha.thesis.api.solution1.entity.Metadata;

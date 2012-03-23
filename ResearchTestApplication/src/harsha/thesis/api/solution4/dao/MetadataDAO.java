@@ -4,7 +4,7 @@
  */
 package harsha.thesis.api.solution4.dao;
 
-import harsha.thesis.api.connection.CloudConnector;
+import harsha.api.connection.CloudConnector;
 
 /**
  *

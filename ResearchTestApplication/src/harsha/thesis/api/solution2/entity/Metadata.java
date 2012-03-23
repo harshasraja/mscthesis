@@ -1,7 +1,7 @@
 package harsha.thesis.api.solution2.entity;
 
-import harsha.thesis.api.annotation.Column;
-import harsha.thesis.api.annotation.PrimaryKey;
+import harsha.api.annotation.Column;
+import harsha.api.annotation.PrimaryKey;
 
 @PrimaryKey(primaryKey="ConstraintName")
 public class Metadata extends BaseEntity {

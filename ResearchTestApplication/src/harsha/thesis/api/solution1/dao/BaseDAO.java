@@ -1,8 +1,8 @@
 package harsha.thesis.api.solution1.dao;
 
-import harsha.thesis.api.annotation.PrimaryKey;
-import harsha.thesis.api.connection.CloudConnector;
-import harsha.thesis.api.connection.Connection;
+import harsha.api.annotation.PrimaryKey;
+import harsha.api.connection.CloudConnector;
+import harsha.api.connection.Connection;
 import harsha.thesis.api.solution1.entity.BaseEntity;
 import harsha.thesis.api.solution1.entity.Metadata;
 
@@ -227,7 +227,6 @@ public class BaseDAO {
             }
             list.add(entity);
             entity = tempClass.newInstance();
-            ;
         }
 
 

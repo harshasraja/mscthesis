@@ -43,9 +43,6 @@ public class LatexTable {
             result += "\\multirow{" + crudKeys.size() + "}{*}{\\textbf{" + operation + "}}";
             for (String table : crud.get(operation)) {
                 String tableChar = "" + table.charAt(0);
-                if ("u".equals(tableChar)) {
-                    tableChar = "s";
-                }
                 tableChar = "\\textbf{" + tableChar + "}";
                 result += " & " + tableChar + " & ";
                 for (int i = 0; i < solutions.length; ++i) {
@@ -95,9 +92,7 @@ public class LatexTable {
             result += "\\multirow{" + crudKeys.size() + "}{*}{\\textbf{" + operation + "}}";
             for (String table : crud.get(operation)) {
                 String tableChar = "" + table.charAt(0);
-                if ("u".equals(tableChar)) {
-                    tableChar = "s";
-                }
+                
                 tableChar = "\\textbf{" + tableChar + "}";
                 result += " & " + tableChar + " & ";
                 for (int i = 0; i < solutions.length; ++i) {
@@ -165,9 +160,7 @@ public class LatexTable {
             result += "\\multirow{" + crudKeys.size() + "}{*}{\\textbf{" + operation + "}}";
             for (String table : crud.get(operation)) {
                 String tableChar = "" + table.charAt(0);
-                if ("u".equals(tableChar)) {
-                    tableChar = "s";
-                }
+                
                 result += " & \\textbf{" + tableChar + "} & ";
                 Solution baseline = solutions[0];
                 List<Double> baselineTimes = baseline.getTimesFor(operation + "_" + table);
@@ -220,9 +213,7 @@ public class LatexTable {
             result += "\\multirow{" + crudKeys.size() + "}{*}{\\textbf{" + operation + "}}";
             for (String table : crud.get(operation)) {
                 String tableChar = "" + table.charAt(0);
-                if ("u".equals(tableChar)) {
-                    tableChar = "s";
-                }
+                
                 result += " & \\textbf{" + tableChar + "} & ";
                 Solution baseline = solutions[0];
                 List<Double> baselineTimes = baseline.getTimesFor(operation + "_" + table);
