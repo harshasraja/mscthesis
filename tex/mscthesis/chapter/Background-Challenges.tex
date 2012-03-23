@@ -1,0 +1,117 @@
+%ब
+\section{Challenges in Key-Value model}\label{s:challenges-key-value}
+Fundamentally,   the key-value data model is different from the relational model
+in many ways.  While the relational data model aims at giving data a structure,  
+providing data integrity,   the key-value data model just
+store data as \acp{blob} or string values and generally do not maintain
+relationships between data.  In the column-oriented key-value model,   the
+key-value association and the grouping of columns in column families can be
+considered as the minimum relationship that is maintained.
+
+According to \todo{Bell and Brockhausen (1995)},   data dependencies are the
+most common types of semantic constraints in relational databases and these
+determine the database design.  Data dependencies are the various relationships
+that may exist between data entities in a database.  For example,   in the
+University database,   a student can enrol into more than one course and this
+means that there is a many-to-many relationship between \texttt{Student} and
+\texttt{Course} since   one course can have many students enrolled in it.
+
+As seen in Section~\ref{s:key-value-data-model},   the \texttt{Enrolment} table
+contains the \texttt{StudentID} and the \texttt{CourseID} as foreign keys, thus
+showing the dependency or relationship between students and courses
+(Figure~\ref{f:RDB}).
+In the \texttt{University} \ac{RDB} any attempt to delete a course from the
+\texttt{Course} table,   is prevented by a constraint,   unless the dependency
+itself is removed first.  In \acp{RDBMS} ,   this constraint is referential
+integrity,   which ensures that references between data entities are valid,
+consistent and intact (\todo(cite Blaha,   n. d. )).
+Normalisation,   as well as modelling real world data and relationships enforce
+such dependencies in the schema and this causes integrity constraints like
+referential integrity constraints,   to be imposed on data entities.
+
+If such constraints are not imposed,   there could arise many dangling
+dependencies in the database.  For instance,   consider the case of foreign key
+references between \texttt{Course} and \texttt{Enrolment} in the  University
+database.  If a course is deleted from the \texttt{Course} table without
+removing its dependencies in \texttt{Enrolment},   the latter would contain
+active references to the deleted course.  Another example of a dangling
+reference occurs during insertion of data,   where a new student is entered in
+the \texttt{Enrolment} table,   with a \texttt{CourseID},   that does not exist
+in the \texttt{Course} table (i. e. ,   wrong \texttt{CourseID}).  A dangling
+reference occurs because this inserted student refers to a nonexistent course.
+Such problems cause inconsistent data to be stored in databases and violate data
+integrity.  To ensure that users get consistent and valid information,
+applications would have to implement mechanisms to check or prevent dangling
+references.  But if referential integrity constraints are applied as in an
+\ac{RDB},   operations on data that  adversely affects referential integrity  
+would not be permitted.
+
+As previously mentioned,   \ac{NoSQL} database systems do not normalise data and
+nor are any relationships maintained.  But relationships or dependencies between
+data are common when real world data is stored in databases.  For example,   in
+the real world,   a course could be taught by more than one lecturer or a
+student with an Art major is restricted entry into Chemistry courses etc.  These
+relationships and constraints have to be preserved upon storage in cloud
+\ac{NoSQL} database systems too.  As mentioned in
+Section~\ref{s:cloud-databases},   cloud databases,   whether relational or
+\ac{NoSQL},   have to replicate data across several machines and need to be
+scalable to match the needs of the users.  The replicated and distributed nature
+makes maintaining data dependencies complex and unfeasible in terms of speed and
+efficiency.  In cloud \ac{NoSQL} databases,   this effectively means that the
+relationship between \texttt{Enrolment}, \texttt{Student} and \texttt{Course}
+tables will not be strictly enforced and deleting a course in cloud \ac{NoSQL}
+databases is allowed because of the absence of constraints.  As mentioned
+before,   this means that students could still be enrolled in deleted courses,  
+since there are no constraints to prevent such deletions or changes in cloud
+\ac{NoSQL} databases.
+
+Commonly,   developers impose such constraints and reference checks on
+\ac{NoSQL}
+data at the application side.  Another way to implement such checks is to give
+these constraints at the persistence layer of the application server.  Both
+these ways would eventually have to handle all the processing and managing of
+these constraint checks for all the widely spread data in \ac{NoSQL} databases.
+However,   this could mean immense workload on the application or the
+application server,   especially if the data volume is large in the \ac{NoSQL}
+database or if it is has many replicas that have to be checked as well for the
+constraints.
+
+
+This is a serious problem when data is interconnected and dependant on other
+data entities as is commonly the case.  For example,   consider a banking
+application that uses cloud \ac{NoSQL} \acp{DBMS} where its data is spread
+across several nodes and is interconnected.  Any debit or credit transactions
+made to a users account will have to be replicated across all the
+nodes and correctly persisted.  Many constraints will exist for transfer of funds
+between user accounts and such constraints need to be validated correctly.  If a
+user has multiple accounts,   the relationship between the accounts have to be
+maintained too.  When such constraints are not validated correctly,   it will lead
+to incorrect account balances and wrong updates in the user accounts.  On the
+other hand,   when such applications use an \ac{RDBMS},   referential integrity
+constraints would be imposed to maintain the relationships between the accounts
+and such constraints would be defined while tables are created and their
+validation would be triggered whenever any operations are performed on the data.
+
+Updates may not be correctly reflected across all the nodes of the database due
+to  eventual consistency too,   which is discussed in Section~\ref{s:Cassandra}.
+However, in spite of eventual consistency,   data dependencies should be
+correctly handled and recorded.
+
+Although such problems mostly affect most cloud \ac{NoSQL} \ac{DBMS} users,   it
+could be different for different users.  For example, a banking system as
+mentioned above could be gravely affected because of dangling references while
+in a simple game application such problems could be trivial. 
+% Addressing these challenges, 
+%  implies to introduce referential integrity constraints in cloud \ac{NoSQL}
+% database systems.
+Motivated by such
+problemd of data dependencies, this thesis studies the existing modelling of
+data dependencies in cloud \ac{NoSQL} \acp{DBMS} and contributes by proposing
+four solutions to effectively maintain and validate referential integrity.
+%  while also not limiting the benefits of  \ac{NoSQL} \acp{DBMS}.
+% In order to maintain referential  integrity in a database system, some rules and
+% validations are performed when operations are executed on data items
+% within a database. 
+The following section describes referential integrity and the rules that have to
+be imposed within a database system to validate referential integrity.
+
