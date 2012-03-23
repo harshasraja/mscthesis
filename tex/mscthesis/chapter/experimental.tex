@@ -1,8 +1,11 @@
 \chapter{Experimental Design}
 \todo{Check number of enrolments, introduce all metadata, and retrieve 
 details of cassandra cluster from my computer}
-Cassandra cluster
 
+\todo{summary of chapter structure}
+
+
+\section{University example}
 University example (Metadata) present example again and all metadata.
 
 \section{Cassandra cluster}
@@ -22,11 +25,6 @@ Cassandra. The characteristics of these nodes are:
 
 \section{Experimental setup}\label{s:exp:setup}
 
---include how response itme and throughput became the measures. Commonly used
-metrics.
---measuring throughput by logging it using our code. Can quote IBM on this. Most
-benchmarks like TPC- cannot be used in our case as we dont use SQL and neither
-is Cassandra an OLTP which supports transactions.
 
  The experimentation consists
 on performing 100 runs where artificial data is randomly created, updated and deleted from column famlies in a Cassandra cluster.
@@ -51,23 +49,23 @@ The format of the artificial data created is as follows. Student has a
 unit-increasing studentId, which is merged into the fields firstName and
 lastName as "First Name (studentId)" and "Last Name (studentId)", and trimester
 and level are random numbers. Course has a   unit-increasing courseId which is
-appended to the prefix "COMP", the course name is composed as in the student
-(merging id and field). Enrolment contains a unit-increasing rowId, and the
+appended to the prefix "COMP", it also has a composed course name as in
+the student (merging id and field). Enrolment contains a unit-increasing rowId, and the
 respective foreign keys of student and course.
 		
 The order of the operations performed on the data is as follows. \textbf{Create}
 inserts all the students, courses and enrolments. \textbf{Update} performs
-changes on the primary key of each student and course, and on the course foreign
-key of each enrolment. Finally, \textbf{Delete} removes all the students,
-courses and enrolments. Notice that the primary keys in every column family are
-different in each run (create, update, delete) in order to avoid introducing
-biases to the results as product of the tombstone delete paradigm that Cassandra
-utilizes. That is, since Cassandra does not completely remove the primary keys
-of the inserted entities (tombstone delete), reinsertion using the same primary
-key might yield faster times as the key already exists. After each run, all
-column families (student, course, and enrolment) are empty and ready for the
-next run.  The details  of the \ac{CRUD} operations are explained further in the
-next sections.
+changes on the primary keys of students and courses, and on the foreign keys
+of enrolment (the one relative to courses, especifically). Finally,
+\textbf{Delete} removes all the students, courses and enrolments.  Notice that
+the primary keys in every column family  are different in each run (create,
+update, delete) in order to avoid  introducing biases to the results as product
+of the tombstone delete paradigm  that Cassandra utilizes. That is, since
+Cassandra does not completely  remove the primary keys of the inserted entities
+(tombstone delete), reinsertion  using the same primary key might yield faster
+times as the key already exists. After  each run, all column families (student,
+course, and enrolment) are emptied and  ready for the next run.  The details  of
+the \ac{CRUD} operations are explained further in the next sections.
 		
 \begin{description}
 \item[Create] The create operation inserts all the students, courses and enrolments in
@@ -76,33 +74,33 @@ presented in Section~\ref{s:ed:ri}. The time required to insert all of the
 entities in their respective column families  is recorded. In the Student and
 Course column families, the insertion does not trigger any constraint validation
 as these entities do not contain foreign keys. Contrarily, the insertion of
-enrolments triggers foreign key validation checks on both Student and Course
-column families.
+enrolments triggers foreign key validation checks on both \texttt{Student} and
+\texttt{Course} column families.
 \item[Update] The update operation is performed after the creation of all entities.
 First, an attempt to update the primary key of each course is made. This
-triggers constraint validations and results in exceptions thrown as the
-DeleteRule of entity Course is "NODELETE". Hence, the times recorded for
-updating the Course column family represent the time required to identify a
+triggers constraint validations that result in exceptions thrown as the
+\texttt{DeleteRule} of entity \texttt{Course} is \texttt{NODELETE}. Hence, the
+times recorded for updating the Course column family represent the time required to identify a
 constraint violation and throw the respective exceptions.
 			
-Next, the Enrolment column family is updated. In this case, the courseId for
-each enrolment is changed to a different one ensuring that the distribution of
+Next, the \texttt{Enrolment} column family is updated. In this case, the
+courseId for each enrolment is changed to a different one ensuring that the distribution of
 courses and students remains the same. The update on the enrolment column family
 triggers foreign key validation checks to ensure that the course to which every
 enrolment is being updated actually exists.
 			
 Finally, the primary key for each student is updated to a new integer value that
-has never existed in the column family. This triggers a cascaded update on the
-enrolment column family by respectively updating the student foreign key in its
-existing enrolments.
+has never existed in the column family. This operation triggers a cascaded
+update on the \texttt{Enrolment} column family by respectively updating the
+student foreign key in its existing enrolments.
 \item[Delete]The deletion of entities occurs first on the Enrolment column family,
 where all of its records are deleted without requiring referential integrity
 checks as this is a child entity. The times are recorded for such operation and
 then all of the entities are reinserted with the same primary keys in order to
-assess the cascaded delete of students.
+ assess the cascaded delete of students next.
 		
-Next, all of the students are deleted from the column family. Given the cascaded
-delete rule of these entities, the validation handler ensures to delete first
+Secondly, all of the students are deleted from their respective column family.
+Given the cascaded delete rule of these entities, the validation handler ensures to delete first
 all of the child entities before deleting an student. Hence, the times recorded
 for this operation measure the time required for performing a cascaded delete on
 the student depedencies in enrolment. Notice that the dependencies exist at this
@@ -120,10 +118,37 @@ operations as the primary keys of all column families will be different.
 
 \end{description}		
 
-			
-			
 
-		
+\section{Analysis of results}
+	Response time and throughput as function of response time.
+	
+--include how response itme and throughput became the measures. Commonly used
+metrics.
+--measuring throughput by logging it using our code. Can quote IBM on this. Most
+benchmarks like TPC- cannot be used in our case as we dont use SQL and neither
+is Cassandra an OLTP which supports transactions.
+
+	Notice that external variables such as network latency, simultaneous processes
+	in the operating systems of each node, and other variables are not considered
+	for the analysis of results. Even when they are present, it is expected that
+	results will not be biased by them. Nonetheless, the experiments will be
+	performed at night time over a weekend as this is the time where the cluster is
+	less used, thus reducing the presence of such variables and hence their impact
+	by biasing the results \todo{or something like that :P}
+
+\section{Summary}
+	This chapter has presented the experimental design to evaluate the performance
+	of each of the solutions and the api itself using as an example of application
+	the toy problem used across this thesis. The experimental design involves
+	assessing the performance of the CRUD operations on the different solutions
+	proposed for referential integrity. The analysis of results is to be based on
+	response time and throughput, two performance indicators that serve as
+	guidelines for assessing the tradeoffs between the different solutions
+	proposed.
+	
+	
+	The next chapter presents the results and their discussions of the
+	experimental design presented in this chapter
  
 
 
