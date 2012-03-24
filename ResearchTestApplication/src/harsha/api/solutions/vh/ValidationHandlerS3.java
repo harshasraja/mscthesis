@@ -26,7 +26,7 @@ public class ValidationHandlerS3 extends CommonValidationHandler{
     
     @Override
     public List<Constraint> retrieveMetadata(Entity entity) throws Exception {
-        return em.query(Constraint.class, "EntityName", 
+        return em.query(Constraint.class, "ColumnFamily",
                 EntityManager.Expression.EQUALS, entity.getClass().getName());
     }
 

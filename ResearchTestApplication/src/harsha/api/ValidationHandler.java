@@ -14,14 +14,19 @@ import java.util.List;
 public interface ValidationHandler {
     
     public String solution();
+
     
     public List<Constraint> retrieveMetadata(Entity entity) throws Exception;
     
-    public List<Entity> retrieveDependencies(Entity entity) throws Exception;
+    public List<Entity> retrieveChildren(Entity entity) throws Exception;
+    
     
     public void onInsert(Entity entity) throws Exception;
-    
-    public void onUpdate(Entity entity) throws Exception;
+
+    public void beforeUpdate(Entity entity) throws Exception;
+
+    public void afterUpdate(Entity entity) throws Exception;
+
     
     public void onDelete(Entity entity) throws Exception;
     

@@ -41,7 +41,7 @@ public class ValidationHandlerS4 extends CommonValidationHandler {
         metadata = new ArrayList<Constraint>();
         cache.put(entity.getClass(), metadata);
 
-        metadata =  emMetadata.query(Constraint.class, "EntityName", 
+        metadata =  emMetadata.query(Constraint.class, "ColumnFamily",
                 EntityManager.Expression.EQUALS, entity.getClass().getName());
         
         return metadata;

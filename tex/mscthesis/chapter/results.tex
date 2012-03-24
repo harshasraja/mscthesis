@@ -4,58 +4,58 @@
 % operations to complete on each of the entities  as described in the University
 % example adopted for the experiments.
 
-Performance of database systems is commonly measured in terms of the
-\textit{Response time} and \textit{Throughput}(\todo{cite Demurjian, Berkely}).
-Response time refers to the time  a database system takes to process an
-operation and produce results to the end user . Measuring response time for a
-database operation is similar to a black-box evaluation because it is measured 
-without considering the internal functioning  of the database system. According
-to (\todo{cite Demurjian}) such an evaluation is ideal for a complete database
-system to measure its performance and to give the users details about its 
-efficiency and speed in performing operations. In this thesis, response time and
-throughput are the measures used to gauge the performance of Cassandra
-while referential integrity validation is implemented using the \ac{API}.
-
-Response time for each of the  operations that trigger such a validation from
-all the solutions are measured during the experiments. This included the
-time involved to access and retrieve metadata for the entities and also the time for
-validating referential integrity by the \texttt{ValidationHandler}. The response
-time of Cassandra when such validations are not in place is also measured and considered as a
-baseline with which to analyse the solutions. Such a comparison  determines the degree of
-change in speed of Cassandra when such overheads are introduced and gives 
-users useful information about how each solution affects the performance of
-the database system.
-
-The second performance measure used is \textit{Throughput} which
-is another classical and commonly used measure of database performance
-(\todo{cite BerkleyDB}).
-Throughput measures the number of operations processed by the database system in a unit of
-time. In the experiments the throughput for all the operations
-triggering referential integrity validation across all solutions is measured
-as operations per second.
-A single operation stands for each time an entity is inserted or updated or
-deleted. 
-% For example, inserting 1000 students means that 1000 \texttt{insert}
-% operations are processed by Cassandra. 
-Note that only the operations that
-introduce the referential integrity validation in Cassandra is measured and thus
-\texttt{read} operations are not measured in terms of response time or
-throughput.
-% These operations
-% which trigger referential
-% integrity validation for an entity
-% namely the \texttt{insert}, \texttt{update}, \texttt{delete} operations are
-% were measured in terms of the throughput in the experiments. Throughout commonly
-% referes to the number of operations performed
-
-It has to be noted that the operations are prone to  external factors like
-network latency, bandwidth, network routing, network workload among others which
-typically affect a network consisting of several machines and users. This is
-because the Cassandra cluster used in the experiments is deployed over a
-network that is used by many users concurrently thus exposing the operations to
-such factors. Identifying such factors and analysing them is beyond the scope of
-this thesis and the analysis is strictly in terms of how the metadata storage
-and referential integrity validation affects Cassandra's performance.
+% Performance of database systems is commonly measured in terms of the
+% \textit{Response time} and \textit{Throughput}(\todo{cite Demurjian, Berkely}).
+% Response time refers to the time  a database system takes to process an
+% operation and produce results to the end user . Measuring response time for a
+% database operation is similar to a black-box evaluation because it is measured 
+% without considering the internal functioning  of the database system. According
+% to (\todo{cite Demurjian}) such an evaluation is ideal for a complete database
+% system to measure its performance and to give the users details about its 
+% efficiency and speed in performing operations. In this thesis, response time and
+% throughput are the measures used to gauge the performance of Cassandra
+% while referential integrity validation is implemented using the \ac{API}.
+% 
+% Response time for each of the  operations that trigger such a validation from
+% all the solutions are measured during the experiments. This included the
+% time involved to access and retrieve metadata for the entities and also the time for
+% validating referential integrity by the \texttt{ValidationHandler}. The response
+% time of Cassandra when such validations are not in place is also measured and considered as a
+% baseline with which to analyse the solutions. Such a comparison  determines the degree of
+% change in speed of Cassandra when such overheads are introduced and gives 
+% users useful information about how each solution affects the performance of
+% the database system.
+% 
+% The second performance measure used is \textit{Throughput} which
+% is another classical and commonly used measure of database performance
+% (\todo{cite BerkleyDB}).
+% Throughput measures the number of operations processed by the database system in a unit of
+% time. In the experiments the throughput for all the operations
+% triggering referential integrity validation across all solutions is measured
+% as operations per second.
+% A single operation stands for each time an entity is inserted or updated or
+% deleted. 
+% % For example, inserting 1000 students means that 1000 \texttt{insert}
+% % operations are processed by Cassandra. 
+% Note that only the operations that
+% introduce the referential integrity validation in Cassandra is measured and thus
+% \texttt{read} operations are not measured in terms of response time or
+% throughput.
+% % These operations
+% % which trigger referential
+% % integrity validation for an entity
+% % namely the \texttt{insert}, \texttt{update}, \texttt{delete} operations are
+% % were measured in terms of the throughput in the experiments. Throughout commonly
+% % referes to the number of operations performed
+% 
+% It has to be noted that the operations are prone to  external factors like
+% network latency, bandwidth, network routing, network workload among others which
+% typically affect a network consisting of several machines and users. This is
+% because the Cassandra cluster used in the experiments is deployed over a
+% network that is used by many users concurrently thus exposing the operations to
+% such factors. Identifying such factors and analysing them is beyond the scope of
+% this thesis and the analysis is strictly in terms of how the metadata storage
+% and referential integrity validation affects Cassandra's performance.
 
  The results from the experiments were used to
 analyse the performance of the four solutions with respect to  response

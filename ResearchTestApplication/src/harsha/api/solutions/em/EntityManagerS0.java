@@ -4,6 +4,7 @@
  */
 package harsha.api.solutions.em;
 
+import harsha.api.Entity;
 import harsha.api.EntityManager;
 import harsha.api.solutions.vh.ValidationHandlerS0;
 
@@ -17,6 +18,13 @@ public class EntityManagerS0 extends EntityManager{
         super();
         setValidationHandler(new ValidationHandlerS0());
     }
-    
+
+    @Override
+    public <T extends Entity> T find(Class<T> clazz, String id) throws Exception {
+        throw new Exception();
+    }
+
+
+
     
 }

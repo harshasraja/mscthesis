@@ -33,7 +33,7 @@ public class ValidationHandlerS0 implements ValidationHandler {
     }
 
     @Override
-    public List<Entity> retrieveDependencies(Entity entity) throws Exception {
+    public List<Entity> retrieveChildren(Entity entity) throws Exception {
         return new ArrayList<Entity>();
     }
 

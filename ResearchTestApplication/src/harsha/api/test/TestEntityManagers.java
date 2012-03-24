@@ -192,6 +192,10 @@ public class TestEntityManagers {
                     throw new Exception("Entity not found: " + entity);
                 }
             }
+            Entity dummy = em.find(Student.class, "DUMMY");
+            if (dummy != null) {
+                throw new Exception("Non existing entity is not null");
+            }
 
             for (Course entity : courses) {
                 Course e = em.find(Course.class, entity.getCourseId());
@@ -199,6 +203,11 @@ public class TestEntityManagers {
                     throw new Exception("Entity not found: " + entity);
                 }
             }
+            dummy = em.find(Course.class, "DUMMY");
+            if (dummy != null) {
+                throw new Exception("Non existing entity is not null");
+            }
+
 
             for (Enrolment entity : enrolments) {
                 Enrolment e = em.find(Enrolment.class, entity.getRowId());
@@ -206,7 +215,15 @@ public class TestEntityManagers {
                     throw new Exception("Entity not found: " + entity);
                 }
             }
+            dummy = em.find(Enrolment.class, "DUMMY");
+            if (dummy != null) {
+                throw new Exception("Non existing entity is not null");
+            }
+
+
         }
+
+
 
 
         //READ

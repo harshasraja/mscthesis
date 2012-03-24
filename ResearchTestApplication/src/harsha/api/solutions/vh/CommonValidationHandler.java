@@ -4,12 +4,13 @@
  */
 package harsha.api.solutions.vh;
 
+import harsha.api.Constraint;
 import harsha.api.ValidationHandler;
 import harsha.api.EntityManager;
-import harsha.api.Constraint;
 import harsha.api.Entity;
 import java.util.ArrayList;
 import java.util.List;
+import org.apache.cassandra.utils.Pair;
 
 /**
  *
@@ -25,68 +26,92 @@ public abstract class CommonValidationHandler implements ValidationHandler {
 
     @Override
     public void onInsert(Entity entity) throws Exception {
-//        List<Constraint> metadata = retrieveMetadata(entity);
-//        List<Constraint> rConstraints = new ArrayList<Constraint>();
-//        
-//        for (Constraint constraint : metadata) {
-//            if ("R".equals(constraint.getType())) {
-//                rConstraints.add(constraint);
-//            }
-//        }
-//
-//        List<Entity> rConstraints = new ArrayList<Entity>();
-//
-//        try {
-//            List<Constraint> list = em.read(entity.getClass()
-//                    entity.getColumnFamilyRepresentation().replace("_", "."), "-1").getMetaData();
-//            for (Metadata metadata : list) {
-//                if ("R".equals(metadata.getConstraintType())) {
-//                    rConstraints.add(metadata);
-//                }
-//            }
-//            for (BaseEntity rConstraint : rConstraints) {
-//                BaseEntity baseEntity = getMetadata((Metadata) rConstraint);
-//
-//                Metadata metadata = (Metadata) baseEntity;
-//                if ("F".equals(metadata.getConstraintType())) {
-//                    String foreignKey = getForeignKey(metadata.getRColumn());
-//
-//                    BaseEntity fkentity = dao.read(((Metadata) rConstraint).getTableName().replace("_", "."), foreignKey);
-//
-//                    if (fkentity.isNull()) {
-//                        throw new ValidationFailedException(foreignKey + " not found in referenced table " + metadata.getTableName());
-//                    }
-//                }
-//            }
-//        } catch (Exception e) {
-//            throw e;
-//        } finally {
-//            if (dao != null) {
-//                dao.close();
-//            }
-//        }
+
+        Entity exists = em.find(entity.getClass(), Entity.GetValue(
+                Entity.GetPrimaryKey(entity.getClass()), entity));
+
+        if (exists != null) {
+            throw new Exception("Cannot insert " + entity + " as it already exists");
+        }
+
+
+        //retrieve Metadata has to find all constraints where columnfamily  = entity;
+        List<Constraint> metadata = retrieveMetadata(entity);
+        List<Constraint> rConstraintNames =
+                new ArrayList<Constraint>();
+
+        for (Constraint constraint : metadata) {
+            if ("R".equals(constraint.getConstraintType())) {
+                rConstraintNames.add(em.find(Constraint.class, constraint.getRConstraintName()));
+            }
+        }
+
+        for (Constraint rConstraint : rConstraintNames) {
+            String foreignKey = rConstraint.getRColumn();
+            String foreignKeyValue = Entity.GetValue(foreignKey, entity);
+
+            String primaryColumnFamily = rConstraint.getColumnFamily();
+            Class<Entity> clazz = (Class<Entity>) Class.forName(primaryColumnFamily);
+
+            Entity primaryKey = em.find(clazz, foreignKeyValue);
+            if (primaryKey == null) {
+                String foreign = "Foreign: " + entity;
+                String primary = "Primary:" + clazz + " with value " + foreignKeyValue;
+                throw new Exception(foreign + primary + " NOT FOUND :P");
+            }
+        }
     }
 
     @Override
-    public void onUpdate(Entity entity) throws Exception {
-//        throw new UnsupportedOperationException("Not supported yet.");
+    public void beforeUpdate(Entity entity) throws Exception {
+        List<Constraint> metadata = retrieveMetadata(entity);
+        for (Constraint constraint : metadata) {
+            if ("NODELETE".equals(constraint.getDeleteRule())) {
+                throw new Exception("Primary key of " + entity + " cannot be updated");
+            }
+        }
+    }
+
+    public void afterUpdate(Entity entity) throws Exception {
+//        List<Entity> children = this.validationHandler.retrieveChildren(entity);
+//
+//        //update dependencies to new foreign id.
+//        for (Entity child : children) {
+//
+//            Entity.SetValue(Entity.GetName(entity.getClass()) + "Id",
+//                    newId, child);
+//
+//            update(child);
+//        }
+
     }
 
     @Override
     public void onDelete(Entity entity) throws Exception {
-//        throw new UnsupportedOperationException("Not supported yet.");
-    }
 
-    @Override
-    public List<Entity> retrieveDependencies(Entity entity) throws Exception {
-        return new ArrayList<Entity>();
-//        List<Constraint> metadata = retrieveMetadata(entity);
-//        for (Constraint constraint : metadata){
-//            
-//        }
-//        
-//        List<Entity> dependencies = new ArrayList<Entity>();
-//        
-//        return dependencies;
+        List<Constraint> metadata = retrieveMetadata(entity);
+
+        for (Constraint fConstraint : metadata) {
+            if ("F".equals(fConstraint.getConstraintType())) {
+                Constraint rConstraint = em.find(Constraint.class, fConstraint.getRConstraintName());
+                String foreignColumnFamily = rConstraint.getColumnFamily(); //child is Enrolment
+                String foreignColumn = rConstraint.getRColumn(); //
+
+                String primaryKeyValue = Entity.GetValue(foreignColumn, entity);
+
+                Class<Entity> clazz = (Class<Entity>) Class.forName(foreignColumnFamily);
+
+                List<Entity> children = em.query(clazz,
+                        foreignColumn, EntityManager.Expression.EQUALS, primaryKeyValue);
+
+                if ("CASCADE".equals(fConstraint.getDeleteRule())) {
+                    for (Entity child : children) {
+                        em.delete(child);
+                    }
+                } else if ("NODELETE".equals(fConstraint.getDeleteRule()) && !children.isEmpty()) {
+                    throw new Exception(entity + " has child dependencies and cannot be deleted");
+                }
+            }
+        }
     }
 }

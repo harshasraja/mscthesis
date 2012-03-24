@@ -26,8 +26,8 @@ public class Constraint extends Entity {
     private String keySpace = "";
     @Column(columnName = "ConstraintType")
     private String constraintType = "";
-    @Column(columnName = "EntityName")
-    private String entityName = "";
+    @Column(columnName = "ColumnFamily")
+    private String columnFamily = "";
     @Column(columnName = "RKeySpace")
     private String rKeySpace = "";
     @Column(columnName = "RConstraintName")
@@ -41,12 +41,12 @@ public class Constraint extends Entity {
     }
 
     public Constraint(String constraintName, String keyspace, String constraintType,
-            String entityName, String rKeyspace, String rConstraintName, String rColumn,
+            String columnFamily, String rKeyspace, String rConstraintName, String rColumn,
             String deleteRule) {
         this.constraintName = constraintName;
         this.keySpace = keyspace;
         this.constraintType = constraintType;
-        this.entityName = entityName;
+        this.columnFamily = columnFamily;
         this.rKeySpace = rKeyspace;
         this.rConstraintName = rConstraintName;
         this.rColumn = rColumn;
@@ -77,12 +77,12 @@ public class Constraint extends Entity {
         this.constraintType = constraintType;
     }
 
-    public String getEntityName() {
-        return entityName;
+    public String getColumnFamily() {
+        return columnFamily;
     }
 
-    public void setEntityName(String entityName) {
-        this.entityName = entityName;
+    public void setColumnFamily(String columnFamily) {
+        this.columnFamily = columnFamily;
     }
 
     public String getRKeySpace() {
@@ -160,24 +160,24 @@ public class Constraint extends Entity {
         return result;
     }
 
-    public static void Main(String[] args) throws Exception {
+    public static void main(String[] args) throws Exception {
 
         String constraints =
                 "{ConstraintName:CONST200;KeySpace:UNIVERSITY;ConstraintType:P;"
-                + "EntityName:harsha.thesis.api.solution2.entity.Course;"
+                + "ColumnFamily:harsha.thesis.api.solution2.entity.Course;"
                 + "RKeySpace:UNIVERSITY;RConstraintName:;RColumn:CourseId;DeleteRule:};"
                 + ""
                 + "{ConstraintName:CONST600;KeySpace:UNIVERSITY;ConstraintType:F;"
-                + "EntityName:harsha_thesis_api_solution2_entity_Enrolment;"
+                + "ColumnFamily:harsha_thesis_api_solution2_entity_Enrolment;"
                 + "RKeySpace:UNIVERSITY;RConstraintName:CONST500;RColumn:CourseId;"
                 + "DeleteRule:NODELETE};"
                 + ""
                 + "{ConstraintName:CONST200;KeySpace:UNIVERSITY;ConstraintType:P;"
-                + "EntityName:harsha_thesis_api_solution2_entity_Course;"
+                + "ColumnFamily:harsha_thesis_api_solution2_entity_Course;"
                 + "RKeySpace:UNIVERSITY;RConstraintName:;RColumn:CourseId;DeleteRule:};"
                 + ""
                 + "{ConstraintName:CONST600;KeySpace:UNIVERSITY;ConstraintType:F;"
-                + "EntityName:harsha_thesis_api_solution2_entity_Enrolment;"
+                + "ColumnFamily:harsha_thesis_api_solution2_entity_Enrolment;"
                 + "RKeySpace:UNIVERSITY;RConstraintName:CONST500;RColumn:CourseId;"
                 + "DeleteRule:NODELETE}";
 

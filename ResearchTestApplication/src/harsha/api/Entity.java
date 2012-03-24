@@ -117,7 +117,7 @@ public abstract class Entity implements Cloneable, Comparable<Entity> {
         return id.compareTo(o_id);
     }
 
-    public static void main(String[] args) {
+    public static void Main(String[] args) {
         Entity[] entities = {new Student(), new Course(), new Enrolment(), new Constraint()};
         for (Entity entity : entities) {
             System.out.println("Entity: " + entity);

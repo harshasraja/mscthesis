@@ -229,9 +229,9 @@ public class EntityManager {
 
         indexedSlicesQuery.setColumnFamily(columnFamily(clazz));
         indexedSlicesQuery.setColumnNames(getColumnsFor(clazz));
-        
+
         LOG.warn("TODO: check how to retrieve all columnNames");
-        
+
 
         List<T> result = new ArrayList<T>();
         QueryResult<OrderedRows<String, String, String>> queryResult =
@@ -246,7 +246,7 @@ public class EntityManager {
                 result.add(entity);
             }
         }
-        
+
         return result;
     }
 
@@ -265,23 +265,13 @@ public class EntityManager {
         }
 
         mutator.execute();
-//        MutationResult me = null;
-//        try {
-//            me = mutator.execute();
-//        } catch (HInvalidRequestException e) {
-////            if (e.getMessage().contains("why:unconfigured columnfamily")) {
-////                LOG.info("Creating column family: " + columnFamily(entity.getClass()));
-////                createColumFamily(entity.getClass());
-////                insert(entity);
-////            }
-//        }
     }
 
     public void delete(Entity entity) throws Exception {
         LOG.debug("Deleting: " + entity);
         this.validationHandler.onDelete(entity);
 
-        List<Entity> dependencies = validationHandler.retrieveDependencies(entity);
+        List<Entity> dependencies = validationHandler.retrieveChildren(entity);
         for (Entity dependency : dependencies) {
             delete(dependency);
         }
@@ -289,20 +279,17 @@ public class EntityManager {
         getConnection().getMutator().delete(
                 Entity.GetValue(Entity.GetPrimaryKey(entity.getClass()), entity),
                 columnFamily(entity.getClass()), null, StringSerializer.get());
-
     }
 
     public void update(Entity entity) throws Exception {
         LOG.debug("Updating: " + entity);
-        this.validationHandler.onUpdate(entity);
 
         if (entity.getKeyForUpdate() == null || entity.getKeyForUpdate().isEmpty()) {
             insert(entity);
             return;
         }
 
-        //Retrieve entities with old id.
-        List<Entity> dependencies = this.validationHandler.retrieveDependencies(entity);
+        this.validationHandler.beforeUpdate(entity);
 
         String primaryKey = Entity.GetPrimaryKey(entity.getClass());
         String oldId = Entity.GetValue(primaryKey, entity);
@@ -313,14 +300,11 @@ public class EntityManager {
         //insert entity with new id
         insert(entity);
 
-        //update dependencies to new foreign id.
-        for (Entity dependency : dependencies) {
-            Entity.SetValue(Entity.GetName(entity.getClass()) + "Id",
-                    newId, dependency);
 
-            update(dependency);
-        }
+        //Retrieve entities with old id.
 
+        this.validationHandler.afterUpdate(entity);
+        
         //delete entity with oldId
         Entity.SetValue(primaryKey, oldId, entity);
         delete(entity);
