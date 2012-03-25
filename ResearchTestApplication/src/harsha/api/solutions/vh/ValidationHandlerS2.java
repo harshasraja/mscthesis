@@ -52,4 +52,11 @@ public class ValidationHandlerS2 extends CommonValidationHandler {
 
         return Constraint.Parse(stringOfMetadata);
     }
+
+    @Override
+    public void onInsert(Entity entity) throws Exception {
+        super.onInsert(entity);
+    }
+    
+    
 }
