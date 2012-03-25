@@ -33,11 +33,6 @@ public class ValidationHandlerS0 implements ValidationHandler {
     }
 
     @Override
-    public List<Entity> retrieveChildren(Entity entity) throws Exception {
-        return new ArrayList<Entity>();
-    }
-
-    @Override
     public List<Constraint> retrieveMetadata(Entity entity) throws Exception {
         return new ArrayList<Constraint>();
     }

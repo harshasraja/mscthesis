@@ -18,7 +18,7 @@ import org.apache.log4j.Logger;
  *
  * @author jcrada
  */
-public class ValidationHandlerS2 extends CommonValidationHandler {
+public class ValidationHandlerS2 extends MetadataAsText {
 
     protected static final Logger LOG = Logger.getLogger(ValidationHandlerS2.class);
 
@@ -53,10 +53,6 @@ public class ValidationHandlerS2 extends CommonValidationHandler {
         return Constraint.Parse(stringOfMetadata);
     }
 
-    @Override
-    public void onInsert(Entity entity) throws Exception {
-        super.onInsert(entity);
-    }
     
     
 }

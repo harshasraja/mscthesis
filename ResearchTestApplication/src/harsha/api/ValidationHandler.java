@@ -4,7 +4,6 @@
  */
 package harsha.api;
 
-import harsha.api.Entity;
 import java.util.List;
 
 /**
@@ -18,15 +17,10 @@ public interface ValidationHandler {
     
     public List<Constraint> retrieveMetadata(Entity entity) throws Exception;
     
-    public List<Entity> retrieveChildren(Entity entity) throws Exception;
-    
-    
+
     public void onInsert(Entity entity) throws Exception;
 
-    public void beforeUpdate(Entity entity) throws Exception;
-
-    public void afterUpdate(Entity entity) throws Exception;
-
+    public void onUpdate(Entity entity) throws Exception;
     
     public void onDelete(Entity entity) throws Exception;
     

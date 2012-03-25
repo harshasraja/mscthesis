@@ -46,7 +46,7 @@ public abstract class Entity implements Cloneable, Comparable<Entity> {
     @Override
     public String toString() {
         String result = GetName(this.getClass()) + "[";
-        result += "PK=" + GetPrimaryKey(this.getClass());
+        result += "PK=" + GetPrimaryKeyColumn(this.getClass());
         for (String column : GetAllColumnsFor(this.getClass())) {
             result += ", " + column + "=" + GetValue(column, this);
         }
@@ -54,7 +54,7 @@ public abstract class Entity implements Cloneable, Comparable<Entity> {
         return result;
     }
 
-    public static String GetPrimaryKey(Class<? extends Entity> clazz) {
+    public static String GetPrimaryKeyColumn(Class<? extends Entity> clazz) {
         PrimaryKey key = clazz.getAnnotation(PrimaryKey.class);
         return key.primaryKey();
     }
@@ -112,8 +112,8 @@ public abstract class Entity implements Cloneable, Comparable<Entity> {
 
     @Override
     public int compareTo(Entity o) {
-        String id = GetValue(GetPrimaryKey(this.getClass()), this);
-        String o_id = GetValue(GetPrimaryKey(o.getClass()), o);
+        String id = GetValue(GetPrimaryKeyColumn(this.getClass()), this);
+        String o_id = GetValue(GetPrimaryKeyColumn(o.getClass()), o);
         return id.compareTo(o_id);
     }
 

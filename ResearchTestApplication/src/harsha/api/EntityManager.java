@@ -107,7 +107,7 @@ public class EntityManager {
         }
         LOG.debug("Loaded: " + entity);
 
-        String id = Entity.GetValue(Entity.GetPrimaryKey(entity.getClass()), entity);
+        String id = Entity.GetValue(Entity.GetPrimaryKeyColumn(entity.getClass()), entity);
         return id != null && !id.trim().isEmpty();
     }
 
@@ -259,7 +259,7 @@ public class EntityManager {
         Mutator<String> mutator = getConnection().getMutator();
         for (String column : columnNames) {
             mutator.addInsertion(
-                    Entity.GetValue(Entity.GetPrimaryKey(entity.getClass()), entity),
+                    Entity.GetValue(Entity.GetPrimaryKeyColumn(entity.getClass()), entity),
                     columnFamily(entity.getClass()),
                     HFactory.createStringColumn(column, Entity.GetValue(column, entity)));
         }
@@ -271,13 +271,8 @@ public class EntityManager {
         LOG.debug("Deleting: " + entity);
         this.validationHandler.onDelete(entity);
 
-        List<Entity> dependencies = validationHandler.retrieveChildren(entity);
-        for (Entity dependency : dependencies) {
-            delete(dependency);
-        }
-
         getConnection().getMutator().delete(
-                Entity.GetValue(Entity.GetPrimaryKey(entity.getClass()), entity),
+                Entity.GetValue(Entity.GetPrimaryKeyColumn(entity.getClass()), entity),
                 columnFamily(entity.getClass()), null, StringSerializer.get());
     }
 
@@ -289,25 +284,24 @@ public class EntityManager {
             return;
         }
 
-        this.validationHandler.beforeUpdate(entity);
+        Entity oldEntity = (Entity) entity.clone();
 
-        String primaryKey = Entity.GetPrimaryKey(entity.getClass());
-        String oldId = Entity.GetValue(primaryKey, entity);
+
+        String primaryKeyColumn = Entity.GetPrimaryKeyColumn(entity.getClass());
         String newId = entity.getKeyForUpdate();
 
-        Entity.SetValue(primaryKey, newId, entity);
+        Entity.SetValue(primaryKeyColumn, newId, entity);
         entity.setKeyForUpdate(null);
+
         //insert entity with new id
         insert(entity);
 
-
-        //Retrieve entities with old id.
-
-        this.validationHandler.afterUpdate(entity);
+        
+        //Update children with old Entity
+        this.validationHandler.onUpdate(oldEntity);
         
         //delete entity with oldId
-        Entity.SetValue(primaryKey, oldId, entity);
-        delete(entity);
+        delete(oldEntity);
     }
 
     public void createColumFamily(Class<? extends Entity> clazz) throws Exception {
