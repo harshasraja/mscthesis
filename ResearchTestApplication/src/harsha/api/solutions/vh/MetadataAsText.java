@@ -9,6 +9,7 @@ import harsha.api.Entity;
 import harsha.api.EntityManager;
 import harsha.api.ValidationHandler;
 import java.util.List;
+import org.apache.log4j.Logger;
 
 /**
  *
@@ -16,13 +17,13 @@ import java.util.List;
  */
 public abstract class MetadataAsText implements ValidationHandler {
 
+    protected static final Logger LOG = Logger.getLogger(MetadataAsText.class);
     protected EntityManager em;
 
     public MetadataAsText(EntityManager em) {
         this.em = em;
     }
 
-    
     public Constraint findConstraint(String constraintName, List<Constraint> metadata) {
         for (Constraint constraint : metadata) {
             if (constraint.getConstraintName().equals(constraintName)) {
@@ -56,12 +57,16 @@ public abstract class MetadataAsText implements ValidationHandler {
     @Override
     public void onInsert(Entity entity) throws Exception {
         //retrieve Metadata has to find all constraints where columnfamily  = entity;
+        LOG.debug("onInsert(" + entity + ")");
         List<Constraint> metadata = retrieveMetadata(entity);
 
         for (Constraint constraint : metadata) {
-            if ("R".equals(constraint.getConstraintType())) {
-                Constraint rConstraint = findConstraint(constraint.getRConstraintName(), metadata);
-
+            if (constraint.getColumnFamily().equals(entity.getClass().getName())
+                    && "R".equals(constraint.getConstraintType())) {
+                LOG.debug(constraint);
+                Constraint rConstraint = findConstraint(constraint.getRConstraintName(),
+                        metadata);
+                LOG.debug(rConstraint);
                 String foreignKey = rConstraint.getRColumn();
                 String foreignKeyValue = Entity.GetValue(foreignKey, entity);
 
@@ -70,9 +75,7 @@ public abstract class MetadataAsText implements ValidationHandler {
 
                 Entity primaryKey = em.find(clazz, foreignKeyValue);
                 if (primaryKey == null) {
-                    String foreign = "Foreign: " + entity;
-                    String primary = "Primary:" + clazz + " with value " + foreignKeyValue;
-                    throw new Exception(foreign + primary + " NOT FOUND :P");
+                    throw new Exception("Entity NOT found: " + clazz + "[" +  foreignKey + "=" + foreignKeyValue + "]");
                 }
             }
         }
@@ -83,9 +86,10 @@ public abstract class MetadataAsText implements ValidationHandler {
         //Entity is OLD Student. Assumed that new Student is already inserted.
         List<Constraint> metadata = retrieveMetadata(entity);
         for (Constraint fConstraint : metadata) {
-            if ("F".equals(fConstraint.getConstraintType())) {
+            if (fConstraint.getColumnFamily().equals(entity.getClass().getName())
+                    && "F".equals(fConstraint.getConstraintType()))  {
                 Constraint rConstraint = findConstraint(fConstraint.getRConstraintName(), metadata);
-                
+
                 String foreignColumnFamily = rConstraint.getColumnFamily(); //child is Enrolment
                 String foreignColumn = rConstraint.getRColumn(); //
 
@@ -105,7 +109,7 @@ public abstract class MetadataAsText implements ValidationHandler {
                             em.update(child);
                         }
                     } else if ("NODELETE".equals(fConstraint.getDeleteRule())) {
-                        throw new Exception(entity + " has child dependencies and cannot be deleted");
+                        throw new Exception("Entity has child dependencies and its PK cannot be updated: " + entity);
                     }
                     Entity.GetValue(foreignColumn, entity);
                 }
@@ -120,7 +124,8 @@ public abstract class MetadataAsText implements ValidationHandler {
         List<Constraint> metadata = retrieveMetadata(entity);
 
         for (Constraint fConstraint : metadata) {
-            if ("F".equals(fConstraint.getConstraintType())) {
+            if (fConstraint.getColumnFamily().equals(entity.getClass().getName()) &&
+                    "F".equals(fConstraint.getConstraintType())) {
                 Constraint rConstraint = findConstraint(fConstraint.getRConstraintName(), metadata);
                 String foreignColumnFamily = rConstraint.getColumnFamily(); //child is Enrolment
                 String foreignColumn = rConstraint.getRColumn(); //

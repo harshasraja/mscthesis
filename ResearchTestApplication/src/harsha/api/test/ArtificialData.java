@@ -30,6 +30,7 @@ public class ArtificialData {
     private int numberOfStudents;
     private int numberOfCourses;
     private int numberOfCoursesPerStudent;
+    private String metadata;
 
     public ArtificialData() {
     }
@@ -58,6 +59,14 @@ public class ArtificialData {
         this.numberOfCoursesPerStudent = numberOfCoursesPerStudent;
     }
 
+    public String getMetadata() {
+        return metadata;
+    }
+
+    public void setMetadata(String metadata) {
+        this.metadata = metadata;
+    }
+
     public List<Student> generateStudents() {
         List<Student> result = new ArrayList<Student>();
 
@@ -71,6 +80,7 @@ public class ArtificialData {
             Entity.SetValue("Email", "First.Last@email." + id + ".com", entity);
             Entity.SetValue("Age", "" + (18 + age.nextInt(50)), entity);
             Entity.SetValue("Type", "STUDENT", entity);
+            Entity.SetValue("Metadata", getMetadata(), entity);
             result.add(entity);
             ++id;
         }
@@ -89,6 +99,7 @@ public class ArtificialData {
             Entity.SetValue("Trimester", "" + (1 + random.nextInt(3)), entity);
             Entity.SetValue("Level", "" + (1 + random.nextInt(4)), entity);
             Entity.SetValue("Year", "" + (random.nextBoolean() ? "2012" : "2011"), entity);
+            Entity.SetValue("Metadata", getMetadata(), entity);
             result.add(entity);
             ++id;
         }
@@ -111,7 +122,7 @@ public class ArtificialData {
                 Entity.SetValue("CourseId", COURSE_BASENAME
                         + (INITIAL_ID + (courseId % getNumberOfCourses())), entity);
                 Entity.SetValue("Type", "STUDENT", entity);
-                LOG.warn("TODO: Check STUDENT??");
+                Entity.SetValue("Metadata", getMetadata(), entity);
                 result.add(entity);
                 ++rowId;
                 courseId += increment;
@@ -128,7 +139,7 @@ public class ArtificialData {
         ad.setNumberOfStudents(100);
         ad.setNumberOfCourses(100);
         ad.setNumberOfCoursesPerStudent(10);
-
+        
         File file;
         BufferedWriter writer;
 

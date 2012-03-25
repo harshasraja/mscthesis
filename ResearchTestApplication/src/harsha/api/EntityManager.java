@@ -162,7 +162,6 @@ public class EntityManager {
         SliceQuery<String, String, String> sliceQuery = getConnection().getSliceQuery();
         sliceQuery.setColumnFamily(columnFamily(clazz));
         sliceQuery.setRange("", "", false, getColumnsFor(clazz).size());
-        LOG.warn("TODO:Check if the size of range is correct, clazz.methods.length");
         List<String> columnNames = getColumnsFor(clazz);
         sliceQuery.setColumnNames(columnNames.toArray(new String[columnNames.size()]));
         sliceQuery.setKey(id);

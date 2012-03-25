@@ -4,10 +4,12 @@
  */
 package harsha.api;
 
-import harsha.api.Entity;
 import harsha.api.annotation.Column;
 import harsha.api.annotation.ColumnFamily;
 import harsha.api.annotation.PrimaryKey;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.StringTokenizer;
@@ -160,32 +162,89 @@ public class Constraint extends Entity {
         return result;
     }
 
+    public static List<Constraint> ParseFromCsv(File file) throws Exception {
+        BufferedReader r = new BufferedReader(new FileReader(file));
+        String metadata = "";
+        String line = r.readLine(); //header
+        String[] header = line.split(",");
+
+        while ((line = r.readLine()) != null) {
+            String[] details = line.split(",");
+            metadata += "{";
+            for (int i = 0; i < details.length; ++i) {
+                metadata += header[i].replace("\"", "") + ":" + details[i].replace("\"", "");
+                if (i < details.length - 1) {
+                    metadata += ";";
+                }
+            }
+            metadata += "};";
+        }
+        return Parse(metadata);
+    }
+
+    public static String ToString(List<Constraint> constraints) {
+        String result = "";
+
+        for (Constraint constraint : constraints) {
+            result += "{";
+
+            List<String> columns = Entity.GetAllColumnsFor(constraint.getClass());
+            for (int i = 0; i < columns.size(); ++i) {
+                String column = columns.get(i);
+                result += column + ":" + Entity.GetValue(column, constraint);
+                if (i < columns.size() - 1) {
+                    result += ";";
+                }
+            }
+
+            result += "};";
+        }
+
+        return result;
+    }
+
     public static void main(String[] args) throws Exception {
 
-        String constraints =
-                "{ConstraintName:CONST200;KeySpace:UNIVERSITY;ConstraintType:P;"
-                + "ColumnFamily:harsha.thesis.api.solution2.entity.Course;"
-                + "RKeySpace:UNIVERSITY;RConstraintName:;RColumn:CourseId;DeleteRule:};"
-                + ""
-                + "{ConstraintName:CONST600;KeySpace:UNIVERSITY;ConstraintType:F;"
-                + "ColumnFamily:harsha_thesis_api_solution2_entity_Enrolment;"
-                + "RKeySpace:UNIVERSITY;RConstraintName:CONST500;RColumn:CourseId;"
-                + "DeleteRule:NODELETE};"
-                + ""
-                + "{ConstraintName:CONST200;KeySpace:UNIVERSITY;ConstraintType:P;"
-                + "ColumnFamily:harsha_thesis_api_solution2_entity_Course;"
-                + "RKeySpace:UNIVERSITY;RConstraintName:;RColumn:CourseId;DeleteRule:};"
-                + ""
-                + "{ConstraintName:CONST600;KeySpace:UNIVERSITY;ConstraintType:F;"
-                + "ColumnFamily:harsha_thesis_api_solution2_entity_Enrolment;"
-                + "RKeySpace:UNIVERSITY;RConstraintName:CONST500;RColumn:CourseId;"
-                + "DeleteRule:NODELETE}";
+        File csv = new File("/home/phoenix1/subramhars/workspace/ResearchTestApplication/data/Solution3/Metadata.csv");
+        List<Constraint> constraints = ParseFromCsv(csv);
 
-        List<Constraint> metadata = Parse(constraints);
-        System.out.println("Number of constraints:" + metadata.size());
-        for (Constraint constraint : metadata) {
+        for (Constraint constraint : constraints) {
             System.out.println(constraint);
         }
+        System.out.println(ToString(constraints));
+        List<Constraint> test = Parse(ToString(constraints));
+        for (Constraint c : test) {
+            System.out.println(c);
+        }
+
+
+
+
+//
+//        String constraints =
+//                "{ConstraintName:CONST200;KeySpace:UNIVERSITY;ConstraintType:P;"
+//                + "ColumnFamily:harsha.thesis.api.solution2.entity.Course;"
+//                + "RKeySpace:UNIVERSITY;RConstraintName:;RColumn:CourseId;DeleteRule:};"
+//                + ""
+//                + "{ConstraintName:CONST600;KeySpace:UNIVERSITY;ConstraintType:F;"
+//                + "ColumnFamily:harsha_thesis_api_solution2_entity_Enrolment;"
+//                + "RKeySpace:UNIVERSITY;RConstraintName:CONST500;RColumn:CourseId;"
+//                + "DeleteRule:NODELETE};"
+//                + ""
+//                + "{ConstraintName:CONST200;KeySpace:UNIVERSITY;ConstraintType:P;"
+//                + "ColumnFamily:harsha_thesis_api_solution2_entity_Course;"
+//                + "RKeySpace:UNIVERSITY;RConstraintName:;RColumn:CourseId;DeleteRule:};"
+//                + ""
+//                + "{ConstraintName:CONST600;KeySpace:UNIVERSITY;ConstraintType:F;"
+//                + "ColumnFamily:harsha_thesis_api_solution2_entity_Enrolment;"
+//                + "RKeySpace:UNIVERSITY;RConstraintName:CONST500;RColumn:CourseId;"
+//                + "DeleteRule:NODELETE}";
+//
+//        List<Constraint> metadata = Parse(constraints);
+//        System.out.println("Number of constraints:" + metadata.size());
+//        for (Constraint constraint : metadata) {
+//            System.out.println(constraint);
+//        }
 
 
     }
