@@ -4,6 +4,7 @@
  */
 package harsha.api.test;
 
+import harsha.api.Constraint;
 import harsha.api.EntityManager;
 import harsha.api.example.Course;
 import harsha.api.example.Enrolment;
@@ -48,18 +49,45 @@ public class Experiment {
     private List<Student> students;
     private List<Course> courses;
     private List<Enrolment> enrolments;
-    boolean doCascade;
+    private String metadata;
+    private String courseBaseName = ArtificialData.COURSE_BASENAME;
+    private static final String AlternativeCourseBaseName = "SWEN";
 
-    public Experiment(String code, EntityManager em, boolean doCascade) {
+    public Experiment(String code, EntityManager em, String metadata) {
         this.code = code;
         this.em = em;
-        this.doCascade = doCascade;
+        this.metadata = metadata;
     }
 
     public void initialize() throws Exception {
-        em.createColumFamily(Student.class);
-        em.createColumFamily(Course.class);
-        em.createColumFamily(Enrolment.class);
+        em.createColumFamily(Student.class, true);
+        em.createColumFamily(Course.class, true);
+        em.createColumFamily(Enrolment.class, true);
+
+        if ("solution2".equals(em.getValidationHandler().solution())) {
+            Student studentMetadata = new Student();
+            studentMetadata.setStudentId("-1");
+            studentMetadata.setMetadata(getMetadata());
+            em.insert(studentMetadata);
+
+            Course courseMetadata = new Course();
+            courseMetadata.setCourseId("-1");
+            courseMetadata.setMetadata(getMetadata());
+            em.insert(courseMetadata);
+
+            Enrolment enrolmentMetadata = new Enrolment();
+            enrolmentMetadata.setRowId("-1");
+            enrolmentMetadata.setMetadata(getMetadata());
+            em.insert(enrolmentMetadata);
+        } else if ("solution3".equals(em.getValidationHandler().solution())
+                || "solution4".equals(em.getValidationHandler().solution())) {
+            em.createColumFamily(Constraint.class, true);
+            List<Constraint> constraints = Constraint.Parse(getMetadata());
+            for (Constraint constraint : constraints) {
+                em.insert(constraint);
+            }
+        }
+
     }
 
     public void run(int times) throws Exception {
@@ -103,6 +131,11 @@ public class Experiment {
     private void update() throws Exception {
         long start = System.nanoTime();
         updateCourse(); //Exception is thrown yet catched therein, no changes to courses
+        if (ArtificialData.COURSE_BASENAME.equals(courseBaseName)){
+            courseBaseName = AlternativeCourseBaseName;
+        }else{
+            courseBaseName = ArtificialData.COURSE_BASENAME;
+        }
         log.info("updateCourse() [" + DF.format((System.nanoTime() - start) / 1000.0) + "]");
 
         start = System.nanoTime();
@@ -184,10 +217,9 @@ public class Experiment {
         }
         recorder.stop();
         recorder.log(UPDATE_STUDENT + ":" + recorder.duration() + "\n");
-        if (doCascade) {
-            for (Enrolment entity : enrolments) {
-                entity.setStudentId("" + (Long.parseLong(entity.getStudentId()) * -1));
-            }
+
+        for (Enrolment entity : enrolments) {
+            entity.setStudentId("" + (Long.parseLong(entity.getStudentId()) * -1));
         }
     }
 
@@ -196,14 +228,16 @@ public class Experiment {
         List<Course> coursesToUpdate = new LinkedList<Course>(courses);
         Collections.shuffle(coursesToUpdate, random);
 
+        
         recorder.start();
         for (Course entity : coursesToUpdate) {
-            //dummy set as exception to be thrown
-            entity.setKeyForUpdate("Dummy Update as it is NODELETE");
+            entity.setKeyForUpdate(courseBaseName +
+                    entity.getCourseId().substring(courseBaseName.length()));
             try {
                 em.update(entity);
             } catch (Exception ex) {
-                log.info(ex);
+//                entity.setKeyForUpdate("");
+//                log.info(ex);
             }
         }
         recorder.stop();
@@ -267,7 +301,7 @@ public class Experiment {
         recorder.stop();
         recorder.log(DELETE_ENROLMENT + ":" + recorder.duration() + "\n");
 
-        if (doCascade) {
+        if (!"solution0".equals(em.getValidationHandler().solution())){
             //Increase Ids and reinsert
             for (Enrolment entity : enrolments) {
                 long currentId = Long.parseLong(entity.getRowId());
@@ -354,5 +388,13 @@ public class Experiment {
 
     public void setEnrolments(List<Enrolment> enrolments) {
         this.enrolments = enrolments;
+    }
+
+    public String getMetadata() {
+        return metadata;
+    }
+
+    public void setMetadata(String metadata) {
+        this.metadata = metadata;
     }
 }

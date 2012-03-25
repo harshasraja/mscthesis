@@ -1,0 +1,102 @@
+\begin{table}[h]
+\centering
+\caption{Response time}\label{t:}
+\begin{tabular}{ccccccc}
+\toprule
+&&\textbf{Baseline} & \textbf{Solution1} & \textbf{Solution2} & \textbf{Solution3} & \textbf{Solution4}\\
+\midrule
+\multirow{3}{*}{\textbf{insert}} & \textbf{s} & 57441.684 (42513.858) & 80999.430 (26765.586) & 94933.786 (1769.940) & 339430.457 (7671.163) & 51153.098 (14236.044)\\
+ & \textbf{c} & 50734.877 (19136.675) & 76304.179 (11571.602) & 93997.059 (2981.114) & 349081.833 (19097.611) & 52693.262 (24139.203)\\
+ & \textbf{e} & 454720.841 (78693.333) & 1731894.577 (87292.108) & 1837791.425 (90734.870) & 5291214.002 (45214.509) & 2166041.257 (161919.344)\\
+\midrule
+\multirow{3}{*}{\textbf{update}} & \textbf{s} & 99741.550 (13175.736) & 2803314.640 (43529.207) & 2916659.404 (156099.545) & 7291286.232 (463353.482) & 3166872.536 (221370.160)\\
+ & \textbf{c} & 105542.095 (8830.001) & 543554.341 (35622.498) & 509769.329 (18543.865) & 1071752.470 (30088.853) & 451761.814 (9825.829)\\
+ & \textbf{e} & 612375.587 (46298.640) & 1920145.375 (50520.126) & 2009733.450 (79043.898) & 5484660.444 (52188.629) & 2291695.253 (50264.612)\\
+\midrule
+\multirow{3}{*}{\textbf{delete}} & \textbf{s} & 45017.045 (2846.353) & 1111522.450 (19478.896) & 1429544.216 (81701.554) & 4282859.669 (43814.730) & 894717.319 (33488.551)\\
+ & \textbf{c} & 44586.460 (16888.063) & 349633.529 (30360.446) & 371881.133 (25671.372) & 661787.130 (26462.061) & 369145.526 (32938.818)\\
+ & \textbf{e} & 449643.864 (26288.834) & 625044.143 (34027.679) & 986092.637 (101197.767) & 3535680.979 (45378.466) & 455603.785 (37097.480)\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+
+
+\begin{table}[h]
+\centering
+\caption{Response time ratio}\label{t:}
+\begin{tabular}{ccccccc}
+\toprule
+&&\textbf{Baseline} & \textbf{Solution1} & \textbf{Solution2} & \textbf{Solution3} & \textbf{Solution4}\\
+\midrule
+\multirow{3}{*}{\textbf{insert}} & \textbf{s} & 57441.68 & 1.41 & 1.65 & 5.91 & 0.89\\
+ & \textbf{c} & 50734.88 & 1.50 & 1.85 & 6.88 & 1.04\\
+ & \textbf{e} & 454720.84 & 3.81 & 4.04 & 11.64 & 4.76\\
+\midrule
+\multirow{3}{*}{\textbf{update}} & \textbf{s} & 99741.55 & 28.11 & 29.24 & 73.10 & 31.75\\
+ & \textbf{c} & 105542.09 & 5.15 & 4.83 & 10.15 & 4.28\\
+ & \textbf{e} & 612375.59 & 3.14 & 3.28 & 8.96 & 3.74\\
+\midrule
+\multirow{3}{*}{\textbf{delete}} & \textbf{s} & 45017.05 & 24.69 & 31.76 & 95.14 & 19.88\\
+ & \textbf{c} & 44586.46 & 7.84 & 8.34 & 14.84 & 8.28\\
+ & \textbf{e} & 449643.86 & 1.39 & 2.19 & 7.86 & 1.01\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+
+
+
+
+
+\begin{table}[h]
+\centering
+\caption{Throughput}\label{t:}
+\begin{tabular}{ccccccc}
+\toprule
+&&\textbf{Baseline} & \textbf{Solution1} & \textbf{Solution2} & \textbf{Solution3} & \textbf{Solution4}\\
+\midrule
+\multirow{3}{*}{\textbf{insert}} & \textbf{s} & 0 (0) & 0 (0) & 0 (0) & 0 (0) & 0 (0)\\
+ & \textbf{c} & 0 (0) & 0 (0) & 0 (0) & 0 (0) & 0 (0)\\
+ & \textbf{e} & 0 (0) & 0 (0) & 0 (0) & 0 (0) & 0 (0)\\
+\midrule
+\multirow{3}{*}{\textbf{update}} & \textbf{s} & 0 (0) & 0 (0) & 0 (0) & 0 (0) & 0 (0)\\
+ & \textbf{c} & 0 (0) & 0 (0) & 0 (0) & 0 (0) & 0 (0)\\
+ & \textbf{e} & 0 (0) & 0 (0) & 0 (0) & 0 (0) & 0 (0)\\
+\midrule
+\multirow{3}{*}{\textbf{delete}} & \textbf{s} & 0 (0) & 0 (0) & 0 (0) & 0 (0) & 0 (0)\\
+ & \textbf{c} & 0 (0) & 0 (0) & 0 (0) & 0 (0) & 0 (0)\\
+ & \textbf{e} & 0 (0) & 0 (0) & 0 (0) & 0 (0) & 0 (0)\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+
+
+\begin{table}[h]
+\centering
+\caption{Throughput inverse ratio}\label{t:}
+\begin{tabular}{ccccccc}
+\toprule
+&&\textbf{Baseline} & \textbf{Solution1} & \textbf{Solution2} & \textbf{Solution3} & \textbf{Solution4}\\
+\midrule
+\multirow{3}{*}{\textbf{insert}} & \textbf{s} & 0 & 1.58 & 1.95 & 6.99 & 1.00\\
+ & \textbf{c} & 0 & 1.58 & 1.97 & 7.32 & 1.01\\
+ & \textbf{e} & 0 & 3.88 & 4.12 & 11.88 & 4.84\\
+\midrule
+\multirow{3}{*}{\textbf{update}} & \textbf{s} & 0 & 28.46 & 29.53 & 73.78 & 32.03\\
+ & \textbf{c} & 0 & 5.16 & 4.86 & 10.22 & 4.31\\
+ & \textbf{e} & 0 & 3.15 & 3.29 & 9.00 & 3.76\\
+\midrule
+\multirow{3}{*}{\textbf{delete}} & \textbf{s} & 0 & 24.78 & 31.77 & 95.48 & 19.92\\
+ & \textbf{c} & 0 & 8.40 & 8.96 & 15.99 & 8.87\\
+ & \textbf{e} & 0 & 1.39 & 2.18 & 7.89 & 1.01\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+
+
+
+
+

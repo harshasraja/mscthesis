@@ -211,7 +211,7 @@ public class Barplot {
     }
 
     public static int numberOfOperations(String table) {
-        if (table.contains("user")) {
+        if (table.contains("student")) {
             return 1000;
         } else {
             if (table.contains("course")) {

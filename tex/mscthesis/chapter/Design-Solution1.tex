@@ -20,10 +20,12 @@ keyspace.
 In this approach,  metadata contains all the parts as 
 % the structure of the
 % constraints in metadata is as 
-described in Section~\ref{s:design-Metadata} and each column family stores only
-the constraints relevant to its dependencies.  Thus,  a column family contains
-only its \ac{PK} constraint and related \ac{FK} constraints in its
-\texttt{Metadata} column.  The following are the types of constraints stored in
+described in Section~\ref{s:design-Metadata} and each column family stores all
+the constraints belonging to the keysoace. Since all the constraints are stored
+together, it is possible to retrive 
+% Thus,  a column family contains only its \ac{PK} constraint and related \ac{FK} constraints in its
+% \texttt{Metadata} column.  
+The following are the types of constraints stored in
 each of the column families. 
 	
 		\begin{itemize}

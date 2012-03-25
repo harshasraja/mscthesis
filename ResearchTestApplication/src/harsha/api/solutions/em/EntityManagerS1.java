@@ -8,6 +8,8 @@ import harsha.api.EntityManager;
 import harsha.api.Constraint;
 import harsha.api.Entity;
 import harsha.api.solutions.vh.ValidationHandlerS1;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -15,11 +17,16 @@ import harsha.api.solutions.vh.ValidationHandlerS1;
  */
 public class EntityManagerS1 extends EntityManager {
 
-    public EntityManagerS1(){
+    public EntityManagerS1() {
         super();
         setValidationHandler(new ValidationHandlerS1(this));
     }
-    
+
+    @Override
+    public List<String> getColumnsFor(Class<? extends Entity> clazz) {
+        return Entity.GetAllColumnsFor(clazz);
+    }
+
     @Override
     public void delete(Entity entity) throws Exception {
         if (entity instanceof Constraint) {

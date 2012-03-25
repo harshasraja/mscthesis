@@ -4,9 +4,11 @@
  */
 package harsha.api.test;
 
+import harsha.api.Constraint;
 import harsha.api.EntityManager;
 import harsha.api.connection.CloudConnector;
 import harsha.api.solutions.em.*;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import org.apache.log4j.Level;
@@ -29,8 +31,9 @@ public class Main {
         usage += "\t--runs[integer]: number of runs to perform\n";
         usage += "\t--students[integer]: number of students\n";
         usage += "\t--courses[integer]: number of courses\n";
-        usage += "\t--courses-per-student[integer]: number of courses per student";
+        usage += "\t--courses-per-student[integer]: number of courses per student\n";
         usage += "\t--initialize[boolean]: prepares the keyspace\n";
+        usage += "\t--metadata-csv[filepath]: file path to CSV containing metadata\n";
         return usage;
     }
 
@@ -39,7 +42,7 @@ public class Main {
         long startTime = System.currentTimeMillis();
         List<Character> solutions = new ArrayList<Character>();
         int runs = 100, students = 1000, courses = 1000, coursesPerStudent = 10;
-        String logPath = ".";
+        String logPath = ".", metadata = "";
         boolean initialize = false;
 
         try {
@@ -56,12 +59,16 @@ public class Main {
                     runs = Integer.parseInt(value);
                 } else if (arg.startsWith("--students")) {
                     students = Integer.parseInt(value);
-                } else if (arg.startsWith("--courses")) {
-                    courses = Integer.parseInt(value);
                 } else if (arg.startsWith("--courses-per-student")) {
                     coursesPerStudent = Integer.parseInt(value);
+                } else if (arg.startsWith("--courses")) {
+                    courses = Integer.parseInt(value);
                 } else if (arg.startsWith("--initialize")) {
                     initialize = Boolean.parseBoolean(value);
+                } else if (arg.startsWith("--metadata-csv")) {
+                    File metadataFile = new File(value);
+                    metadata = Constraint.ToString(
+                            Constraint.ParseFromCsv(metadataFile));
                 } else if (arg.startsWith("--?")) {
                     System.out.println(Usage());
                     System.exit(0);
@@ -83,6 +90,7 @@ public class Main {
         System.out.println("#\tCourses: " + courses);
         System.out.println("#\tCourses per Student:" + coursesPerStudent);
         System.out.println("#\tInitialize: " + initialize);
+        System.out.println("#\tMetadata: " + metadata);
         for (int i = 0; i < wait; ++i) {
             System.out.print((i + 1) + " ... ");
             Thread.sleep(1000);
@@ -92,14 +100,10 @@ public class Main {
         List<Experiment> experiments = new ArrayList<Experiment>();
 
         for (Character solution : solutions) {
-            Recorder recorder = new Recorder("solution" + solution, "", logPath);
-            recorder.initialize();
             EntityManager em = null;
-            boolean doCascade = true;
             switch (solution) {
                 case '0':
                     em = new EntityManagerS0();
-                    doCascade = false;
                     break;
                 case '1':
                     em = new EntityManagerS1();
@@ -117,7 +121,10 @@ public class Main {
                     throw new AssertionError();
             }
             String code = em.getValidationHandler().solution();
-            Experiment experiment = new Experiment(code, em, doCascade);
+            Experiment experiment = new Experiment(code, em, metadata);
+            Recorder recorder = new Recorder("solution" + solution, "", logPath);
+            recorder.initialize();
+            experiment.setRecorder(recorder);
             experiments.add(experiment);
         }
 
@@ -125,6 +132,7 @@ public class Main {
         ad.setNumberOfStudents(students);
         ad.setNumberOfCourses(courses);
         ad.setNumberOfCoursesPerStudent(coursesPerStudent);
+        ad.setMetadata(metadata);
 
         for (Experiment experiment : experiments) {
             System.out.println("#EXPERIMENT: " + experiment.getCode());
@@ -136,6 +144,7 @@ public class Main {
             out += "#\tCourses: " + courses + "\n";
             out += "#\tCourses Per Student: " + coursesPerStudent + "\n";
             out += "#\tInitialize: " + initialize + "\n";
+            out += "#\tMetadata: " + metadata + "\n";
 
             System.out.println(out);
             experiment.getRecorder().log(out);

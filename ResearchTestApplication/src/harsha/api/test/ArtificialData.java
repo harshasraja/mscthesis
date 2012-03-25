@@ -27,6 +27,7 @@ public class ArtificialData {
     protected static final Logger LOG = Logger.getLogger(ArtificialData.class);
     public static final int INITIAL_ID = 100;
     public static final String COURSE_BASENAME = "COMP";
+    
     private int numberOfStudents;
     private int numberOfCourses;
     private int numberOfCoursesPerStudent;

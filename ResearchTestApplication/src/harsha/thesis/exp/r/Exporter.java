@@ -25,8 +25,8 @@ public class Exporter {
 
     public static void main(String[] args) throws Exception {
         String path =
-                "/home/jcrada/Development/hr/ResearchTestApplication/logs/sAll-r100-sc1000-n10-final/";
-//                "/u/students/subramhars/workspace/ResearchTestApplication/logs/sAll-r100-sc1000-n10-final/";
+//                "/home/jcrada/Development/hr/ResearchTestApplication/logs/";
+                "/u/students/subramhars/workspace/ResearchTestApplication/logs/";
 
         String[] filenames = {"Solution0.log", "Solution1.log", "Solution2.log", "Solution3.log", "Solution4.log",};
 

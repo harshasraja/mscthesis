@@ -90,8 +90,7 @@ public class EntityManager {
     public List<String> getColumnsFor(Class<? extends Entity> clazz) {
         List<String> result = new ArrayList<String>();
         for (String column : Entity.GetAllColumnsFor(clazz)) {
-            if ("Metadata".equals(column)
-                    && !"solution1".equals(validationHandler.solution())) {
+            if ("Metadata".equals(column)) {
                 continue;
             }
             result.add(column);
@@ -229,7 +228,7 @@ public class EntityManager {
         indexedSlicesQuery.setColumnFamily(columnFamily(clazz));
         indexedSlicesQuery.setColumnNames(getColumnsFor(clazz));
 
-        LOG.warn("TODO: check how to retrieve all columnNames");
+//        LOG.warn("TODO: check how to retrieve all columnNames");
 
 
         List<T> result = new ArrayList<T>();
@@ -293,12 +292,20 @@ public class EntityManager {
         entity.setKeyForUpdate(null);
 
         //insert entity with new id
-        insert(entity);
+        try {
+            insert(entity);
+        } catch (Exception ex) {
+            Entity.SetValue(primaryKeyColumn,
+                    Entity.GetValue(primaryKeyColumn, oldEntity),
+                    entity);
+            entity.setKeyForUpdate(newId);
+            throw ex;
+        }
 
-        
+
         //Update children with old Entity
         this.validationHandler.onUpdate(oldEntity);
-        
+
         //delete entity with oldId
         delete(oldEntity);
     }

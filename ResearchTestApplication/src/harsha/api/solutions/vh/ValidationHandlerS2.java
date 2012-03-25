@@ -36,7 +36,7 @@ public class ValidationHandlerS2 extends MetadataAsText {
         SliceQuery<String, String, String> sliceQuery = em.getConnection().getSliceQuery();
         sliceQuery.setColumnFamily(em.columnFamily(entity.getClass()));
         sliceQuery.setRange("", "", false, 1);
-        LOG.warn("TODO:Check if the size of range is correct, clazz.methods.length");
+//        LOG.warn("TODO:Check if the size of range is correct, clazz.methods.length");
         sliceQuery.setColumnNames(new String[]{"Metadata"});
         sliceQuery.setKey("-1");
 
