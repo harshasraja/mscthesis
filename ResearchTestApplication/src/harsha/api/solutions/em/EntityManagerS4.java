@@ -21,7 +21,7 @@ public class EntityManagerS4 extends EntityManager {
 
     public EntityManagerS4() {
         super();
-        validationHandler = new ValidationHandlerS4(this, emMetadata);
+        validationHandler = new ValidationHandlerS4(this);
         
         emMetadata = new EntityManager(CloudConnector.getMetadataConnection());
         emMetadata.setValidationHandler(validationHandler);

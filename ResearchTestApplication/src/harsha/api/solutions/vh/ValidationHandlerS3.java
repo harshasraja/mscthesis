@@ -4,16 +4,13 @@
  */
 package harsha.api.solutions.vh;
 
-import harsha.api.Constraint;
-import harsha.api.Entity;
 import harsha.api.EntityManager;
-import java.util.List;
 
 /**
  *
  * @author jcrada
  */
-public class ValidationHandlerS3 extends CommonValidationHandler{
+public class ValidationHandlerS3 extends MetadataAsEntity{
 
     public ValidationHandlerS3(EntityManager em) {
         super(em);
@@ -24,12 +21,6 @@ public class ValidationHandlerS3 extends CommonValidationHandler{
         return "solution3";
     }
     
-    @Override
-    public List<Constraint> retrieveMetadata(Entity entity) throws Exception {
-        return em.query(Constraint.class, "ColumnFamily",
-                EntityManager.Expression.EQUALS, entity.getClass().getName());
-    }
-
     
     
 }
