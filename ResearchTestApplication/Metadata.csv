@@ -1,0 +1,8 @@
+"ConstraintName","KeySpace","ConstraintType","ColumnFamily","RKeySpace","RConstraintName","RColumn","DeleteRule","KeyForUpdate"
+"CONST100","UNIVERSITY","P","harsha.api.example.Student","UNIVERSITY",,"StudentId",,
+"CONST200","UNIVERSITY","P","harsha.api.example.Course","UNIVERSITY",,"CourseId",,
+"CONST300","UNIVERSITY","P","harsha.api.example.Enrolment","UNIVERSITY",,"RowID",,
+"CONST400","UNIVERSITY","R","harsha.api.example.Enrolment","UNIVERSITY","CONST100","StudentId","CASCADE",
+"CONST500","UNIVERSITY","R","harsha.api.example.Enrolment","UNIVERSITY","CONST200","CourseId","NODELETE",
+"CONST600","UNIVERSITY","F","harsha.api.example.Course","UNIVERSITY","CONST500","CourseId","NODELETE",
+"CONST700","UNIVERSITY","F","harsha.api.example.Student","UNIVERSITY","CONST400","StudentId","CASCADE",

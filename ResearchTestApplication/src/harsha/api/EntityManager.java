@@ -115,7 +115,7 @@ public class EntityManager {
     }
 
     public <T extends Entity> List<T> read(Class<T> clazz) throws Exception {
-        return read(clazz, (int) 1e7);
+        return read(clazz, (int) 1e5);
     }
 
     public <T extends Entity> List<T> read(Class<T> clazz, int number) throws Exception {
@@ -353,6 +353,6 @@ public class EntityManager {
             columnFamilyDefinition.addColumnDefinition(columnDefinition);
         }
 
-        getConnection().getCluster().addColumnFamily(columnFamilyDefinition);
+        getConnection().getCluster().addColumnFamily(columnFamilyDefinition, true);
     }
 }
