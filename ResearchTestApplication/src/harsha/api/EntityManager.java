@@ -30,11 +30,11 @@ import me.prettyprint.hector.api.query.SliceQuery;
 import org.apache.log4j.Logger;
 
 public class EntityManager {
-
+    
     public enum Expression {
-
+        
         EQUALS, LT, GT, NE, LE, GE;
-
+        
         @Override
         public String toString() {
             switch (this) {
@@ -58,35 +58,35 @@ public class EntityManager {
     protected static final Logger LOG = Logger.getLogger(EntityManager.class);
     private Connection connection;
     protected ValidationHandler validationHandler;
-
+    
     public EntityManager() {
         this(CloudConnector.getConnection());
     }
-
+    
     public EntityManager(Connection connection) {
         this.connection = connection;
     }
-
+    
     public void setValidationHandler(ValidationHandler validationHandler) {
         this.validationHandler = validationHandler;
     }
-
+    
     public ValidationHandler getValidationHandler() {
         return this.validationHandler;
     }
-
+    
     public Connection getConnection() {
         return connection;
     }
-
+    
     public void setConnection(Connection connection) {
         this.connection = connection;
     }
-
+    
     public void close() {
         CloudConnector.returnConnection(getConnection());
     }
-
+    
     public List<String> getColumnsFor(Class<? extends Entity> clazz) {
         List<String> result = new ArrayList<String>();
         for (String column : Entity.GetAllColumnsFor(clazz)) {
@@ -97,7 +97,7 @@ public class EntityManager {
         }
         return result;
     }
-
+    
     public boolean loadEntity(Entity entity, List<HColumn<String, String>> columns)
             throws Exception {
         LOG.debug("Loading entity");
@@ -105,23 +105,23 @@ public class EntityManager {
             Entity.SetValue(hColumn.getName(), hColumn.getValue(), entity);
         }
         LOG.debug("Loaded: " + entity);
-
+        
         String id = Entity.GetValue(Entity.GetPrimaryKeyColumn(entity.getClass()), entity);
         return id != null && !id.trim().isEmpty();
     }
-
+    
     public String columnFamily(Class<? extends Entity> clazz) {
         return validationHandler.solution() + "_" + Entity.GetColumnFamily(clazz);
     }
-
+    
     public <T extends Entity> List<T> read(Class<T> clazz) throws Exception {
         return read(clazz, (int) 1e5);
     }
-
+    
     public <T extends Entity> List<T> read(Class<T> clazz, int number) throws Exception {
         LOG.debug("Reading " + number + " records from " + columnFamily(clazz) + "");
         List<T> list = new ArrayList<T>();
-
+        
         RangeSlicesQuery<String, String, String> rangeSlicesQuery = getConnection().getRangeSliceQuery();
         rangeSlicesQuery.setColumnFamily(columnFamily(clazz));
         rangeSlicesQuery.setKeys("", "");
@@ -130,9 +130,9 @@ public class EntityManager {
         List<String> columnNames = getColumnsFor(clazz);
         rangeSlicesQuery.setColumnNames(columnNames.toArray(new String[columnNames.size()]));
         rangeSlicesQuery.setRowCount(number);
-
+        
         QueryResult<OrderedRows<String, String, String>> result = rangeSlicesQuery.execute();
-
+        
         Rows<String, String, String> orderRows = result.get();
         for (Row<String, String, String> row : orderRows) {
             List<HColumn<String, String>> columns = row.getColumnSlice().getColumns();
@@ -142,7 +142,7 @@ public class EntityManager {
                 list.add(entity);
             }
         }
-
+        
         return list;
     }
 
@@ -164,11 +164,11 @@ public class EntityManager {
         List<String> columnNames = getColumnsFor(clazz);
         sliceQuery.setColumnNames(columnNames.toArray(new String[columnNames.size()]));
         sliceQuery.setKey(id);
-
+        
         QueryResult<ColumnSlice<String, String>> result = sliceQuery.execute();
         ColumnSlice<String, String> columnSlice = result.get();
         List<HColumn<String, String>> columns = columnSlice.getColumns();
-
+        
         T entity = clazz.newInstance();
         boolean validEntity = loadEntity(entity, columns);
         if (!validEntity) {
@@ -200,7 +200,7 @@ public class EntityManager {
                 + columnName + expression.toString() + columnValue);
         IndexedSlicesQuery<String, String, String> indexedSlicesQuery = getConnection().getIndexedSlicesQuery();
         indexedSlicesQuery.setStartKey("");
-
+        
         switch (expression) {
             case EQUALS:
                 indexedSlicesQuery.addEqualsExpression(columnName, columnValue);
@@ -223,14 +223,14 @@ public class EntityManager {
             default:
                 throw new AssertionError();
         }
-
-
+        
+        
         indexedSlicesQuery.setColumnFamily(columnFamily(clazz));
         indexedSlicesQuery.setColumnNames(getColumnsFor(clazz));
 
 //        LOG.warn("TODO: check how to retrieve all columnNames");
 
-
+        
         List<T> result = new ArrayList<T>();
         QueryResult<OrderedRows<String, String, String>> queryResult =
                 indexedSlicesQuery.execute();
@@ -244,16 +244,16 @@ public class EntityManager {
                 result.add(entity);
             }
         }
-
+        
         return result;
     }
-
+    
     public void insert(Entity entity) throws Exception {
         LOG.debug("Inserting: " + entity);
         validationHandler.onInsert(entity);
-
+        
         List<String> columnNames = getColumnsFor(entity.getClass());
-
+        
         Mutator<String> mutator = getConnection().getMutator();
         for (String column : columnNames) {
             mutator.addInsertion(
@@ -261,33 +261,33 @@ public class EntityManager {
                     columnFamily(entity.getClass()),
                     HFactory.createStringColumn(column, Entity.GetValue(column, entity)));
         }
-
+        
         mutator.execute();
     }
-
+    
     public void delete(Entity entity) throws Exception {
         LOG.debug("Deleting: " + entity);
         this.validationHandler.onDelete(entity);
-
+        
         getConnection().getMutator().delete(
                 Entity.GetValue(Entity.GetPrimaryKeyColumn(entity.getClass()), entity),
                 columnFamily(entity.getClass()), null, StringSerializer.get());
     }
-
+    
     public void update(Entity entity) throws Exception {
         LOG.debug("Updating: " + entity);
-
+        
         if (entity.getKeyForUpdate() == null || entity.getKeyForUpdate().isEmpty()) {
             insert(entity);
             return;
         }
-
+        
         Entity oldEntity = (Entity) entity.clone();
-
-
+        
+        
         String primaryKeyColumn = Entity.GetPrimaryKeyColumn(entity.getClass());
         String newId = entity.getKeyForUpdate();
-
+        
         Entity.SetValue(primaryKeyColumn, newId, entity);
         entity.setKeyForUpdate(null);
 
@@ -295,6 +295,7 @@ public class EntityManager {
         try {
             insert(entity);
         } catch (Exception ex) {
+            //Rollback entity to what it was
             Entity.SetValue(primaryKeyColumn,
                     Entity.GetValue(primaryKeyColumn, oldEntity),
                     entity);
@@ -304,21 +305,31 @@ public class EntityManager {
 
 
         //Update children with old Entity
-        this.validationHandler.onUpdate(oldEntity);
+        try {
+            this.validationHandler.onUpdate(oldEntity);
+        } catch (Exception ex) {
+            delete(entity); //delete new entity;
+            //rollback entity to what it was
+            Entity.SetValue(primaryKeyColumn,
+                    Entity.GetValue(primaryKeyColumn, oldEntity),
+                    entity);
+            entity.setKeyForUpdate(newId);
+            throw ex;
+        }
 
         //delete entity with oldId
         delete(oldEntity);
     }
-
+    
     public void createColumFamily(Class<? extends Entity> clazz) throws Exception {
         createColumFamily(clazz, false);
     }
-
+    
     public void createColumFamily(Class<? extends Entity> clazz, boolean dropIfExists) throws Exception {
         LOG.debug("Creating CF:" + columnFamily(clazz));
         KeyspaceDefinition keyspaceDefinition = getConnection().getCluster().describeKeyspace(
                 getConnection().getKeyspace().getKeyspaceName());
-
+        
         List<ColumnFamilyDefinition> columnFamilies = keyspaceDefinition.getCfDefs();
         for (ColumnFamilyDefinition columnFamily : columnFamilies) {
             if (columnFamily.getName().equals(columnFamily(clazz))) {
@@ -328,22 +339,22 @@ public class EntityManager {
                 LOG.debug("Dropping existing CF: " + columnFamily.getName());
                 try {
                     getConnection().getCluster().dropColumnFamily(
-                            columnFamily.getKeyspaceName(), columnFamily.getName());
+                            columnFamily.getKeyspaceName(), columnFamily.getName(), true);
                 } catch (Exception ex) {
                     LOG.error("Error dropping existing CF: " + columnFamily.getName());
                 }
             }
         }
-
+        
         BasicColumnFamilyDefinition columnFamily = new BasicColumnFamilyDefinition();
         columnFamily.setKeyspaceName(getConnection().getKeyspace().getKeyspaceName());
         columnFamily.setName(columnFamily(clazz));
         columnFamily.setComparatorType(ComparatorType.UTF8TYPE);
-
+        
         ColumnFamilyDefinition columnFamilyDefinition = new ThriftCfDef(columnFamily);
-
+        
         List<String> columns = getColumnsFor(clazz);
-
+        
         for (String column : columns) {
             BasicColumnDefinition columnDefinition = new BasicColumnDefinition();
             columnDefinition.setName(StringSerializer.get().toByteBuffer(column));
@@ -352,7 +363,7 @@ public class EntityManager {
             columnDefinition.setValidationClass("UTF8Type");
             columnFamilyDefinition.addColumnDefinition(columnDefinition);
         }
-
+        
         getConnection().getCluster().addColumnFamily(columnFamilyDefinition, true);
     }
 }

@@ -16,6 +16,7 @@ import java.util.List;
  */
 public class ValidationHandlerS0 implements ValidationHandler {
 
+    private List<Constraint> metadata = new ArrayList<Constraint>();
     //No referential integrity
     @Override
     public void onDelete(Entity entity) throws Exception {
@@ -34,7 +35,7 @@ public class ValidationHandlerS0 implements ValidationHandler {
 
     @Override
     public List<Constraint> retrieveMetadata(Entity entity) throws Exception {
-        return new ArrayList<Constraint>();
+        return metadata;
     }
 
     @Override

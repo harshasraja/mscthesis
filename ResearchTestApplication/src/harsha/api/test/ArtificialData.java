@@ -137,9 +137,9 @@ public class ArtificialData {
 
     public static void main(String[] args) throws Exception {
         ArtificialData ad = new ArtificialData();
-        ad.setNumberOfStudents(100);
-        ad.setNumberOfCourses(100);
-        ad.setNumberOfCoursesPerStudent(10);
+        ad.setNumberOfStudents(5);
+        ad.setNumberOfCourses(5);
+        ad.setNumberOfCoursesPerStudent(5);
         
         File file;
         BufferedWriter writer;
