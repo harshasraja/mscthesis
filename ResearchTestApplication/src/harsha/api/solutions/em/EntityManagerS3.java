@@ -9,7 +9,7 @@ import harsha.api.solutions.vh.ValidationHandlerS3;
 
 /**
  *
- * @author jcrada
+ * @author harshasraja
  */
 public class EntityManagerS3 extends EntityManager{
 

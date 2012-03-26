@@ -23,7 +23,7 @@ import org.apache.log4j.Logger;
 
 /**
  *
- * @author jcrada
+ * @author harshasraja
  */
 public class Solution4 implements SolutionExperiment {
 

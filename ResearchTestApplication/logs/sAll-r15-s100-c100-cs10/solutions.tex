@@ -1,0 +1,102 @@
+\begin{table}[h]
+\centering
+\caption{Response time}\label{t:}
+\begin{tabular}{ccccccc}
+\toprule
+&&\textbf{Baseline} & \textbf{Solution1} & \textbf{Solution2} & \textbf{Solution3} & \textbf{Solution4}\\
+\midrule
+\multirow{3}{*}{\textbf{insert}} & \textbf{s} & 0.088 (0.066) & 0.119 (0.034) & 0.133 (0.013) & 0.422 (0.024) & 0.062 (0.002)\\
+ & \textbf{c} & 0.080 (0.038) & 0.111 (0.014) & 0.129 (0.007) & 0.423 (0.032) & 0.061 (0.004)\\
+ & \textbf{e} & 0.638 (0.154) & 2.571 (0.238) & 2.727 (0.513) & 6.997 (0.248) & 1.773 (0.082)\\
+\midrule
+\multirow{3}{*}{\textbf{update}} & \textbf{s} & 0.143 (0.017) & 4.052 (0.471) & 3.982 (0.572) & 9.304 (0.364) & 2.804 (0.080)\\
+ & \textbf{c} & 0.143 (0.011) & 0.952 (0.420) & 0.650 (0.014) & 1.354 (0.303) & 0.510 (0.025)\\
+ & \textbf{e} & 0.949 (0.306) & 2.710 (0.065) & 2.679 (0.090) & 7.203 (0.218) & 1.964 (0.102)\\
+\midrule
+\multirow{3}{*}{\textbf{delete}} & \textbf{s} & 0.060 (0.004) & 1.620 (0.411) & 1.749 (0.215) & 5.154 (0.196) & 1.051 (0.149)\\
+ & \textbf{c} & 0.053 (0.007) & 0.434 (0.052) & 0.441 (0.012) & 0.770 (0.025) & 0.352 (0.018)\\
+ & \textbf{e} & 0.577 (0.046) & 0.850 (0.022) & 1.205 (0.238) & 4.335 (0.250) & 0.569 (0.162)\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+
+
+\begin{table}[h]
+\centering
+\caption{Response time ratio}\label{t:}
+\begin{tabular}{ccccccc}
+\toprule
+&&\textbf{Baseline} & \textbf{Solution1} & \textbf{Solution2} & \textbf{Solution3} & \textbf{Solution4}\\
+\midrule
+\multirow{3}{*}{\textbf{insert}} & \textbf{s} & 0.09 & 1.34 & 1.51 & 4.78 & 0.70\\
+ & \textbf{c} & 0.08 & 1.38 & 1.60 & 5.26 & 0.76\\
+ & \textbf{e} & 0.64 & 4.03 & 4.27 & 10.97 & 2.78\\
+\midrule
+\multirow{3}{*}{\textbf{update}} & \textbf{s} & 0.14 & 28.32 & 27.84 & 65.04 & 19.60\\
+ & \textbf{c} & 0.14 & 6.67 & 4.56 & 9.48 & 3.57\\
+ & \textbf{e} & 0.95 & 2.85 & 2.82 & 7.59 & 2.07\\
+\midrule
+\multirow{3}{*}{\textbf{delete}} & \textbf{s} & 0.06 & 27.03 & 29.20 & 86.02 & 17.54\\
+ & \textbf{c} & 0.05 & 8.25 & 8.38 & 14.66 & 6.69\\
+ & \textbf{e} & 0.58 & 1.47 & 2.09 & 7.51 & 0.99\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+
+
+
+
+
+\begin{table}[h]
+\centering
+\caption{Throughput}\label{t:}
+\begin{tabular}{ccccccc}
+\toprule
+&&\textbf{Baseline} & \textbf{Solution1} & \textbf{Solution2} & \textbf{Solution3} & \textbf{Solution4}\\
+\midrule
+\multirow{3}{*}{\textbf{insert}} & \textbf{s} & 13582 (3243) & 8802 (1323) & 7556 (600) & 2378 (127) & 16113 (579)\\
+ & \textbf{c} & 13717 (2866) & 9114 (839) & 7772 (375) & 2376 (166) & 16455 (1076)\\
+ & \textbf{e} & 16212 (2257) & 3918 (302) & 3769 (548) & 1431 (48) & 5652 (241)\\
+\midrule
+\multirow{3}{*}{\textbf{update}} & \textbf{s} & 7077 (723) & 250 (23) & 255 (27) & 108 (4) & 357 (10)\\
+ & \textbf{c} & 7046 (519) & 1212 (369) & 1539 (33) & 761 (101) & 1965 (93)\\
+ & \textbf{e} & 11327 (2500) & 3692 (87) & 3737 (124) & 1389 (41) & 5105 (232)\\
+\midrule
+\multirow{3}{*}{\textbf{delete}} & \textbf{s} & 16754 (1005) & 640 (89) & 578 (53) & 194 (7) & 965 (97)\\
+ & \textbf{c} & 19415 (2755) & 2332 (217) & 2271 (61) & 1299 (41) & 2850 (129)\\
+ & \textbf{e} & 17424 (1243) & 11773 (301) & 8511 (1084) & 2314 (124) & 18333 (2685)\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+
+
+\begin{table}[h]
+\centering
+\caption{Throughput inverse ratio}\label{t:}
+\begin{tabular}{ccccccc}
+\toprule
+&&\textbf{Baseline} & \textbf{Solution1} & \textbf{Solution2} & \textbf{Solution3} & \textbf{Solution4}\\
+\midrule
+\multirow{3}{*}{\textbf{insert}} & \textbf{s} & 13582 & 1.54 & 1.80 & 5.71 & 0.84\\
+ & \textbf{c} & 13717 & 1.51 & 1.76 & 5.77 & 0.83\\
+ & \textbf{e} & 16212 & 4.14 & 4.30 & 11.33 & 2.87\\
+\midrule
+\multirow{3}{*}{\textbf{update}} & \textbf{s} & 7077 & 28.36 & 27.76 & 65.75 & 19.83\\
+ & \textbf{c} & 7046 & 5.82 & 4.58 & 9.26 & 3.59\\
+ & \textbf{e} & 11327 & 3.07 & 3.03 & 8.15 & 2.22\\
+\midrule
+\multirow{3}{*}{\textbf{delete}} & \textbf{s} & 16754 & 26.19 & 28.98 & 86.24 & 17.36\\
+ & \textbf{c} & 19415 & 8.33 & 8.55 & 14.94 & 6.81\\
+ & \textbf{e} & 17424 & 1.48 & 2.05 & 7.53 & 0.95\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+
+
+
+
+

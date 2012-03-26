@@ -18,7 +18,7 @@ import me.prettyprint.hector.api.query.SliceQuery;
 import org.apache.log4j.Logger;
 
 /**
- * @author vinay
+ * @author harshasraja
  *
  */
 public class HectorConnectionObject implements Connection {

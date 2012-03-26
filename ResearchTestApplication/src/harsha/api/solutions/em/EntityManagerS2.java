@@ -13,7 +13,7 @@ import me.prettyprint.hector.api.mutation.Mutator;
 
 /**
  *
- * @author jcrada
+ * @author harshasraja
  */
 public class EntityManagerS2 extends EntityManager {
 

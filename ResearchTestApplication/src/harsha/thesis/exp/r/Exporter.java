@@ -11,7 +11,7 @@ import static harsha.api.test.Experiment.*;
 
 /**
  *
- * @author jcrada
+ * @author harshasraja
  */
 public class Exporter {
 
@@ -25,8 +25,8 @@ public class Exporter {
 
     public static void main(String[] args) throws Exception {
         String path =
-//                "/home/jcrada/Development/hr/ResearchTestApplication/logs/";
-                "/u/students/subramhars/workspace/ResearchTestApplication/logs/s-All-r100-s500-c500-cs-10/";
+                "/home/jcrada/Development/hr/ResearchTestApplication/logs/sAll-r15-s100-c100-cs10/";
+//                "/u/students/subramhars/workspace/ResearchTestApplication/logs/s-All-r100-s500-c500-cs-10/";
 
         String[] filenames = {"Solution0.log", "Solution1.log", "Solution2.log", "Solution3.log", "Solution4.log",};
 
@@ -37,7 +37,7 @@ public class Exporter {
                 code = "Baseline";
             }
             solutions[i] = new Solution(code);
-            solutions[i].loadFrom(new File(path + filenames[i]), 1.0 / 1000);
+            solutions[i].loadFrom(new File(path + filenames[i]), 1.0 / 1e9);
         }
 
         exportR(solutions, path);

@@ -6,7 +6,7 @@ package harsha.thesis.exp;
 
 /**
  *
- * @author jcrada
+ * @author harshasraja
  */
     
     public enum Solution {
