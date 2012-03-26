@@ -137,8 +137,10 @@ the purpose of each of them}.
 Cassandra is deployed in an homogeneous cluster conformed by 10 nodes. That is,
  all 10 nodes have the same characteristics in software and hardware. These
  nodes emulate a cloud environment in which each node saves
- the data on the local disks of the machines. The characteristics of these nodes
-are:
+ the data on the local disks of the machines. Notice that, for Solution~4,  an
+ additional node is used to emulate an external cluster dedicated to provide
+ metadata of the entities upon request.
+ The characteristics of these nodes are:
 
 
 \begin{itemize}
@@ -150,67 +152,76 @@ are:
   \begin{itemize}
     \item Operating system
     \item Java JDK
-    \item Cassandra version
-    \item Hector version
+    \item Cassandra version 0. 8. 4 
+    \item Hector version 0. 8. 0-2.
   \end{itemize}
 \end{itemize}
-% Cassandra is deployed in an homogeneous environment The environment to deploy
-% cassandra is an homogeneous cluster conformed by 10 nodes. That is, all 10 nodes have the same characteristics in software and
-% hardware. These nodes emulate a cloud environment in which each node runs
-% Cassandraand saves the data on te local disks of the machines. The
-% characteristics of these nodes are:
 
-% 	\begin{table} \label{texp:Nodeconfig}
+
+ 
+
+
+% 	\begin{table}[H] \label{texp:Nodeconfig}
 % 	\centering
 % 	\newcolumntype{C} {@{\hspace{2.5pt}}>{\scriptsize}c@{\hspace{2.5pt}}}
 % 		\begin{tabular}{CC}
 % 			\toprule
-% 			\bfseries System configurations\\
-% 			\midrule
-% 			Linux kernel version & Linux 3.2.4-1-ARCH i686 \\
-% 			\rc CPU & Intel(R) Core(TM)2 Duo CPU     E8400  @ 3.00GHz \\
+% % 			\bfseries System configurations\\
+% 			
+% 			Linux kernel version & Linux 3. 2. 4-1-ARCH i686 (62-bit)\\
+% 			\rc CPU & Intel(R) Core(TM)2 Duo CPU     E8400  @ 3. 00GHz \\
 % 			CPU cores & 4  \\
+% 			\rc Network Card & 3 Gigabit \\
+% 			Allocated memory & ?? \\
 % 			\bottomrule
 % 		\end{tabular}
 % 	\end{table}
-% 
-% 
-% 
-% Linux kernel version: Linux 3.2.4-1-ARCH i686
-% 
-% CPU: Intel(R) Core(TM)2 Duo CPU     E8400  @ 3.00GHz
-% 
-% CPU cores: 4
 
+The nodes used in the cluster are part of the \ac{ECS} grid system of
+\ac{VUW}. Notice that, such a cluster is not a controlled environment and it is
+not possible to use it as  a dedicated cluster as it is also used for other grid
+jobs as well as students. Nonetheless, the experiments can be performed over
+night during weekends when the external usage of the nodes is minimal.
 
-%             total       used       free     shared    buffers     cached
-% Mem:          3195       2941        254          0        212       1493
+Some values in the configuration files on each node are changed before starting
+the cluster of nodes.  For every node,  the \texttt{listen\_address} and
+\texttt{rpc\_address} are set to the hostname.  The nodes are added to the
+cluster in a sequential order.  One of the nodes is chosen as the first node and
+is made the host node (a.k.a. seed node).  
+This node becomes the contact point
+for other nodes that join the cluster \todo{? is this true? if it is a ring
+topology, then it doesnt sound right, especially after saying later that it
+does not contact any other node}.
+The list of seed nodes for any given node is specified in a configuration file under the \texttt{seeds} option.  For the
+ first node,  this option is set to its loopback address \texttt{127.0.0.1}
+ to indicate that it does not contact any other node to join the cluster.  For
+ nodes that are not seed nodes, this option contains the hostnames that it can
+contact to learn about the cluster.  In the experiments,  except for the first
+node, the remaining 9 nodes have two neighboring hosts  as seeds. 
 
-Cassandra configurations:
+The seed node has its \texttt{auto\_bootstrap} option set to \texttt{true} to
+allow other nodes to migrate data from it when data is partitioned or when other
+nodes join the cluster.  For nodes that are not seed nodes,  this option is set
+to \texttt{false}.  This is because all the nodes are started prior to the 
+experiments and do not have data to partition yet. 
+ 
+% The Random Partitioner distributes rows in a cluster evenly and is the
+% default configuration setting when Cassandra is installed. 
+All the remaining
+settings in the Cassandra configuration file are set to the  default values
+for all the nodes.  The directories for saving the data,  commit logs and saved
+caches are saved on the local disk of each node in its temporary
+folder folder (\texttt{/local/tmp}).
 
-Version: 0.8.4
+% As for Solution~4, an additional node is created to serve as an external
+% cluster. 
+%  Note that for the Metadata cluster used in Solution~4,  the  cluster
+% name is \texttt{MetadataCluster}and the ports for Thrift clients  and TCP sessions are
+% changed.  
 
-Hector Version: 0.8.0-2
-
-Replication strategy:
-
-Partitioner used: Random Partitioner which distrbutes rows in a cluster evenly.
-This is the default configuration setting when Cassandra is installed.
-
-The configurations on all the modes are set to the default values in the yaml
-configuration file.
-
-The first node is started as a seed node and has the Auto Bootstrap option set
-to true. This allows other nodes with this ndoe as its seed to migrate data from
-the seed node while data partitioning. For the rest of the nodes tihs options is
-set to false.Hinted Handoff is enabled on all nodes.
-
-\begin{itemize}
-  \item Hardware
-  \item Software
-\end{itemize}
-
-
+% Once the cluster is started,  the experiments are initiated and the time taken 
+% operations are measured based on performance metrics.  The metrics used for the experiments
+% are described in the following section. 
 
 
 \include{chapter/Experimental-setup}

@@ -1,21 +1,23 @@
 %ब
 \section{Experimental setup}\label{sexp:ExperimentalSetup}
 
-
-The experimentation involves performing 100 runs where artificial data is
-randomly generated for the attributes of each column family.  
-This data is then inserted, 
-updated and deleted from column families in the Cassandra cluster. 
+The experimentation is based on performing \ac{CRUD} operations upon artificial
+data created for the University example application. Since it is not a
+controlled environment, the experimentation involves performing several runs
+where data is inserted, updated, and deleted on the Cassandra cluster. The
+environment is not controlled as variables like network latency, parallel
+processes in the nodes, and other variables affect the performance.
 
 On each run,  the time required for each operation is recorded in order to assess
-the response time of each solution as well as the throughput in terms of
-operations per unit of time.  Notice that each operation on the artificial data 
-is performed in a batch,  and entities from each column family are randomly
-sorted before any operation takes place.  Random sorting is performed in order to
+its response time for each solution. Additionally,  
+
+ Notice that, each operation on the
+artificial data is performed in a batch,   and entities from each column family
+are randomly sorted before any operation takes place.  Random sorting is performed in order to
 prevent the results to be biased from possible optimization made by Cassandra in
 terms of indexes or other criteria. 
 		
-The artificial data is made up of 1000 students,  1000 courses,  and 10000
+The artificial data is made up of  students,   courses,  and 
 enrolments which is the result of assigning 10 different courses to each
 student.  Courses are assigned by dividing the number of courses
 into 100 groups of 10 courses each,  and assigning a group for each student. 
