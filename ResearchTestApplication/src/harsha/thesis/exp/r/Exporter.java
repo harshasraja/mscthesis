@@ -11,7 +11,7 @@ import static harsha.api.test.Experiment.*;
 
 /**
  *
- * @author jcrada
+ * @author harshasraja
  */
 public class Exporter {
 
@@ -37,7 +37,7 @@ public class Exporter {
                 code = "Baseline";
             }
             solutions[i] = new Solution(code);
-            solutions[i].loadFrom(new File(path + filenames[i]), 1.0 / 1000);
+            solutions[i].loadFrom(new File(path + filenames[i]), 1.0 / 1e9);
         }
 
         exportR(solutions, path);

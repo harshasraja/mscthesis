@@ -7,7 +7,7 @@ import harsha.api.annotation.Column;
 import harsha.api.annotation.PrimaryKey;
 
 /**
- * @author vinay
+ * @author harshasraja
  *
  */
 @PrimaryKey(primaryKey="UserId")

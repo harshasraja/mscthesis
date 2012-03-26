@@ -15,7 +15,7 @@ import java.util.Set;
 
 /**
  *
- * @author jcrada
+ * @author harshasraja
  */
 public class Barplot {
 

@@ -16,7 +16,7 @@ import java.util.StringTokenizer;
 
 /**
  *
- * @author jcrada
+ * @author harshasraja
  */
 @ColumnFamily(columnFamily = "Constraint")
 @PrimaryKey(primaryKey = "ConstraintName")

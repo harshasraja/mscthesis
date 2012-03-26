@@ -12,7 +12,7 @@ import java.util.List;
 
 /**
  *
- * @author jcrada
+ * @author harshasraja
  */
 public abstract class MetadataAsEntity implements ValidationHandler {
 
@@ -22,11 +22,11 @@ public abstract class MetadataAsEntity implements ValidationHandler {
         this.em = em;
     }
 
-    @Override
-    public List<Constraint> retrieveMetadata(Entity entity) throws Exception {
-        return em.query(Constraint.class, "ColumnFamily",
-                EntityManager.Expression.EQUALS, entity.getClass().getName());
-    }
+//    @Override
+//    public abstract List<Constraint> retrieveMetadata(Entity entity) throws Exception ;
+    
+    public abstract Constraint findConstraint(String constraintName) throws Exception;
+    
 
 //    @Override
 //    public List<Entity> retrieveChildren(Entity entity) throws Exception {
@@ -57,7 +57,8 @@ public abstract class MetadataAsEntity implements ValidationHandler {
 
         for (Constraint constraint : metadata) {
             if ("R".equals(constraint.getConstraintType())) {
-                Constraint rConstraint = em.find(Constraint.class, constraint.getRConstraintName());
+                Constraint rConstraint = findConstraint(constraint.getRConstraintName());
+//                        em.find(Constraint.class, constraint.getRConstraintName());
 
                 String foreignKey = rConstraint.getRColumn();
                 String foreignKeyValue = Entity.GetValue(foreignKey, entity);
@@ -81,7 +82,9 @@ public abstract class MetadataAsEntity implements ValidationHandler {
         List<Constraint> metadata = retrieveMetadata(entity);
         for (Constraint fConstraint : metadata) {
             if ("F".equals(fConstraint.getConstraintType())) {
-                Constraint rConstraint = em.find(Constraint.class, fConstraint.getRConstraintName());
+                Constraint rConstraint = findConstraint(fConstraint.getRConstraintName());
+//                        em.find(Constraint.class, fConstraint.getRConstraintName());
+                
                 String foreignColumnFamily = rConstraint.getColumnFamily(); //child is Enrolment
                 String foreignColumn = rConstraint.getRColumn(); //
 
@@ -116,7 +119,8 @@ public abstract class MetadataAsEntity implements ValidationHandler {
 
         for (Constraint fConstraint : metadata) {
             if ("F".equals(fConstraint.getConstraintType())) {
-                Constraint rConstraint = em.find(Constraint.class, fConstraint.getRConstraintName());
+                Constraint rConstraint = findConstraint(fConstraint.getRConstraintName());
+//                        em.find(Constraint.class, fConstraint.getRConstraintName());
                 String foreignColumnFamily = rConstraint.getColumnFamily(); //child is Enrolment
                 String foreignColumn = rConstraint.getRColumn(); //
 

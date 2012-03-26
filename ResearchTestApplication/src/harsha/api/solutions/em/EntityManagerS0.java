@@ -10,7 +10,7 @@ import harsha.api.solutions.vh.ValidationHandlerS0;
 
 /**
  *
- * @author jcrada
+ * @author harshasraja
  */
 public class EntityManagerS0 extends EntityManager{
 

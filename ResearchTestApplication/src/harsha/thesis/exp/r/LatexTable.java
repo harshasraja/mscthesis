@@ -10,7 +10,7 @@ import java.util.*;
 
 /**
  *
- * @author jcrada
+ * @author harshasraja
  */
 public class LatexTable {
 

@@ -9,7 +9,7 @@ import harsha.api.annotation.ColumnFamily;
 import harsha.api.annotation.PrimaryKey;
 
 /**
- * @author vinay
+ * @author harshasraja
  *
  */
 @ColumnFamily(columnFamily = "Student")

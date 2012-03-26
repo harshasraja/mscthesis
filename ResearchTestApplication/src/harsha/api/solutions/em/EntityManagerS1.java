@@ -13,7 +13,7 @@ import java.util.List;
 
 /**
  *
- * @author jcrada
+ * @author harshasraja
  */
 public class EntityManagerS1 extends EntityManager {
 
