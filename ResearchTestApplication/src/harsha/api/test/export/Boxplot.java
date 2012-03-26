@@ -26,7 +26,7 @@ public class Boxplot {
             }
         }
         result +=",names=" + MyMath.C(names,"'");
-        result += ", xlab='Solutions', ylab='Time in seconds', outline=F, horizontal=F);";
+        result += ", xlab='Solutions', ylab='Time in seconds', outline=T, horizontal=F);";
         return result;
     }
     
@@ -43,7 +43,7 @@ public class Boxplot {
             }
         }
         result +=",names=" + MyMath.C(names,"'");
-        result += ", xlab='Solutions', ylab='Entities per second', outline=F, horizontal=F);";
+        result += ", xlab='Solutions', ylab='Entities per second', outline=T, horizontal=F);";
         return result;
     }
     
