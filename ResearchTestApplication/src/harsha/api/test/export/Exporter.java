@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package harsha.thesis.exp.r;
+package harsha.api.test.export;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -25,7 +25,7 @@ public class Exporter {
 
     public static void main(String[] args) throws Exception {
         String path =
-                "/home/jcrada/Development/hr/ResearchTestApplication/logs/sAll-r15-s100-c100-cs10/";
+                "/home/jcrada/Development/hr/ResearchTestApplication/logs/sAll-r100-s100-c100-cs10/";
 //                "/u/students/subramhars/workspace/ResearchTestApplication/logs/s-All-r100-s500-c500-cs-10/";
 
         String[] filenames = {"Solution0.log", "Solution1.log", "Solution2.log", "Solution3.log", "Solution4.log",};

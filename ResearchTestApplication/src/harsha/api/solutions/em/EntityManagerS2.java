@@ -27,7 +27,10 @@ public class EntityManagerS2 extends EntityManager {
         String primaryKeyColumn = Entity.GetPrimaryKeyColumn(entity.getClass());
         String primaryKeyValue = Entity.GetValue(primaryKeyColumn, entity);
 
-        if ("-1".equals(primaryKeyValue)) {
+        if (!"-1".equals(primaryKeyValue)) {
+            super.insert(entity);
+        } else {
+            //if is metadata
             String[] columnNames = {
                 Entity.GetPrimaryKeyColumn(entity.getClass()),
                 "Metadata"
@@ -41,8 +44,6 @@ public class EntityManagerS2 extends EntityManager {
                         HFactory.createStringColumn(column, Entity.GetValue(column, entity)));
             }
             mutator.execute();
-        } else {
-            super.insert(entity);
         }
     }
 }

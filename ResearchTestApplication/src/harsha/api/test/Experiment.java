@@ -217,7 +217,8 @@ public class Experiment {
         }
         recorder.stop();
         recorder.log(UPDATE_STUDENT + ":" + recorder.duration() + "\n");
-
+        
+        
         for (Enrolment entity : enrolments) {
             entity.setStudentId("" + (Long.parseLong(entity.getStudentId()) * -1));
         }
@@ -236,12 +237,20 @@ public class Experiment {
             try {
                 em.update(entity);
             } catch (Exception ex) {
-//                entity.setKeyForUpdate("");
 //                log.info(ex);
             }
+            entity.setKeyForUpdate("");
         }
         recorder.stop();
         recorder.log(UPDATE_COURSE + ":" + recorder.duration() + "\n");
+        
+        if ("solution0".equals(em.getValidationHandler().solution())){
+            for (Enrolment entity :enrolments){
+                entity.setCourseId(courseBaseName +
+                    entity.getCourseId().substring(courseBaseName.length()));
+            }
+        }
+        
     }
 
     private void updateEnrolment() throws Exception {
@@ -302,11 +311,8 @@ public class Experiment {
         recorder.log(DELETE_ENROLMENT + ":" + recorder.duration() + "\n");
 
         if (!"solution0".equals(em.getValidationHandler().solution())){
-            //Increase Ids and reinsert
+            //reinsert
             for (Enrolment entity : enrolments) {
-                long currentId = Long.parseLong(entity.getRowId());
-                entity.setRowId("" + (currentId + enrolments.size()));
-
                 em.insert(entity);
             }
         }
