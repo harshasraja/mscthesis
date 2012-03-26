@@ -1,56 +1,59 @@
 %ब
 \chapter{Experimental Design}
 
-\todo{Check number of enrolments, introduce all metadata, and retrieve 
-details of cassandra cluster from my computer}
+\todo{Check number of enrolments,  introduce all metadata,  and retrieve 
+details of Cassandra cluster from my computer}
 
-The implementation of the four solutions  introduces referential imtegrity
-constraints and validations in Cassandra, which did not previously exist in this
-\ac{DBMS}. In order to evaluate the performance of the four solutions when
-deployed on Cassandra, experiments were conducted by implementing the
-experimental \ac{API}. The goal of the experiments were to determine how each
-solution affected Cassandra in its performance.
+% The implementation of the four solutions  introduces referential integrity
+% constraints and validations in Cassandra and each solution performs
+% differently . 
+In order to evaluate the performance of the four solutions when deployed on
+Cassandra,  experiments were conducted by implementing the experimental \ac{API}. 
+The goal of the experiments were to determine how referential integrity
+validations and different metadata storage techniques affected Cassandra in its
+performance. 
 
- In the experimnets, the experimental \ac{API} was loaded with entities
- belonging to a prototype keyspace  on which \ac{CRUD} operations were performed
- that triggered the validation. Each \ac{CRUD} operation caused the \ac{API} to
- interact with the Cassandra cluster, which was  a homogeneous group of multiple
- nodes having similar characteristics and configurations. The performance of the
- soulitions and Cassandra during these experiments  were measured based on
- certain performance indicators, namely, response time and throughput.
+ In the experiments,  the experimental \ac{API} is loaded with entities
+ belonging to a prototype keyspace  on which the \ac{CRUD} operations are
+ performed.  Each \ac{CRUD} operation causes the \ac{API} to interact with a
+ Cassandra cluster which is  a homogeneous group of multiple nodes with
+ similar characteristics and configurations.  Each operation on an entity  is
+ measured based on the performance indicators,  namely,  response time and
+ throughput. 
 
-The details of the experimental setup are described in the following sections.
-Section~\ref{sexp:BenchmarkKeyspace} describes the protoype keyspace used for
-the xperiments. Section~\ref{sexp:CassandraCluster} prvides the details of the
-nodes used in the Cassandra cluster. Section~\ref{sexp:ExperimentalSetup}
+The details of the experimental setup are described in the following sections. 
+Section~\ref{sexp:BenchmarkKeyspace} describes the prototype keyspace used for
+the experiments.  Section~\ref{sexp:CassandraCluster} provides the details of the
+nodes used in the Cassandra cluster.  Section~\ref{sexp:PerformanceIndicators}
+describe the performance indicators
+ considered for measuring the results from the 
+ experiments.  Section~\ref{sexp:ExperimentalSetup}
 describes the details of the experimental setup.
-Section~\ref{sexp:PerformanceIndicators} describe the perfromance indicators
-that are considered for measuring the results fromt he experiments.
-Section~\ref{sexp:Summary} presents a summary of the chapter.
+Section~\ref{sexp:Summary} presents a summary of the chapter. 
 
 
 \section{Benchmark keyspace} \label{sexp:BenchmarkKeyspace}
 % In order to asses the performance of Cassandra when the four solutions are
-% executed,
-In the experiments, the experimental \ac{API} is implemented by loading
-entitites belonging to a prototype keyspace designed for these experiments. The
-prototype keyspace is modelled on a University keyspace that stores the details
-of students and courses along with the enrolment details of the students.The
+% executed, 
+In the experiments,  the experimental \ac{API} is loaded with
+entities that belong to a prototype keyspace designed for these experiments. 
+The prototype keyspace is modelled on a University keyspace that stores the details
+of students and courses along with the enrolment details of the students. The
 class diagram for the University keyspace is shown in
-Figure~\ref{fexp:ClassDiagram}. The entities are saved as the following column
-families in Cassandra.
+Figure~\ref{fexp:ClassDiagram}.  The entities are saved as the following column
+families in Cassandra. 
 
 	\begin{itemize}
 	  \item \texttt{Student} to store the student attributes \texttt{StudentId}
-	  (primary key), \texttt{FirstName}, \texttt{LastName}, \texttt{Email} and
-	  \texttt{Age}.
+	  (primary key),  \texttt{FirstName},  \texttt{LastName},  \texttt{Email} and
+	  \texttt{Age}. 
 	  \item \texttt{Course} to store course information with the attributes
-	  \texttt{CourseId} (primary key), \texttt{CourseName}, \texttt{Trimester},
-	  \texttt{Level} and \texttt{Year}.
+	  \texttt{CourseId} (primary key),  \texttt{CourseName},  \texttt{Trimester}, 
+	  \texttt{Level} and \texttt{Year}. 
 	  \item \texttt{Enrolment} to preserve the relationship between students and
-	  the courses they enrol into. The attributes for \texttt{Enrolment} are
-	  \texttt{RowId} (primary key), \texttt{StudentId} and \texttt{CourseId}. The
-	  \texttt{StudentId} and \texttt{CourseId} are foreign keys.
+	  the courses they are enrolled in.  The attributes for \texttt{Enrolment} are
+	  \texttt{RowId} (primary key),  \texttt{StudentId} and \texttt{CourseId}.  The
+	  \texttt{StudentId} and \texttt{CourseId} are foreign keys. 
 	\end{itemize}
 	
 	\begin{figure}[h] \centering
@@ -58,10 +61,9 @@ families in Cassandra.
 		\caption{Class Diagram for University}\label{fexp:ClassDiagram}
 	\end{figure} 
 
-The constraints for the keyspace are stored in the \texttt{Metadata} entity
-class.These constraints are the \ac{PK} and \ac{FK} constraints applicable on each of
-the column families in this keyspace. The list of constraints are the same for
-all the solutions  and are shown in Table~\ref{texp:ListConstraints}.
+The constraints of the keyspace are the \ac{PK} and \ac{FK} constraints
+applicable on each of the column families in this keyspace.  The list of constraints are the same for
+all the solutions  and are shown in Table~\ref{texp:ListConstraints}. 
 
 
 \begin{table}[h] \label{texp:ListConstraints}
@@ -87,24 +89,24 @@ all the solutions  and are shown in Table~\ref{texp:ListConstraints}.
 		NODELETE\\
 		CONST700 & University & F & Student & University & CONST400 & StudentId &
 		CASCADE\\
-		\bottomrule
+		\bottomrule 
 	\end{tabular}
 \end{table}
 
-The \texttt{ValidationHandler} in each solution checks these constraints to
-validate referential integrity within this keyspace. The entities are loaded
-generically by the \texttt{EntityManager} for each solution. 
-% In the experiment,
+% The \texttt{ValidationHandler} in each solution checks these constraints to
+% validate referential integrity within this keyspace.  The entities are loaded
+% generically by the \texttt{EntityManager} for each solution.  
+% In the experiment, 
 % the number of entities inserted for each column family in all the solutions are
-% shown in Table~\ref{texp:EntityList}. 
+% shown in Table~\ref{texp:EntityList}.  
 % 	
 % 	\begin{table} \label{texp:EntityList}
 % 	\centering
-% 	\newcolumntype{C} {@{\hspace{2.5pt}}>{\scriptsize}c@{\hspace{2.5pt}}}
+% 	\newcolumntype{C} {@{\hspace{2. 5pt}}>{\scriptsize}c@{\hspace{2. 5pt}}}
 % 		\begin{tabular}{CC}
 % 			
 % 			\toprule
-% 			\bfseries ColumnFamily & \bfseries No. of Entities \\
+% 			\bfseries ColumnFamily & \bfseries No.  of Entities \\
 % 			\midrule
 % 			Student & 1000 \\
 % 			\rc Course & 1000 \\
@@ -119,81 +121,128 @@ generically by the \texttt{EntityManager} for each solution.
 
 \section{Cassandra cluster} \label{sexp:CassandraCluster}
 
-The environment to deploy cassandra is  an homogeneous cluster conformed by 10
-nodes. That is, all 10 nodes have the same characteristics in software and
-hardware. These nodes emulate a cloud environment in which each node runs
-Cassandraand saves the data on te local disks of the machines. The
+The environment to deploy Cassandra is  a homogeneous cluster conformed by 10
+nodes.  That is,  all 10 nodes have the same characteristics in software and
+hardware.  These nodes emulate a cloud environment in which each node runs
+Cassandra and saves the data on the local disks of the machines.  The
 characteristics of these nodes are:
 
-	\begin{table} \label{texp:Nodeconfig}
+	\begin{table}[H] \label{texp:Nodeconfig}
 	\centering
 	\newcolumntype{C} {@{\hspace{2.5pt}}>{\scriptsize}c@{\hspace{2.5pt}}}
 		\begin{tabular}{CC}
 			\toprule
-			\bfseries System configurations\\
-			\midrule
-			Linux kernel version & Linux 3.2.4-1-ARCH i686 \\
-			\rc CPU & Intel(R) Core(TM)2 Duo CPU     E8400  @ 3.00GHz \\
+% 			\bfseries System configurations\\
+			
+			Linux kernel version & Linux 3. 2. 4-1-ARCH i686 (62-bit)\\
+			\rc CPU & Intel(R) Core(TM)2 Duo CPU     E8400  @ 3. 00GHz \\
 			CPU cores & 4  \\
+			\rc Network Card & 3 Gigabit \\
+			Allocated memory & ?? \\
 			\bottomrule
 		\end{tabular}
 	\end{table}
+	
+The nodes used in the cluster are a part of the ECS grid system of VUW and are
+used locally by VUW  students from the ECS labs.  The experiments did not have
+any control over the cluster environment and it was not possible to measure the
+additional workload of these nodes at a given time as many grid jobs or remote
+remote processes can run on them. 
+In order to reduce such variables,  the experiments were performed over weekends
+or during weeknights,  although most experiments were performed prior to the
+trimester start which meant the number of users were the least during that
+period.  
 
+On all the nodes Cassandra was run remotely as a background process.  
+% The
+% configuration of Cassandra on each machine in the cluster
+% are the following. 
+The version of Cassandra used is 0. 8. 4 and the version of Hector used is
+0. 8. 0-2. 
 
-
-Linux kernel version: Linux 3.2.4-1-ARCH i686
-
-CPU: Intel(R) Core(TM)2 Duo CPU     E8400  @ 3.00GHz
-
-CPU cores: 4
+% Linux kernel version: Linux 3. 2. 4-1-ARCH i686
+% 
+% CPU: Intel(R) Core(TM)2 Duo CPU     E8400  @ 3. 00GHz
+% 
+% CPU cores: 4
 
 
 %             total       used       free     shared    buffers     cached
 % Mem:          3195       2941        254          0        212       1493
 
-Cassandra configurations:
+% \begin{table}[H] \label{texp:Nodeconfig}
+% 	\centering
+% 	\newcolumntype{C} {@{\hspace{2. 5pt}}>{\scriptsize}c@{\hspace{2. 5pt}}}
+% 		\begin{tabular}{CC}
+% 			\toprule
+% % % 			\bfseries  Cassandra configurations \\
+% %  			\midrule
+% 			Cassandra version & 0. 8. 4\\
+% 			\rc Hector Version & 0. 8. 0-2 \\
+%  			Hinted Handoff & True  \\
+% 			Partitioner & RandomPartitioner \\
+%  			\bottomrule
+% 			
+% 		\end{tabular}
+% 	\end{table}
 
-Version: 0.8.4
+% Cassandra configurations:
+% Version: 0. 8. 4  Hector Version: 0. 8. 0-2  Replication strategy:
+Some values in the configuration files on each node is changed before starting
+the cluster of nodes.  For every node,  the \texttt{listen\_address} and
+\texttt{rpc\_address} are set to its  hostname.  The nodes are added to the
+cluster in a sequential order.  One of the nodes is chosen as the first node and
+is made the seed node (i. e.  host).  This node becomes the contact point for other
+nodes that join the cluster.  The list of seed nodes for a node is specified in
+its configuration file in the \texttt{seeds} option.  For the first node,  this
+option is set to its loopback address ``127. 0. 0. 1" to indicate that it does not
+contact any other node to join the cluster.  For nodes that are not seed nodes, 
+this option contains the hostnames that it can contact to learn about the
+cluster.  In the experiments,  except for the first node all
+the remaining 9 nodes have at least 2 hosts as seeds. 
 
-Hector Version: 0.8.0-2
-
-Replication strategy:
-
-Partitioner used: Random Partitioner which distrbutes rows in a cluster evenly.
-This is the default configuration setting when Cassandra is installed.
-
-The configurations on all the modes are set to the default values in the yaml
-configuration file.
-
-The first node is started as a seed node and has the Auto Bootstrap option set
-to true. This allows other nodes with this ndoe as its seed to migrate data from
-the seed node while data partitioning. For the rest of the nodes tihs options is
-set to false.Hinted Handoff is enabled on all nodes.
-
-\begin{itemize}
-  \item Hardware
-  \item Software
-\end{itemize}
+The seed node has its \texttt{auto\_bootstrap} option set to \texttt{true} to
+allow other nodes to migrate data from it when data is partitioned or when other
+nodes join the cluster.  For nodes that are not seed nodes,  this option is set
+to \texttt{false}.  This is because all the nodes are started prior to the 
+experiments and do not have data to partition yet. 
+ 
+% The Random Partitioner distributes rows in a cluster evenly and is the
+% default configuration setting when Cassandra is installed. 
+All the remaining
+settings in the Cassandra configuration file are set to the  default values
+for all the nodes.  The directories for saving the data,  commit logs and saved
+caches are saved on the local disk of each node in its \texttt{tmp} folder and
+not in the shared network drive.  This is in order to avoid using the network
+for such storage needs. 
 
 
+Note that for the Metadata cluster used in Solution~4,  the  cluster name is
+\texttt{MetadataCluster}and the ports for Thrift clients  and TCP sessions are
+changed.  
 
+Once the cluster is started,  the experiments are initiated and the operations
+are measured based on performance metrics.  The metrics used for the experiments
+are described in the following section. 
+
+\include{chapter/Experimental-PerformanceMeasures}
 
 \include{chapter/Experimental-setup}
 
 
 
-\include{chapter/Experimental-PerformanceMeasures}
+
 
 \section{Summary} \label{sexp:Summary} 
 
 This chapter  presented the experimental design to evaluate the performance of
-each  solution and the experimental \ac{API} itself using th prototype keyspace
-that is used as an example across this thesis. The experimental design involves
+each  solution and the experimental \ac{API} itself using the prototype keyspace
+that is used as an example across this thesis.  The experimental design involves
 assessing the performance of the CRUD operations on the different solutions
-proposed for referential integrity.
-The analysis of results is to be based on response time and throughput, two
-performance indicators that serve as guidelines for assessing the tradeoffs
-between the different solutions proposed.
+proposed for referential integrity. 
+The analysis of results is to be based on response time and throughput,  two
+performance indicators that serve as guidelines for assessing the trade-offs
+between the different solutions proposed. 
 	
 	
 The next chapter presents the results and their discussions of the experimental
