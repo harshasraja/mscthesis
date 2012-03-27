@@ -12,13 +12,38 @@ application. Response time refers to the time a database system
  refers to  the number of operations that can be processed by the \ac{DBMS}
   in a unit of time.
 
-In the experiments, the response time is measured for each operation on a batch
-of entities. That is, the response time corresponds to the time required to
-insert all the students into the \texttt{Student} column family. The throughput
-is computed from the response time using the ``Rule of Three''. That is, 
-given that $t$ is the time required for inserting $x$  students, then the
-throughput is given by the number of students that can be inserted in a unit of
-time ($x/t$).    
+In the experiments, the response time is computed dividing the total execution
+time of an operation for a set of entities by the number of entities. In other
+words, the response time measures the amount of time required to perform an
+operation on one entity. On the other hand, the throughput is the inverse of the
+response time and is computed accordingly by dividing the number of entities by
+the total execution time of an operation for a set of entities. In other words,
+the throughput measures the number of operations that are performed in a unit
+of time. The following equations define the response time $r$ and throughput $t$ 
+ 
+
+% \begin{tabular}{cc}
+% $\displaystyle r = \frac{1}{n}\sum_{i = 1}^{n}{o_i} \label{eq:response-time}$ &
+% $\displaystyle t = n / \sum_{i = 1}^{n}{o_i} \label{eq:throughput}$
+% \end{tabular}
+
+\begin{equation*}
+\begin{gathered}
+\displaystyle r = \frac{1}{n}\sum_{i = 1}^{n}{o_i}
+\end{gathered} \hspace{2cm}
+\begin{gathered}
+t = n / \sum_{i = 1}^{n}{o_i}  
+\end{gathered}
+\end{equation*}
+
+% \begin{align}
+% \displaystyle
+% 	 
+% \end{align}
+
+\noindent where $o_i$ is the time for an operation over entity $i$, and  $n$ is
+the number of entities.
+
 
 Notice that external variables such as network latency,  simultaneous processes
 in the operating systems of each node,  and other variables are not considered

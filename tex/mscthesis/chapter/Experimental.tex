@@ -1,15 +1,12 @@
 %ब
 \chapter{Experimental Design}
 
-\todo{Check number of enrolments, introduce all metadata, and retrieve 
-details of cassandra cluster from my computer}
-
 The implementation of the four solutions  introduces referential integrity
 constraints and validations in Cassandra, which are 
 not provided by this \ac{DBMS} at the moment of writing. In order to evaluate
  the performance of these four solutions, experiments are 
   conducted by using the implemented \ac{API} described in
-  Section~\todo{Section}.   The goal of the experiments is to determine how
+  Section~\ref{s:implementation-API}.   The goal of the experiments is to determine how
   each solution affects the performance of  Cassandra in \ac{CRUD}
   operations, especifically in those where referential integrity validations are
   triggered (namely Create, Update and Delete).
@@ -76,8 +73,12 @@ the solutions on each of them. This application stores the details of students a
 % all the solutions  and are shown in Table~\ref{texp:ListConstraints}.
 
 The list of constraints created for the University keyspace can be seen in
-Table~\ref{texp:ListConstraints}. \texttt{CONST100... CONST700} \todo{explain
-the purpose of each of them}.
+Table~\ref{texp:ListConstraints}. Constraints \texttt{CONST100},
+\texttt{CONST200} and \texttt{CONST300} are the respective \ac{PK} constraints
+for the three column families. \texttt{CONST400} and \texttt{CONST500} are the
+\ac{FK} constraints of \texttt{Enrolment} and specify the respective parent
+column family for its foreign keys. \texttt{CONST600} and \texttt{CONST700} show
+the child column family for \texttt{Course} and \texttt{Student} respectively.
 
 
 \begin{table}[h] \label{texp:ListConstraints}
@@ -140,22 +141,23 @@ Cassandra is deployed in an homogeneous cluster conformed by 10 nodes. That is,
  the data on the local disks of the machines. Notice that, for Solution~4,  an
  additional node is used to emulate an external cluster dedicated to provide
  metadata of the entities upon request.
- The characteristics of these nodes are:
+ The following are the characteristics of these nodes.
 
 
 \begin{itemize}
-  \item Hardware: \todo{Look on internet the specs of the model}
+  \item Hardware:
   	\begin{itemize}
-  	  \item %Intel(R) Core(TM)2 Duo CP     E8400  @ 3. 00GHz
-  	  \item % 			CPU cores & 4  \\
-  	  \item % 			\rc Network Card & 3 Gigabit \\
+  	  \item 2.8 GHz Intel(R) Core(TM) 2 Quad Processor %2 Duo CP     E8400  @ 3.00GHz
+  	  \item 16 GB main memory (RAM)% 			CPU cores & 4  \\
+  	  \item 1000 GB SATA hard disk % 			\rc Network Card & 3 Gigabit \\
+  	  \item 1000 Mbit/s, 802.11n Networking options
   	 \end{itemize}
   \item Software: 
   \begin{itemize}
     \item Operating system: Linux 3.2.4-1-ARCH i686 (64-bit)
-    \item Java JDK
-    \item Cassandra version 0. 8. 4 
-    \item Hector version 0. 8. 0-2.
+    \item Java JDK 1.6.0\_31 (Java 6)
+    \item Cassandra version 0.8.4 
+    \item Hector version 0.8.0-2
   \end{itemize}
 \end{itemize}
 
@@ -163,9 +165,9 @@ Cassandra is deployed in an homogeneous cluster conformed by 10 nodes. That is,
  
 
 
-The nodes used in the cluster are part of the \ac{ECS} grid system of
-\ac{VUW}. Notice that, such a cluster is not a controlled environment and it is
-not possible to use it as  a dedicated cluster as it is also used for other grid
+The nodes used in the cluster are part of the Engineering and Computer Science
+grid system of Victoria University of Wellington. Notice that, such a cluster is
+not a controlled environment and it is not possible to use it as  a dedicated cluster as it is also used for other grid
 jobs as well as students. Nonetheless, the experiments can be performed over
 night during weekends when the external usage of the nodes is minimal.
 
@@ -173,17 +175,17 @@ Some values in the configuration files on each node are changed before starting
 the cluster of nodes.  For every node,  the \texttt{listen\_address} and
 \texttt{rpc\_address} are set to the hostname.  The nodes are added to the
 cluster in a sequential order.  One of the nodes is chosen as the first node and
-is made the host node (a.k.a. seed node).  
-This node becomes the contact point
-for other nodes that join the cluster \todo{? is this true? if it is a ring
-topology, then it doesnt sound right, especially after saying later that it
-does not contact any other node}.
-The list of seed nodes for any given node is specified in a configuration file under the \texttt{seeds} option.  For the
- first node,  this option is set to its loopback address \texttt{127.0.0.1}
- to indicate that it does not contact any other node to join the cluster.  For
+is made the host node (a.k.a. seed node).
+This node becomes the contact point for other nodes that join the cluster
+\todo{? is this true? if it is a ring topology, then it doesnt sound right,
+especially after saying later that it does not contact any other node}.
+The list of seed nodes for any given node is specified in a configuration file
+under the \texttt{seeds} option.  For the
+ first node,  this option is set to its loopback address \texttt{127.0.0.1} to
+ indicate that it does not contact any other node to join the cluster.  For
  nodes that are not seed nodes, this option contains the hostnames that it can
 contact to learn about the cluster.  In the experiments,  except for the first
-node, the remaining 9 nodes have two neighboring hosts  as seeds. 
+node, the remaining 9 nodes have two neighboring hosts  as seeds.
 
 The seed node has its \texttt{auto\_bootstrap} option set to \texttt{true} to
 allow other nodes to migrate data from it when data is partitioned or when other
