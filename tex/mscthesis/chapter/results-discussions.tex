@@ -1,298 +1,101 @@
 %ब
 \chapter{Results and Discussions}
+\section{Introduction}
 Performance of database systems is commonly measured in terms of the
 \textit{Response time} and \textit{Throughput}(\todo{cite Demurjian, Berkely}).
 Response time refers to the time  a database system takes to process an
 operation and produce results to the end user . Measuring response time for a
-database operation is similar to a black-box evaluation because it is measured 
+database operation is similar to a black-box evaluation because it is measured
 without considering the internal functioning  of the database system. According
 to (\todo{cite Demurjian}) such an evaluation is ideal for a complete database
-system to measure its performance and to give the users details about its 
+system to measure its performance and to give the users details about its
 efficiency and speed in performing operations. In this thesis, response time and
-throughput are the measures used to gauge the performance of Cassandra
-while referential integrity validation is implemented using the \ac{API}.
+throughput are the measures used to gauge the performance of Cassandra while
+referential integrity validation is implemented using the \ac{API}.
 
-Response time for each of the  operations that trigger such a validation from
-all the solutions are measured during the experiments. This included the
-time involved to access and retrieve metadata for the entities and also the time for
-validating referential integrity by the \texttt{ValidationHandler}. The response
-time of Cassandra when such validations are not in place is also measured and considered as a
-baseline with which to analyse the solutions. Such a comparison  determines the degree of
-change in speed of Cassandra when such overheads are introduced and gives 
-users useful information about how each solution affects the performance of
-the database system.
+Response time for each  operation that triggers  a referential integrity
+validation from all the solutions are measured during the experiments.
+% This included the time involved to access and retrieve metadata for the entities
+% and also the time for validating referential integrity by the
+% \texttt{ValidationHandler}. 
+The response time of Cassandra when such validations
+are not in place is also measured and considered as a baseline with which to
+analyse the solutions. Such a comparison determines the degree of change in
+speed of Cassandra when such overheads are introduced and gives users useful
+information about how each solution affects the performance of the database
+system.
 
-The second performance measure used is \textit{Throughput} which
-is another classical and commonly used measure of database performance
-(\todo{cite BerkleyDB}).
-Throughput measures the number of operations processed by the database system in a unit of
-time. Across all solutions in the experiments, the throughput for all the
-operations triggering referential integrity validation  is measured
-as operations per second.
-A single operation stands for each time an entity is inserted, updated or
-deleted. Note that only the operations that
-introduce the referential integrity validation in Cassandra is measured and thus
-\texttt{read} operations are not measured in terms of response time or
-throughput.
+The second performance measure used is \textit{Throughput} and in the
+experiments, it is measured as operations per second for all the operations
+triggering referential integrity validation namely, \texttt{Create},
+\texttt{Update} and \texttt{Delete}.
+% A single operation
+% stands for each time an entity is inserted, updated or deleted. Note that only
+% the operations that introduce the referential integrity validation in Cassandra
+% is measured and thus \texttt{read} operations are not measured in terms of
+% response time or throughput.
 
-It has to be noted that the operations are prone to  external factors like
-network latency, bandwidth, network routing, network workload among others which
-typically affect a network consisting of several machines and users. This is
-because the Cassandra cluster used in the experiments is deployed over a
-network that is used by many users concurrently thus exposing the operations to
-such factors. Identifying such factors and analysing them is beyond the scope of
-this thesis and the analysis is strictly in terms of how the metadata storage
-and referential integrity validation affects Cassandra's performance.
+% It has to be noted that the operations are prone to  external factors like
+% network latency, bandwidth, network routing, network workload among others which
+% typically affect a network consisting of several machines and users. This is
+% because the Cassandra cluster used in the experiments is deployed over a
+% network that is used by many users concurrently thus exposing the operations to
+% such factors. Identifying such factors and analysing them is beyond the scope of
+% this thesis and the analysis is strictly in terms of how the metadata storage
+% and referential integrity validation affects Cassandra's performance.
 
  The results from the experiments were used to
-analyse the performance of the four solutions with respect to  response
-time and throughput and this is discussed in the following sections.
-Section~\ref{sr:baseline} presents the results for the baseline experiment where 
-% no referential validation checks are implemented
-% and t
-the operations performed on the entities are just as it would be performed in
-Cassandra. Section~\ref{sr:insert} analyses the results of all the solutions
-for the \texttt{insert} operation. Section~\ref{sr:update} presents the analysis
-for the \texttt{update} operation for all the solutions. Section~\ref{sr:delete}
-discusses the results of the solutions for the \texttt{delete} operation. 
-
-
-
-
-
+analyse the performance of the four solutions  and this is discussed in the
+following sections. 
+Section~\ref{sr:baseline} presents the results for the
+baseline experiment where the operations performed on the entities are just as
+it would be performed in Cassandra without any referential integrity validations
+or constraint metadata.
+Section~\ref{sr:insert} analyses the results of all the solutions for the
+\texttt{insert} operation.
+Section~\ref{sr:update} presents the analysis for the \texttt{update} operation
+for all the solutions.
+Section~\ref{sr:delete} discusses the results of the solutions for the
+\texttt{delete} operation.
 
 \newcommand{\Width}{0.5\textwidth}
 \newcommand{\TB}[1]{\textbf{#1}}
 
 \section{Overview}
 
+  Solutions~1, 2  and 4 have approximately similar response times since the metadata 
+  access for these solutions are easier as metadata is a part of the entity and 
+  no additional connection to a metadata column family is required. Solution~3
+  takes slightly longer than the rest of the solutions and this is because of the way
+  the metadata is accessed for the entities in this solution. 
+% irrespective of whether an entity is a parent or child the
+% \texttt{ValidationHandler} performs the same check the metedata of the entity
+% for all the solutions. It is when this check is made it is clear if the entity
+% is a parent or child. 
+  In this solution accessing the metadata for every 
+  \texttt{Student} and \texttt{Course} entity causes the slower
+  response time since a different \texttt{Metadata} column family has to be
+  accessed using the connection object. This is because metadata is not cached
+  for re-use in this solution. Unlike this, Solution~4 caches  metadata for
+  entities and re-uses it thus saving time by not having to access a separate
+  column family for each entity insertion.
+% \include{chapter/results-tables}
 
 \todo{add to tables the unit (seconds, entities per second)}
 
 \todo{Present tables and what they mean}
 
-\todo{Explain why solution 4 is generally better except for update and delete
-student}
-
-
-\subsection{NEW TABLES}
-\begin{table}[h]
-\centering
-\caption{Response time}\label{t:}
-\begin{tabular}{ccccccc}
-\toprule
-&&\textbf{Baseline} & \textbf{Solution1} & \textbf{Solution2} & \textbf{Solution3} & \textbf{Solution4}\\
-\midrule
-\multirow{3}{*}{\textbf{insert}} & \textbf{s} & 0.088 (0.066) & 0.119 (0.034) & 0.133 (0.013) & 0.422 (0.024) & 0.062 (0.002)\\
- & \textbf{c} & 0.080 (0.038) & 0.111 (0.014) & 0.129 (0.007) & 0.423 (0.032) & 0.061 (0.004)\\
- & \textbf{e} & 0.638 (0.154) & 2.571 (0.238) & 2.727 (0.513) & 6.997 (0.248) & 1.773 (0.082)\\
-\midrule
-\multirow{3}{*}{\textbf{update}} & \textbf{s} & 0.143 (0.017) & 4.052 (0.471) & 3.982 (0.572) & 9.304 (0.364) & 2.804 (0.080)\\
- & \textbf{c} & 0.143 (0.011) & 0.952 (0.420) & 0.650 (0.014) & 1.354 (0.303) & 0.510 (0.025)\\
- & \textbf{e} & 0.949 (0.306) & 2.710 (0.065) & 2.679 (0.090) & 7.203 (0.218) & 1.964 (0.102)\\
-\midrule
-\multirow{3}{*}{\textbf{delete}} & \textbf{s} & 0.060 (0.004) & 1.620 (0.411) & 1.749 (0.215) & 5.154 (0.196) & 1.051 (0.149)\\
- & \textbf{c} & 0.053 (0.007) & 0.434 (0.052) & 0.441 (0.012) & 0.770 (0.025) & 0.352 (0.018)\\
- & \textbf{e} & 0.577 (0.046) & 0.850 (0.022) & 1.205 (0.238) & 4.335 (0.250) & 0.569 (0.162)\\
-\bottomrule
-\end{tabular}
-\end{table}
-
-
-
-\begin{table}[h]
-\centering
-\caption{Response time ratio}\label{t:}
-\begin{tabular}{ccccccc}
-\toprule
-&&\textbf{Baseline} & \textbf{Solution1} & \textbf{Solution2} & \textbf{Solution3} & \textbf{Solution4}\\
-\midrule
-\multirow{3}{*}{\textbf{insert}} & \textbf{s} & 0.09 & 1.34 & 1.51 & 4.78 & 0.70\\
- & \textbf{c} & 0.08 & 1.38 & 1.60 & 5.26 & 0.76\\
- & \textbf{e} & 0.64 & 4.03 & 4.27 & 10.97 & 2.78\\
-\midrule
-\multirow{3}{*}{\textbf{update}} & \textbf{s} & 0.14 & 28.32 & 27.84 & 65.04 & 19.60\\
- & \textbf{c} & 0.14 & 6.67 & 4.56 & 9.48 & 3.57\\
- & \textbf{e} & 0.95 & 2.85 & 2.82 & 7.59 & 2.07\\
-\midrule
-\multirow{3}{*}{\textbf{delete}} & \textbf{s} & 0.06 & 27.03 & 29.20 & 86.02 & 17.54\\
- & \textbf{c} & 0.05 & 8.25 & 8.38 & 14.66 & 6.69\\
- & \textbf{e} & 0.58 & 1.47 & 2.09 & 7.51 & 0.99\\
-\bottomrule
-\end{tabular}
-\end{table}
+\todo{Explain why solution 4 is generally better}
 
 
 
 
 
 
-\begin{table}[h]
-\centering
-\caption{Throughput}\label{t:}
-\begin{tabular}{ccccccc}
-\toprule
-&&\textbf{Baseline} & \textbf{Solution1} & \textbf{Solution2} & \textbf{Solution3} & \textbf{Solution4}\\
-\midrule
-\multirow{3}{*}{\textbf{insert}} & \textbf{s} & 13582 (3243) & 8802 (1323) & 7556 (600) & 2378 (127) & 16113 (579)\\
- & \textbf{c} & 13717 (2866) & 9114 (839) & 7772 (375) & 2376 (166) & 16455 (1076)\\
- & \textbf{e} & 16212 (2257) & 3918 (302) & 3769 (548) & 1431 (48) & 5652 (241)\\
-\midrule
-\multirow{3}{*}{\textbf{update}} & \textbf{s} & 7077 (723) & 250 (23) & 255 (27) & 108 (4) & 357 (10)\\
- & \textbf{c} & 7046 (519) & 1212 (369) & 1539 (33) & 761 (101) & 1965 (93)\\
- & \textbf{e} & 11327 (2500) & 3692 (87) & 3737 (124) & 1389 (41) & 5105 (232)\\
-\midrule
-\multirow{3}{*}{\textbf{delete}} & \textbf{s} & 16754 (1005) & 640 (89) & 578 (53) & 194 (7) & 965 (97)\\
- & \textbf{c} & 19415 (2755) & 2332 (217) & 2271 (61) & 1299 (41) & 2850 (129)\\
- & \textbf{e} & 17424 (1243) & 11773 (301) & 8511 (1084) & 2314 (124) & 18333 (2685)\\
-\bottomrule
-\end{tabular}
-\end{table}
 
-
-
-\begin{table}[h]
-\centering
-\caption{Throughput inverse ratio}\label{t:}
-\begin{tabular}{ccccccc}
-\toprule
-&&\textbf{Baseline} & \textbf{Solution1} & \textbf{Solution2} & \textbf{Solution3} & \textbf{Solution4}\\
-\midrule
-\multirow{3}{*}{\textbf{insert}} & \textbf{s} & 13582 & 1.54 & 1.80 & 5.71 & 0.84\\
- & \textbf{c} & 13717 & 1.51 & 1.76 & 5.77 & 0.83\\
- & \textbf{e} & 16212 & 4.14 & 4.30 & 11.33 & 2.87\\
-\midrule
-\multirow{3}{*}{\textbf{update}} & \textbf{s} & 7077 & 28.36 & 27.76 & 65.75 & 19.83\\
- & \textbf{c} & 7046 & 5.82 & 4.58 & 9.26 & 3.59\\
- & \textbf{e} & 11327 & 3.07 & 3.03 & 8.15 & 2.22\\
-\midrule
-\multirow{3}{*}{\textbf{delete}} & \textbf{s} & 16754 & 26.19 & 28.98 & 86.24 & 17.36\\
- & \textbf{c} & 19415 & 8.33 & 8.55 & 14.94 & 6.81\\
- & \textbf{e} & 17424 & 1.48 & 2.05 & 7.53 & 0.95\\
-\bottomrule
-\end{tabular}
-\end{table}
 
  
 \clearpage
-\subsection{OLD TABLES}
-
-\newcolumntype{B}{>{\columncolor{light-gray}}c} 
-\begin{table}[h]
- \centering
-\caption{Response time}\label{t:}
-\begin{tabular}{ccBcccc}
-\toprule
-&&\textbf{Baseline} & \textbf{Solution1} & \textbf{Solution2} & \textbf{Solution3} & \textbf{Solution4}\\
-\midrule
-\multirow{3}{*}{\textbf{insert}} & \textbf{s} & 0.624 (0.138) & 0.714 (0.029) &
-1.140 (0.057) & 3.444 (0.070) & \TB{0.686 (0.039)}\\
- & \textbf{c} & 0.630 (0.069) & 0.721 (0.027) & 1.181 (0.087) & 3.447 (0.096) &
- \TB{0.684 (0.030)}\\
- & \textbf{e} & 5.708 (0.310) & 16.883 (0.278) & 34.220 (1.399) & 55.359 (0.351)
- & \TB{15.340 (0.276)}\\
-\midrule
-\multirow{3}{*}{\textbf{update}} & \textbf{s} & 1.254 (0.051) & \TB{32.312
-(1.207)} & 67.080 (1.386) & 113.579 (1.495) & 48.000 (1.537)\\
- & \textbf{c} & 1.376 (0.099) & \TB{7.559 (0.297)} & 10.885 (0.384) & 19.279
- (0.252) & 7.580 (0.288)\\
- & \textbf{e} & 7.237 (0.425) & 18.228 (0.276) & 35.673 (1.402) & 56.762 (0.420)
- & \TB{16.694 (0.386)}\\
-\midrule
-\multirow{3}{*}{\textbf{delete}} & \textbf{s} & 0.592 (0.022) & \TB{10.798
-(0.409)} & 18.952 (0.600) & 42.544 (0.619) & 35.919 (0.576)\\
- & \textbf{c} & 0.627 (0.023) & 3.602 (0.092) & 4.828 (0.118) & 6.745 (0.120) &
- \TB{3.324 (0.079)}\\
- & \textbf{e} & 5.847 (0.294) & 5.904 (0.359) & 12.282 (0.650) & 35.070 (0.472)
- & \TB{5.879 (0.240)}\\
-\bottomrule
-\end{tabular}
-\end{table}
-
-
-
-\begin{table}[h]
- \centering
-\caption{Response time ratio}\label{t:}
-\begin{tabular}{ccBcccc}
-\toprule
-&&\textbf{Baseline} & \textbf{Solution1} & \textbf{Solution2} & \textbf{Solution3} & \textbf{Solution4}\\
-\midrule
-\multirow{3}{*}{\textbf{insert}} & \textbf{s} & 0.62 & 1.14 & 1.83 & 5.52 &
-\TB{1.10}\\
- & \textbf{c} & 0.63 & 1.14 & 1.87 & 5.47 & \TB{1.09}\\
- & \textbf{e} & 5.71 & 2.96 & 6.00 & 9.70 & \TB{2.69}\\
-\midrule
-\multirow{3}{*}{\textbf{update}} & \textbf{s} & 1.25 & \TB{25.76} & 53.48 &
-90.55 & 38.27\\
- & \textbf{c} & 1.38 & \TB{5.49} & 7.91 & 14.01 & 5.51\\
- & \textbf{e} & 7.24 & 2.52 & 4.93 & 7.84 & \TB{2.31}\\
-\midrule
-\multirow{3}{*}{\textbf{delete}} & \textbf{s} & 0.59 & \TB{18.24} & 32.02 &
-71.88 & 60.68\\
- & \textbf{c} & 0.63 & 5.74 & 7.70 & 10.76 & \TB{5.30}\\
- & \textbf{e} & 5.85 & 1.01 & 2.10 & 6.00 & \TB{1.01}\\
-\bottomrule
-\end{tabular}
-\end{table}
-
-
-
-
-
-
-\begin{table}[h]
- \centering
-\caption{Throughput}\label{t:}
-\begin{tabular}{ccBcccc}
-\toprule
-&&\textbf{Baseline} & \textbf{Solution1} & \textbf{Solution2} & \textbf{Solution3} & \textbf{Solution4}\\
-\midrule
-\multirow{3}{*}{\textbf{insert}} & \textbf{s} & 1634 (157) & 1403 (56) & 880
-(41) & 290 (6) & \TB{1463 (71)}\\
- & \textbf{c} & 1598 (108) & 1389 (52) & 851 (61) & 290 (7) & \TB{1465 (62)}\\
- & \textbf{e} & 1756 (70) & 592 (9) & 293 (12) & 181 (1) & \TB{652 (11)}\\
-\midrule
-\multirow{3}{*}{\textbf{update}} & \textbf{s} & 798 (30) & \TB{31 (1)} & 15 (0)
-& 9 (0) & 21 (1)\\
- & \textbf{c} & 730 (43) & \TB{132 (5)} & 92 (3) & 52 (1) & 132 (5)\\
- & \textbf{e} & 1385 (62) & 549 (8) & 281 (11) & 176 (1) & \TB{599 (13)}\\
-\midrule
-\multirow{3}{*}{\textbf{delete}} & \textbf{s} & 1692 (61) & \TB{93 (3)} & 53 (2)
-& 24 (0) & 28 (0)\\
- & \textbf{c} & 1597 (57) & 278 (7) & 207 (5) & 148 (3) & \TB{301 (7)}\\
- & \textbf{e} & 1714 (80) & 1700 (95) & 817 (45) & 285 (4) & \TB{1704 (64)}\\
-\bottomrule
-\end{tabular}
-\end{table}
-
-
-
-\begin{table}[h]
-\newcommand{\B}[1]{\colorbox{light-gray}{#1}}
- \centering
-\caption{Throughput inverse ratio}\label{t:}
-\begin{tabular}{ccBcccc}
-\toprule
-&&\textbf{Baseline} & \textbf{Solution1} & \textbf{Solution2} & \textbf{Solution3} & \textbf{Solution4}\\
-\midrule
-\multirow{3}{*}{\textbf{insert}} & \textbf{s} & 1634 & 1.17 & 1.86 & 5.63 &
-\TB{1.12}\\
- & \textbf{c} & 1598 & 1.15 & 1.88 & 5.51 & \TB{1.09}\\
- & \textbf{e} & 1756 & 2.96 & 6.00 & 9.72 & \TB{2.69}\\
-\midrule
-\multirow{3}{*}{\textbf{update}} & \textbf{s} & 798 & \TB{25.77} & 53.54 & 90.67
-& 38.29\\
- & \textbf{c} & 730 & \TB{5.51} & 7.93 & 14.06 & 5.52\\
- & \textbf{e} & 1385 & 2.52 & 4.93 & 7.86 & \TB{2.31}\\
-\midrule
-\multirow{3}{*}{\textbf{delete}} & \textbf{s} & 1692 & \TB{18.24} & 32.03 &
-71.96 & 60.75\\
- & \textbf{c} & 1597 & 5.75 & 7.71 & 10.77 & \TB{5.31}\\
- & \textbf{e} & 1714 & 1.01 & 2.10 & 6.01 & \TB{1.01}\\
-\bottomrule
-\end{tabular}
-\end{table}
 
 
 
