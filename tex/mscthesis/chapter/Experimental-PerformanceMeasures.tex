@@ -3,23 +3,50 @@
 % Performance of database systems is commonly measured in terms of the
 % \textit{Response time} and \textit{Throughput}. 
 
-In this thesis,  response time and throughput are the measures used to gauge the
-performance of the four solutions while referential integrity validation is
-implemented using the \ac{API}. 
-Response time refers to the time  a database system takes to process an
-operation and produce results to the end user(\todo{cite Demurjian, 
-Berkely, serverside, }).  
+Response time and throughput are the indicators used to gauge the
+performance of the four solutions under the implemented \ac{API} and the
+respective referential integrity constraints specified by the example
+application. Response time refers to the time a database system
+\todo{\ac{DBMS}?}  takes to process an operation and produce results to the end
+ user (\todo{cite Demurjian, Berkely, serverside, }). Throughput 
+ refers to  the number of operations that can be processed by the \ac{DBMS}
+  in a unit of time.
+
+In the experiments, the response time is measured for each operation on a batch
+of entities. That is, the response time corresponds to the time required to
+insert all the students into the \texttt{Student} column family. The throughput
+is computed from the response time using the ``Rule of Three''. That is, 
+given that $t$ is the time required for inserting $x$  students, then the
+throughput is given by the number of students that can be inserted in a unit of
+time ($x/t$).    
+
+Notice that external variables such as network latency,  simultaneous processes
+in the operating systems of each node,  and other variables are not considered
+for the analysis of results.  Even when they are present,  it is expected that
+results will not be significantly biased by them.  Nonetheless,  the
+experiments will be  performed at night time over weekends as this is the time
+ when the cluster is least used,  thus reducing the presence of such variables
+and hence their impact on the results. 
+
+
+
+% In the experiments, the throughput of all the operations triggering referential
+%  integrity validation across all solutions is measured as operations per second.
+%  A single operation stands for each time an entity is inserted or updated or
+%  deleted. Note that only the operations that introduce the referential integrity
+%  validation are measured and thus \texttt{read} operations are not measured in
+%  terms of response time or throughput.   
+
+
+  
+
+
 % Measuring response time for a
 % database operation is similar to a black-box evaluation because it is measured 
 % without considering the internal functioning  of the database system.  According
 % to (\todo{cite Demurjian}) such an evaluation is ideal for a complete database
 % system to measure its performance and to give the users details about its 
 % efficiency and speed in performing operations.  
-Response time for each of the  operations that trigger such a validation from
-all the solutions are measured during the experiments. 
-This included the time involved to access and retrieve metadata for the entities
-and also the time for validating referential integrity by the
-\texttt{ValidationHandler}.  
 % The response time of Cassandra when such validations
 % are not in place is also measured and considered as a baseline with which to
 % analyse the solutions.  Such a comparison determines the degree of change in
@@ -27,40 +54,20 @@ and also the time for validating referential integrity by the
 % information about how each solution affects the performance of the database
 % system. 
 
-The second performance measure used is \textit{Throughput} which is another
-classical and commonly used measure of database performance (\todo{cite
-BerkleyDB}).  Throughput measures the number of operations processed by the
-database system in a unit of time.  In the experiments the throughput of all the
-operations triggering referential integrity validation across all solutions is
-measured as operations per second.  A single operation stands for each time an
-entity is inserted or updated or deleted. Note that only the operations that
-introduce the referential integrity validation are measured and thus
-\texttt{read} operations are not measured in terms of response time or
-throughput. 
+
 
 % For example,  inserting 1000 students means that 1000 \texttt{insert}
 % operations are processed by Cassandra. 
-Notice that external variables such as network latency,  simultaneous processes
-in the operating systems of each node,  and other variables are not considered
-for the analysis of results.  Even when they are present,  it is expected that
-results will not be biased by them.  Nonetheless,  the experiments will be
-performed at night time over weekends as this is the time when the cluster is
-least used,  thus reducing the presence of such variables and hence their impact
-by biasing the results. 
 
-In the experiments,  response time and throughput are measured by logging the
-time involved to complete each operation in all the solutions. 
-For this,  the  real time is recorded before and after every validation.  When all
-the iterations of the experiment are completed,  the time
-measurements are written to an output log file. 
+% The traditional TPC benchmarks are not considered as performance measures in
+% this experiment  because these benchmarks are centred around transactions and
+% OLTP workloads.  The principal metrics for these benchmarks are the transaction
+% rate,  query per hour,  cost indicators of a system,  among others,  which are
+% suitable indicators for \ac{DBMS} with ACID properties~\citep{TPC}.  Hence,  for
+% assessing Cassandra which lacks SQL queries and  ACID properties,  these
+% benchmarks are not suitable indicators of performance.
 
-The traditional TPC benchmarks are not considered as performance measures in
-this experiment  because these benchmarks are centred around transactions and
-OLTP workloads.  The principal metrics for these benchmarks are the transaction
-rate,  query per hour,  cost indicators of a system,  among others,  which are
-suitable indicators for \ac{DBMS} with ACID properties~\citep{TPC}.  Hence,  for
-assessing Cassandra which lacks SQL queries and  ACID properties,  these
-benchmarks are not suitable indicators of performance. 
+
 %  it is
 % essential to measure it in terms of what is critical to application  using Cassandra.  In this experiment it is critical to
 % measure the difference in time for an operation to complete in Cassandra when

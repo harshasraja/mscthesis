@@ -1,57 +1,54 @@
 %ब
 \section{Experimental setup}\label{sexp:ExperimentalSetup}
 
-The experimentation is based on performing \ac{CRUD} operations upon artificial
-data created for the University example application. Since it is not a
-controlled environment, the experimentation involves performing several runs
-where data is inserted, updated, and deleted on the Cassandra cluster. The
-environment is not controlled as variables like network latency, parallel
-processes in the nodes, and other variables affect the performance.
+% Since it is not a
+% controlled environment, the experimentation involves performing several runs
+% where data is inserted, updated, and deleted on the Cassandra cluster. 
+% The
+% environment is not controlled as variables like network latency, parallel
+% processes in the nodes, and other variables are expected to affect the
+% performance.
 
-On each run,  the time required for each operation is recorded in order to assess
-its response time for each solution. Additionally,  
 
- Notice that, each operation on the
-artificial data is performed in a batch,   and entities from each column family
-are randomly sorted before any operation takes place.  Random sorting is performed in order to
-prevent the results to be biased from possible optimization made by Cassandra in
-terms of indexes or other criteria. 
-		
-The artificial data is made up of  students,   courses,  and 
-enrolments which is the result of assigning 10 different courses to each
-student.  Courses are assigned by dividing the number of courses
-into 100 groups of 10 courses each,  and assigning a group for each student. 
-Notice that such an assignment involves that X students have the same courses
-assigned.  The quantity of records to be inserted for each entity was chosen
-considering an overall reasonable time for completing the experimentation of all
-solutions. 
-		
-The format of the artificial data created is as follows.  
+The experimentation consists on performing \ac{CRUD} operations upon artificial
+data created for the University example application. Especifically, the
+operations of interest are \texttt{Create}, \texttt{Update} and \texttt{Delete}
+as these are the ones that trigger referential integrity validations. Notice
+that, since the experiments are not performed in a controlled environment, all
+the operations are repeated 100 times such that the effect of external factors
+(e.g. network latency, parallel processes running in nodes, etc.)  is minimized.
+
+ 
+ The artificial data upon which operations are performed  is made up of 500
+ students, 500 courses, and 5000 enrolments. These numbers were chosen such that
+ the experiments could be performed in a reasonable amount of time. 
+ The format of the artificial data is:
+
 	\begin{itemize}
-	  
 		  \item \texttt{Student} has a
-		unit-increasing \texttt{StudentId},  which is merged into the fields \texttt{FirstName}
-		 and \texttt{LastName} as "First Name (StudentId)" and "Last Name
-		(StudentId)".  \texttt{Email} is composed in a similar way as
-		``First. Last@email. (StudentId). com'' and \texttt{Age} is a random number. 
+		unit-increasing \texttt{StudentId}  which is merged into the fields \texttt{FirstName}
+		 and \texttt{LastName} as ``First Name (StudentId)'' and ``Last Name
+		(StudentId)''.  \texttt{Email} is composed in a similar way as
+		``First.Last@email.(StudentId).com'' and \texttt{Age} is a random number
+		between 18 and 60.
 		
 		\item  \texttt{Course} has a unit-increasing \texttt{CourseId} which is
-		appended to the prefix "COMP".  It also has a composed \texttt{CourseName} as
-		in \texttt{Student} (merging id and field).  \texttt{Trimester},  \texttt{Level}
-		and \texttt{Year} are randomly generated numbers. 
+		appended to the prefix ``COMP''.  It also has a composed \texttt{CourseName}
+		as ``Engineering (CourseId)''.  \texttt{Trimester}, \texttt{Level}
+		and \texttt{Year} are randomly generated numbers.
 		
-		\item  \texttt{Enrolment} contains a unit-increasing \texttt{RowId},  and the
+		\item  \texttt{Enrolment} contains a unit-increasing \texttt{RowId}  and the
 		respective foreign keys of student and course,  which are \texttt{StudentId}
 		and \texttt{CourseId}. 
-		
 	\end{itemize}
-
+ 
 		
-The order of the operations performed on the data is as follows.  \textbf{Create}
-inserts all the entities for \texttt{Student},  \texttt{Course} and
-\texttt{Enrolment}.  \textbf{Update} performs changes on the primary keys of
+The order of the operations to be performed on the data in each run is as
+follows.
+\texttt{Create} inserts all the entities for \texttt{Student},  \texttt{Course}
+and \texttt{Enrolment}.  \texttt{Update} performs changes on the primary keys of
 students and courses,  and on the foreign keys of \texttt{Enrolment} (the one
-relative to courses,  specifically).  Finally,  \textbf{Delete} removes all the
+relative to courses,  specifically).  Finally,  \texttt{Delete} removes all the
 \texttt{Student},  \texttt{Course} and \texttt{Enrolment} entities. 
 Notice that the primary keys in every column family are different in each run
 (create,  update,  delete) in order to avoid introducing biases to the results as
@@ -63,47 +60,54 @@ times as the key already exists.  After each run,  all column families
 ready for the next run.   The details  of the \ac{CRUD} operations are explained
 further in the following sections. 
 		
+% The operations to be performed on each run are as follows. Firstly,
+% a batch of students, courses and enrolments are inserted in that precise order.
+% Secondly, foreign keys of enrolments and primary keys of courses and students
+% are updated. Lastly, enrolments, students and courses are deleted. Thus, having
+% their respective column families emptied and ready for the next run. Notice
+% that by empty, it refers to the fact that the column values of each row are
+% emptied, but not the row key as the deletion conforms to the tombstone paradigm
+% explained in previous chapters. The next run ensures to increase the
+% primary key of the entities such that they do not exist on the column families.
 
 	
-\subsection{Create} The \texttt{Create} operation inserts all the
-\texttt{Student},  \texttt{Course} and \texttt{enrolment} entities in that
+\subsection{Create}
+The \texttt{Create} operation inserts all the
+\texttt{Student},  \texttt{Course} and \texttt{Enrolment} entities in that
 precise order due to the nature of the referential integrity constraints
-presented in Section~\ref{s:ed:ri}.  The time required to insert all of the
-entities in their respective column families  is recorded.  In the
-\texttt{Student} and \texttt{Course} column families,  \texttt{Create} does not
-trigger any referential integrity validation as these entities do not contain
-foreign keys. 
-Contrarily,  \texttt{Create} on \texttt{Enrolment} triggers foreign key
-validation checks on both \texttt{Student} and \texttt{Course} column families. 
+presented in Section~\ref{s:ed:ri}.   In the \texttt{Student} and
+ \texttt{Course} column families,  \texttt{Create} does not trigger any
+ referential integrity validation as these entities do not contain foreign keys. 
+ Contrarily,  \texttt{Create} on \texttt{Enrolment} triggers foreign key
+ validation checks on both \texttt{Student} and \texttt{Course} column families. 
 		
-\subsection{Update} The \texttt{Update} operation is performed after the
-creation of all entities. 
-First,  an attempt to update the primary key of each \texttt{Course} entity is
-made.  This triggers referential integrity validations that result in exceptions
-thrown as the \texttt{DeleteRule} for all \texttt{Course} entities is
-\texttt{NoDelete}.  Hence,  the times recorded for updating the \texttt{Course}
-column family represent the time required to identify a constraint violation and throw
-the respective exceptions. 
+\subsection{Update}
+The \texttt{Update} operation is performed after the
+creation of all entities.  First,  an attempt to update the primary key of each
+ \texttt{Course} entity is made.  This operation triggers referential integrity
+ validations that result in exceptions thrown as the \texttt{DeleteRule} for all
+ \texttt{Course} entities is \texttt{NoDelete} and enrolments referencing the
+ courses are still present in \texttt{Enrolment}.  Hence, the times recorded for
+  updating the \texttt{Course} column family represent the time required to
+ identify a constraint violation and throw the respective exceptions.
 					
 Next,  the \texttt{Enrolment} column family is updated.  In this case,  the
 \texttt{CourseId} for each \texttt{Enrolment} entity is changed to a different
-one,  ensuring that the distribution of courses and students remains the same. 
-The update on the \texttt{Enrolment} column family triggers referential
-integrity validation checks to ensure that the course to which every
+existing one,  ensuring that the distribution of courses and students remains
+the same. The update on the \texttt{Enrolment} column family triggers
+referential integrity validation checks to ensure that the course to which every
 \texttt{Enrolment} entity is being updated actually exists in \texttt{Course}
 column family. 
 					
 Finally,  the primary key for each \texttt{Student} entity is updated to a new
-integer value that previously  never existed in the column family.  Given the
-\texttt{Cascade} \texttt{DeleteRule} for \texttt{Student},  this operation
-triggers a cascaded update on the
-\texttt{Enrolment} column family.  
-%  by respectively updating the student foreign
-% key,  \texttt{StudentId} in all its existing \texttt{Enrolment} entities. 
-All the dependant \texttt{Enrolment} entities of this \texttt{Student} entity
-are respectively updated on its foreign key \texttt{StudentId}. 
+integer value that has never existed in the column family. Thus, given
+the \texttt{DeleteRule} for \texttt{Student} (i.e. \texttt{Cascade}),  this
+operation triggers a cascaded update on the \texttt{Enrolment} column family   
+ by respectively updating the student foreign key (\texttt{StudentId}) in all
+ its existing \texttt{Enrolment} entities.
 		
-\subsection{Delete} The deletion of entities occurs first on the
+\subsection{Delete} 
+The deletion of entities occurs first on the
 \texttt{Enrolment} column family,  where all of its records are deleted without
 requiring referential integrity checks as this is a child entity.  The times are
 recorded for each \texttt{Delete} operation and then all of the entities are
@@ -111,12 +115,12 @@ reinserted with the same primary keys in order to assess the cascaded delete of
 \texttt{Student} entities next. 
 				
 Secondly,  all  the \texttt{Student} entities are deleted from the
-\texttt{Student} column family.  Given the \texttt{Cascade} \texttt{DeleteRule} of these entities,  the
-\texttt{ValidationHandler} ensures to delete first all of the child entities
-before deleting a \texttt{Student} entity. 
-Hence,  the times recorded for this operation measure the time required for
-performing a cascaded delete on the student dependencies in enrolment.  Notice
-that the dependencies exist at this point as they will have been reinserted into
+\texttt{Student} column family. Hence, given the \texttt{Cascade}
+\texttt{DeleteRule} of these entities,  the \texttt{ValidationHandler} ensures
+to delete first all of the child entities before deleting a \texttt{Student} entity. 
+Thus,  the times recorded for this operation also include the time required for
+performing a cascaded delete on the student dependencies in \texttt{Enrolment}.
+Notice that the dependencies exist at this point as they will have been reinserted into
 \texttt{Enrolment} in the previous step. 
 				
 Finally,  all the \texttt{Course} entities are deleted.  Despite the courses
@@ -124,8 +128,8 @@ having a \texttt{NoDelete} rule,  notice that at this point the
 \texttt{Enrolment} column family is empty,  so courses can be deleted as there
 are no child dependencies.  Thus,  the times recorded for this operation measure
 referential integrity validation as well as the \texttt{Delete} operation
-of the respective entity.  After this final operation,  all column families are
-emptied but all the primary keys still exist due to Cassandra's tombstone
+of the \texttt{Course} entity.  After this final operation,  all column families
+are emptied but all the primary keys still exist due to Cassandra's tombstone
 delete.  However,  the whole keyspace is ready for the next batch of operations as
 the primary keys of all column families will be different. 
 	

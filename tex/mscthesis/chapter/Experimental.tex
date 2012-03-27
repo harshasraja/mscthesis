@@ -146,11 +146,13 @@ Cassandra is deployed in an homogeneous cluster conformed by 10 nodes. That is,
 \begin{itemize}
   \item Hardware: \todo{Look on internet the specs of the model}
   	\begin{itemize}
-  	  
+  	  \item %Intel(R) Core(TM)2 Duo CP     E8400  @ 3. 00GHz
+  	  \item % 			CPU cores & 4  \\
+  	  \item % 			\rc Network Card & 3 Gigabit \\
   	 \end{itemize}
   \item Software: 
   \begin{itemize}
-    \item Operating system
+    \item Operating system: Linux 3.2.4-1-ARCH i686 (64-bit)
     \item Java JDK
     \item Cassandra version 0. 8. 4 
     \item Hector version 0. 8. 0-2.
@@ -160,22 +162,6 @@ Cassandra is deployed in an homogeneous cluster conformed by 10 nodes. That is,
 
  
 
-
-% 	\begin{table}[H] \label{texp:Nodeconfig}
-% 	\centering
-% 	\newcolumntype{C} {@{\hspace{2.5pt}}>{\scriptsize}c@{\hspace{2.5pt}}}
-% 		\begin{tabular}{CC}
-% 			\toprule
-% % 			\bfseries System configurations\\
-% 			
-% 			Linux kernel version & Linux 3. 2. 4-1-ARCH i686 (62-bit)\\
-% 			\rc CPU & Intel(R) Core(TM)2 Duo CPU     E8400  @ 3. 00GHz \\
-% 			CPU cores & 4  \\
-% 			\rc Network Card & 3 Gigabit \\
-% 			Allocated memory & ?? \\
-% 			\bottomrule
-% 		\end{tabular}
-% 	\end{table}
 
 The nodes used in the cluster are part of the \ac{ECS} grid system of
 \ac{VUW}. Notice that, such a cluster is not a controlled environment and it is
@@ -205,45 +191,41 @@ nodes join the cluster.  For nodes that are not seed nodes,  this option is set
 to \texttt{false}.  This is because all the nodes are started prior to the 
 experiments and do not have data to partition yet. 
  
-% The Random Partitioner distributes rows in a cluster evenly and is the
-% default configuration setting when Cassandra is installed. 
+
 All the remaining
 settings in the Cassandra configuration file are set to the  default values
 for all the nodes.  The directories for saving the data,  commit logs and saved
 caches are saved on the local disk of each node in its temporary
 folder folder (\texttt{/local/tmp}).
 
-% As for Solution~4, an additional node is created to serve as an external
-% cluster. 
-%  Note that for the Metadata cluster used in Solution~4,  the  cluster
-% name is \texttt{MetadataCluster}and the ports for Thrift clients  and TCP sessions are
-% changed.  
-
-% Once the cluster is started,  the experiments are initiated and the time taken 
-% operations are measured based on performance metrics.  The metrics used for the experiments
-% are described in the following section. 
 
 
-\include{chapter/Experimental-setup}
+\input{chapter/Experimental-setup}
 
 
 
-\include{chapter/Experimental-PerformanceMeasures}
+\input{chapter/Experimental-PerformanceMeasures}
 
 \section{Summary} \label{sexp:Summary} 
 
 This chapter  presented the experimental design to evaluate the performance of
-each  solution and the experimental \ac{API} itself using the prototype keyspace
-that is used as an example across this thesis.  The experimental design involves
-assessing the performance of the CRUD operations on the different solutions
-proposed for referential integrity. 
-The analysis of results is to be based on response time and throughput,  two
-performance indicators that serve as guidelines for assessing the trade-offs
-between the different solutions proposed. 
+each  solution and the  \ac{API} itself on the \texttt{University} application
+which is  used as an example in previous chapters as well. This application
+contains different constraints that makes it useful for assessing the
+performance of the \ac{API} as well as that of the solutions since the
+ constraints  will trigger different referential integrity validations in order
+ to maintain integrity within the keyspace. The validations will be triggered on
+ different \ac{CRUD} operations performed upon artificial data intentially
+ created for the application. All the operations are going to be performed 
+  several times such that the effect of external factors (e.g. network latency)
+ is mitigated. The response time of each operation will be recorded and 
+ used as a performance indicator together with throughput, thus providing 
+ guidelines to help assess the trade-offs between the different solutions
+proposed.
 	
 	
-The next chapter presents the results and their discussions of the experimental
-design presented in this chapter
+The next chapter presents the results obtained from the experimentation as well 
+as their discussion.
  
 
 
