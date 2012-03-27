@@ -16,10 +16,10 @@ public class LatexTable {
 
     private static final DecimalFormat DF = new DecimalFormat("0.000");
 
-    public static String ToString(Solution[] solutions, String[] operations) {
+    public static String ResponseTimeToString(Solution[] solutions, String[] operations) {
 
         String result = "\\begin{table}[h]\n";
-        result += "\\centering\n\\caption{Response time}\\label{t:}\n";
+        result += "\\centering\n\\caption{Response time in milliseconds per entity}\\label{t:}\n";
 
         result += "\\begin{tabular}{" + MyMath.Repeat("c", solutions.length + 2) + "}\n";
 
@@ -47,7 +47,8 @@ public class LatexTable {
                 result += " & " + tableChar + " & ";
                 for (int i = 0; i < solutions.length; ++i) {
                     Solution s = solutions[i];
-                    List<Double> times = s.getTimesFor(operation + "_" + table);
+                    List<Double> times = new ArrayList<Double>(s.getTimesFor(operation + "_" + table));
+                    MyMath.Divide(times, numberOfOperations(table));
                     result += DF.format(MyMath.Mean(times)) + " ("
                             + DF.format(MyMath.StDev(times)) + ")";
                     if (i < solutions.length - 1) {
@@ -68,7 +69,7 @@ public class LatexTable {
     public static String ThroughputToString(Solution[] solutions, String[] operations) {
         DecimalFormat DF = new DecimalFormat("0");
         String result = "\\begin{table}[h]\n";
-        result += "\\centering\n\\caption{Throughput}\\label{t:}\n";
+        result += "\\centering\n\\caption{Throughput in entities per millisecond}\\label{t:}\n";
 
         result += "\\begin{tabular}{" + MyMath.Repeat("c", solutions.length + 2) + "}\n";
 
@@ -163,13 +164,15 @@ public class LatexTable {
                 
                 result += " & \\textbf{" + tableChar + "} & ";
                 Solution baseline = solutions[0];
-                List<Double> baselineTimes = baseline.getTimesFor(operation + "_" + table);
+                List<Double> baselineTimes = new ArrayList<Double>(baseline.getTimesFor(operation + "_" + table));
+                MyMath.Divide(baselineTimes, numberOfOperations(table));
 
                 result += DF.format(MyMath.Mean(baselineTimes)) + " & ";
                 for (int i = 1; i < solutions.length; ++i) {
                     Solution s = solutions[i];
 
-                    List<Double> times = s.getTimesFor(operation + "_" + table);
+                    List<Double> times = new ArrayList<Double>(s.getTimesFor(operation + "_" + table));
+                    MyMath.Divide(times, numberOfOperations(table));
                     result += DF.format(MyMath.Mean(times) / MyMath.Mean(baselineTimes));
                     if (i < solutions.length - 1) {
                         result += " & ";
