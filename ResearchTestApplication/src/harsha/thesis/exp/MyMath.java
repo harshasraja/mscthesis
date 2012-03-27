@@ -126,6 +126,10 @@ public class MyMath {
         }
     }
 
+    public static void Divide(List<Double> list, double k) {
+        Multiply(list, 1.0 / k);
+    }
+
     public static void main(String[] args) {
         System.out.println(MyMath.class.getName());
     }

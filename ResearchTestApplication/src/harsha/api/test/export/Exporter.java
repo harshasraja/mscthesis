@@ -37,7 +37,7 @@ public class Exporter {
                 code = "Baseline";
             }
             solutions[i] = new Solution(code);
-            solutions[i].loadFrom(new File(path + filenames[i]), 1.0 / 1e9);
+            solutions[i].loadFrom(new File(path + filenames[i]), 1.0 / 1e6);
         }
 
         exportR(solutions, path);
@@ -71,7 +71,7 @@ public class Exporter {
             String pngFile = "'" + path + "boxplot-" + column + "-rt.pdf'";
             w.write("pdf(" + pngFile + ");\n");
             w.write(par + "\n");
-            w.write(Boxplot.ToString(solutions, column) + "\n");
+            w.write(Boxplot.ResponseTimeToString(solutions, column) + "\n");
             w.write("dev.off();\n");
 
             pngFile = "'" + path + "boxplot-" + column + "-tp.pdf'";
@@ -87,10 +87,17 @@ public class Exporter {
 
         for (Solution s : solutions) {
             String par = "par(las=1, mar=c(3,4.2,2,0), cex.axis=1.1, cex.lab=1.3);\n";
-            String pngFile = "'" + path + "barplot-" + s.getCode() + ".pdf'";
+            String pngFile = "'" + path + "barplot-" + s.getCode() + "-rt.pdf'";
             w.write("pdf(" + pngFile + ");\n");
             w.write(par + "\n");
-            w.write(Barplot.ToString(s, columnOrder));
+            w.write(Barplot.ResponseTimeToString(s, columnOrder));
+            w.write("dev.off();\n");
+            
+            par = "par(las=1, mar=c(3,4.2,2,0), cex.axis=1.1, cex.lab=1.3);\n";
+            pngFile = "'" + path + "barplot-" + s.getCode() + "-tp.pdf'";
+            w.write("pdf(" + pngFile + ");\n");
+            w.write(par + "\n");
+            w.write(Barplot.ThroughputToString(s, columnOrder));
             w.write("dev.off();\n");
             w.flush();
         }
@@ -105,7 +112,7 @@ public class Exporter {
             String filename = "'" + path + "barplot-" + operations[0].split("_")[0] + "-rt.pdf'";
             w.write("pdf(" + filename + " );\n");
             w.write(par + "\n");
-            w.write(Barplot.ToString(operations, solutions) + "\n");
+            w.write(Barplot.ResponseTimeToString(operations, solutions) + "\n");
             w.write("dev.off();\n\n");
 
             filename = "'" + path + "barplot-" + operations[0].split("_")[0] + "-tp.pdf'";
@@ -154,7 +161,7 @@ public class Exporter {
             UPDATE_STUDENT, UPDATE_COURSE, UPDATE_ENROLMENT,
             DELETE_STUDENT, DELETE_COURSE, DELETE_ENROLMENT,};
 
-        w.write(LatexTable.ToString(solutions, columnOrder) + "\n\n\n");
+        w.write(LatexTable.ResponseTimeToString(solutions, columnOrder) + "\n\n\n");
         w.write(LatexTable.RatioToString(solutions, columnOrder) + "\n\n\n\n\n\n");
 
         w.write(LatexTable.ThroughputToString(solutions, columnOrder) + "\n\n\n");
