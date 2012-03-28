@@ -51,22 +51,22 @@
 
 \begin{table}[h]
 \centering
-\caption{Throughput in entities per millisecond}\label{t:}
+\caption{Throughput in entities per second}\label{t:}
 \begin{tabular}{ccccccc}
 \toprule
 &&\textbf{Baseline} & \textbf{Solution1} & \textbf{Solution2} & \textbf{Solution3} & \textbf{Solution4}\\
 \midrule
-\multirow{3}{*}{\textbf{insert}} & \textbf{s} & 3 (0) & 2 (0) & 1 (0) & 0 (0) & 3 (0)\\
- & \textbf{c} & 3 (0) & 2 (0) & 1 (0) & 0 (0) & 3 (0)\\
- & \textbf{e} & 3 (0) & 1 (0) & 1 (0) & 0 (0) & 1 (0)\\
+\multirow{3}{*}{\textbf{insert}} & \textbf{s} & 2790 (291) & 1764 (85) & 1228 (82) & 475 (12) & 2755 (125)\\
+ & \textbf{c} & 2880 (264) & 1837 (112) & 1250 (69) & 478 (13) & 2856 (96)\\
+ & \textbf{e} & 3282 (116) & 807 (22) & 712 (11) & 287 (4) & 1069 (15)\\
 \midrule
-\multirow{3}{*}{\textbf{update}} & \textbf{s} & 1 (0) & 0 (0) & 0 (0) & 0 (0) & 0 (0)\\
- & \textbf{c} & 1 (0) & 0 (0) & 0 (0) & 0 (0) & 0 (0)\\
- & \textbf{e} & 2 (0) & 1 (0) & 1 (0) & 0 (0) & 1 (0)\\
+\multirow{3}{*}{\textbf{update}} & \textbf{s} & 1394 (121) & 52 (1) & 48 (1) & 22 (0) & 67 (2)\\
+ & \textbf{c} & 1325 (97) & 173 (14) & 167 (7) & 96 (3) & 211 (12)\\
+ & \textbf{e} & 2483 (119) & 739 (15) & 667 (11) & 279 (4) & 970 (12)\\
 \midrule
-\multirow{3}{*}{\textbf{delete}} & \textbf{s} & 3 (0) & 0 (0) & 0 (0) & 0 (0) & 0 (0)\\
- & \textbf{c} & 4 (1) & 0 (0) & 0 (0) & 0 (0) & 1 (0)\\
- & \textbf{e} & 3 (0) & 2 (0) & 1 (0) & 0 (0) & 3 (0)\\
+\multirow{3}{*}{\textbf{delete}} & \textbf{s} & 3198 (205) & 135 (8) & 95 (4) & 38 (1) & 178 (11)\\
+ & \textbf{c} & 3574 (567) & 492 (19) & 423 (15) & 253 (7) & 510 (21)\\
+ & \textbf{e} & 3470 (206) & 2443 (95) & 1346 (44) & 469 (9) & 3351 (167)\\
 \bottomrule
 \end{tabular}
 \end{table}

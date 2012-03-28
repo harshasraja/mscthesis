@@ -107,7 +107,7 @@ public class Barplot {
             List<String> means = new ArrayList<String>();
             List<String> tables = map.get(op); //User Course Enrolment
             for (String table : tables) {
-                means.add(numberOfOperations(table) + "/ mean(" + solution.getCode() + ".dataframe$"
+                means.add((numberOfOperations(table) * 1000) + "/ mean(" + solution.getCode() + ".dataframe$"
                         + op + "_" + table + ")");
 
                 tableNames.add("" + table.charAt(0));
@@ -123,7 +123,7 @@ public class Barplot {
         String result = "";
         result += solution.getCode() + ".barplot.means=" + dataframe + ";\n";
         result += "barplot(as.matrix(" + solution.getCode() + ".barplot.means),"
-                + "beside=T, names=" + MyMath.C(tableNames, "'") + ", ylab='Entities per millisecond', "
+                + "beside=T, names=" + MyMath.C(tableNames, "'") + ", ylab='Entities per second', "
                 + "xlab = '');\n";
 
         float start = 2.5f, by = 4.0f;
@@ -199,11 +199,11 @@ public class Barplot {
         List<String> mean = new ArrayList<String>();
         List<String> names = new ArrayList<String>();
         for (Solution s : solutions) {
-            mean.add(numberOfOperations(operation) + "/ mean(" + MyMath.C(s.getTimesFor(operation)) + ")");
+            mean.add((1000 * numberOfOperations(operation)) + "/ mean(" + MyMath.C(s.getTimesFor(operation)) + ")");
             names.add(s.getCode());
         }
         result += MyMath.C(mean) + ", names=" + MyMath.C(names, "'")
-                + ", col=gray.colors(" + solutions.length + "), xlab='', ylab='Entities per millisecond'";
+                + ", col=gray.colors(" + solutions.length + "), xlab='', ylab='Entities per second'";
         result += ");";
 
         return result;
@@ -222,7 +222,7 @@ public class Barplot {
             List<String> means = new ArrayList<String>();
             for (int j = 0; j < operations.length; ++j) {
                 String operation = operations[j];
-                means.add(numberOfOperations(operation) + " / mean(" + solution.getCode() + ".dataframe$" + operation + ")");
+                means.add((1000 * numberOfOperations(operation)) + " / mean(" + solution.getCode() + ".dataframe$" + operation + ")");
                 String tableChar = "" + operation.split("_")[1].charAt(0);
                 names.add(tableChar);
             }
@@ -237,7 +237,7 @@ public class Barplot {
         String result = "";
         result += code + ".barplot.means=" + dataframe + ";\n";
         result += "barplot(as.matrix(" + code + ".barplot.means),"
-                + "beside=T, names=" + MyMath.C(names, "'") + ", ylab='Entities per millisecond', xlab='');\n";
+                + "beside=T, names=" + MyMath.C(names, "'") + ", ylab='Entities per second', xlab='');\n";
 
 //        Map<String, List<String>> keyValue = groupOperations(operations);
 
