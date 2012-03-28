@@ -2,64 +2,63 @@
 \chapter{Experimental Design}
 
 The implementation of the four solutions  introduces referential integrity
-constraints and validations in Cassandra, which are 
-not provided by this \ac{DBMS} at the moment of writing. In order to evaluate
- the performance of these four solutions, experiments are 
-  conducted by using the implemented \ac{API} described in
-  Section~\ref{s:implementation-API}.   The goal of the experiments is to determine how
-  each solution affects the performance of  Cassandra in \ac{CRUD}
-  operations, especifically in those where referential integrity validations are
-  triggered (namely Create, Update and Delete).
+constraints and validations in Cassandra,  which are not provided by this
+\ac{DBMS} at the moment of writing.  In order to evaluate the performance of
+these four solutions,  experiments are conducted by using the implemented
+\ac{API} described in Section~\ref{s:implementation-API}.    The goal of the
+experiments is to determine how each solution affects the performance of 
+Cassandra in \ac{CRUD} operations,  specifically in those where referential
+integrity validations are triggered (namely Create,  Update and Delete).
 
 The experimentation is performed on the example application presented across
-chapters: the University keyspace. In such an application, different constraints
+chapters: the University keyspace.  In such an application,  different constraints
 are added and allow to test the performance under such different application
-requirements. The performance of the  solutions provided for ensuring
-referential integrity  is measured based on response time and throughput.
+requirements.  The performance of the  solutions provided for ensuring
+referential integrity  is measured based on response time and throughput. 
 
-This chapter is structured as follows.
+This chapter is structured as follows. 
 Section~\ref{sexp:BenchmarkKeyspace} describes the example application 
-used for the experiments. Section~\ref{sexp:CassandraCluster} provides the
-details of the nodes used in the Cassandra cluster. Section~\ref{sexp:ExperimentalSetup}
-describes the experimental setup to evaluate the performance of the solutions.
+used for the experiments.  Section~\ref{sexp:CassandraCluster} provides the
+details of the nodes used in the Cassandra cluster.  Section~\ref{sexp:ExperimentalSetup}
+describes the experimental setup to evaluate the performance of the solutions. 
 Section~\ref{sexp:PerformanceIndicators} presents the performance indicators
- considered for measuring the results from the experiments. Finally,
-Section~\ref{sexp:Summary} presents a summary of the chapter.
+ considered for measuring the results from the experiments.  Finally, 
+Section~\ref{sexp:Summary} presents a summary of the chapter. 
 
 
 \section{Example application} \label{sexp:BenchmarkKeyspace}
 % In order to asses the performance of Cassandra when the four solutions are
-% executed,
-% In the experiments, the experimental \ac{API} is implemented by loading
-% entitites belonging to a prototype keyspace designed for these experiments. The
+% executed, 
+% In the experiments,  the experimental \ac{API} is implemented by loading
+% entitites belonging to a prototype keyspace designed for these experiments.  The
 % prototype keyspace is modelled on a University keyspace that stores the details
-% of students and courses along with the enrolment details of the students.The
+% of students and courses along with the enrolment details of the students. The
 % class diagram for the University keyspace is shown in
-% Figure~\ref{fexp:ClassDiagram}. The entities are saved as the following column
-% families in Cassandra.
+% Figure~\ref{fexp:ClassDiagram}.  The entities are saved as the following column
+% families in Cassandra. 
 
 The  \ac{API} designed and implemented in the previous chapters is validated and
 tested by performing \ac{CRUD} operations on an example application
-especifically designed for this purpose. This application has been referred to
-as the \texttt{University} keyspace in previous chapters, and it contains
+specifically designed for this purpose.  This application has been referred to
+as the \texttt{University} keyspace in previous chapters,  and it contains
 different constraints in order to  assess the performance of the \ac{API} and
-the solutions on each of them. This application stores the details of students and
- courses along with the enrolment details of the students. The class diagram for
- the University keyspace is shown in Figure~\ref{fexp:ClassDiagram}, and each
- entity is saved into its respective column family in a Cassandra cluster.
+the solutions on each of them.  This application stores the details of students and
+ courses along with the enrolment details of the students.  The class diagram for
+ the University keyspace is shown in Figure~\ref{fexp:ClassDiagram},  and each
+ entity is saved into its respective column family in a Cassandra cluster. 
 
 	\begin{itemize}
 	  \item \texttt{Student} stores the  following attributes of students:
-	   \texttt{StudentId} (primary key), \texttt{FirstName}, \texttt{LastName},
-	  \texttt{Email} and \texttt{Age}.
+	   \texttt{StudentId} (primary key),  \texttt{FirstName},  \texttt{LastName}, 
+	  \texttt{Email} and \texttt{Age}. 
 	  \item \texttt{Course} stores  the following  attributes of courses:
-	  \texttt{CourseId} (primary key), \texttt{CourseName}, \texttt{Trimester},
-	  \texttt{Level} and \texttt{Year}.
+	  \texttt{CourseId} (primary key),  \texttt{CourseName},  \texttt{Trimester}, 
+	  \texttt{Level} and \texttt{Year}. 
 	  \item \texttt{Enrolment} stores the  relationship between
-	  students and courses, that is, it stores the courses each student is enrolled
-	  into.  The attributes for \texttt{Enrolment} are \texttt{RowId} (primary
-	  key), \texttt{StudentId} and \texttt{CourseId}, where \texttt{StudentId}
-	  and \texttt{CourseId} are foreign keys.
+	  students and courses,  that is,  it stores the courses each student is enrolled
+	  into.   The attributes for \texttt{Enrolment} are \texttt{RowId} (primary
+	  key),  \texttt{StudentId} and \texttt{CourseId},  where \texttt{StudentId}
+	  and \texttt{CourseId} are foreign keys. 
 	\end{itemize}
 	
 	\begin{figure}[h] \centering
@@ -68,17 +67,17 @@ the solutions on each of them. This application stores the details of students a
 	\end{figure} 
 
 % The constraints for the keyspace are stored in  a  \texttt{Metadata} entity
-% class.These constraints are the \ac{PK} and \ac{FK} constraints applicable on each of
-% the column families in this keyspace. The list of constraints are the same for
-% all the solutions  and are shown in Table~\ref{texp:ListConstraints}.
+% class. These constraints are the \ac{PK} and \ac{FK} constraints applicable on each of
+% the column families in this keyspace.  The list of constraints are the same for
+% all the solutions  and are shown in Table~\ref{texp:ListConstraints}. 
 
 The list of constraints created for the University keyspace can be seen in
-Table~\ref{texp:ListConstraints}. Constraints \texttt{CONST100},
+Table~\ref{texp:ListConstraints}.  Constraints \texttt{CONST100}, 
 \texttt{CONST200} and \texttt{CONST300} are the respective \ac{PK} constraints
-for the three column families. \texttt{CONST400} and \texttt{CONST500} are the
-\ac{FK} constraints of \texttt{Enrolment} and specify the respective parent
-column family for its foreign keys. \texttt{CONST600} and \texttt{CONST700} show
-the child column family for \texttt{Course} and \texttt{Student} respectively.
+for the three column families.  \texttt{CONST400} and \texttt{CONST500} are the
+\ac{FK} constraints of \texttt{Enrolment} which specify the respective parent
+column family for its foreign keys.  \texttt{CONST600} and \texttt{CONST700} show
+the child column family for \texttt{Course} and \texttt{Student} respectively. 
 
 
 \begin{table}[h] \label{texp:ListConstraints}
@@ -109,19 +108,19 @@ the child column family for \texttt{Course} and \texttt{Student} respectively.
 \end{table}
 
 % The \texttt{ValidationHandler} in each solution checks these constraints to
-% validate referential integrity within this keyspace. The entities are loaded
-% generically by the \texttt{EntityManager} for each solution. 
-% In the experiment,
+% validate referential integrity within this keyspace.  The entities are loaded
+% generically by the \texttt{EntityManager} for each solution.  
+% In the experiment, 
 % the number of entities inserted for each column family in all the solutions are
-% shown in Table~\ref{texp:EntityList}. 
+% shown in Table~\ref{texp:EntityList}.  
 % 	
 % 	\begin{table} \label{texp:EntityList}
 % 	\centering
-% 	\newcolumntype{C} {@{\hspace{2.5pt}}>{\scriptsize}c@{\hspace{2.5pt}}}
+% 	\newcolumntype{C} {@{\hspace{2. 5pt}}>{\scriptsize}c@{\hspace{2. 5pt}}}
 % 		\begin{tabular}{CC}
 % 			
 % 			\toprule
-% 			\bfseries ColumnFamily & \bfseries No. of Entities \\
+% 			\bfseries ColumnFamily & \bfseries No.  of Entities \\
 % 			\midrule
 % 			Student & 1000 \\
 % 			\rc Course & 1000 \\
@@ -135,22 +134,22 @@ the child column family for \texttt{Course} and \texttt{Student} respectively.
 
 
 \section{Cassandra cluster} \label{sexp:CassandraCluster}
-Cassandra is deployed in an homogeneous cluster conformed by 10 nodes. That is,
- all 10 nodes have the same characteristics in software and hardware. These
+Cassandra is deployed in an homogeneous cluster conformed by 10 nodes.  That is, 
+ all 10 nodes have the same characteristics in software and hardware.  These
  nodes emulate a cloud environment in which each node saves
- the data on the local disks of the machines. Notice that, for Solution~4,  an
+ the data on the local disks of the machines.  Notice that,  for Solution~4,   an
  additional node is used to emulate an external cluster dedicated to provide
- metadata of the entities upon request.
- The following are the characteristics of these nodes.
+ metadata of the entities upon request. 
+ The following are the characteristics of these nodes. 
 
 
 \begin{itemize}
   \item Hardware:
   	\begin{itemize}
-  	  \item 2.8 GHz Intel(R) Core(TM) 2 Quad Processor %2 Duo CP     E8400  @ 3.00GHz
+  	  \item 2.8 GHz Intel(R) Core(TM) 2 Quad Processor %2 Duo CP     E8400  @ 3. 00GHz
   	  \item 16 GB main memory (RAM)% 			CPU cores & 4  \\
   	  \item 1000 GB SATA hard disk % 			\rc Network Card & 3 Gigabit \\
-  	  \item 1000 Mbit/s, 802.11n Networking options
+  	  \item 1000 Mbit/s,  802.11n Networking options
   	 \end{itemize}
   \item Software: 
   \begin{itemize}
@@ -166,39 +165,38 @@ Cassandra is deployed in an homogeneous cluster conformed by 10 nodes. That is,
 
 
 The nodes used in the cluster are part of the Engineering and Computer Science
-grid system of Victoria University of Wellington. Notice that, such a cluster is
-not a controlled environment and it is not possible to use it as  a dedicated cluster as it is also used for other grid
-jobs as well as students. Nonetheless, the experiments can be performed over
-night during weekends when the external usage of the nodes is minimal.
+grid system of Victoria University of Wellington.  Notice that,  such a cluster is
+not a controlled environment and it is not possible to use it as  a dedicated
+cluster as it can be used for other grid jobs or  by students. 
+Nonetheless,  the experiments can be performed over night during weekends when
+the external usage of these nodes is minimal. 
 
 Some values in the configuration files on each node are changed before starting
-the cluster of nodes.  For every node,  the \texttt{listen\_address} and
-\texttt{rpc\_address} are set to the hostname.  The nodes are added to the
-cluster in a sequential order.  One of the nodes is chosen as the first node and
-is made the host node (a.k.a. seed node).
-This node becomes the contact point for other nodes that join the cluster
-\todo{? is this true? if it is a ring topology, then it doesnt sound right,
-especially after saying later that it does not contact any other node}.
-The list of seed nodes for any given node is specified in a configuration file
-under the \texttt{seeds} option.  For the
- first node,  this option is set to its loopback address \texttt{127.0.0.1} to
- indicate that it does not contact any other node to join the cluster.  For
- nodes that are not seed nodes, this option contains the hostnames that it can
-contact to learn about the cluster.  In the experiments,  except for the first
-node, the remaining 9 nodes have two neighboring hosts  as seeds.
+the cluster of nodes.   For every node,   the \texttt{listen\_address} and
+\texttt{rpc\_address} are set to the hostname.   The nodes are added to the
+cluster in a sequential order.   One of the nodes is chosen as the first node
+and is made a host node (a. k. a.  seed node).  This node becomes the contact
+point for the following node to join the cluster.  The hosts for any given node
+are specified in its configuration file under the \texttt{seeds} option.   For
+the first node,  this option is set to its loopback address
+``\texttt{127.0.0.1}'' since no other nodes have joined the cluster yet.   For
+nodes that are not seed nodes,  this option contains the hostnames that it can
+contact to learn about the cluster.   In the experiments,   except for the first
+node,  the remaining nodes have two
+neighboring hosts  as seeds.  
 
 The seed node has its \texttt{auto\_bootstrap} option set to \texttt{true} to
 allow other nodes to migrate data from it when data is partitioned or when other
-nodes join the cluster.  For nodes that are not seed nodes,  this option is set
-to \texttt{false}.  This is because all the nodes are started prior to the 
-experiments and do not have data to partition yet. 
+nodes join the cluster.   For nodes that are not seed nodes,   this option is set
+to \texttt{false}.   This is because all the nodes are started prior to the 
+experiments and do not have data to partition yet.  
  
 
 All the remaining
 settings in the Cassandra configuration file are set to the  default values
-for all the nodes.  The directories for saving the data,  commit logs and saved
+for all the nodes.   The directories for saving the data,   commit logs and saved
 caches are saved on the local disk of each node in its temporary
-folder folder (\texttt{/local/tmp}).
+folder  (\texttt{/local/tmp}). 
 
 
 
@@ -211,23 +209,23 @@ folder folder (\texttt{/local/tmp}).
 \section{Summary} \label{sexp:Summary} 
 
 This chapter  presented the experimental design to evaluate the performance of
-each  solution and the  \ac{API} itself on the \texttt{University} application
+each  solution and the  \ac{API} itself on the \texttt{University} application,
 which is  used as an example in previous chapters as well. This application
 contains different constraints that makes it useful for assessing the
 performance of the \ac{API} as well as that of the solutions since the
  constraints  will trigger different referential integrity validations in order
- to maintain integrity within the keyspace. The validations will be triggered on
- different \ac{CRUD} operations performed upon artificial data intentially
- created for the application. All the operations are going to be performed 
-  several times such that the effect of external factors (e.g. network latency)
- is mitigated. The response time of each operation will be recorded and 
- used as a performance indicator together with throughput, thus providing 
+ to maintain integrity within the keyspace.  The validations are triggered on
+ different \ac{CRUD} operations performed upon artificial data intentionally
+ created for the application. All the operations are  performed 
+  several times such that the effect of external factors (e.g.  network latency)
+ is mitigated.  The response time of each operation is recorded and 
+ used as a performance indicator together with throughput,  thus providing 
  guidelines to help assess the trade-offs between the different solutions
-proposed.
+proposed. 
 	
 	
 The next chapter presents the results obtained from the experimentation as well 
-as their discussion.
+as their discussion. 
  
 
 

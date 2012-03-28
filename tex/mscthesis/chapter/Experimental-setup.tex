@@ -10,8 +10,8 @@
 % performance.
 
 
-The experimentation consists on performing \ac{CRUD} operations upon artificial
-data created for the University example application. Especifically, the
+The experimentation consists of performing \ac{CRUD} operations upon artificial
+data created for the University example application. Specifically, the
 operations of interest are \texttt{Create}, \texttt{Update} and \texttt{Delete}
 as these are the ones that trigger referential integrity validations. Notice
 that, since the experiments are not performed in a controlled environment, all
@@ -47,18 +47,19 @@ The order of the operations to be performed on the data in each run is as
 follows.
 \texttt{Create} inserts all the entities for \texttt{Student},  \texttt{Course}
 and \texttt{Enrolment}.  \texttt{Update} performs changes on the primary keys of
-students and courses,  and on the foreign keys of \texttt{Enrolment} (the one
-relative to courses,  specifically).  Finally,  \texttt{Delete} removes all the
-\texttt{Student},  \texttt{Course} and \texttt{Enrolment} entities. 
+\texttt{Student} and \texttt{Course} entities,  and on the foreign keys of
+\texttt{Enrolment} (the one relative to courses,  specifically).  Finally, 
+\texttt{Delete} removes all the \texttt{Student},  \texttt{Course} and
+\texttt{Enrolment} entities.
 Notice that the primary keys in every column family are different in each run
-(create,  update,  delete) in order to avoid introducing biases to the results as
-product of the tombstone delete paradigm that Cassandra utilizes.  That is,  since
-Cassandra does not completely  remove the primary keys of the inserted entities
-(tombstone delete),  reinsertion  using the same primary key might yield faster
-times as the key already exists.  After each run,  all column families
+(create,  update,  delete), in order to avoid introducing biases to the results
+as product of the tombstone delete paradigm that Cassandra utilizes.  That is, 
+since Cassandra does not completely  remove the primary keys of the inserted
+entities (tombstone delete),  reinsertion  using the same primary key might
+yield faster times as the key already exists.  After each run,  all the column families
 (\texttt{Student},  \texttt{Course},  and \texttt{Enrolment}) are emptied and
-ready for the next run.   The details  of the \ac{CRUD} operations are explained
-further in the following sections. 
+ready for the next run.   The details  of the \texttt{Create}, \texttt{Update}
+and \texttt{Delete} operations are explained further in the following sections. 
 		
 % The operations to be performed on each run are as follows. Firstly,
 % a batch of students, courses and enrolments are inserted in that precise order.
@@ -75,7 +76,7 @@ further in the following sections.
 The \texttt{Create} operation inserts all the
 \texttt{Student},  \texttt{Course} and \texttt{Enrolment} entities in that
 precise order due to the nature of the referential integrity constraints
-presented in Section~\ref{s:ed:ri}.   In the \texttt{Student} and
+presented in Table~\ref{texp:ListConstraints}.   In the \texttt{Student} and
  \texttt{Course} column families,  \texttt{Create} does not trigger any
  referential integrity validation as these entities do not contain foreign keys. 
  Contrarily,  \texttt{Create} on \texttt{Enrolment} triggers foreign key
@@ -83,8 +84,8 @@ presented in Section~\ref{s:ed:ri}.   In the \texttt{Student} and
 		
 \subsection{Update}
 The \texttt{Update} operation is performed after the
-creation of all entities.  First,  an attempt to update the primary key of each
- \texttt{Course} entity is made.  This operation triggers referential integrity
+creation of all entities.  First,  an attempt is made to update the primary key
+of each \texttt{Course} entity.  This operation triggers referential integrity
  validations that result in exceptions thrown as the \texttt{DeleteRule} for all
  \texttt{Course} entities is \texttt{NoDelete} and enrolments referencing the
  courses are still present in \texttt{Enrolment}.  Hence, the times recorded for
@@ -93,11 +94,11 @@ creation of all entities.  First,  an attempt to update the primary key of each
 					
 Next,  the \texttt{Enrolment} column family is updated.  In this case,  the
 \texttt{CourseId} for each \texttt{Enrolment} entity is changed to a different
-existing one,  ensuring that the distribution of courses and students remains
-the same. The update on the \texttt{Enrolment} column family triggers
-referential integrity validation checks to ensure that the course to which every
-\texttt{Enrolment} entity is being updated actually exists in \texttt{Course}
-column family. 
+existing value,  ensuring that the distribution of \texttt{Student} and
+\texttt{Course} entities remains the same. The update on the \texttt{Enrolment}
+column family triggers referential integrity validation checks to ensure that
+the course to which every \texttt{Enrolment} entity is being updated actually
+exists in \texttt{Course} column family. 
 					
 Finally,  the primary key for each \texttt{Student} entity is updated to a new
 integer value that has never existed in the column family. Thus, given
@@ -111,15 +112,16 @@ The deletion of entities occurs first on the
 \texttt{Enrolment} column family,  where all of its records are deleted without
 requiring referential integrity checks as this is a child entity.  The times are
 recorded for each \texttt{Delete} operation and then all of the entities are
-reinserted with the same primary keys in order to assess the cascaded delete of
-\texttt{Student} entities next. 
+reinserted with the same primary keys in order to assess the cascaded
+\texttt{Delete} of \texttt{Student} entities next. 
 				
 Secondly,  all  the \texttt{Student} entities are deleted from the
 \texttt{Student} column family. Hence, given the \texttt{Cascade}
 \texttt{DeleteRule} of these entities,  the \texttt{ValidationHandler} ensures
 to delete first all of the child entities before deleting a \texttt{Student} entity. 
 Thus,  the times recorded for this operation also include the time required for
-performing a cascaded delete on the student dependencies in \texttt{Enrolment}.
+performing a cascaded \texttt{Delete} on the student dependencies in
+\texttt{Enrolment}.
 Notice that the dependencies exist at this point as they will have been reinserted into
 \texttt{Enrolment} in the previous step. 
 				

@@ -26,7 +26,7 @@ information about how each solution affects the performance of the database
 system.
 
 The second performance measure used is \textit{Throughput} and in the
-experiments, it is measured as operations per second for all the operations
+experiments, it is measured as operations per second for  the operations
 triggering referential integrity validation namely, \texttt{Create},
 \texttt{Update} and \texttt{Delete}.
 % A single operation
@@ -62,32 +62,78 @@ Section~\ref{sr:delete} discusses the results of the solutions for the
 \newcommand{\TB}[1]{\textbf{#1}}
 
 \section{Overview}
+The experiments were run with the objective of measuring the performance of the
+solutions and to determine how metadata storage affects the performance of the
+operations. The results from these experiments are presented in
+Tables~\ref{tres:ResponseTime} and~\ref{tres:Throughput}.
 
-  Solutions~1, 2  and 4 have approximately similar response times since the metadata 
-  access for these solutions are easier as metadata is a part of the entity and 
-  no additional connection to a metadata column family is required. Solution~3
-  takes slightly longer than the rest of the solutions and this is because of the way
-  the metadata is accessed for the entities in this solution. 
-% irrespective of whether an entity is a parent or child the
+These results show that the solutions do not have the same performance as each
+of them have different response times and throughput. This difference in the
+performance is due to the different ways of storing the metadata. Recall that
+Solutions~1 and 2 save metadata along with the entity where Solution~1 stores it
+in every row and Solution~2 stores it in the top row of a column family. On the
+other hand, Solutions~3 and 4 store metadata separate from the actual adata
+where both solutions save it in a separate column family but Solution~4 stores
+the metadata column family in a separate cluster. The way metadata is stored and
+retrieved in each solution affects its performnce during validation, where
+constraints are retrived and used.
+
+The results show that Solution~4 takes the least time to execute an operation on
+an entity, which means that it is faster than the other solutions to perform the
+\ac{CRUD} operations on the entitites.This is because this solution caches the
+metadata for an entity and avoids connecting to the external cluster or column
+family each time an operation is invoked. Solutions~1, 2 have
+approximately similar response times since metadata is a part of the entity and
+accessing it requires no additional connections to another column family.
+Solution~1 performs marginally better than Solution~2 and this is because
+Solution~2 has an additional search operation ot identify the top row in a
+column family to locate the metadata.
+% their metadata access for
+% these solutions are easier as metadata is a part of the entity and no additional
+% connection to a metadata column family is required.
+Solution~3 takes slightly longer than the rest of the solutions and this is
+because 
+% of the way
+% the metadata is accessed for the entities in this solution.
+% % irrespective of whether an entity is a parent or child the %
 % \texttt{ValidationHandler} performs the same check the metedata of the entity
-% for all the solutions. It is when this check is made it is clear if the entity
-% is a parent or child. 
-  In this solution accessing the metadata for every 
-  \texttt{Student} and \texttt{Course} entity causes the slower
-  response time since a different \texttt{Metadata} column family has to be
-  accessed using the connection object. This is because metadata is not cached
-  for re-use in this solution. Unlike this, Solution~4 caches  metadata for
-  entities and re-uses it thus saving time by not having to access a separate
-  column family for each entity insertion.
-% \include{chapter/results-tables}
+% % for all the solutions. It is when this check is made it is clear if the
+% entity % is a parent or child.
+% In this solution accessing
+the relevant metadata for every  entity has to be retrieved from a different
+column family. Hence, for each operation on an entity \texttt{Metadata} causes
+the slower response time since a different column family is accessed using the
+connection object.
+% \texttt{Metadata} column family has to be accessed using the connection
+% object.
+This is because metadata is not cached for re-use in this solution, which is
+unlike Solution~4.
+% Unlike this, Solution~4 caches  metadata for entities and
+%   re-uses it thus saving time by not having to access a separate column family for each entity
+%   insertion.
 
-\todo{add to tables the unit (seconds, entities per second)}
+%  \include{chapter/results-tables}
+
+
 
 \todo{Present tables and what they mean}
 
 \todo{Explain why solution 4 is generally better}
 
+\section{Baseline Operations}
 
+The performance of Cassandra when referential
+integrity validation is introduced using any of the solutions is compared with a
+a base experiment where the operations on the entities do not trigger any
+such validations. Such a baseline is useful to determine the
+performance of the database system when validations are imposed using the
+\ac{API} and to analyse the performance of the solutions.
+
+In the baseline experiment, the operations on the entities represent how
+data is inserted into Cassandra without referential integrity validations. The
+results in terms of response time for the baseline experiment is presented as
+a bar-plot in Figure~\ref{fr:Solution0-barplot}. The analysis of
+the performance of each operation on an entity is discussed as follows.
 
 
 
