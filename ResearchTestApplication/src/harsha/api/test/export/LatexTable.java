@@ -69,7 +69,7 @@ public class LatexTable {
     public static String ThroughputToString(Solution[] solutions, String[] operations) {
         DecimalFormat DF = new DecimalFormat("0");
         String result = "\\begin{table}[h]\n";
-        result += "\\centering\n\\caption{Throughput in entities per millisecond}\\label{t:}\n";
+        result += "\\centering\n\\caption{Throughput in entities per second}\\label{t:}\n";
 
         result += "\\begin{tabular}{" + MyMath.Repeat("c", solutions.length + 2) + "}\n";
 
@@ -93,14 +93,14 @@ public class LatexTable {
             result += "\\multirow{" + crudKeys.size() + "}{*}{\\textbf{" + operation + "}}";
             for (String table : crud.get(operation)) {
                 String tableChar = "" + table.charAt(0);
-                
+
                 tableChar = "\\textbf{" + tableChar + "}";
                 result += " & " + tableChar + " & ";
                 for (int i = 0; i < solutions.length; ++i) {
                     Solution s = solutions[i];
                     List<Double> throughput = new ArrayList<Double>();
                     for (Double x : s.getTimesFor(operation + "_" + table)) {
-                        throughput.add(numberOfOperations(table) / x);
+                        throughput.add(1000 * numberOfOperations(table) / x);
                     }
                     result += DF.format(MyMath.Mean(throughput))
                             + " (" + DF.format(MyMath.StDev(throughput)) + ")";
@@ -161,7 +161,7 @@ public class LatexTable {
             result += "\\multirow{" + crudKeys.size() + "}{*}{\\textbf{" + operation + "}}";
             for (String table : crud.get(operation)) {
                 String tableChar = "" + table.charAt(0);
-                
+
                 result += " & \\textbf{" + tableChar + "} & ";
                 Solution baseline = solutions[0];
                 List<Double> baselineTimes = new ArrayList<Double>(baseline.getTimesFor(operation + "_" + table));
@@ -216,7 +216,7 @@ public class LatexTable {
             result += "\\multirow{" + crudKeys.size() + "}{*}{\\textbf{" + operation + "}}";
             for (String table : crud.get(operation)) {
                 String tableChar = "" + table.charAt(0);
-                
+
                 result += " & \\textbf{" + tableChar + "} & ";
                 Solution baseline = solutions[0];
                 List<Double> baselineTimes = baseline.getTimesFor(operation + "_" + table);
