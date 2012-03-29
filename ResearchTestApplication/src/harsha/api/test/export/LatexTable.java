@@ -192,7 +192,7 @@ public class LatexTable {
         DecimalFormat DF = new DecimalFormat("0.00");
         DecimalFormat DFB = new DecimalFormat("0");
         String result = "\\begin{table}[h]\n";
-        result += "\\centering\n\\caption{Throughput inverse ratio}\\label{t:}\n";
+        result += "\\centering\n\\caption{Throughput ratio}\\label{t:}\n";
 
         result += "\\begin{tabular}{" + MyMath.Repeat("c", solutions.length + 2) + "}\n";
 
@@ -222,7 +222,7 @@ public class LatexTable {
                 List<Double> baselineTimes = baseline.getTimesFor(operation + "_" + table);
                 List<Double> baselineThrouhput = new ArrayList<Double>();
                 for (Double x : baselineTimes) {
-                    baselineThrouhput.add(numberOfOperations(table) / x);
+                    baselineThrouhput.add(1000 * numberOfOperations(table) / x);
                 }
 
                 result += DFB.format(MyMath.Mean(baselineThrouhput)) + " & ";
@@ -232,10 +232,10 @@ public class LatexTable {
                     List<Double> times = s.getTimesFor(operation + "_" + table);
                     List<Double> throuhput = new ArrayList<Double>();
                     for (Double x : times) {
-                        throuhput.add(numberOfOperations(table) / x);
+                        throuhput.add(1000 * numberOfOperations(table) / x);
                     }
 
-                    result += DF.format(MyMath.Mean(baselineThrouhput) / MyMath.Mean(throuhput));
+                    result += DF.format(MyMath.Mean(throuhput) / MyMath.Mean(baselineThrouhput));
 
                     if (i < solutions.length - 1) {
                         result += " & ";
