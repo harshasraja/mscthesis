@@ -1,32 +1,29 @@
 %ब
 \chapter{Results and Discussions}
-\section{Introduction}
-Performance of database systems is commonly measured in terms of the
-\textit{Response time} and \textit{Throughput}(\todo{cite Demurjian, Berkely}).
-Response time refers to the time  a database system takes to process an
-operation and produce results to the end user . Measuring response time for a
-database operation is similar to a black-box evaluation because it is measured
-without considering the internal functioning  of the database system. According
-to (\todo{cite Demurjian}) such an evaluation is ideal for a complete database
-system to measure its performance and to give the users details about its
-efficiency and speed in performing operations. In this thesis, response time and
-throughput are the measures used to gauge the performance of Cassandra while
-referential integrity validation is implemented using the \ac{API}.
 
-Response time for each  operation that triggers  a referential integrity
-validation from all the solutions are measured during the experiments.
+
+The performance of the solutions while validating referential integrity in the
+experiments is measured in terms of response time and throughput, which are
+common \ac{DBMS} performance indicators (\todo{cite Demurjian, Berkely}).
+% Response time refers to the time  a database system takes to process an
+% operation and produce results to the end user and is measured without
+% considering the internal functioning  of the database system (\todo{cite
+% Demurjian}). This gives  details about the \ac{DBMS}
+% efficiency and its speed in performing operations. 
+The response time of the solutions indicate the speed with which Cassandra
+completes an operation when validations are implemented.
 % This included the time involved to access and retrieve metadata for the entities
 % and also the time for validating referential integrity by the
 % \texttt{ValidationHandler}. 
 The response time of Cassandra when such validations
 are not in place is also measured and considered as a baseline with which to
 analyse the solutions. Such a comparison determines the degree of change in
-speed of Cassandra when such overheads are introduced and gives users useful
-information about how each solution affects the performance of the database
-system.
+speed of Cassandra when such additional validations are introduced and gives
+ useful information about how each solution affects the performance of the
+ \ac{DBMS}.
 
 The second performance measure used is \textit{Throughput} and in the
-experiments, it is measured as operations per second for  the operations
+experiments, it is measured as operations per second for all the operations
 triggering referential integrity validation namely, \texttt{Create},
 \texttt{Update} and \texttt{Delete}.
 % A single operation
@@ -46,198 +43,259 @@ triggering referential integrity validation namely, \texttt{Create},
 
  The results from the experiments were used to
 analyse the performance of the four solutions  and this is discussed in the
-following sections. 
-Section~\ref{sr:baseline} presents the results for the
-baseline experiment where the operations performed on the entities are just as
-it would be performed in Cassandra without any referential integrity validations
-or constraint metadata.
-Section~\ref{sr:insert} analyses the results of all the solutions for the
+following sections.
+Section~\ref{s:results-overview} presents the overall performance of the four
+solutions in the experiment.
+Section~\ref{s:results-Baseline} presents the results for the baseline
+experiment.
+Section~\ref{s:results-insert} analyses the results of all the solutions for the
 \texttt{insert} operation.
-Section~\ref{sr:update} presents the analysis for the \texttt{update} operation
-for all the solutions.
-Section~\ref{sr:delete} discusses the results of the solutions for the
+Section~\ref{s:results-update} presents the analysis for the \texttt{update}
+operation for all the solutions.
+Section~\ref{s:results-Delete} discusses the results of the solutions for the
 \texttt{delete} operation.
+Section~\ref{s:results-summary} summarises the analysis of the results of all
+the solutions.
 
 \newcommand{\Width}{0.5\textwidth}
 \newcommand{\TB}[1]{\textbf{#1}}
 
-\section{Overview}
-The experiments were run with the objective of measuring the performance of the
-solutions and to determine how metadata storage affects the performance of the
-operations. The results from these experiments are presented in
-Tables~\ref{tres:ResponseTime} and~\ref{tres:Throughput}.
+\section{Overview of Results} \label{s:results-overview}
 
-These results show that the solutions do not have the same performance as each
-of them have different response times and throughput. This difference in the
-performance is due to the different ways of storing the metadata. Recall that
+The experiments were run with the objective of measuring the performance of the
+solutions and to determine how the metadata storage and validations in each
+solution affects the performance of Cassandra. The results from these
+experiments are presented in
+Tables~\ref{tres:ResponseTime},~\ref{tres:ResponsetimeRatio},~\ref{tres:Throughput}
+and~\ref{tres:ThroughputRatio}. 
+
+Table~\ref{tres:ResponseTime} presents the response time (in milliseconds) of
+all the solutions and shows the amount of time taken to complete one operation
+on each entity.
+Table~\ref{tres:Throughput} shows the throughput of each operation on an entity,
+that is, how many operations can be completed on an entity in one second.
+Table~\ref{tres:ResponsetimeRatio} shows the ratio of the response time of each
+solution when compared to the response time of the baseline and indicates
+how many times faster or slower each solution is when compared to the baseline.
+Similarly, Table~\ref{tres:ThroughputRatio} shows the ratio of the throughput of
+the solutions when compared to the throughput of the baseline. 
+
+As seen in these results, Solution~4 performs the best amongst all the solutions
+since the response times for all the  operations on every entity are the least
+for Solution~4. Note that these values are higher than the response times for
+Baseline  because the baseline does not perform any referential
+validations or store metadata. Solution~3 performs the worst amongst all the
+solutions with high response times for all the operations and the least
+throughput in all the cases. Solutions~1 and 2 perform similarly, although
+Solution~1 is faster with slightly lesser response times.
+
+% The results show the throughput and the response time
+% of each solution to complete an operation with referential integrity validation
+% on a single entity. The throughput shows how many operations are performed in
+% one second in each solution. The solution with the lowest response time and
+% highest throughput shows its faster in performing the operations.
+
+The results show that all the solutions perform differently and have different
+response times and throughput. The variations in  performance of the solutions
+is due to the different ways of storing  metadata in each solution. Recall that
 Solutions~1 and 2 save metadata along with the entity where Solution~1 stores it
 in every row and Solution~2 stores it in the top row of a column family. On the
-other hand, Solutions~3 and 4 store metadata separate from the actual adata
-where both solutions save it in a separate column family but Solution~4 stores
-the metadata column family in a separate cluster. The way metadata is stored and
-retrieved in each solution affects its performnce during validation, where
-constraints are retrived and used.
+other hand, Solutions~3 and 4 store metadata separate from the actual data  in a
+separate \texttt{Metadata} column family but Solution~4 stores the
+\texttt{Metadata} column family in a separate cluster. The way metadata is
+stored and retrieved in each solution affects its performance during validation,
+when constraints are retrieved and used as explained in Chapter~\ref{c:Implementation}.
 
-The results show that Solution~4 takes the least time to execute an operation on
-an entity, which means that it is faster than the other solutions to perform the
-\ac{CRUD} operations on the entitites.This is because this solution caches the
-metadata for an entity and avoids connecting to the external cluster or column
-family each time an operation is invoked. Solutions~1, 2 have
-approximately similar response times since metadata is a part of the entity and
-accessing it requires no additional connections to another column family.
-Solution~1 performs marginally better than Solution~2 and this is because
-Solution~2 has an additional search operation ot identify the top row in a
-column family to locate the metadata.
-% their metadata access for
-% these solutions are easier as metadata is a part of the entity and no additional
-% connection to a metadata column family is required.
-Solution~3 takes slightly longer than the rest of the solutions and this is
-because 
-% of the way
-% the metadata is accessed for the entities in this solution.
+Solution~4  is faster than the other solutions to perform the validations on
+each operation because it caches the list of constraints and avoids connecting
+to the external cluster to access the \texttt{Metadata} column family each time
+an operation is invoked. Therefore, to locate the relevant \ac{FK} and \ac{PK}
+constraints of an entity, the constraints stored in the cache are re-used.
+Performance is improved by caching the entire \texttt{Metadata} column family
+and and saves time by reducing the number of times a separate column family has
+to be accessed each time to complete a validation.
+
+Solution~3 is the slowest among the solutions because of the way it accesses the
+metadata.
+% of the way the metadata is accessed for the entities in this solution.
 % % irrespective of whether an entity is a parent or child the %
 % \texttt{ValidationHandler} performs the same check the metedata of the entity
 % % for all the solutions. It is when this check is made it is clear if the
 % entity % is a parent or child.
 % In this solution accessing
-the relevant metadata for every  entity has to be retrieved from a different
-column family. Hence, for each operation on an entity \texttt{Metadata} causes
-the slower response time since a different column family is accessed using the
-connection object.
+In this solution, in order to retrieve the relevant \ac{FK} constraints for
+every entity the \texttt{Metadata} column family has to be accessed. This means
+that for each operation on an entity, \texttt{Metadata} is accessed using the
+connection object which consumes more time to complete the operation. Moreover,
+to retrieve information about any referencing constraints within the relevant
+\ac{FK} constraints, \texttt{Metadata} is accessed again. For example, in
+order to get the information of a \ac{PK} constraint stored in the
+\texttt{RConstraintName} column of a \ac{FK} constraint, the \texttt{Metadata}
+column family is again accessed and the \ac{PK} constraint is searched. Thus to
+complete each validation, \texttt{Metadata} is accessed more than once.
 % \texttt{Metadata} column family has to be accessed using the connection
 % object.
-This is because metadata is not cached for re-use in this solution, which is
-unlike Solution~4.
-% Unlike this, Solution~4 caches  metadata for entities and
-%   re-uses it thus saving time by not having to access a separate column family for each entity
-%   insertion.
+This is because metadata is not cached for re-use in this solution, unlike
+Solution~4 costing multiple column family access.
 
-%  \include{chapter/results-tables}
+Solutions~1 and~2 have approximately similar response times. Both the solutions
+store the list of constraints as a part of the entity and accessing the relevant
+constraints or referenced constraints of an entity requires no additional
+connections to another column family. Since the constraints are stored with the
+entity in both these solutions, a cache to store the metadata is not required.
+Note that Solution~1 performs marginally better than Solution~2 
+because Solution~2 has an additional search operation to identify the top row in a
+column family to locate the relevant constraints of an entity.
+% their metadata access for these solutions are easier as metadata is a part of
+% the entity and no additional connection to a metadata column family is
+% required.
 
 
+% Unlike this, Solution~4 caches  metadata for entities and re-uses it thus
+% saving time by not having to access a separate column family for each entity
+% insertion.
 
-\todo{Present tables and what they mean}
+The performance of the solutions in each
+operation on the entities is discussed in detail in the following sections.
+ \input{chapter/results-tables}
 
-\todo{Explain why solution 4 is generally better}
-
-\section{Baseline Operations}
+\section{Baseline Operations} \label{s:results-Baseline}
 
 The performance of Cassandra when referential
-integrity validation is introduced using any of the solutions is compared with a
-a base experiment where the operations on the entities do not trigger any
-such validations. Such a baseline is useful to determine the
-performance of the database system when validations are imposed using the
-\ac{API} and to analyse the performance of the solutions.
+integrity validations are introduced  is compared with
+ a base experiment where the operations on the entities do not trigger any
+such validations. Such a baseline serves as a reference to determine the
+difference in performance of the \ac{DBMS} when validations are imposed using
+the \ac{API} and to analyse the performance of the solutions.
 
-In the baseline experiment, the operations on the entities represent how
-data is inserted into Cassandra without referential integrity validations. The
-results in terms of response time for the baseline experiment is presented as
-a bar-plot in Figure~\ref{fr:Solution0-barplot}. The analysis of
-the performance of each operation on an entity is discussed as follows.
+In the baseline experiment, the operations on the entities represent how data is
+inserted into Cassandra, i.e. without referential integrity validations.
+The results in terms of response time and throughput for the baseline experiment
+is presented as  bar-plots in Figure~\ref{fres:Baseline}.
+Figure~\ref{fres:Baseline-responsetime} shows the response time (in
+milliseconds) of each operation on a single entity of the three column families.
+Figure~\ref{fres:Baseline-throughput} presents the throughput of each operation
+on the three column families in one second. 
+% The analysis of the performance of
+% each operation on an entity is discussed as follows.
 
-
-
-
-
-
- 
-\clearpage
-
-
-
-
-
-\newpage
-\section{Insert}
-
-	\subsection{Student}
-		\begin{figure}[H]
-			\subfigure[Response time]
-			{\includegraphics[width=\Width]{figure/result/barplot-insert_student-rt.pdf}}
-			\subfigure[Throughput]
-			{\includegraphics[width=\Width]{figure/result/barplot-insert_student-tp.pdf}}
-			\caption{Performance inserting students}\label{f:rd:insert-user}
-		\end{figure}
-\newpage
-	\subsection{Course}
-		\begin{figure}[H]
-			\subfigure[Response time]
-			{\includegraphics[width=\Width]{figure/result/barplot-insert_course-rt.pdf}}
-			\subfigure[Throughput]
-			{\includegraphics[width=\Width]{figure/result/barplot-insert_course-tp.pdf}}
-			\caption{Performance inserting courses}\label{f:rd:insert-course}
-		\end{figure}	
-\newpage	
-	\subsection{Enrolment}
-		\begin{figure}[H]
-			\subfigure[Response time]
-			{\includegraphics[width=\Width]{figure/result/barplot-insert_enrolment-rt.pdf}}
-			\subfigure[Throughput]
-			{\includegraphics[width=\Width]{figure/result/barplot-insert_enrolment-tp.pdf}}
-			\caption{Performance inserting enrolments}\label{f:rd:insert-enrolment}
-		\end{figure}
+% 	\begin{figure}[h] \centering
+% 	\includegraphics[width=.8\textwidth]{./figure/result/barplot-Baseline-rt.pdf}
+% 		\caption{Baseline}\label{fr:Solution0-barplot}
+% 	\end{figure}
+	
+	\begin{figure}[H]
 		
-\clearpage
-\newpage
-\section{Update}
+		\subfigure[Response time for Baseline]
+		{\includegraphics[width=\Width]{figure/result/barplot-Baseline-rt.pdf}\label{fres:Baseline-responsetime}}
+		\subfigure[Throughput for Baseline]
+		{\includegraphics[width=\Width]{figure/result/barplot-Baseline-tp.pdf}\label{fres:Baseline-throughput}}
+		\caption{Performance of Baseline}\label{fres:Baseline}
+	\end{figure}
 
-	\subsection{Student}
-		\begin{figure}[H]
-			\subfigure[Response time]
-			{\includegraphics[width=\Width]{figure/result/barplot-update_student-rt.pdf}}
-			\subfigure[Throughput]
-			{\includegraphics[width=\Width]{figure/result/barplot-update_student-tp.pdf}}
-			\caption{Performance updating students}\label{f:rd:update-user}
-		\end{figure}
-\newpage	
-	\subsection{Course} 
-		\begin{figure}[H]
-			\subfigure[Response time]
-			{\includegraphics[width=\Width]{figure/result/barplot-update_course-rt.pdf}}
-			\subfigure[Throughput]
-			{\includegraphics[width=\Width]{figure/result/barplot-update_course-tp.pdf}}
-			\caption{Performance updating courses}\label{f:rd:update-course}
-		\end{figure}	
-\newpage	
-	\subsection{Enrolment}
-		\begin{figure}[H]
-			\subfigure[Response time]
-			{\includegraphics[width=\Width]{figure/result/barplot-update_enrolment-rt.pdf}}
-			\subfigure[Throughput]
-			{\includegraphics[width=\Width]{figure/result/barplot-update_enrolment-tp.pdf}}
-			\caption{Performance updating enrolments}\label{f:rd:update-enrolment}
-		\end{figure}
-\clearpage
-\newpage
-\section{Delete} 
+As seen from these results, \texttt{Delete} operation takes the least response
+time and has the highest throughput. That is, the time to delete an entity is
+lesser when compared to \texttt{Insert} and \texttt{Update} which means more
+\texttt{Delete} operations are performed in a second. On the other
+hand,\texttt{Update} takes the most time to complete all the operations and has
+the least throughput. \texttt{Insert} takes slightly more time to complete on
+all the entities than \texttt{Delete} but is faster than \texttt{Update}.
 
-	\subsection{Student}
-		\begin{figure}[H]
-			\subfigure[Response time]
-			{\includegraphics[width=\Width]{figure/result/barplot-delete_student-rt.pdf}}
-			\subfigure[Throughput]
-			{\includegraphics[width=\Width]{figure/result/barplot-delete_student-tp.pdf}}
-			\caption{Performance deleting students}\label{f:rd:delete-user}
-		\end{figure} 
-\newpage	  
-	\subsection{Course}
-		\begin{figure}[H]
-			\subfigure[Response time]
-			{\includegraphics[width=\Width]{figure/result/barplot-delete_course-rt.pdf}}
-			\subfigure[Throughput]
-			{\includegraphics[width=\Width]{figure/result/barplot-delete_course-tp.pdf}}
-			\caption{Performance deleting courses}\label{f:rd:delete-course}
-		\end{figure}	
-\newpage	 
-	\subsection{Enrolment}
-		\begin{figure}[H]
-			\subfigure[Response time]
-			{\includegraphics[width=\Width]{figure/result/barplot-delete_enrolment-rt.pdf}}
-			\subfigure[Throughput]
-			{\includegraphics[width=\Width]{figure/result/barplot-delete_enrolment-tp.pdf}}
-			\caption{Performance deleting enrolments}\label{f:rd:delete-enrolment}
-		\end{figure}
-		
+\texttt{Delete} performs faster than the other operations because Cassandra
+performs a tombstone delete, where data is not immediately deleted but only
+marked as deleted and maintained for the duration specified by the application
+(\todo{cite book}).\texttt{update} takes the most time because it requires
+searching by index to access the correct columns in the column family to write
+the new value and once the correct columns are identified, the old values are
+deleted and the new values are inserted. Thus, to complete an \texttt{update}, a
+\texttt{delete} and an \texttt{insert} has to be performed, thus taking more
+time than both \texttt{delete} and \texttt{insert}. \texttt{insert} takes
+slightly more time since data is immediately written into the column
+families.
 
+The time taken to insert one entity of \texttt{Student}, \texttt{Course} and
+\texttt{Enrolment} are similar since there are no additional validations or
+operations to insert these entities. Note that the slight variations in the
+response times for an \texttt{insert} on the entities of \texttt{Student},
+\texttt{Course} and \texttt{Enrolment}is possibly due to external factors.
+Moreover, when the experiments are run \texttt{insert} on these entities are the
+first operations to take place and the results can be slightly influenced by the
+initialisation of the column families and the keyspace. However, the difference
+is small and only a fraction of a millisecond.
 
+Note that the \texttt{Update} in \texttt{Enrolment} takes lesser time because
+the number of columns  that are updated in \texttt{Enrolment} is much lesser
+than the other column families. This means that \texttt{Update} on
+\texttt{Enrolment} involves fewer search by indexes and writes for the new
+values, to be precise it involves only three searches and writes 
+to update its three columns.  On the other hand, \texttt{Student} and
+\texttt{Course} column families have more number of columns to be updated in
+each \texttt{Update} operation.
+
+\input{chapter/results-Insert} 
+\input{chapter/results-Update}
+\input{chapter/results-Delete}
+
+\section{Observations} 
+From all the results and its analysis, it can be seen that the \texttt{insert}
+operation takes the least time to complete when compared to \texttt{update}
+\texttt{delete}. This is mainly because in \texttt{insert}, validations are
+triggered on only the \texttt{Enrolment} column family. 
+
+On the other hand, \texttt{update} takes the most time on all the entities in
+every solution, mainly due to the cascaded effect of this operation which
+involves accessing child column families and changing its values. Note that
+\texttt{update} on \texttt{Enrolment} is similar to \texttt{insert} on
+\texttt{Enrolment} because both operations involve checking whether the foriegn
+keys exist in the parent column families and inserting the values. However,
+\texttt{update} on \texttt{student} and  \texttt{Course} entities takes more
+time than inserting these entities because \texttt{update} involves additional
+searches and writes in more than one column family whereas inserting these
+entities cause no validations since they have no referencing values.
+
+\texttt{delete} is faster than \texttt{update} in all the solutions since
+entities are not immediately deleted due to the tombstone effect in Cassandra.
+It also does not involve more writes like the \texttt{update} operations since
+values are only deleted and not written in a \texttt{delete} operation.
+Moreover, deleting child entities do not cause validations while updating any
+entity causes validations. When compared with the \texttt{insert} operation,
+\texttt{delete} takes more time in the case of parent entities, \texttt{student}
+and \texttt{course} because inserting parent entities do not cause referential
+integrity validations, but inserting them does. Conversely, deleting child
+entities is faster than inserting child entities since it does not trigger such
+validations.
+
+% \texttt{delete} generally consumes more
+% time than \texttt{insert} in the solutions mainly because However, deleting
+% \texttt{enrolment} entities involves lesser time than \texttt{insert} on these
+% entities, mainly because deleting child entities do not trigger validations.
+\section{Summary} \label{s:results-summary}
+
+This chapter presented the results of the experiments that showed the response
+time and throughpiut of the operation on the entities in eveyr solution. It is
+learnt from the results that Solution~4 preforms the best amongst the solutions
+and performs similar to the baseline when no validations are triggered.
+Solution~3 performs the worst amongst the solutions and is slower than the
+baseline even when validations are not triggerred because simply accessing the
+metedata from a separate column family each time affects its performance.
+Solutions~1 and 2 perform similarly in all the operations on the entities which
+is mainly because the metadata is embedded with the entity. Solution~2 consumes
+slightly more time than Solution~1 as it searches for the top row to identify
+constraints on each operation. 
+
+Analysing the results showed that amongst the operations, \texttt{insert} took
+the lest time while \texttt{update} took the most time and \texttt{delete} was
+faster than \texttt{insert} only in the case of child entities. These variations
+were mainly due to the different referential integrity rules that are applied
+on parent and child entities and the \texttt{DeleteRule} applied on these
+entities.
+
+The entities behaved differently in each operation due to the various
+referential integrity rules and the data manipulation rules applied on them.
+\texttt{Enrolment} being a child entity triggers validations during
+\texttt{update} and \texttt{insert} operations, while \texttt{Student} and
+\texttt{Course} are parent entities and trigger validations in both
+\texttt{update} and \texttt{delete}. Thus parent entities are faster to operate
+on in an \texttt{insert} operation, while child entities are faster only in a
+\texttt{delete} operation. 
 	
