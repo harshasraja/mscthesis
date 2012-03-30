@@ -1,0 +1,130 @@
+%ब
+\subsection{NEW TABLES}
+
+\newcolumntype{B}{>{\columncolor{light-gray}}c} 
+\begin{table}[h]
+\centering
+\caption{Response time}\label{t:}
+	\begin{tabular}{ccBcccc}
+		\toprule
+		&&\textbf{Baseline} & \textbf{Solution1} & \textbf{Solution2} & \textbf{Solution3} & \textbf{Solution4}\\
+		
+		\midrule
+		\multirow{3}{*}{\textbf{insert}} & \textbf{s} & 0.366 (0.082) & 0.568 (0.031) &
+		0.820 (0.091) & 2.108 (0.052) & \TB{0.364 (0.017)}\\
+		 & \textbf{c} & 0.352 (0.051) & 0.547 (0.044) & 0.803 (0.046) & 2.092 (0.060) &
+		 \TB{0.351 (0.012)}\\
+		 & \textbf{e} & 3.051 (0.132) & 12.395 (0.363) & 14.052 (0.221) & 34.845 (0.483)
+		 & \TB{9.358 (0.132)}\\
+		
+		\midrule \multirow{3}{*}{\textbf{update}} & \textbf{s} & 0.730 (0.161) & 19.144
+		(0.389) & 20.840 (0.426) & 46.394 (0.729) & \TB{14.997 (0.366)}\\
+		 & \textbf{c} & 0.759 (0.056) & 5.810 (0.498) & 5.991 (0.268) & 10.419 (0.296) &
+		 \TB{4.751 (0.284)}\\
+		 & \textbf{e} & 4.040 (0.271) & 13.529 (0.290) & 14.998 (0.240) & 35.786 (0.503)
+		 & \TB{10.312 (0.129)}\\
+		
+		\midrule \multirow{3}{*}{\textbf{delete}} & \textbf{s} & 0.314 (0.027) & 7.425
+		(0.439) & 10.533 (0.414) & 26.023 (0.553) & \TB{5.638 (0.362)}\\
+		 & \textbf{c} & 0.287 (0.048) & 2.037 (0.078) & 2.367 (0.085) & 3.958 (0.118) &
+		 \TB{1.964 (0.086)}\\
+		 & \textbf{e} & 2.898 (0.272) & 4.100 (0.171) & 7.438 (0.233) & 21.322 (0.418) &
+		 \TB{2.992 (0.157)}\\
+		
+		\bottomrule
+	\end{tabular}
+\end{table}
+
+
+
+\begin{table}[h]
+\centering 
+\caption{Response time ratio}\label{t:}
+	\begin{tabular}{ccBcccc}
+		\toprule
+		&&\textbf{Baseline} & \textbf{Solution1} & \textbf{Solution2} & \textbf{Solution3} & \textbf{Solution4}\\
+		
+		\midrule
+		\multirow{3}{*}{\textbf{insert}} & \textbf{s} & 0.37 & 1.55 & 2.24 & 5.76 &
+		\TB{0.99}\\
+		 & \textbf{c} & 0.35 & 1.56 & 2.28 & 5.95 & \TB{1.00}\\
+		 & \textbf{e} & 3.05 & 4.06 & 4.61 & 11.42 & \TB{3.07}\\
+		
+		\midrule
+		\multirow{3}{*}{\textbf{update}} & \textbf{s} & 0.73 & 26.21 & 28.53 & 63.51 &
+		\TB{20.53}\\
+		 & \textbf{c} & 0.76 & 7.66 & 7.90 & 13.74 & \TB{6.26}\\
+		 & \textbf{e} & 4.04 & 3.35 & 3.71 & 8.86 & \TB{2.55}\\
+		
+		\midrule
+		\multirow{3}{*}{\textbf{delete}} & \textbf{s} & 0.31 & 23.61 & 33.50 & 82.76 &
+		\TB{17.93}\\
+		 & \textbf{c} & 0.29 & 7.09 & 8.24 & 13.78 & \TB{6.84}\\
+		 & \textbf{e} & 2.90 & 1.41 & 2.57 & 7.36 & \TB{1.03}\\
+		
+		\bottomrule
+	\end{tabular}
+\end{table}
+
+
+
+
+
+
+\begin{table}[h] \centering
+\caption{Throughput}\label{t:}
+	\begin{tabular}{ccBcccc}
+		\toprule &&\textbf{Baseline} & \textbf{Solution1} & \textbf{Solution2} &
+		\textbf{Solution3} & \textbf{Solution4}\\
+		
+		\midrule \multirow{3}{*}{\textbf{insert}} & \textbf{s} & 2790 (291) & 1764 (85)
+		& 1228 (82) & 475 (12) & \TB{2755 (125)}\\
+		 & \textbf{c} & 2880 (264) & 1837 (112) & 1250 (69) & 478 (13) & \TB{2856
+		 (96)}\\
+		 & \textbf{e} & 3282 (116) & 807 (22) & 712 (11) & 287 (4) & \TB{1069 (15)}\\
+		 
+		\midrule \multirow{3}{*}{\textbf{update}} & \textbf{s} & 1394 (121) & 52 (1) &
+		48 (1) & 22 (0) & \TB{67 (2)}\\
+		 & \textbf{c} & 1325 (97) & 173 (14) & 167 (7) & 96 (3) & \TB{211 (12)}\\
+		 & \textbf{e} & 2483 (119) & 739 (15) & 667 (11) & 279 (4) & \TB{970 (12)}\\
+		 
+		\midrule \multirow{3}{*}{\textbf{delete}} & \textbf{s} & 3198 (205) & 135 (8) &
+		95 (4) & 38 (1) & \TB{178 (11)}\\
+		 & \textbf{c} & 3574 (567) & 492 (19) & 423 (15) & 253 (7) & \TB{510 (21)}\\
+		 & \textbf{e} & 3470 (206) & 2443 (95) & 1346 (44) & 469 (9) & \TB{3351
+		 (167)}\\
+		 
+		\bottomrule
+	\end{tabular}
+\end{table}
+
+
+
+\begin{table}[h]
+\centering
+\caption{Throughput inverse ratio}\label{t:}
+	\begin{tabular}{ccBcccc}
+		\toprule
+		&&\textbf{Baseline} & \textbf{Solution1} & \textbf{Solution2} & \textbf{Solution3} & \textbf{Solution4}\\
+		
+		\midrule
+		\multirow{3}{*}{\textbf{insert}} & \textbf{s} & 2790 & 1.58 & 2.27 & 5.88 &
+		\TB{1.01}\\
+		 & \textbf{c} & 2880 & 1.57 & 2.30 & 6.02 & \TB{1.01}\\
+		 & \textbf{e} & 3282 & 4.07 & 4.61 & 11.44 & \TB{3.07}\\
+		
+		\midrule
+		\multirow{3}{*}{\textbf{update}} & \textbf{s} & 1394 & 26.67 & 29.03 & 64.64 &
+		\TB{20.89}\\
+		 & \textbf{c} & 1325 & 7.65 & 7.93 & 13.80 & \TB{6.28}\\
+		 & \textbf{e} & 2483 & 3.36 & 3.72 & 8.88 & \TB{2.56}\\
+		
+		\midrule
+		\multirow{3}{*}{\textbf{delete}} & \textbf{s} & 3198 & 23.66 & 33.63 & 83.18 &
+		\TB{17.96}\\
+		 & \textbf{c} & 3574 & 7.27 & 8.45 & 14.14 & \TB{7.01}\\
+		 & \textbf{e} & 3470 & 1.42 & 2.58 & 7.40 & \TB{1.04}\\
+		
+		\bottomrule
+	\end{tabular}
+\end{table}
