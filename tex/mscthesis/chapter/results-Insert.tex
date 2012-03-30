@@ -93,31 +93,25 @@ Solution~4 (Figures~\ref{fres:insert-user} and~\ref{fres:insert-course}).
 % operations are affected by the initialization as its \texttt{insert} operations
 % are the very first operations to be executed.
 
-\newpage
-		\begin{figure}[H]
+\begin{landscape}
+		\begin{figure}
 		\centering
 		\newcommand{\W}{.4\textwidth}
-			\subfigure[Response time for Insert on Student]
+			\subfigure[ Insert on Student]
 			{\includegraphics[width=\W]{figure/result/barplot-insert_student-rt.pdf}}
-			\subfigure[Throughput for Insert on Student]
-			{\includegraphics[width=\W]{figure/result/barplot-insert_student-tp.pdf}}
-			\caption{Performance inserting students}\label{fres:insert-user}
-% 		\end{figure}
-% \newpage
-% 	\subsection{Course}
-% 		\begin{figure}[H]
-			\subfigure[Response time for Insert on Course]
+			\subfigure[ Insert on Course]
 			{\includegraphics[width=\W]{figure/result/barplot-insert_course-rt.pdf}}
-			\subfigure[Throughput for Insert on Course]
-			{\includegraphics[width=\W]{figure/result/barplot-insert_course-tp.pdf}}
-			\caption{Performance inserting courses}\label{fres:insert-course}
-% 		\end{figure}
-% \newpage
-% 	\subsection{Enrolment}
-% 		\begin{figure}[H]
-			\subfigure[Response time for Insert on Enrolment]
+			\subfigure[ Insert on Enrolment]
 			{\includegraphics[width=\W]{figure/result/barplot-insert_enrolment-rt.pdf}}
-			\subfigure[Throughput for Insert on Enrolment]
+			\caption{Response time inserting entities}\label{fre:insert-response-time}
+			
+			\subfigure[ Insert on Student]
+			{\includegraphics[width=\W]{figure/result/barplot-insert_student-tp.pdf}}
+			\subfigure[ Insert on Course]
+			{\includegraphics[width=\W]{figure/result/barplot-insert_course-tp.pdf}}			
+			\subfigure[ Insert on Enrolment]
 			{\includegraphics[width=\W]{figure/result/barplot-insert_enrolment-tp.pdf}}
-			\caption{Performance inserting enrolments}\label{fres:insert-enrolment}
+			\caption{Throughput inserting entities}\label{fres:insert-throughput}
 		\end{figure}
+		
+\end{landscape}

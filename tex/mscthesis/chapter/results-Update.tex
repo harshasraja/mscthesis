@@ -114,33 +114,24 @@ In such cases, Solution~1 and 2 are almost 1.5 times slower than the baseline.
 % Note that in all the solutions the \texttt{update} on . This is because of the different
 % referential integrity rules applied on the entities. 
  
-\newpage
-		\begin{figure}[H]
+\begin{landscape}
+		\begin{figure}
 		\centering
 		\newcommand{\W}{.4\textwidth}
-			\subfigure[Response time for Update on Student]
+			\subfigure[ Update on Student]
 			{\includegraphics[width=\W]{figure/result/barplot-update_student-rt.pdf}}
-			\subfigure[Throughput for Update on Student]
-			{\includegraphics[width=\W]{figure/result/barplot-update_student-tp.pdf}}
-			\caption{Performance updating students}\label{fres:update-user}
-% 		\end{figure}
-% \newpage	
-% 	\subsection{Course} 
-% 		\begin{figure}[H]
-			\subfigure[Response time for Update on Course]
+			\subfigure[ Update on Course]
 			{\includegraphics[width=\W]{figure/result/barplot-update_course-rt.pdf}}
-			\subfigure[Throughput for Update on Course]
-			{\includegraphics[width=\W]{figure/result/barplot-update_course-tp.pdf}}
-			\caption{Performance updating courses}\label{fres:update-course}
-% 		\end{figure}	
-% \newpage	
-% 	\subsection{Enrolment}
-% 		\begin{figure}[H]
-			\subfigure[Response time for Update on Enrolment]
+			\subfigure[ Update on Enrolment]
 			{\includegraphics[width=\W]{figure/result/barplot-update_enrolment-rt.pdf}}
-			\subfigure[Throughput for Update on Enrolment]
+			\caption{Response time updating entities}\label{fres:update-response-time}
+			
+			\subfigure[Update on Student]
+			{\includegraphics[width=\W]{figure/result/barplot-update_student-tp.pdf}}			
+			\subfigure[ Update on Course]
+			{\includegraphics[width=\W]{figure/result/barplot-update_course-tp.pdf}}
+			\subfigure[Update on Enrolment]
 			{\includegraphics[width=\W]{figure/result/barplot-update_enrolment-tp.pdf}}
-			\caption{Performance updating enrolments}\label{fres:update-enrolment}
+			\caption{Throughput updating entities}\label{fres:update-throughput}
 		\end{figure}
-\clearpage
-\newpage
+\end{landscape}
