@@ -1,0 +1,84 @@
+%ब
+\chapter{Conclusion}
+Cloud data storage has been progressing and evolving to match and scale the
+advances made in cloud computing. In order to provide for efficient and easy
+ways of storing data on the cloud, many different kinds of cloud \acp{DBMS} that
+adopt various data models have been developed and used by several users.
+% Such \acp{DBMS} have evolved and adapted to address different problems related
+% to the cloud environment.
+Cloud \acp{DBMS} commonly adopt the key-value data model to meet the
+scalability, flexibility, robustness and other features essential in the cloud
+environment. The key-value data model allows data to be stored in  key-value
+pairs without strict or rigid schemas as seen in traditional \acp{RDBMS}.
+However, this data model is prone to limitations and have to compromise some
+useful \ac{DBMS} features in order to be adaptable on the cloud.
+This thesis specifically addressed one such challenge of maintaining
+referential integrity in  cloud \acp{DBMS} that adopt the column-oriented key-value data
+model. 
+
+Referential integrity constraints are not provided as a cloud \ac{DBMS} feature
+as commonly  consistency is sacrificed for data availability and
+partition-tolerance, following the CAP theorem. These constraints help preserve
+data dependencies in  \acp{DBMS} and prevent operations that violate
+referential integrity. By not having such constraints in cloud \acp{DBMS} data
+dependencies are not correctly maintained or applications have to incorporate
+the logic to maintain referential integrity, which increases the application
+workload. This thesis addresses such problems and contributes by providing four
+solutions with different approaches to incorporate referential integrity
+constraints and their validations in a cloud column-oriented key-value
+\ac{DBMS}.
+
+The four solutions maintain the dependency information as referential integrity
+constraints preserved as metadata within a keyspace.  The performance of each
+solution was analysed with respect to their response time and throughput after
+running experiments. The results from the experiments  showed that the way
+dependency information is saved influences the time taken for an operation to
+complete after performing referential integrity validations. Generally when
+metadata is embedded within the actual data, the time consumed to complete
+operations was shorter than when metadata is centralised and maintained as a
+separate entity class. Nonetheless, caching the metadata when it is centralised
+improves the performance significantly. However each solution presnts a
+trade-off along with the  benefits such of preserving the dependency
+information and providing referential integrity validations, they also present
+some trade-offs.
+
+The first solution embeds the metadata within each entity thus providing easy
+access to the constraints during validations. Nonetheless, when the number of
+constraints to be stored is large, it presents a compromise in terms of space as
+each entity will contain large text values. While performance is faster with
+quick access to constraints for any entity, it can consume much space as
+metadata resides within each entity. Moreover changes to metadata will require
+changing the metadata text in every single entity, thus making metadata management
+difficult.
+
+The second solution overcomes the redundancy of metadata in Solution~1 and saves
+metadata as the top row of an entity class. This approach provides access to the
+metadata of an entity without having to connect to other entity classes or
+clusters and consumes less space when compared to Solution~1.  Furthermore,
+changes to metadata requires changing the values only in the top row of every
+entity class, making metadata management slightly more efficient. However, it
+performs slightly poorly than Solution~1 and again pose a problem when the
+constraints are large, which requires more searches within the entity class to
+locate the constraints. The trade-off is between space and performance
+ that include additional metadata retrieval operations.
+
+The third solution centralises metadata and stores it separately in an entity
+class, in the same cluster. While this approach provides better and easier
+management of large metadata, it affects the performance during validations as
+additional accesses are required each time metadata has to be accessed. It thus
+becomes a balance of performance or efficient space and metadata management.
+
+Similarly, the fourth solution centralises metadata and stores it in a separate
+entity class in a separate cluster which is dedicated to storing metadata. Such
+an approach is ideal for applications that handle multiple keyspaces and large
+metadata for such keyspaces. Moreover this solution caches the metadata for a
+keyspace and re-uses the metadata for each validation on an entity. However, if
+metadata is altered in any way, the cache would need to be updated as well.
+While the experiment results show that the performance of this solution is
+better than the rest of the solutions, it presents a trade-off between superior
+performance but cache-management if metadata is dynamic or susceptible to
+changes.
+
+
+
+

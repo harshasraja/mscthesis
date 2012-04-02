@@ -1,5 +1,5 @@
 %ब 
-% \newpage
+
 \newcolumntype{B}{>{\columncolor{light-gray}}c} 
 
 	\begin{table}[h]
@@ -69,7 +69,7 @@
 	\caption{Response time ratio}\label{tres:ResponsetimeRatio}
 		\begin{tabular}{ccBcccc}
 			
-			\toprule &&\textbf{Baseline} & \textbf{Solution1} & \textbf{Solution2} &
+			\toprule &&\textbf{Baseline$^*$} & \textbf{Solution1} & \textbf{Solution2} &
 			\textbf{Solution3} & \textbf{Solution4}\\
 						
 			\midrule \multirow{3}{*}{\textbf{insert}} & \textbf{s} & 0.37 & 1.55 & 2.24 &
@@ -88,15 +88,13 @@
 			& \textbf{e} & 0.29 & 1.41 & 2.57 & 7.36 & \TB{1.03}\\
 			
 			\bottomrule
+			\multicolumn{3}{l}{\scriptsize $^*$ Milliseconds per entity} & &
+			\multicolumn{3}{r}{\scriptsize Lower values mean faster response}
 		
 		\end{tabular}
 	\end{table}
 
 \newpage
-
-
-
-
 
 	\begin{table}[h]
 	\centering
@@ -104,7 +102,8 @@
 		\begin{tabular}{ccBcccc}
 			
 			\toprule
-			&&\textbf{Baseline} & \textbf{Solution1} & \textbf{Solution2} & \textbf{Solution3} & \textbf{Solution4}\\
+			&&\textbf{Baseline$^*$} & \textbf{Solution1} & \textbf{Solution2} &
+			\textbf{Solution3} & \textbf{Solution4}\\
 			
 			\midrule
 			\multirow{3}{*}{\textbf{insert}} & \textbf{s} & 2790 & 0.63 & 0.44 & 0.17 &
@@ -125,7 +124,8 @@
 			 & \textbf{e} & 3470 & 0.70 & 0.39 & 0.14 & \TB{0.97}\\
 			
 			\bottomrule
-		
+			\multicolumn{3}{l}{\scriptsize $^*$ Entities per second} & &
+			\multicolumn{3}{r}{\scriptsize Higher values mean more throughput}
 		\end{tabular}
 	\end{table}
 

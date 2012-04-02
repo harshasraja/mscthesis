@@ -3,297 +3,166 @@
 
 
 The performance of the solutions while validating referential integrity in the
-experiments is measured in terms of response time and throughput, which are
-common \ac{DBMS} performance indicators (\todo{cite Demurjian, Berkely}).
+experiments is measured in terms of response time and throughput,  which are
+common \ac{DBMS} performance indicators (\todo{cite Demurjian,  Berkely}). 
 The response time of the solutions indicates the time taken for Cassandra to
 complete an operation while throughput measures the number of operations that
-Cassandra completes per second.
+Cassandra completes per second. 
 The performance of Cassandra when referential integrity validations are not
 enforced is also measured and considered as a baseline with which to analyse and
-compare the solutions. Such a comparison determines the difference in the
+compare the solutions.  Such a comparison determines the difference in the
 performance of Cassandra when such additional validations are enforced using
 the \ac{API} and provides performance guidelines about how each solution affects
-the performance of the \ac{DBMS}.
+the performance of the \ac{DBMS}. 
 
  The results from the experiments were used to
 analyse the performance of the four solutions  and this is discussed in the
-following sections.
+following sections. 
 Section~\ref{s:results-overview} presents an overview of the  performance of the
-four solutions.
+four solutions. 
 Section~\ref{s:results-Baseline} presents the results for the operations
-without validations.
-Section~\ref{s:results-insert},~\ref{s:results-update}
+without validations. 
+Sections~\ref{s:results-insert}, ~\ref{s:results-update}
 and~\ref{s:results-Delete} present the analysis  of the results
-of all the solutions for the \texttt{insert}, \texttt{update} and
-\texttt{delete} operations (respectively).
+of all the solutions for the \texttt{insert},  \texttt{update} and
+\texttt{delete} operations (respectively).  
 % Section presents the analysis for the \texttt{update}
-% operation for all the solutions.
+% operation for all the solutions. 
 % Section discusses the results of the solutions for the
-% \texttt{delete} operation.
-Finally, Section~\ref{s:results-summary} presents a sumamry of the analysis of
-the performance of all the solutions.
+% \texttt{delete} operation. 
+Section~\ref{s:comparisonOfOperations} presents an overall comparison of the
+operations. 
+ Finally,  Section~\ref{s:results-summary} presents a summary of the
+analysis of the performance of all the solutions. 
 
 \newcommand{\Width}{0.5\textwidth}
 \newcommand{\TB}[1]{\textbf{#1}} 
 
-\section{Overview of Results} \label{s:results-overview}
-
-The experiments were performed to evaluate the response time and throughput of
-the solutions in order to determine the impact of the metadata storage and
-referential integrity validations on the performance of Cassandra.
-% The results from these experiments are presented in
-% Tables~\ref{tres:ResponseTime},~\ref{tres:ResponsetimeRatio},~\ref{tres:Throughput}
-% and~\ref{tres:ThroughputRatio}.
-Tables~\ref{tres:ResponseTime} and~\ref{tres:Throughput} present the mean and
-standard deviation of the response time for all the solutions and the throughput
-of each operation for each solution. Notice that the solution with the lowest
-response time and highest throughput has a better performace than rest, while
-the solution with the highest response time and lowest throughput has the worst.
-This means that the better performing solution can perform more operations in a
-second and complete each operation with the least amount of time.
-
-
-
-As seen in these tables, Solution~4 performs the best amongst all since its
-response times for all the  operations on every entity are the least.
-Conversely, Solution~3 performs the worst amongst all with high response times
-for all the operations and the lowest throughput in all the cases respectively.
-Regarding Solutions~1 and 2, they perform similarly although Solution~1 is
-faster with slightly smaller response times and higher throughoput. Note that
-Solution~4 is slower than  Baseline  because the baseline does not perform any
-referential validations or store metadata.
-
-% The results show the throughput and the response time of each solution to
-% complete an operation with referential integrity validation on a single
-% entity. The throughput shows how many operations are performed in one second
-% in each solution.
-This can be further seen in the ratios of the response time and throughput
-presented in Tables~\ref{tres:ResponsetimeRatio} and~\ref{tres:ThroughputRatio}.
-The former shows the ratio of the response time of each solution when compared
-to that of the baseline, and it indicates the factor by which any solution is
-slower than the baseline;  while
-% many times faster or slower each solution is when compared to the baseline.
-the latter shows the ratio of the throughput when compared to that of the
-baseline.
-% The results show that all the solutions perform differently and have different
-% response times and throughput.
-The variations in the performance of the solutions is due to ways these store
-and handle metadata. Recall that Solutions~1 and 2 store metadata along with the
-actual data where Solution~1 stores it in every row and Solution~2 stores it as
-the top row of a column family. On the other hand, Solutions~3 and 4 store
-metadata separately from the actual data  in a \texttt{Metadata} column family
-but such a  \texttt{Metadata} column family is in a separate cluster in
-Solution~4.
-% The results show that the way metadata is stored and retrieved in each solution
-% affects its performance during validation, when constraints are retrieved and
-% used.
-
-From these results, Solution~4  is faster than the other solutions when
-performing the validations on each operation since it caches the list of
-constraints and avoids connecting to the external cluster to access the
-\texttt{Metadata} column family each time  operations are invoked on entities.
-Therefore, to locate the relevant \ac{FK} and \ac{PK} constraints of an entity,
-the constraints stored in the cache memory are re-used.
-Performance is improved significantly just by caching the 
-\texttt{Metadata} column family as it reduces the number of accesses to the
-column family.
-
-On the other hand, Solution~3 is the slowest  because of the
-way it accesses the metadata everytime from \texttt{Metadata} column family.
-% of the way the metadata is accessed for the entities in this solution.
-% % irrespective of whether an entity is a parent or child the %
-% \texttt{ValidationHandler} performs the same check the metedata of the entity
-% % for all the solutions. It is when this check is made it is clear if the
-% entity % is a parent or child.
-% In this solution accessing
-In this solution, in order to retrieve the relevant \ac{FK} constraints for
-an entity the \texttt{Metadata} column family has to be accessed. This means
-that for each operation on an entity, an additional access is required to
-\texttt{Metadata} which consumes more time.
-Moreover, to retrieve the information about any referencing constraints within
-the relevant \ac{FK} constraints of an entity, \texttt{Metadata} is accessed
-again.
-% For example, in order to get the information of a \ac{PK} constraint stored in the
-% \texttt{RConstraintName} column of a \ac{FK} constraint, the \texttt{Metadata}
-% column family is again accessed and the \ac{PK} constraint is searched. 
-Thus in order to
-complete each validation, \texttt{Metadata} is accessed more than once.
-% \texttt{Metadata} column family has to be accessed using the connection
-% object.
-Unlike Solution~4, metadata is not cached for re-use thus costing multiple
-access to \texttt{Metadata} column family.
-
-Meanwhile, Solutions~1 and~2 have approximately similar response times as both
-the solutions store the whole list of constraints with the actual data and 
-requires no additional connectins to access the relevant as well as
-referenced constraints of an entity. Note that,in Solution~1 since the constraints
-are stored with each entity it performs slightly better than
-Solution~2 because the latter has an additional search operation to identify the
-top row in a column family to locate the relevant constraints of an entity. Both
-solutions are faster than Solution~3 mainly because these have the whole
-constraints along with the actual data. However, they are slower than Solution~4
-as these have to access the constraints from each entity everytime and do not
-use a cache.
-% their metadata access for these solutions are easier as metadata is a part of
-% the entity and no additional connection to a metadata column family is
-% required.
-
-
-% Unlike this, Solution~4 caches  metadata for entities and re-uses it thus
-% saving time by not having to access a separate column family for each entity
-% insertion.
-
-The performance of the solutions in each
-operation on the entities is discussed in detail in the following sections.
- \input{chapter/results-tables}
-
-\section{Baseline Experiment} \label{s:results-Baseline}
-
-The performance of Cassandra when referential
-integrity validations are introduced  is compared with
- a baseline experiment where the operations on the entities do not trigger any
-such validations. Such a baseline serves as a reference to determine the
-difference in performance of the \ac{DBMS} when validations are imposed using
-the \ac{API} and to analyse the performance of the solutions.
-
-In the baseline experiment, the operations on the entities represent how
-operations on data are performed in Cassandra without referential integrity
-validations.
-The results in terms of average response time and throughput for the baseline
-experiment are presented as  bar-plots in Figure~\ref{fres:Baseline}.
-Specifically, Figure~\ref{fres:Baseline-responsetime} shows the response time 
-of each operation on a single entity in the three column families.
-Figure~\ref{fres:Baseline-throughput} presents the throughput of each operation
-on the three column families in one second.
-% The analysis of the performance of each operation on an entity is discussed as
-% follows.
-
-% 	\begin{figure}[h] \centering
-% 	\includegraphics[width=.8\textwidth]{./figure/result/barplot-Baseline-rt.pdf}
-% 		\caption{Baseline}\label{fr:Solution0-barplot}
-% 	\end{figure}
-	
-	\begin{figure}[H]
-		
-		\subfigure[Response time]
-		{\includegraphics[width=\Width]{figure/result/barplot-Baseline-rt.pdf}\label{fres:Baseline-responsetime}}
-		\subfigure[Throughput]
-		{\includegraphics[width=\Width]{figure/result/barplot-Baseline-tp.pdf}\label{fres:Baseline-throughput}}
-		\caption{Performance of Baseline}\label{fres:Baseline}
-	\end{figure}
-
-As seen from these results, the \texttt{delete} operation takes in average the
-least response time and  highest throughput, respectively. That is, the time to
-delete an entity is smaller when compared to \texttt{insert} or \texttt{update},
-which also means that more \texttt{delete} operations can be performed within a
-second. On the other hand, \texttt{update} takes the most time to complete all
-the operations thus providing a smaller throughput while \texttt{insert} is
-faster than \texttt{update} but takes slightly more time than \texttt{delete}.
-
-The \texttt{delete} operation performs faster than the other operations because
-Cassandra performs  tombstone deletes, where data is not physically but only
-logically marked as deleted. The \texttt{update} operation takes the most time
-because it requires searching by index to access the correct columns in the
-column family It then stores the new entity and deletes  the old enity and its
-child dependencies if it is a cascaded \texttt{update}. Thus,  an
-\texttt{update} involves an \texttt{insert} and a \texttt{delete} operations
-hence taking more time. Note that the \texttt{update} in \texttt{Enrolment}
-takes lesser time because it does not change the primary keys of these entities
-and only the foreign key attributes are changed. % On the other hand,
-% \texttt{update} on \texttt{Student} and \texttt{Course} entities changes the
-% primary keys, which involves performing an \texttt{insert} and a \texttt{delete}
-% operation for each entity.
-The \texttt{insert} operation takes slightly more time than \texttt{delete}
-since data has to be physically written into the column families.
-
-The time taken to insert one entity of \texttt{Student}, \texttt{Course} and
-\texttt{Enrolment} are similar since there are no additional validations or
-operations to insert these entities. Note that the slight variations in the
-response times for an \texttt{insert} on these entities can be due to
-difference in columns, size and external factors.
-% Moreover, when the experiments are run \texttt{insert} on these entities are the
-% first operations to take place and the results can be slightly influenced by the
-% initialisation of the column families and the keyspace. However, the difference
-% is small and only a fraction of a millisecond.
-
-
-%  the number
-% of columns that are updated in \texttt{Enrolment} is much lesser than the other
-% column families. This means that \texttt{update} on \texttt{Enrolment} involves
-% fewer search by indexes and writes for the new values, to be precise it involves
-% only three searches and writes to update its three columns.  On the other hand,
-% \texttt{Student} and \texttt{Course} column families have more number of columns
-% to be updated in each \texttt{update} operation.
-
+\input{chapter/results-overview}
+\input{chapter/results-tables}
+\input{chapter/results-baseline}
 \input{chapter/results-Insert} 
 \input{chapter/results-Update}
 \input{chapter/results-Delete}
 
-% \section{Observations}
-From all the results and  analysis of the performance of the operations, it can
-be seen that the \texttt{insert} operation takes the least time to complete when
-compared to \texttt{update} and \texttt{delete} operations. This is mainly
-because in \texttt{insert}, validations are triggered on only the
-\texttt{Enrolment} column family.
+% Moreover,  when the experiments are run \texttt{insert} on these entities are
+% the first operations to take place and the results can be slightly influenced
+% by the initialisation of the column families and the keyspace.  However,  the
+% difference is small and only a fraction of a millisecond.
+% the number  of columns that are updated in \texttt{Enrolment} is much lesser
+% than the other column families.  This means that \texttt{update} on
+% \texttt{Enrolment} involves fewer search by indexes and writes for the new
+% values,  to be precise it involves only three searches and writes to update
+% its three columns.   On the other hand, \texttt{Student} and \texttt{Course}
+% column families have more number of columns to be updated in each
+% \texttt{update} operation.
 
-On the other hand, \texttt{update} takes the most time  in every solution,
-mainly due to its cascaded behaviour on parent entities, which involves
-accessing child column families and changing its foreign key values.
+\section{Comparison of the Operations} \label{s:comparisonOfOperations}
+
+In order to compare the operations, their performance  is grouped by solutions
+and presented in Figures~\ref{fres:ResponseTimeOfSolutions}
+and~\ref{fres:ThroughputOfSolutions}. It can be seen that the \texttt{insert}
+operation takes the least time to complete when compared to \texttt{update} and
+\texttt{delete} operations.  This is mainly because in \texttt{insert}, 
+validations are triggered on only the \texttt{Enrolment} column family.
+
+On the other hand,  the \texttt{update} operation takes the most time  in every
+solution,  mainly due to its cascaded behaviour on parent entities,  which
+involves changing the parent primary key,  accessing child column families and
+changing its foreign key values.
 Note that \texttt{update} on \texttt{Enrolment} is similar to \texttt{insert} on
 \texttt{Enrolment} because both operations involve checking whether the foreign
 keys exist in the parent column families and inserting the values only in
 \texttt{Enrolment}.
-However, \texttt{update} on \texttt{student} and  \texttt{Course} entities takes
-more time than inserting these entities because \texttt{update} involves
-additional searches and writes in more than one column family whereas inserting
-these entities cause no validations as they have no referencing values.
+However,  \texttt{update} on \texttt{Student} and  \texttt{Course} entities take
+more time than inserting students and courses because \texttt{update} involves
+additional searches and operations (\texttt{insert} and \texttt{delete})
+in more than one column family. 
 
-\texttt{delete} is faster than \texttt{update} in all the solutions since
-entities are not immediately deleted due to the tombstone effect in Cassandra.
-It also does not involve more writes like the \texttt{update} operations since
-values are only deleted and not inserted, whereas an \texttt{update} causes both
-an \texttt{insert} and a \texttt{delete}. Moreover, deleting child entities do
-not cause validations but updating any entity causes validations.
+The \texttt{delete} operation is faster than \texttt{update} in all the
+solutions since entities are not immediately deleted due to the tombstone
+paradigm in Cassandra.  It also does not involve more writes like the
+\texttt{update} operations since values are only deleted and not inserted, 
+whereas an \texttt{update} causes both an \texttt{insert} and a \texttt{delete}.
+ Moreover, deleting child entities do not cause validations but updating any
+entity causes validations.
 
-When compared with the \texttt{insert} operation, \texttt{delete} is slower in
-the case of parent entities, \texttt{student} and \texttt{course}. This is 
+When compared with the \texttt{insert} operation,  \texttt{delete} is slower in
+the case of parent entities,  \texttt{Student} and \texttt{Course}.  This is
 because inserting parent entities do not cause referential integrity
-validations, but deleting them does. Conversely, deleting child entities is
+validations,  but deleting them does.  Conversely,  deleting child entities is
 faster than inserting child entities since it does not trigger such validations.
 
 Further information about the results for the operations and solutions are
-provided in the Appendix (~\ref{c:appendix}).
-% \texttt{delete} generally consumes more
-% time than \texttt{insert} in the solutions mainly because However, deleting
-% \texttt{enrolment} entities involves lesser time than \texttt{insert} on these
-% entities, mainly because deleting child entities do not trigger validations.
+provided in Appendices~\ref{apx:insert}, \ref{apx:update}, and
+~\ref{apx:delete}.
+
+\begin{landscape}
+
+		\begin{figure}
+		\newcommand{\W}{.375\textwidth}
+		\centering
+			\subfigure[Solution 1]
+			{\includegraphics[width=\W]{figure/result/barplot-Solution1-rt.pdf}
+			\label{fres:Summary-Solution1}}
+			\subfigure[Solution 2]
+			{\includegraphics[width=\W]{figure/result/barplot-Solution2-rt.pdf}
+			\label{fres:Summary-Solution2}}
+			\subfigure[Solution 3]
+			{\includegraphics[width=\W]{figure/result/barplot-Solution3-rt.pdf}
+			\label{fres:Summary-Solution3}}
+			\subfigure[Solution 4]
+			{\includegraphics[width=\W]{figure/result/barplot-Solution4-rt.pdf}
+			\label{fres:Summary-Solution4}}
+			\captionof{figure}{Response Time of the
+			Solutions}\label{fres:ResponseTimeOfSolutions}
+			
+			\subfigure[Solution 1]
+			{\includegraphics[width=\W]{figure/result/barplot-Solution1-tp.pdf}
+			\label{fres:Summary-Solution1}}
+			\subfigure[Solution 2]
+			{\includegraphics[width=\W]{figure/result/barplot-Solution2-tp.pdf}
+			\label{fres:Summary-Solution2}}
+			\subfigure[ Solution 3]
+			{\includegraphics[width=\W]{figure/result/barplot-Solution3-tp.pdf}
+			\label{fres:Summary-Solution3}}
+			\subfigure[ Solution 4]
+			{\includegraphics[width=\W]{figure/result/barplot-Solution4-tp.pdf}
+			\label{fres:Summary-Solution4}}
+			\caption{Throughput of the Solutions}\label{fres:ThroughputOfSolutions}
+		\end{figure}
+\end{landscape}
+
+
 \section{Summary} \label{s:results-summary}
 
-This chapter presented the results of the experiments that showed the response
-time and throughput of the operation on the entities in every solution. It is
-learnt from the results that Solution~4 preforms the best amongst the solutions
-and performs similar to the baseline when no validations are triggered.
-Solution~3 performs the worst amongst the solutions and is slower than the
-baseline even when validations are not triggered because simply accessing the
-metadata from a separate column family each time affects its performance.
+This chapter presented the results of the experiments that showed the average
+response time and throughput of the operation on the entities in every solution.
+ It is learnt from the results that Solution~4 performs the best amongst the
+solutions and performs similar to the baseline when no validations are
+triggered.
+Solution~3 performs the worst amongst all and is slower than the baseline even
+when validations are not triggered because simply accessing the metadata from a
+separate column family each time affects its performance.
 Solutions~1 and 2 perform similarly in all the operations on the entities which
-is mainly because the metadata is embedded with the entity. Solution~2 consumes
-slightly more time than Solution~1 as it searches for the top row to identify
-constraints on each operation. 
+is mainly because the metadata is embedded with the actual data.  Solution~2
+consumes slightly more time than Solution~1 as it searches for the top row to
+identify constraints on each operation.
 
-Analysing the results showed that amongst the operations, \texttt{insert} took
-the lest time while \texttt{update} took the most time and \texttt{delete} was
-faster than \texttt{insert} only in the case of child entities. These variations
-were mainly due to the different referential integrity rules that are applied
-on parent and child entities and the \texttt{DeleteRule} applied on these
-entities.
+The results showed that amongst the operations,  \texttt{insert} took the least
+time while \texttt{update} took the most time,  and \texttt{delete} was faster
+than \texttt{insert} only in the case of child entities.  These variations were
+mainly due to the different referential integrity rules that are applied on
+parent and child entities,  especially because of the \texttt{DeleteRule}
+applied on these entities. 
 
-The entities behaved differently in each operation due to the various
-referential integrity rules and the data manipulation rules applied on them.
-\texttt{Enrolment} triggers validations during
-\texttt{update} and \texttt{insert} operations as it is a child entity, while
+The entities required different behaviours in each operation due to the various
+referential integrity rules as well as  the data manipulation rules applied on
+them. 
+\texttt{Enrolment} triggers validations during \texttt{insert}
+ and \texttt{update} operations as it is a child entity,  while
 \texttt{Student} and \texttt{Course} are parent entities and trigger validations in both
-\texttt{update} and \texttt{delete}. Thus, parent entities are faster to operate
-upon in an \texttt{insert} operation, while child entities are faster only in a
-\texttt{delete} operation. 
+\texttt{update} and \texttt{delete}.  Thus,  parent entities are faster to operate
+upon in an \texttt{insert} operation,  while child entities are faster only in a
+\texttt{delete} operation.  
 	
