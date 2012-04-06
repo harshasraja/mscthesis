@@ -28,19 +28,19 @@ For example,   in MS SQL Server 2000,  \texttt{sysforeignkeys}
 is a \texttt{System} table which stores the information of all 
 foreign keys of every table in a database,  and \texttt{sysreferences}
 stores the mappings of  foreign keys to the referenced primary key columns
-\citep{sys:msdn}.  
+\citep{msdn}.  
 Information in these \texttt{System} tables consist of  the
 names of tables and its constraints,   unique identifiers of 
 referenced and referencing columns and others.   
 In PostgreSQL,  such information is presented to users as views but it is stored
 in base tables which contain the dependency information of data items in a database. 
-The view \texttt{table\_constraints} contains the information for all the
-constraints in every table owned by the current user.   (\todo{\cite{}}).   
+The view \texttt{table\_constraints} show the information about all the
+constraints in every table owned by the current user~\citep{postgres}.   
 Similarly,  Oracle uses a \texttt{SYSTEM} meta-database to hold such constraint
 information.  
  In general,  \texttt{System} tables or views with information
 about the existing dependencies  are looked up by these \acp{RDBMS} whenever
-referential integrity checks are triggered \citep{sys:msdn}.  
+referential integrity checks are triggered \citep{msdn}.  
 
 
 The solutions presented in this thesis save the dependency information as
@@ -90,10 +90,10 @@ every super column providing fast access to the metadata but increasing its
 redundancy.  
 Solution~2 has a similar approach as Solution~1 but stores metadata in a single
 super column in every column family.  This approach is useful when the metadata
-is large for a column family since it consumes lesser space when compared to
+is large for a column family since it consumes less space when compared to
 Solution~1.
-Both Solutions~1 and 2 use special characters in the metadata and save only the
-relevant constraints as metadata for a column family.
+Both Solutions~1 and 2 use special characters in the metadata in order to
+distinguish the  constraints relevant to an entity.
 Solution~3 separates the metadata from
 the actual data and stores all the constraints together for all the column
 families of a keyspace  in a centralised way.   This is useful when metadata has

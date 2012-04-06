@@ -1,84 +1,407 @@
 %ब
-\chapter{Conclusion}
-Cloud data storage has been progressing and evolving to match and scale the
-advances made in cloud computing. In order to provide for efficient and easy
-ways of storing data on the cloud, many different kinds of cloud \acp{DBMS} that
-adopt various data models have been developed and used by several users.
-% Such \acp{DBMS} have evolved and adapted to address different problems related
-% to the cloud environment.
-Cloud \acp{DBMS} commonly adopt the key-value data model to meet the
-scalability, flexibility, robustness and other features essential in the cloud
-environment. The key-value data model allows data to be stored in  key-value
-pairs without strict or rigid schemas as seen in traditional \acp{RDBMS}.
-However, this data model is prone to limitations and have to compromise some
-useful \ac{DBMS} features in order to be adaptable on the cloud.
-This thesis specifically addressed one such challenge of maintaining
-referential integrity in  cloud \acp{DBMS} that adopt the column-oriented key-value data
-model. 
+\chapter{Conclusions and Future Work}
+% % Cloud data storage has been progressing and evolving to match and scale the
+% % advances made in cloud computing. 
+% Cloud \acp{DBMS} adopt various data models in order to provide  efficient and
+% easy ways of storing data on the cloud.
+% % and many different kinds of such.
+% % \acp{DBMS} have been developed and used on the cloud.
+% % Such \acp{DBMS} have evolved and adapted to address different problems related
+% % to the cloud environment.
+% These \acp{DBMS} commonly adopt the key-value data model to meet 
+% scalability, flexibility, robustness and other features that are essential in
+% the cloud environment. 
+% This key-value data model allows data to be stored in 
+% key-value pairs without strict or rigid schemas as seen in traditional \acp{RDBMS}.
+% However, this data model   compromises some
+% useful \ac{DBMS} features, such as integrity constraints, efficient querying,
+% amongst others, in order to provide cloud-suitable features.
+% This thesis specifically addressed the limitation of lack of
+% referential integrity  constraints in  cloud column-oriented key-value
+% \acp{DBMS}. 
 
-Referential integrity constraints are not provided as a cloud \ac{DBMS} feature
-as commonly  consistency is sacrificed for data availability and
-partition-tolerance, following the CAP theorem. These constraints help preserve
-data dependencies in  \acp{DBMS} and prevent operations that violate
-referential integrity. By not having such constraints in cloud \acp{DBMS} data
-dependencies are not correctly maintained or applications have to incorporate
-the logic to maintain referential integrity, which increases the application
-workload. This thesis addresses such problems and contributes by providing four
-solutions with different approaches to incorporate referential integrity
-constraints and their validations in a cloud column-oriented key-value
-\ac{DBMS}.
+\acp{DBMS} on the cloud adopt various data models in order to provide  efficient
+and simple ways of storing data on the cloud.
+These \acp{DBMS} commonly adopt the key-value data model which stores data 
+as key-value pairs without strict or rigid schemas (contrary to the traditional
+relational model).
+This key-value data model provides cloud \acp{DBMS} with features like
+scalability, flexibility and robustness, which are essential in the
+cloud environment.  However, in order to provide these, other features  such as
+referential integrity  are often sacrificed.
 
-The four solutions maintain the dependency information as referential integrity
-constraints preserved as metadata within a keyspace.  The performance of each
-solution was analysed with respect to their response time and throughput after
-running experiments. The results from the experiments  showed that the way
-dependency information is saved influences the time taken for an operation to
-complete after performing referential integrity validations. Generally when
-metadata is embedded within the actual data, the time consumed to complete
-operations was shorter than when metadata is centralised and maintained as a
-separate entity class. Nonetheless, caching the metadata when it is centralised
-improves the performance significantly. However each solution presnts a
-trade-off along with the  benefits such of preserving the dependency
-information and providing referential integrity validations, they also present
-some trade-offs.
+In such cloud \acp{DBMS}, maintaining referential integrity incurs an additional
+computational cost that is avoided in order to provide high data availability
+and partition-tolerance, following the CAP theorem~\citep{Brewer,Stonebraker}.
+However, when referential integrity is not maintained, data dependencies are not
+necessarily correct as dangling references can be introduced. Hence, 
+maintaining referential integrity is left to be dealt with by the application.
 
-The first solution embeds the metadata within each entity thus providing easy
-access to the constraints during validations. Nonetheless, when the number of
-constraints to be stored is large, it presents a compromise in terms of space as
-each entity will contain large text values. While performance is faster with
-quick access to constraints for any entity, it can consume much space as
-metadata resides within each entity. Moreover changes to metadata will require
-changing the metadata text in every single entity, thus making metadata management
-difficult.
 
-The second solution overcomes the redundancy of metadata in Solution~1 and saves
-metadata as the top row of an entity class. This approach provides access to the
-metadata of an entity without having to connect to other entity classes or
-clusters and consumes less space when compared to Solution~1.  Furthermore,
-changes to metadata requires changing the values only in the top row of every
-entity class, making metadata management slightly more efficient. However, it
-performs slightly poorly than Solution~1 and again pose a problem when the
-constraints are large, which requires more searches within the entity class to
-locate the constraints. The trade-off is between space and performance
- that include additional metadata retrieval operations.
+This thesis presents an \ac{API} that maintains referential integrity in Apache
+Cassandra and serves as a middle layer between the applications and the
+\ac{DBMS}. The \ac{API} prevents the execution of operations that violate referential
+integrity constraints. It
+does so by triggering validations and ensuring that constraints applied on data
+are always satisfied.
+% maintains referential integrity by ensuring that the constraints on the data
+% are always satisfied whenever operations are performed.
+% Moreover, 
+More importantly, the \ac{API} presents four approaches to
+store the referential integrity constraints as metadata. Also, the
+performance of each approach is analyzed in terms of response time and
+throughput upon a set of experiments. The results obtained
+show  clear differences in  performance across the solutions. However, the final
+word on which one is better depends on the application as each solution
+presents different trade-offs.
 
-The third solution centralises metadata and stores it separately in an entity
-class, in the same cluster. While this approach provides better and easier
-management of large metadata, it affects the performance during validations as
-additional accesses are required each time metadata has to be accessed. It thus
-becomes a balance of performance or efficient space and metadata management.
 
-Similarly, the fourth solution centralises metadata and stores it in a separate
-entity class in a separate cluster which is dedicated to storing metadata. Such
-an approach is ideal for applications that handle multiple keyspaces and large
-metadata for such keyspaces. Moreover this solution caches the metadata for a
-keyspace and re-uses the metadata for each validation on an entity. However, if
-metadata is altered in any way, the cache would need to be updated as well.
-While the experiment results show that the performance of this solution is
-better than the rest of the solutions, it presents a trade-off between superior
-performance but cache-management if metadata is dynamic or susceptible to
-changes.
+The first solution has the second-best performance as it embeds the metadata
+within each entity, thus providing immediate access to the constraints once the
+entity is retrieved. However, this solution requires a large amount of disk
+space as it stores the metadata within every entity. Additionally, if changes
+are to be performed on the metadata, these must be updated in all entities, thus
+making its management difficult.
+While this solution has a rather good performance due to its quick access to the
+constraints, the trade-off  involves large space requirements
+coupled with complex metadata management \textit{versus} good performance.
 
+
+The second solution has a slightly worse performance than the first one as it
+stores the metadata in the top row of each column family. This solution requires
+less disk space as metadata is not included within each entity. Also,
+its management is much simpler as changes in metadata  require only updating it
+in every column family. However, compared with the previous solution,  this
+one requires an additional search operation to retrieve the metadata, therefore  
+the performance is slightly worse. In this case, the trade-off to decide upon
+involves lower disk space requirements and simpler management  of metadata
+\textit{versus} the delay of an additional search operation to retrieve the metadata.
+
+
+% The second solution has a slightly worse performance than the first one as it
+% stores the metadata in the top row of each column family, thus requiring an
+% additional search operation to retrieve it.  However, this solution requires
+% less disk space as metadata is not included within each entity.
+% Also, its management is much simpler as changes in metadata only require
+% updating it once in each column family. Even when the performance of this
+% solution is slightly poorer that the previous one, the trade-off to decide upon
+% involves lower disk space requirements and simpler management of metadata
+% \textit{versus} the delay of an additional search operation to retrieve the
+% metadata.
+
+
+The third solution has the worst performance of all. In this case, the
+constraints relevant to every entity are  stored in a single column family
+named \texttt{Metadata}, thus providing centralized metadata storage. Moreover, 
+changes to the constraints require updating only the \texttt{Metadata} column
+family. However, the performance is significantly reduced
+because validations have to perform additional accesses to \texttt{Metadata} to
+retrieve the relevant constraints. Thus, the trade-off in this
+approach is low disk space requirements and simple management of metadata
+\textit{versus} a  poor performance.
+
+Lastly, the fourth solution has the best performance of all. It stores  
+the metadata in a single column family (as the previous solution), but in  a
+separate dedicated cluster. This approach requires to connect to such a cluster
+every time metadata needs to be accessed. However, once metadata is
+retrieved for the first time, it is stored in cache in order to re-use it
+and avoid future connections to the cluster. Caching is the key aspect that
+makes this solution have a superior performance than the rest, but when
+ metadata is altered, additional mechanisms are required  to properly
+ have the cache updated. The trade-off here is between high performance,  low
+ disk space requirements, and simple management of metadata \textit{versus} having a
+ potentially stale cache or implementing mechanisms to prevent it.
+
+
+% The choice of a solution depends on the application requirements in terms of its
+% metadata, keyspace size and additionally, the trade-offs that are acceptable to
+% the application. Considering these factors, it can be summarised that Solution~1
+% favors applications that handle small keyspaces with a small amount of
+% constraints as metadata which is not prone to changes, while Solution~2 suits
+% applications with larger keyspaces having more number of constraints. Solution~3
+% is suitable for applications that handle keyspaces with sizeable  metadata
+% (several constraints) that is prone to changes.
+% Solution~4 favors applications that handle multiple keyspaces each containing
+% large metadata, so that all the metadata can be centrally managed in one
+% dedicated cluster. However, considering its high performance it can be used by
+% most applications as long as the metadata is not prone to many changes.
+
+
+In summary, this thesis has incorporated validation mechanisms
+for maintaining referential integrity  in Apache Cassandra,  a prominent cloud column-oriented
+key-value \ac{DBMS}. These mechanisms are implemented using four different
+solutions to store the referential integrity constraints. The four
+solutions were designed and implemented into the \ac{API} in order to perform
+ experiments and assess the response time and throughput of each solution. The
+  results showed that incorporating referential integrity into cloud NoSQL
+ \acp{DBMS} clearly affects the performance of the Create, Update and Delete
+ operations.
+  Moreover, the storage and handling of metadata is a decisive factor in the
+ performance of referential integrity validations. Furthermore, the solutions
+ presented have different trade-offs between performance, disk space requirements, and metadata
+management, all of which have to be carefully considered by the  application
+in order to choose the most appropriate solution according to its demands. 
+
+
+
+
+% 
+%  were designed and implemented to impose
+% referential integrity in  column-oriented key-value cloud \acp{DBMS}, where
+% constraints are preserved as metadata. These solutions were incorporated into a
+% single \ac{API} and implemented in Cassandra and their performance was analysed
+% upon a set of experiments, thus, successfully achieving the general and specific
+% objectives of this thesis. It was concluded from the results that the approaches
+% adopted to save metadata in order to perform referential integrity validations
+% affect the performance of the operations and the cloud \ac{DBMS}.
+% The solutions present some trade-offs that have to be carefully chosen before an
+% application uses the \ac{API}. Nevertheless, the four solutions
+%  preserve data integrity and maintain dependencies so that applications using
+% them can carry on with their operations and leave such validations to the
+% \ac{API}.
+
+
+% The way dependency information is stored influences the time taken for an
+% operation to complete when referential integrity validations are triggered.
+% % In this thesis, Interestingly, % the time consumed to complete operations
+% was shorter when metadata was embedded % with the entities than when metadata
+% was stored separately.
+% Although each solution improves data integrity, these also present some
+% trade-offs.
+% The performance of these solutions is analy  are provided within an \ac{API}
+% that acts as a bridge between applications and Cassandra using an entity
+% relationship model.
+% that applications can use and extend the incorporation of referential
+% integrity constraints in  Apache Cassandra, a prominent cloud column-oriented
+% key-value \acp{DBMS}, by providing an \ac{API}  that applications can use and
+% extend      The \ac{API} implements four solutions that maintain referential
+% integrity constraints by preserving it as metadata within a keyspace. These
+% four solutions store metadata in different ways, where metadata is either
+% embedded with the actual data or is stored in a centralised way and maintained
+% as a separate entity class.
+% The performance of each solution on a set of experiments is analysed with
+% respect to its response time and throughput .
+% The results from the experiments showed that imposing such constraints and
+% validations does affect the performance of a cloud \ac{DBMS}. The way
+% dependency information is stored influences the time taken for an operation to
+% complete when referential integrity validations are triggered.
+% % In this thesis, Interestingly, % the time consumed to complete operations
+% was shorter when metadata was embedded % with the entities than when metadata
+% was stored separately.
+% Although each solution improves data integrity, these also present some
+% trade-offs.
+% The first solution embeds the metadata within each entity thus providing
+% immediate access to the metadata of an entity. However, the amount of space
+% required to store all the metadata is increased significantly as every entity
+% contains the metadata and when the number of constraints  stored is large, the
+% utilisation of space is poor.
+% % it presents a compromise in terms of space since all the entities contain
+% the % same metadata.
+% Moreover, changes to the metadata  requires updating it in every single
+% entity, thus making metadata management difficult. While performance is faster
+% due to quick access to constraints for any entity, much space is consumed in
+% this approach which presents a  trade-off: large space requirements coupled
+% with complex metadata management versus good performance.
+% The second solution  stores the metadata as the top row within each column
+% family and thus reduces the redundancy of metadata. This approach provides
+% access to the metadata without having to connect to other entity classes or
+% clusters and consumes less space. Furthermore, changes to metadata requires
+% changing the values only in the top row of every entity class, making metadata
+% management efficient to a certain extent. However, it performs slightly slower
+% since it requires additional search operations to locate the metadata in an
+% entity class. The trade-off is less  space requirements versus slightly worse
+% performance than Solution~1.
+% The third solution centralises the metadata by storing it separately in a
+% column family within the same cluster. This centralised approach provides
+% easier management of metadata as changes to the metadata require updating only
+% the \texttt{Metadata} column family. However, the performance is significantly
+% reduced during validations as additional accesses to \texttt{Metadata} are
+% required each time constraints have to be retrieved. Thus, the trade-off is
+% poor performance versus  efficient  space and metadata management.
+% Similarly, the fourth solution centralises metadata by storing it in an entity
+% class but in a separate dedicated cluster. This approach requires a separate
+% connection to the dedicated cluster every time the \texttt{Metadata} column
+% family has to be accessed, which tends to make it slower than Solution~3.
+% However, the performance is significantly improved by caching the metadata and
+% re-using it in validations. Nonetheless, if metadata is altered, mechanisms to
+% update the cache appropriately is required.
+% While the experiment results show that the performance of this solution is
+% superior than the rest of the solutions, it comes with the cost of having a
+% potentially stale cache. The trade-off is high performance versus
+% cache-management if metadata is susceptible to changes.
+% The choice of a solution depends on the application requirements in terms of
+% its metadata, keyspace size and additionally, the trade-offs that are
+% acceptable to the application. Solution~1 favors small keyspaces with a small
+% amount of metadata which is not prone to changes, while Solution~2 suits
+% larger keyspaces with slightly bigger metadata.
+% Solution~3 fits applications with sizeable  metadata that is prone to changes.
+% Solution~4 favors applications that handle multiple keyspaces with large
+% metadata,although considering its high performance, it can be used by most
+% applications.
+% In summary, four solutions were designed and implemented to impose referential
+% integrity constraints and validations in  column-oriented key-value cloud
+% \acp{DBMS}, where dependency information is preserved as metadata. The four
+% solutions were incorporated into a single \ac{API} and implemented in
+% Cassandra and their performance was analysed, thus, successfully achieving the
+% general and specific objectives of this thesis. It was concluded from the
+% results that the approach adopted to save metadata affects the performance of
+% the operations and the cloud \ac{DBMS}. The solutions present some trade-offs
+% that have to be carefully chosen before an application uses the \ac{API}.
+% Nevertheless, the four solutions  preserve data integrity and maintain
+% dependencies so that applications using them can carry on with their
+% operations and leave such validations to the \ac{API}.
+
+
+
+This thesis can be further extended by:
+
+\begin{itemize}
+    \item Incorporating mechanisms in the \ac{API} to support thread-safe operations on the
+  data such that referential integrity is not compromised when multiple concurrent operations
+  take place. In order to achieve this, locking mechanisms and transation support for Apache
+  Cassandra might be implemented by libraries such as Cages.
+  
+  \item Implementing trigger procedures in order initiate events 
+  before and after performing any \ac{CRUD} operations. This could be implemented by 
+  extending the validation handlers to execute methods for such events in every operation. 
+  Also, entities could provide annotations for such methods.
+  
+  \item Implementing the four solutions on another key-value \ac{DBMS} such as
+  Google's BigTable or Apache's HBase in order to compare the performance with 
+  the results presented in this thesis. 
+  
+  \item Making the \ac{API} \ac{DBMS}-agnostic. That is, allowing the possibility 
+  to switch the underlying cloud \ac{DBMS} with minimal reconfiguration in order 
+  to provide consistent usage of the \ac{API} on other \ac{DBMS} such as 
+  BigTable, HBase, and others.
+  
+  \item Incorporating constraints for composite primary keys and implementing their 
+  respective handling.
+  
+  
+  \item Evaluating the performance impact of Hector by experimenting with 
+  other \acp{API} for Cassandra such as Pelops or Kundera.
+  
+  
+  \item Adapting the \ac{API} to work on a real cloud environment such as Amazon
+  EC2 where heterogeneity and  dynamism  are inherent properties as 
+  as nodes may have different characteristics and more nodes can be added as well.
+  Moreover, useful information about the solutions proposed in this thesis 
+  can be drawn from performing the experiments in such environments.
+  
+  \item Consolidating the performance of the \ac{API} and the solutions proposed
+  by using additional benchmarks such as \ac{YCSB} which measures latency,
+  scalability, and other features of cloud \ac{DBMS}.
+ 
+  \begin{comment}
+  
+  analysing the performance of the four solutions on Amazon
+  EC2 using the Yahoo Cloud Service Benchmark (YCSB) which provides benchmarks for several
+  cloud \ac{NoSQL} \acp{DBMS}. This benchmark can asses the performance of the
+  four solutions on Amazon EC2, using specific metrics to measure latency,
+  scalability, and other features of a cloud \ac{DBMS} and can thus give detailed
+  information on how such features affect the performance of the solutions.
+  
+  This will assess the performance of the four solutions in a dynamic and
+  heterogeneous environment, where the nodes in a cluster have different
+  characteristics.  The results of the Amazon EC2 implementation can be
+  compared with the results of this thesis to determine if the solutions perform
+  differently in a real cloud environment. Such a comparison will help in
+  improving the solutions to make it more efficient on cloud environments
+  
+  . Experimentation canperformance of  
+  the four solutions on the new \ac{DBMS} can be analysed and
+  compared with the results from this thesis, in order to understand the way the
+  features of a \ac{DBMS} affects the performance. Understanding such effects
+  will be beneficial as necessary improvements can be introduced to
+  the four solutions to make it \ac{DBMS} independent.
+  
+  
+  
+  the \ac{CRUD} operations are not affected adversely by  concurrent users. 
+  This would require using additional libraries such as  Cages in order to 
+  provide locking mechanisms and transaction support for cloud
+  \ac{NoSQL} \acp{DBMS}. Using such mechanisms, correct writes and updates are
+  performed even when multiple users concurrently change the values of a data
+  item .
+    
+    \item Incorporating other integrity constraints 
+    
+    entity constraints such as 
+    
+  \item Incorporating composite primary keys in the referential integrity
+  validations as well as  providing additional validation mechanisms for other
+  integrity constraints such as entity constraints and user defined integrity
+   constraints. This will provide applications using the \ac{API} with the
+  mechanisms to ensure data integrity in all respects.
+%   \item extending the \ac{API} to include composite primary keys in the
+%   referential integrity validations and also incorporating additional validation
+%   mechanisms for other integrity constraints such as entity constraints and user
+%   defined integrity constraints. This will provide applications using the
+%   \ac{API} with the mechanisms to ensure data integrity in all respects.
+  
+  \item incorporating mechanisms in the \ac{API} to provide the thread safety
+  such that the \ac{CRUD} operations are not affected adversely by large number
+  of concurrent users. This would require using additional libraries such as
+  Cages in order to provide locking mechanisms and transaction support for cloud
+  \ac{NoSQL} \acp{DBMS}. Using such mechanisms, correct writes and updates are
+  performed even when multiple users concurrently change the values of a data
+  item .
+% Moreover, such external libraries provide  transactions, which is a feature
+% planned for Cassandra at the time of writing.
+% This will provide support for multiple and concurrent operations on data while
+% ensuring integrity as it allows operations to be rolled back if the operations
+% are not successfully completed.
+  
+  \item using a different client \ac{API} for Cassandra instead of Hector, such
+  as Pelops or Kundera which are compatible with Java applications.
+  The performance of the solutions when such new and advanced client \acp{API}
+  are implemented can be analysed in order to determine whether migrating from
+  Hector to these new \acp{API} will improve the performance of the solutions in
+  any way.
+  
+  \item implementing the four solutions on another key-value \ac{DBMS} such as
+  BigTable or HBase.
+% This might require some changes since a different client \ac{API} will have to
+% be incorporated for the four solutions to interact with the new \ac{DBMS} as
+% Hector is exclusively used for Cassandra.
+  The performance of the four solutions on the new \ac{DBMS} can be analysed and
+  compared with the results from this thesis, in order to understand the way the
+  features of a \ac{DBMS} affects the performance. Understanding such effects
+  will be beneficial as necessary improvements can be introduced to
+  the four solutions to make it \ac{DBMS} independent.
+% independent of the underlying cloud \ac{DBMS} unlike in this thesis , where
+% the performance of all the solutions are affected by Cassandra features such
+% as tombstone delete.
+  
+  \item implementing the \ac{API} on a real cloud environment such as Amazon
+  EC2. This will assess the performance of the four solutions in a dynamic and
+  heterogeneous environment, where the nodes in a cluster have different
+  characteristics.  The results of the Amazon EC2 implementation can be
+  compared with the results of this thesis to determine if the solutions perform
+  differently in a real cloud environment. Such a comparison will help in
+  improving the solutions to make it more efficient on cloud environments.
+  
+  \item analysing the performance of the four solutions on Amazon
+  EC2 using the Yahoo Cloud Service Benchmark (YCSB) which provides benchmarks for several
+  cloud \ac{NoSQL} \acp{DBMS}. This benchmark can asses the performance of the
+  four solutions on Amazon EC2, using specific metrics to measure latency,
+  scalability, and other features of a cloud \ac{DBMS} and can thus give detailed
+  information on how such features affect the performance of the solutions.
+  
+
+  
+  
+
+% \item dynamic metadata changes are supported in the solutions.
+
+\end{itemize}
+
+
+
+% Hello: \citet{tokyo-copy}
+
+\end{comment}
 
 
 

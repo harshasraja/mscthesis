@@ -36,7 +36,7 @@ the cluster containing the keyspace to perform any operations on the actual
 data.  Whenever a \ac{CRUD} operation is invoked on a column family,  the
 experimental \ac{API} accesses its relevant metadata and caches it to re-use it
 for future operations on this column family. 
-Additionally, if the metadata cluster is unresponsive or not active,  the
+Additionally, if the metadata cluster becomes unresponsive or not active,  the
 experimental \ac{API} can continue performing validations despite such
 disruptions using the cached metadata.
 Having metadata cached is effective since metadata is not
@@ -79,7 +79,7 @@ the actual data.
 % the cached metadata. 
  
  This approach is inspired from the way most distributed systems save metadata
- in Metadata Server clusters (Lin Xia et al.  2009).
+ in Metadata Server clusters~\citep{bin-et-al,Fu,lin}.
  For better scalability and efficient access of metadata,  these clusters are
  often separately maintained in large distributed environments where a master
  metadata server and subordinate metadata servers handle various

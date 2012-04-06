@@ -1,6 +1,10 @@
 %
 \documentclass[11pt, a4paper, twoside, openright]{report}
 
+% \usepackage{html}
+% \usepackage{url}
+% \usepackage[dcucite]{harvard}
+
 \usepackage{float} % lets you have non-floating floats
  
 \usepackage{url} % for typesetting urls
@@ -12,6 +16,8 @@
 
 %% These are standard LaTeX definitions for the document
 %%
+
+% \renewcommand{\harvardurl}{\url}
 \title{Referential Integrity in\\ Cloud NoSQL Databases}
 \author{Harsha Raja} 
 
@@ -71,6 +77,9 @@
 \newcommand{\nf}[2]{\nicefrac{#1}{#2}}
 \usepackage{epsfig}
 \usepackage[usenames,dvipsnames]{xcolor}
+\usepackage{comment}
+
+
 
 \newcommand{\Quote}[1]{``#1''}
 
@@ -119,7 +128,7 @@
 %\listof{fig}{Figures}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
+ 
 \mainmatter
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -128,12 +137,12 @@
 % %
 %  \acresetall
 % \input{chapter/background}
-% 
-% \acresetall
-% \input{chapter/Design} 
-% %
-% \acresetall
-% \input{chapter/Implementation}
+% % 
+\acresetall
+\input{chapter/Design}
+%
+\acresetall
+\input{chapter/Implementation}
 % %
 % \acresetall
 % \input{chapter/Experimental}
@@ -141,8 +150,10 @@
 % \acresetall
 % \input{chapter/results-discussions}
 
-\acresetall
-\input{chapter/Conclusion}
+% \acresetall
+% \input{chapter/Conclusion}
+
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % \backmatter
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

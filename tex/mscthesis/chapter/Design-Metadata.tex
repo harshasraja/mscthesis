@@ -9,7 +9,7 @@ dictionaries.
 In Apache Cassandra, the \ac{DBMS} of interest, metadata is stored in a keyspace
 named \texttt{System} and it contains information about the cluster and its
 nodes along with information related to the keyspaces, column families, and so
-on (\todo{cite BOOK}).
+on~\citep{BOOK}.
  Even when Cassandra has a  \texttt{System} keyspace to store metadata, it is
  read-only and therefore it cannot be modified to store additional metadata
  about referential integrity constraints.
@@ -36,10 +36,9 @@ on (\todo{cite BOOK}).
 % as (\todo{cite Duval}):
 Hence,  for preserving the metadata, each of the solutions implement a 
 different strategy in which metadata is associated with actual data. Solutions~1
-and~2 use embedded metadata, that is, metadata is created with the actual data
-(\todo{cite Duval2009}); while solutions~3 and~4 associate metadata separately
-from the actual data.  Notice that, the structure
- of the metadata is kept the same across all the solutions even when  the way of
+and~2 use embedded metadata, that is, metadata is created with the actual
+data~\citep{duval}; while solutions~3 and~4 associate metadata separately from
+the actual data.  Notice that, the structure of the metadata is kept the same across all the solutions even when  the way of
  storing and associating this metadata is different in each.
 
 The role of metadata in  the solutions is primarily to hold the necessary
@@ -198,14 +197,14 @@ validations are triggered each time
 % % Specific methods are designed in all the solutions to retrieve and process the
 % % metadata in order to validate referential integrity.
 % Referential integrity validations are triggered when
- a \ac{CRUD} operation is
-performed on a column family. Relevant \ac{FK} constraints are accessed form the
-metadata to perform such validations. Each solution stores metadata in a
-distinct way and provides specific methods to access and process the metadata to
+\ac{CRUD}\footnote{Notice that \texttt{Read} does not trigger
+any referential integrity validations, but the \ac{CRUD} acronym is still used
+all throughout this thesis for the sake of familiarity.} operations are
+performed on a column family.
+Relevant \ac{FK} constraints are accessed form the metadata to perform such validations. Each solution stores metadata in a distinct way and provides specific methods to access and process the metadata to
 support the validation. The logic for validating the referential integrity is
-consistent across all the solutions and specific handlers  in the
-experimental \ac{API} are used to perform these processes. The way these
-solutions store metadata and the motivation
+consistent across all the solutions.
+The way these solutions store metadata and the motivation
 behind the design of its metadata storage is presented in the following
 sections.
 

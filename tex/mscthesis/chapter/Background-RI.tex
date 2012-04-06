@@ -4,8 +4,8 @@ Model}\label{s:referential-integrity}
 
 Referential integrity is a fundamental property of data within databases,  
 which ensures that data dependencies between tables are maintained correctly in
-the database (\todo{cite oracle}).  These dependencies could be a part of the
-business rule and need to be enforced for proper data integrity.  Users define
+the database~\citep{date,blaha,Navathe,george}.  These dependencies
+could be a part of the business rule and need to be enforced for proper data integrity.  Users define
 conditions or rules on the tables in a database so that data integrity is
 ensured at all times.  These conditions are called integrity constraints and
 need to be mandatorily satisfied at all times in order to ensure that users or
@@ -24,8 +24,9 @@ the primary keys as the referenced keys.
 
 It has been defined by many researchers that referential integrity is enforced
 by the combination of a primary (or unique) key and a foreign key,   and that
-every foreign key has to match the primary key (\todo{cite}).  In the
-University example,   every foreign key in the \texttt{Enrolment} table must
+every foreign key has to match the primary
+key~\citep{navathe,blaha,george,pathivada}.
+In the University example,   every foreign key in the \texttt{Enrolment} table must
 match one of the primary keys in the \texttt{Student} and \texttt{Course}
 tables.
 Hence,   if any foreign key refers to a non-existing primary key,   the

@@ -3,21 +3,22 @@
 
 Cassandra is a distributed data storage system initially developed by Facebook
 for satisfying the needs of large web applications that handle large
-volumes of data (\todo{cite BOOK}). 
+volumes of data~\citep{BOOK}. 
 Its development has been undertaken by Apache  and it is  currently used by
 many large web applications and large organisations like Facebook,  Twitter, 
-Cisco,  Digg,  Reddit, and others (\todo{Gunda,  2010}). 
+Cisco,  Digg,  Reddit, and others~\citep{datastaxB}. 
 
 Cassandra is based on the column-oriented key value data model. It stores data
 as columns,  super columns,  column families and keyspaces, all of which are
 explained in Section~\ref{s:key-value-data-model}. Being a distributed
 system, Cassandra can run on multiple machines which are
-configured to operate together and run as a single cluster  (\todo{Perham, 2010a,  BOOK}).
+configured to operate together and run as a single cluster~\citep{BOOK,datastax} 
+.
 % runs as a single Java process on each machine in a cluster.
 Cassandra provides the option  to work across different machines and across
-multiple data centers,  even if these  are geographically distributed(\todo{
-BOOK}).  The details of such a distributed nature is abstracted from  the user
-such that 
+multiple data centers,  even if these  are geographically
+distributed~\citep{BOOK}.
+The details of such a distributed nature is abstracted from  the user such that 
 % the entire cluster behaves like a unified whole. and access to only
 % one of the nodes is required to perform operations.
 The machines in the cluster form a ring of nodes,  where
@@ -33,8 +34,8 @@ the cluster (Figure~\ref{f:cassandra-cluster})).
 
 The nodes in a cluster communicate with each other to send their state
 information at regular time intervals,  so that other nodes in the ring  know
-their status (\todo{cite Cassandra paper}). Such communication between the nodes
-support failure detection in Cassandra.
+their status~\citep{BOOK,cassandra}. Such communication
+between the nodes support failure detection in Cassandra.
 % helps in failure detection in Cassandra since
 If a node is not active,  it fails to send or respond to messages from other
 active nodes and in this way the rest of the nodes  know of its inactive state.
@@ -44,7 +45,7 @@ active nodes and in this way the rest of the nodes  know of its inactive state.
 % and contiune performing its operations. 
 In the event of a node failure,
 operations sent to it are not lost since another active node ensures these are
-performed(\todo{cite Cassandra papers}).
+performed~\citep{cassandra}.
 
 In such a cluster,  every node applies the same architectural features
 fundamental to Cassandra,  namely,  load balancing,  replicating
@@ -67,8 +68,8 @@ key architectural concepts of Cassandra are explained next.
 \subsection{Architecture} \label{ss:Background-Cassandra-Archi}
 Cassandra adopts many of its  architectural concepts from other popular
 distributed key-value data storage systems on the cloud,  like Google's Bigtable
-and Amazon's Dynamo (\todo{cite}).  Over time, these adopted concepts evolved
-and developed new features,  some of which became specific to Cassandra's
+and Amazon's Dynamo~\citep{Dynamo,ycsb}.  Over time, these adopted concepts
+evolved and developed new features,  some of which became specific to Cassandra's
 architecture. Some of these  concepts are, peer-peer distribution model, data
 partitioning, eventual consistency, among others. These  concepts gave Cassandra
   features such as elastic scalability,  fault tolerance, high availability and
@@ -90,7 +91,7 @@ high performance.
 % also is prone to failure if the single master node is offline.  However, 
 Cassandra is a decentralised system  where all the nodes are considered equal
 or identical (i. e.  nodes are peers) in sharing responsibilities and performing
-operations,  without any  master or slave nodes (\todo{cite book}). 
+operations,  without any  master or slave nodes~\citep{BOOK,datastaxB}. 
 This model provides high data availability since failure
 of a node does not affect the service of the cluster  because other
 nodes carry out the same operation. 
@@ -115,8 +116,7 @@ Cassandra partitions data between the nodes in a cluster  so that data items
 from overloaded or failed nodes are assigned to other nodes or new nodes.  For
 this,  Cassandra uses consistent hashing where data items are hashed on its key.
 After hashing the key, the data items are assigned to the node whose
-position in the ring is larger than the hashed value of the key (\todo{cite
-book}).
+position in the ring is larger than the hashed value of the key~\citep{BOOK}.
 % used by Amazon's Dynamo to partition data over the nodes. (\todo{DeCandia et
 % al. (2007)}). 
 % \begin{figure}[h] \centering %\includegraphics[width=5cm,    height=5cm]{. 
@@ -125,8 +125,8 @@ book}).
 % \caption{Consistent hashing in Cassandra}\label{f:consistent hashing}
 % \end{figure}
 Data partitioning makes Cassandra elastically scalable since the load is
-balanced and distributed in the cluster  irrespective of addition or removal of nodes
-(\todo{cite Book,  most Cassandra papers}). 
+balanced and distributed in the cluster  irrespective of addition or removal of
+nodes~\citep{cassandra,BOOK}. 
 % Additionally,  in Cassandra better performing nodes are assigned multiple
 % points in the ring,  making them virtual nodes and these nodes are assigned
 % workloads from failed nodes or overloaded nodes. 
@@ -135,9 +135,9 @@ balanced and distributed in the cluster  irrespective of addition or removal of 
 irrespective of failures,  Cassandra uses a replication strategy where every
 data item is replicated across a number of nodes.  Applications can set the
 level of replication to suit its requirements,  that is, the replication factor
-is set to the number of nodes on which the application wants to create replicas
-(\todo{cite Book, most Cassandra papers}).  The replication factor tells the
-cluster how many copies to create of a single data item.
+is set to the number of nodes on which the application wants to create
+replicas~\citep{BOOK,cassandra}.  The
+replication factor tells the cluster how many copies to create of a single data item.
 Setting the replication factor to a large number would help in higher
 consistency of data items,  but replicating data items to a large number of
 nodes  can adversely affect the performance.
@@ -145,7 +145,7 @@ nodes  can adversely affect the performance.
 Once data items are partitioned and assigned to a node,  these are
 replicated onto other nodes and a list of the nodes responsible for storing the
 data items are maintained.  Thus, every node in the cluster knows which nodes
-are responsible for a data item (\todo{cite Book,  most Cassandra papers}). 
+are responsible for a data item~\citep{BOOK,cassandra}.
 Such a replication strategy makes data highly available  since data items can
 be accessed from any node in a cluster regardless of node failures.  
 % Since all
@@ -168,8 +168,8 @@ In any strongly consistent  \acp{DBMS}, data items immediately reflect the new
 values upon an insert or update operation. However, Cassandra uses the eventual
 consistency model where replicas do not agree to the most recent value
 immediately but will do so eventually. This is because the new values are
-propagated to all the replicas in a cluster in an asynchronous way (\todo{Henry,
-2008}).
+propagated to all the replicas in a cluster in an asynchronous
+way~\citep{Tai,henry,Vogel,ycsb}.
 % Eventual consistency provides Cassandra high scalability because any write or
 % update operation  reaches all the replicas irrespective of the number of
 % nodes in a cluster.
@@ -182,12 +182,12 @@ propagated to all the replicas in a cluster in an asynchronous way (\todo{Henry,
 % consistency like eventual consistency  ideal (\todo{cite BOOK and marked
 % papers}).
 
-
+ 
 \subsection{Write and Read Operations}
 \label{ss:Background-Cassandra-Operations} 
 In order to write data into Cassandra column families,  a write request is sent
 to a random node in the cluster,  which acts as a proxy node and replicates the
-data in the cluster(\todo{Perham, 2010a and cassandra paper}). .
+data in the cluster~\citep{datastax,BOOK,cassandra}.
 The number of nodes on which data is to be replicated can be changed to suit the
 application requirements. Moreover, these nodes can be in the same data centre
 and other data centres.
@@ -198,7 +198,7 @@ When a read request is issued to a node,  it acts as a proxy node and forwards
 the request to all the other nodes in the cluster.
 These nodes return their copy of the data item to the proxy node and the proxy
 node  checks the versions of the replicas and sends the latest replica to the
-user  (\todo{Perham,  2010b}).   If the replicas received from a node are not
+user~\citep{datastaxRead}.   If the replicas received from a node are not
 consistent with other replicas, a read repair is performed on the node
 with the outdated replicas.  This means that the nodes with outdated replicas
 are sent a write operation with the latest data.

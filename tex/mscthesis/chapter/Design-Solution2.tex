@@ -13,7 +13,7 @@ column containing the metadata information as its value while the rest of the
 super columns in the same column family have different columns containing the
 actual data.  This design is possible since Cassandra allows rows to have
 different number of columns within a column family.  The \texttt{Metadata}
-column is similar to the Solution~1 as shown in Figure~\ref{fd:Metadata-Solution1} (a).  Thus,  for
+column is similar to the Solution~1 as shown in Figure~\ref{fd:Metadata-Column}.  Thus,  for
 each column family,  its metadata exists only once as a single row and is common
 for all its super columns.  In the University example, the  \texttt{Student}
 column family has the metadata  stored as a top row as  shown in
@@ -28,14 +28,14 @@ Figure~\ref{fd:Metadata-Solution2}.
 		\caption{Metadata storage in Solution 2}\label{fd:Metadata-Solution2}
 	\end{figure}
 		
-Similar to Solution~1,   metadata in this solution contains special characters
+
+In this solution, metadata  for each column family contains all the constraints
+belonging to the keyspace. The metadata contains special characters
 '\texttt{\{}',  '\texttt{\}}', '\texttt{;}' and '\texttt{:}' to distinguish all
-the constraints and its different parts and values.  Metadata  for each
-column family contains its \ac{PK} constraints and its associated \ac{FK}
-constraints. Thus,  in this Solutions, 
-the metadata for \texttt{Student}  contains its \ac{PK} constraint
-\texttt{CONST100} and \ac{FK} constraint \texttt{CONST700} as its metadata in
-the top row as shown in Figure~\ref{fd:Metadata-Solution2}. 
+the constraints and its different parts and values, which is similar to
+Solution~1. Thus, in this Solution, the metadata for \texttt{Student}  contains
+all the constraints (as listed in Figure~\ref{fd:Metadata-Constraints}) as its
+metadata in the top row as shown in Figure~\ref{fd:Metadata-Solution2}.
 
 
 % Consider \texttt{Enrolment}  which is a child entity with parent entities

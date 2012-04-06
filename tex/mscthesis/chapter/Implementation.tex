@@ -5,13 +5,14 @@
 The four solutions presented in this thesis save the foreign key relationships
 between column families as metadata and each solution saves the metadata in its
 own unique way.  The design of the four solutions presented in the previous
-chapter was shown as an  abstract representation of the way metadata is
-stored.
-Such metadata is accessed whenever referential integrity
-validations are triggered, that is, when \ac{CRUD} operations are invoked on
-column families. The relevant  \ac{FK} constraints of a column family and
-its associated \ac{PK} constraints are accessed from its metadata and processed
-in order to extract the values held in the constraints. 
+chapter was shown as an  abstract representation of the way metadata is stored.
+Such metadata is accessed whenever referential integrity validations are
+triggered, that is, when \ac{CRUD}\footnote{Notice that \texttt{Read} does not
+trigger any referential integrity validations, but the \ac{CRUD} acronym is
+used for the sake of familiarity.} operations
+are invoked on column families. The relevant  \ac{FK} constraints of a column
+family and its associated \ac{PK} constraints are accessed from its metadata and
+processed in order to extract the values held in the constraints.
 
 Since the metadata storage is different in
 every solution, accessing and processing the  metadata is different in each

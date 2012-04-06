@@ -7,23 +7,24 @@ accessed by the users.  Storage of such data during all times is essential for
 the cloud applications to operate correctly~\citep{Kennedy}.
 Traditionally, users store data in files or databases residing on dedicated
 database servers or on local disks, but the requirements for data storage on the
-cloud are very different and need a distributed approach in data storage,  
-where data is spread across several machines.  Cloud \acp{DBMS} require more
-features than the traditional \acp{DBMS} for an efficient data management on the
-cloud~\citep{Shi,Florescu,Stonebraker,Abadi, Hackl}.
-Unlike traditional \acp{DBMS}, cloud \acp{DBMS} are simple in their structure with minimum querying support and have a simple
-API for database administration.  These have been made scalable to support the
-diverse and large number of users who store structured data and to support
-various applications that users use.  Today,   cloud \acp{DBMS} are replicated, 
- distributed, simplified and often specialised~\citep{Cooper}.
-Databases on the cloud (also known as cloud databases) are replicated so that
-multiple copies of data are available to cater to many users who access the same
-data at the same time.  This also helps in cases of server crashes or network
-failures,   as copies of the data are available.  These databases are
-distributed as data is replicated on several machines.  Most cloud \acp{DBMS}
-are simplified for ease of use and specialised to address certain cloud related
-problems.  For example,   some cloud \acp{DBMS} are built to provide high
-scalability while others are built to store huge amounts of interconnected data.
+cloud are very different and need a distributed approach in data storage, where
+data is spread across several machines.  Cloud \acp{DBMS} require more features
+than the traditional \acp{DBMS} for an efficient data management on the
+cloud~\citep{Shi,Florescu,Stonebraker,Abadi, Hackl,Stonebraker2}.
+Unlike traditional \acp{DBMS}, cloud \acp{DBMS} are simple in their structure
+with minimum querying support and have a simple API for database administration.
+ These have been made scalable to support the diverse and large number of users
+who store structured data and to support various applications that users use.
+Today,   cloud \acp{DBMS} are replicated,  distributed, simplified and often
+specialised~\citep{Cooper}. Databases on the cloud (also known as cloud
+databases) are replicated so that multiple copies of data are available to cater
+to many users who access the same data at the same time.  This also helps in
+cases of server crashes or network failures,   as copies of the data are
+available.  These databases are distributed as data is replicated on several
+machines.  Most cloud \acp{DBMS} are simplified for ease of use and specialised
+to address certain cloud related problems.  For example,   some cloud \acp{DBMS}
+are built to provide high scalability while others are built to store huge
+amounts of interconnected data.
  
 Most cloud \acp{DBMS} are deployed in data centers owned by hosting companies
 like Google,   Amazon etc.  Data centres house many servers,   computers and
@@ -46,61 +47,59 @@ maintain the same throughput.
 
 In general,   cloud \acp{DBMS} are found to be less efficient than traditional
 \acp{DBMS} because of this dynamic scalability required to support a changing
-user-base~\citep{Hogan,Stonebraker,Abadi}.
-\citet{Hogan} claims that data partitioning in cloud
-databases increases complexity as a database is spread across several servers and querying the database would involve complex Joins and
+user-base~\citep{Hogan,Stonebraker,Abadi}. \citet{Hogan} claims that data
+partitioning in cloud databases increases complexity as a database is spread
+across several servers and querying the database would involve complex Joins and
 more time.  This moves the databases and the user applications farther apart,
-increasing latency~\citep{Murphy}.  Hence,   data is split
-into distinct individual parts and saved on different nodes in the data centre across
-several databases.
-Thus,   nodes could have a subset of data or rows from each table in the
-database~\citep{DeWitt} (\todo{DeWitt et al. ,   n. d. )}. This eventually means
-that querying would take longer time as the data is spread across several databases,  
-possibly on different servers and would include multiple joins on the datasets.
+increasing latency~\citep{Murphy}. Hence,   data is split into distinct
+individual parts and saved on different nodes in the data centre across several
+databases. Thus,   nodes could have a subset of data or rows from each table in
+the database~\citep{dewitt}. This eventually means that querying would take
+longer time as the data is spread across several databases, possibly on
+different servers and would include multiple joins on the datasets.
 
 Most traditional \acp{DBMS} are relational and give data a structure,   that
 adheres to a schema.  This is mainly achieved through the process of
 normalisation where each table in a database is evaluated according to its
 functional dependencies and primary keys,   to reduce redundancy and minimise
-integrity anomalies~\citep{Navathe}.  Normalisation causes
-databases to have smaller and structured tables by removing duplicate data from large and
-badly organised tables and by imposing constraints on the data.  Tables are
-normalised to at-least \ac{1-NF} ensuring data is organised and less redundant.
+integrity anomalies~\citep{Navathe}.  Normalisation causes databases to have
+smaller and structured tables by removing duplicate data from large and badly
+organised tables and by imposing constraints on the data.  Tables are normalised
+to at-least \ac{1-NF} ensuring data is organised and less redundant.
 Redundancy is reduced by bringing the database schema into at-least \ac{3-NF}
-(or \ac{BCNF}).
-Throughout the chapters normalization refers to making databases at least in
-\ac{1-NF}.
+(or \ac{BCNF}). Throughout the chapters normalization refers to making databases
+at least in \ac{1-NF}.
 
 Cloud \acp{DBMS} are mostly non relational and follow a different data model,
 which is explained in Section~\ref{s:cloud-data-models}.  Such Cloud \acp{DBMS}
-are loosely termed as cloud \ac{NoSQL} \acp{DBMS}.  Unlike \acp{RDBMS},   cloud
+are loosely termed as cloud \ac{NoSQL} \acp{DBMS} and do not provide support for
+efficient querying or query languages such as SQL. Unlike \acp{RDBMS}, cloud
 \ac{NoSQL} \acp{DBMS} do not aim to be
-ACID-compliant~\citep{Stonebraker,Florescu}.
+ACID-compliant~\citep{Stonebraker,Stonebraker2,Florescu,Han}.
 ACID stands for the properties Atomicity,   Consistency,   Isolation and
 Durability, which ensure the completeness and reliability of a database
 operation.  In general,   unless operations are not ACID compliant in
-\acp{RDBMS},   it would not be considered valid.
-But ACID compatibility in cloud \ac{NoSQL} \acp{DBMS} is a bottleneck as it does
-not suit the distributed nature of the cloud environment (\todo{Wada et al.
-2011)}.
+\acp{RDBMS},   it would not be considered valid. But ACID compatibility in cloud
+\ac{NoSQL} \acp{DBMS} is a bottleneck as it does not suit the distributed nature
+of the cloud environment~\citep{Wada,Stonebraker2}.
 Cloud \ac{NoSQL} \acp{DBMS} require to have high throughput,   high availability
 and also require to be elastically scalable to increasing resources or users.
 This requires cloud \ac{NoSQL} \acp{DBMS} to part with some traditional
-\ac{RDBMS} functionalities (like JOINS) and ACID operations (\todo{Wada et al.
-2011)} mainly because of its distributed nature.  The distributed nature, across
-different environments,   sometimes make cloud \acp{NoSQL} \acp{DBMS} to be
-prone to node failures.  Node failures and the elasticity prevailing in cloud
-environments affect consistency of data,   which adversely affect the
-'\texttt{C}' of ACID properties,   i. e. ,   Consistency.  Network and data
-partitioning also play a major role in affecting consistency and availability of
-data.   A partition takes place when a node fails or there is a network failure
-at some point in the network.  In cloud \ac{NoSQL} \acp{DBMS} this is a problem
-as cloud databases rely on more than one server,   unlike traditional \acp{DBMS}
-sometime ago.  When there is only a single server involved there is no issue of
-partitioning,   but when there is a failure,   i. e.  this single node fails, no
-data is available during that time.  But cloud \ac{NoSQL} \acp{DBMS} distribute
-data across several servers and nodes,   mainly to replicate data for high
-availability and fault tolerance.
+\ac{RDBMS} functionalities (like JOINS) and ACID operations mainly because of
+its distributed nature~\citep{Wada}.  The distributed nature, across different
+environments, sometimes make cloud \acp{NoSQL} \acp{DBMS} to be prone to node
+failures.  Node failures and the elasticity prevailing in cloud environments
+affect consistency of data,   which adversely affect the '\texttt{C}' of ACID
+properties,   i. e. ,
+  Consistency.  Network and data partitioning also play a major role in
+affecting consistency and availability of data.   A partition takes place when a
+node fails or there is a network failure at some point in the network.  In cloud
+\ac{NoSQL} \acp{DBMS} this is a problem as cloud databases rely on more than one
+server,   unlike traditional \acp{DBMS} sometime ago.  When there is only a
+single server involved there is no issue of partitioning,   but when there is a
+failure,   i. e.  this single node fails, no data is available during that time.
+ But cloud \ac{NoSQL} \acp{DBMS} distribute data across several servers and
+nodes,   mainly to replicate data for high availability and fault tolerance.
 These \acp{DBMS} also aim for partition tolerance,   which is the ability to
 continue their operations despite node failures and partitions.  To achieve
 these features it is commonly found that cloud \ac{NoSQL} \acp{DBMS} sacrifice
@@ -110,39 +109,42 @@ in a business model,   applications lose valuable customers if they are not kept
 satisfied with the services in terms of speed,   availability and consistency.
 Instead of ACID properties,   cloud \ac{NoSQL} \acp{DBMS} aim to achieve
 different properties,   namely Consistency,   Availability and
-Partition-tolerance (CAP) properties stated in the CAP theorem.
+Partition-tolerance (CAP) properties stated in the CAP
+theorem~\citep{Wada,Ramakrishnan,Gilbert}.
 These properties and the CAP theorem are explained below.
 
 \subsection{CAP Theorem} \label{ss:cap}
 In distributed environments or web-based applications it is noted that the three
 main system requirements necessary for designing and deploying applications are:
-Consistency,   Availability and Partition tolerance.  CAP theorem, proposed by
-Eric Brewer, claims that it is not possible for a distributed system to achieve
-all these three properties at the same given time (\todo{cite}).
+Consistency,   Availability and Partition tolerance.  CAP theorem,
+proposed by~\citet{Brewer}, claims that it is not possible for a distributed system to
+achieve all these three properties at the same given time.
 
 \begin{itemize}
   
 	\item Consistency: When a request is made to access data,   a system is called
-	consistent if it provides the correct and latest version of the data (\todo
-	{cite HP n. d. }).  For example,   in the case of an online shopping website,
-	consistency would ensure that the stock of items is always correct.  When a user
-	attempts to buy an item and the same item is being bought by another user,   the
-	system will have to ensure that both the users get the most recent stock details
-	available.  So if there is only a single item left,   then the second user is
-	informed that his request can not be completed as there is no stock available. 
-	This means that the data is consistent and users do not get stale data.
-	
-	\item Availability (\todo{cite Browne 2009; HP n. d. }): A system is considered
-	highly available when all parts of the system are always available, despite any
-	failures or problems.  It is expected that all requests would be addressed any
-	given point of time.  In the previous example,   this means that even when the
-	website is busy,   with many users accessing it,   it is expected to have all
-	user requests addressed and to be up and running always.
+	consistent if it provides the correct and latest version of the
+	data~\citep{Tai,Wada,Ramakrishnan,browne,hp}.  For example, in the case of an
+	online shopping website, consistency would ensure that the stock of items is
+	always correct.  When a user attempts to buy an item and the same item is being
+	bought by another user,   the system will have to ensure that both the users get
+	the most recent stock details available.  So if there is only a single item
+	left,   then the second user is informed that his request can not be completed
+	as there is no stock available. This means that the data is consistent and users
+	do not get stale data.
 		
+	\item Availability: A system is considered highly available when all parts of
+	the system are always available, despite any failures or problems.  It is
+	expected that all requests would be addressed any given point of
+	time~\citep{browne,Tai,Wada,Ramakrishnan}.  In the previous example,   this
+	means that even when the website is busy,   with many users accessing it,   it
+	is expected to have all user requests addressed and to be up and running always.
+			
 	\item Partition-tolerance: Generally, distributed services are run on several
 	machines across different networks and these services are prone to network
-	partitions. Network partitions happen when there is a failure of a segment or
-	component of a network such that nodes cannot communicate with each other.
+	partitions~\citep{Brewer,Ramakrishnan,Gilbert}. Network partitions happen when
+	there is a failure of a segment or component of a network such that nodes cannot
+	communicate with each other.
 		% As previously mentioned, this means that data is
 	% partitioned across the distributed network on several machines and a partition
 	% takes place when there is a failure in the network.
@@ -160,10 +162,10 @@ the business or operation model better.  In most distributed applications
 trade-offs are always considered from the design stages.   Similarly most cloud
 \ac{NoSQL} \acp{DBMS} have chosen priorities and trade-offs too.  For example,  
 Cassandra focuses on '\texttt{A}' and '\texttt{P}' while Bigtable focuses on
-'\texttt{C}' and '\texttt{A}' (\todo{cite}).
+'\texttt{C}' and '\texttt{A}'~\citep{bigtable}.
 
-What such trade-offs mean in relation to the CAP theorem is examined below
-(\todo{cite HP n. d. }):
+What such trade-offs mean in relation to the CAP theorem is examined
+below~\citep{Tai,Brewer2,Ramakrishnan,hp,abadi2}:
 
 \begin{description}
 	\item [Case 1: Achieving '\texttt{C}' and '\texttt{A}' properties:] This means
@@ -177,11 +179,11 @@ What such trade-offs mean in relation to the CAP theorem is examined below
 	always consistent and available as long as this machine is up and running.   On
 	the other hand,   when systems that are not partition tolerant face a partition,
 	it becomes unreliable.  It could either give inconsistent data or become
-	unavailable or both (\todo{HP n. d. )}.
+	unavailable or both.
 		
 	\item [Case 2: Achieving '\texttt{A}' and '\texttt{P}' properties:]
 	Commonly,   this is what most cloud \ac{NoSQL} \acp{DBMS} aim to achieve and these
-	prefer to pay less attention to consistency of data (\todo{Wada et al.  2011)}. 
+	prefer to pay less attention to consistency of data~\citep{Wada}.
 	A system lacking consistency is thus mostly available even during partitions,   but
 	may give stale data or incorrect data occasionally to the users.  This suits
 	most business models as this ensures that users are always able to
@@ -207,7 +209,7 @@ What such trade-offs mean in relation to the CAP theorem is examined below
 Interestingly,   while cloud \ac{NoSQL} \acp{DBMS} do not comply with ACID
 properties,   the CAP system has lead to a new set of properties called BASE and
 is considered as an alternative of ACID properties in distributed and scalable
-systems(\todo{Pritchett 2008)}.
+systems~\citep{Pritchett}.
 BASE refers to the properties Basically Available,   Soft-state and Eventually
 consistent.  This means that data is basically available although at some point
 not all data will be available.  Soft-state indicates that data could be lost if
@@ -220,27 +222,25 @@ where consistency takes a back seat.  But this leads to conflicts where a new
 update or a new read request could be made before all nodes get the latest
 update.  To resolve such conflicts there are some types of repairs used by cloud
 \ac{NoSQL} \acp{DBMS}, like read-repairs,   write-repairs and asynchronous
-repairs (\todo{Terry et al.
-1995)}.
-When a read or write operation takes place,   such repairs check for
-inconsistency in data before correctly updating the data.  Some cloud \ac{NoSQL}
-\acp{DBMS} also rely on APIs to work around such issues.  It is often considered
-that with good design,   \acp{API} can work around these problems and provide
-better consistency.
+repairs~\citep{Terry}. When a read or write operation takes place,   such
+repairs check for inconsistency in data before correctly updating the data. 
+Some cloud \ac{NoSQL} \acp{DBMS} also rely on APIs to work around such issues. 
+It is often considered that with good design,   \acp{API} can work around these
+problems and provide better consistency.
 % Unlike such traditional \acp{DBMS},   cloud \acp{DBMS} are simple in their
 % structure with minimum querying support and have a simple API for users for
 % database administration.  Cloud databases have been made scalable to support
 % the diverse and large number of users who store structured data and to support
-% various applications that users use.  Today,   cloud databases are replicated,  
-% distributed,   simplified and often specialised (Cooper,   2010).  Cloud databases
-% are replicated so that multiple copies of data are available to cater to many
-% users who access the same data at the same time.  This also helps in cases of
-% server crashes or network failures,   as copies of the data are available.  The
-% cloud database are distributed as data is replicated on several machines.  Most
-% cloud databases are simplified for ease of use and specialised to address
-% certain cloud related problems.  For example,   some cloud databases are built to
-% provide high scalability while others are built to store huge amounts of
-% interconnected data. 
+% various applications that users use.  Today,   cloud databases are replicated,
+% distributed,   simplified and often specialised (Cooper,   2010).  Cloud
+% databases are replicated so that multiple copies of data are available to
+% cater to many users who access the same data at the same time.  This also
+% helps in cases of server crashes or network failures,   as copies of the data
+% are available.  The cloud database are distributed as data is replicated on
+% several machines.  Most cloud databases are simplified for ease of use and
+% specialised to address certain cloud related problems.  For example,   some
+% cloud databases are built to provide high scalability while others are built
+% to store huge amounts of interconnected data.
 
 All these characteristics make cloud \ac{NoSQL} \acp{DBMS} very different from
 traditional \acp{DBMS} that are used outside cloud networks.  As mentioned

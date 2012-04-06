@@ -10,9 +10,9 @@ integer that records the time at which the value was inserted or updated in any
 way.
 
 Generally,   the key-value data model on cloud implements the column-oriented
-approach,   which is adopted from Bigtable,   Google's cloud \acp{DBMS}
-(\todo{cite }).  The data model explored in this section is the column-oriented
-key-value data model adopted by Cassandra.  This type of data model is
+approach,   which is adopted from Bigtable,   Google's cloud
+\acp{DBMS}~\citep{bigtable}.
+The data model explored in this section is the column-oriented key-value data model adopted by Cassandra.  This type of data model is
 fundamentally different from the relational data model.  It sacrifices ACID
 properties as well as normalisation in order to achieve high scalability,  
 fault tolerance,   data partitioning among others.  To understand this new type
@@ -42,11 +42,11 @@ data in the University example is modelled using the column-oriented key-value
 data model,   the way it is stored is different.
 Although key-value \acp{DBMS} are schema-less,   column-oriented key-value
 \acp{DBMS} are not entirely schema-less and hold some information about the
-databases as metadata , as seen in Cassandra (\todo{cite DataStax }).  Such
-\acp{DBMS} allow applications to model the way data is organised in a
+databases as metadata , as seen in Cassandra~\citep{datastaxDataModel}.
+Such \acp{DBMS} allow applications to model the way data is organised in a
 traditional \ac{RDBMS}, whilst bringing more flexibility by denormalising data
-and imposing no rigid structures or schema requirements (\todo{cite DataStax and
-Cassandra paper}).
+and imposing no rigid structures or schema
+requirements~\citep{cassandra,BOOK,datastaxDataModel}.
 Therefore,   it allows applications to add data in the way they want and change
 their schema (if needed),   without adhering to a rigid schema unlike the
 traditional \acp{RDBMS}.
@@ -74,10 +74,9 @@ tuple containing a column name,   a value and a timestamp (Figure~\ref{f:column}
 
 The column names are labels  and it is mandatory that a column has a name. 
 Column names and values are stored as Bytes Type,   Long Type, Ascii Type,  
-binary values Lexical UUID Type,   Time UUID Type or as UTF8 serialized strings
-(\todo{cite }).  Timstamps are used to store the time of the latest update made
-to the column and are thus used for conflict resolutions.  The timestamp values
-are commonly stored as microseconds,   but could be in any format that the
+binary values Lexical UUID Type,   Time UUID Type or as UTF8 serialized
+strings~\citep{BOOK,datastaxDataModel}.  Timstamps are used to store the time of
+the latest update made to the column and are thus used for conflict resolutions.  The timestamp values are commonly stored as microseconds,   but could be in any format that the
 application chooses.  However,   timestamp formats have to be consistent across
 the database so that is the same format across all columns.
 
@@ -194,7 +193,7 @@ seen for table \texttt{Student} in Figure~\ref{f:RDB-User},   where every row in
 the table has the same number of columns and primary keys are used to identify a
 row.  An example of a column family is shown in Figure~\ref{f:columnfamilyUSER}.
 Unlike relational tables in an \ac{RDB},   column families do not require all
-the rows to define the same number of columns (\todo{cite Sarkissian}).
+the rows to define the same number of columns~\citep{datastaxDataModel,BOOK}.
 
 \begin{figure}[H]
 	\centering

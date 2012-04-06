@@ -8,8 +8,8 @@ relationships between data.  In the column-oriented key-value model,   the
 key-value association and the grouping of columns in column families can be
 considered as the minimum relationship that is maintained.
 
-According to \todo{Bell and Brockhausen (1995)},   data dependencies are the
-most common types of semantic constraints in relational databases and these
+According to~\citet{Bell},   data dependencies
+are the most common types of semantic constraints in relational databases and these
 determine the database design.  Data dependencies are the various relationships
 that may exist between data entities in a database.  For example,   in the
 University database,   a student can enrol into more than one course and this
@@ -24,7 +24,7 @@ In the \texttt{University} \ac{RDB} any attempt to delete a course from the
 \texttt{Course} table,   is prevented by a constraint,   unless the dependency
 itself is removed first.  In \acp{RDBMS} ,   this constraint is referential
 integrity,   which ensures that references between data entities are valid,
-consistent and intact (\todo(cite Blaha,   n. d. )).
+consistent and intact~\citep{blaha,date}.
 Normalisation,   as well as modelling real world data and relationships enforce
 such dependencies in the schema and this causes integrity constraints like
 referential integrity constraints,   to be imposed on data entities.
