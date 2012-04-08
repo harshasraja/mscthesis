@@ -4,16 +4,15 @@
 
 The performance of the solutions while validating referential integrity in the
 experiments is measured in terms of response time and throughput,  which are
-common \ac{DBMS} performance indicators (\todo{cite Demurjian,  Berkely}). 
-The response time of the solutions indicates the time taken for Cassandra to
-complete an operation while throughput measures the number of operations that
-Cassandra completes per second. 
+common \ac{DBMS} performance indicators. The response time of the solutions
+indicates the time taken for Cassandra to complete an operation while throughput
+measures the number of operations that Cassandra completes per second.
 The performance of Cassandra when referential integrity validations are not
 enforced is also measured and considered as a baseline with which to analyse and
 compare the solutions.  Such a comparison determines the difference in the
-performance of Cassandra when such additional validations are enforced using
-the \ac{API} and provides performance guidelines about how each solution affects
-the performance of the \ac{DBMS}. 
+performance of Cassandra when such additional validations are enforced using the
+\ac{API} and provides performance guidelines about how each solution affects the
+performance of the \ac{DBMS}.
 
  The results from the experiments were used to
 analyse the performance of the four solutions  and this is discussed in the
@@ -81,11 +80,10 @@ in more than one column family.
 
 The \texttt{delete} operation is faster than \texttt{update} in all the
 solutions since entities are not immediately deleted due to the tombstone
-paradigm in Cassandra.  It also does not involve more writes like the
-\texttt{update} operations since values are only deleted and not inserted, 
-whereas an \texttt{update} causes both an \texttt{insert} and a \texttt{delete}.
- Moreover, deleting child entities do not cause validations but updating any
-entity causes validations.
+paradigm in Cassandra.  Moreover, it involves only a single operation
+unlike the \texttt{update} operation which causes both an \texttt{insert} and a
+ \texttt{delete}.  Moreover, deleting child entities do not cause validations
+ but updating any entity causes validations.
 
 When compared with the \texttt{insert} operation,  \texttt{delete} is slower in
 the case of parent entities,  \texttt{Student} and \texttt{Course}.  This is
@@ -140,7 +138,8 @@ This chapter presented the results of the experiments that showed the average
 response time and throughput of the operation on the entities in every solution.
  It is learnt from the results that Solution~4 performs the best amongst the
 solutions and performs similar to the baseline when no validations are
-triggered.
+triggered because it caches the metadata and re-uses it to avoid multiple
+access to the \texttt{Metadata} column family.
 Solution~3 performs the worst amongst all and is slower than the baseline even
 when validations are not triggered because simply accessing the metadata from a
 separate column family each time affects its performance.

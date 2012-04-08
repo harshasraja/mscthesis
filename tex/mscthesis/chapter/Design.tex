@@ -2,74 +2,75 @@
 \chapter{Design of Referential Integrity Constraints in NoSQL
 databases} \label{c:solutions}
 
-% As mentioned previously,   cloud column-oriented key-value \acp{DBMS} lack
-% referential integrity constraints to maintain foreign key relationships,   as
-% seen in traditional \acp{RDBMS},   due to its non-relational data model.   
-% Moreover,   these cloud \acp{DBMS} do not normalise data nor maintain
-% relationships.  
-Traditionally,  referential
+% As mentioned previously,    cloud column-oriented key-value \acp{DBMS} lack
+% referential integrity constraints to maintain foreign key relationships,    as
+% seen in traditional \acp{RDBMS},    due to its non-relational data model.    
+% Moreover,    these cloud \acp{DBMS} do not normalise data nor maintain
+% relationships.   
+Traditionally,   referential
 integrity constraints are imposed on data items of a database to maintain
-foreign key relationships.   These relationships are
+foreign key relationships.    These relationships are
  maintained by correctly identifying and preserving the data dependencies 
- existing between the data items.  
-% Traditionally,  foreign key relationships are
-% maintained by correctly identifying and preserving the data dependencies existing between data items in a database.  
+ existing between the data items.   
+% Traditionally,   foreign key relationships are
+% maintained by correctly identifying and preserving the data dependencies existing between data items in a database.   
 % These dependencies are maintained and  validated by imposing referential
-% integrity constraints on data items.   
+% integrity constraints on data items.    
 Most popular traditional \acp{RDBMS}
 preserve such dependency information in their \texttt{System} tables or data
-dictionaries.    These tables store the necessary information  which is required
-to maintain valid dependencies.   The information stored in such tables include table
-names,   primary and foreign keys, among others.  
-This can be seen in popular \acp{RDBMS} like  MS SQL Server,   PostgreSQL, 
-Oracle,  and so on.    
+dictionaries.     These tables store the necessary information  which is required
+to maintain valid dependencies.    The information stored in such tables include table
+names,    primary and foreign keys,  among others.   
+This can be seen in popular \acp{RDBMS} like  MS SQL Server,    PostgreSQL,  
+Oracle,   and so on.     
 
-For example,   in MS SQL Server 2000,  \texttt{sysforeignkeys}
-is a \texttt{System} table which stores the information of all 
-foreign keys of every table in a database,  and \texttt{sysreferences}
-stores the mappings of  foreign keys to the referenced primary key columns
-\citep{msdn}.  
-Information in these \texttt{System} tables consist of  the
-names of tables and its constraints,   unique identifiers of 
-referenced and referencing columns and others.   
-In PostgreSQL,  such information is presented to users as views but it is stored
-in base tables which contain the dependency information of data items in a database. 
-The view \texttt{table\_constraints} show the information about all the
-constraints in every table owned by the current user~\citep{postgres}.   
-Similarly,  Oracle uses a \texttt{SYSTEM} meta-database to hold such constraint
-information.  
- In general,  \texttt{System} tables or views with information
+For example,    in MS SQL Server 2000,   \texttt{sysforeignkeys} is a
+\texttt{System} table which stores the information of all foreign keys of every
+table in a database,   and \texttt{sysreferences} stores the mappings of  foreign
+keys to the referenced primary key columns \citep{msdn}.  Information in these
+\texttt{System} tables consist of  the names of tables and its constraints, 
+unique identifiers of referenced and referencing columns and others.  In
+PostgreSQL,   such information is presented to users as views but it is stored in
+base tables which contain the dependency information of data items in a
+database.  The view \texttt{table\_constraints} show the information about all
+the constraints in every table owned by the current user~\citep{postgres}. 
+Similarly,   Oracle uses a \texttt{SYSTEM} meta-database to hold such constraint
+information.   In general,   \texttt{System} tables or views with information
 about the existing dependencies  are looked up by these \acp{RDBMS} whenever
-referential integrity checks are triggered \citep{msdn}.  
+referential integrity checks are triggered \citep{msdn}. 
 
 
 The solutions presented in this thesis save the dependency information as
-metadata.   This metadata contains relevant  information about  foreign
-key relationships in keyspaces and primary keys of column families.   It is
+metadata.    This metadata contains relevant  information about primary keys of
+column families and foreign key relationships in keyspaces.   Thus,  metadata is
 accessed whenever an operation is performed on the data and referential
-integrity needs to be validated.  
+integrity needs to be validated.  These solutions are implemented using an
+experimental \ac{API} which is discussed in Chapter~\ref{c:Implementation}. 
 
 
 This chapter presents the design of  four  solutions  that implement referential
-integrity constraints in a cloud \ac{NoSQL} \ac{DBMS}.  
+integrity constraints in a cloud \ac{NoSQL} \ac{DBMS}.   
 Section~\ref{s:design-Metadata} describes the metadata used by the solutions 
- to store the dependency information.   Section~\ref{s:design-sol1} presents the
- design of the first solution.   Section~\ref{s:design-sol2} presents Solution~2
- and its design and motivation.   Section~\ref{s:design-sol3} describes the design
- and motivation of Solution 3.   Section~\ref{s:design-sol4} presents the design
- and motivation of Solution~4.   Finally,  Section~\ref{s:Design-summary}
- summarises the design of the four solutions.  
+ to store the dependency information.    Section~\ref{s:design-sol1}, 
+ ~\ref{s:design-sol2}, ~\ref{s:design-sol3}, ~\ref{s:design-sol4}  present
+ the design and motivation of the four solutions. 
+%  of the first solution.   
+%  Section presents Solution~2 and its design and motivation.    Section describes the design
+%  and motivation of Solution 3.    Section presents the design
+%  and motivation of Solution~4.   
+Section~\ref{s:Design-summary}
+ summarises the design of the four solutions.   
  % Section~\ref{s:API} describes the design and implementation of the experimental
 % API developed to integrate all the four
-% solutions.   
-% Section~\ref{s:sol1} describes  the first solution,  which implements
-% referential integrity constraints by saving metadata along with the actual data.  
+% solutions.    
+% Section~\ref{s:sol1} describes  the first solution,   which implements
+% referential integrity constraints by saving metadata along with the actual data.   
 % Section~\ref{s:sol2} describes the second  solution where metadata is
-% saved as a top row.   Section~\ref{s:sol3} describes the third   
-% solution which saves metadata separate from the actual data.     
-% Section~\ref{s:sol4}  describes the fourth solution which saves metadata in a separate cluster.  
-% Finally,  Section~\ref{s:solutions-summary} presents a brief summary of this
-% chapter.   
+% saved as a top row.    Section~\ref{s:sol3} describes the third   
+% solution which saves metadata separate from the actual data.      
+% Section~\ref{s:sol4}  describes the fourth solution which saves metadata in a separate cluster.   
+% Finally,   Section~\ref{s:solutions-summary} presents a brief summary of this
+% chapter.    
 
 \input{chapter/Design-Metadata}
 
@@ -84,49 +85,46 @@ Section~\ref{s:design-Metadata} describes the metadata used by the solutions
 
 
 \section{Summary}\label{s:Design-summary}
-The main difference in the design of all the  solutions is the way each
-of the solutions store metadata.   Solution~1 stores metadata with the data in
-every super column providing fast access to the metadata but increasing its
-redundancy.  
+The main difference in the design of all the  solutions is the way each of the
+solutions store metadata.    Solution~1 stores metadata with the data in every
+super column providing fast access to the metadata but increasing its
+redundancy. 
 Solution~2 has a similar approach as Solution~1 but stores metadata in a single
-super column in every column family.  This approach is useful when the metadata
-is large for a column family since it consumes less space when compared to
-Solution~1.
+super column in every column family.   This approach is useful when the metadata
+is large since it consumes less space when compared to Solution~1. 
 Both Solutions~1 and 2 use special characters in the metadata in order to
-distinguish the  constraints relevant to an entity.
-Solution~3 separates the metadata from
-the actual data and stores all the constraints together for all the column
-families of a keyspace  in a centralised way.   This is useful when metadata has
-to be  altered.  
-Moreover, this  also removes handling the actual data each time metadata
-has to be accessed.   
-Solution~4 has a similar approach as Solution~3, but saves the \texttt{Metadata}
-column family in a separate cluster on different nodes.   It also caches the
+distinguish the  constraints relevant to an entity. 
+Solution~3 separates the metadata from the actual data and stores all the
+constraints together for all column families of a keyspace  in a centralised
+way.    This is useful when metadata has to be  altered because it simplifies the
+management of metadata.  
+Solution~4 has a similar approach as Solution~3,  but saves the \texttt{Metadata}
+column family in a separate cluster on different nodes.    It also caches the
 metadata  to save operational time and reduce database connections to a
-different cluster.
+different cluster. 
 
 The next chapter presents the  experimental \ac{API} which provides methods for
  retrieving and processing the metadata as well as handling all the \ac{CRUD}
- operations and referential integrity validations. 
+ operations and referential integrity validations.  
 
-% Since metadata storage is unique in each  solution, The way metadata is accessed
-% and processed are different in each of the solutions .  
-%  As mentioned previously, the experimental \ac{API} provides methods for
+% Since metadata storage is unique in each  solution,  The way metadata is accessed
+% and processed are different in each of the solutions.   
+%  As mentioned previously,  the experimental \ac{API} provides methods for
 %  retrieving and processing the metadata and  handles all the \ac{CRUD}
-%  operations as well as the referential integrity validations . This is 
-%  discussed in the next chapter. 
+%  operations as well as the referential integrity validations.  This is 
+%  discussed in the next chapter.  
 
-% Thus,  this
+% Thus,   this
 % solution differs from Solution~1 only in the way the metadata is stored to improve resource
 % utilisation and the way special characters are used and saving only the
-% relevant constraints for a column family are  the same as in Solution~1.  
+% relevant constraints for a column family are  the same as in Solution~1.   
 % It also explains how each of the solutions retrieves and processes the
-% metadata.  
+% metadata.   
 
-% The insert,  update and delete operations are performed similar to the other
-% solutions.  
+% The insert,   update and delete operations are performed similar to the other
+% solutions.   
 
 
 % These methods and all the
-% solutions are incorporated  into an experimental \ac{API},  which is
-% described in Chapter~\ref{c:Implementation}.  
+% solutions are incorporated  into an experimental \ac{API},   which is
+% described in Chapter~\ref{c:Implementation}.   

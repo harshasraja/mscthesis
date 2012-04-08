@@ -36,7 +36,7 @@ because it involves accessing metadata to retrieve the relevant constraints of
 not.
 
 Deleting \texttt{Student} entities is a cascaded operation which involves
-deleting the child dependencies in the \texttt{Enrolment} column family. This
+deleting the child entities in the \texttt{Enrolment} column family. This
 operation is slower because  the relevant constraints need to be  accessed and
 the child entities in \texttt{Enrolment}  that have a reference to the
 \texttt{Student} have to be deleted. 

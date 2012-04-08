@@ -37,45 +37,41 @@ on~\citep{BOOK}.
 Hence,  for preserving the metadata, each of the solutions implement a 
 different strategy in which metadata is associated with actual data. Solutions~1
 and~2 use embedded metadata, that is, metadata is created with the actual
-data~\citep{duval}; while solutions~3 and~4 associate metadata separately from
+data; while solutions~3 and~4 associate metadata separately from
 the actual data.  Notice that, the structure of the metadata is kept the same across all the solutions even when  the way of
  storing and associating this metadata is different in each.
 
 The role of metadata in  the solutions is primarily to hold the necessary
- information required to maintain referential integrity. The metadata contains  
+ information required to maintain referential integrity. The metadata contains
  information about primary keys,   foreign keys,  referenced and referencing
  column family details, constraints, and others.  The constraints considered in
- the solutions can be either \ac{PK} or \ac{FK}
-constraints. \ac{PK} constraints specify which column is the primary key of a
-column family and notice that only single column primary keys are
-considered in the solutions. \ac{FK} constraints (or referential integrity
-constraints) determine the foreign key relationship between two column families, that is, the
- column of a column family which  is dependent on the primary key  column of
- another column family.  Hence, for each column family with a primary key,  the
-metadata  contains one \ac{PK} constraint  and  as
-many \ac{FK} constraints as foreign key relationships. 
-% Notice that, throughout
-%  the solutions, the structure of metadata containing these constraints is
-% consistent despite.  
+ the solutions can be either \ac{PK} or \ac{FK} constraints. \ac{PK} constraints
+ specify which column is the primary key of a column family. \ac{FK} constraints
+ (or referential integrity constraints) determine the foreign key relationship
+ between two column families, that is, the column of a column family which  is
+ dependent on the primary key  column of another column family.  Hence, for each
+ column family with a primary key,  the metadata  contains one \ac{PK}
+ constraint  and  as many \ac{FK} constraints as foreign key relationships the
+ column family has.
+% Notice that, throughout the solutions, the structure of metadata containing
+% these constraints is consistent despite.
 
-The structure of the metadata is shown in
-Figure~\ref{fd:Metadata-Constraints}.  This structure contains information about a
-University keyspace example in which  a simple schema is applied for the
-keyspace. In this example,  the details of the students are saved in  the
-\texttt{Student} column family and the course
- details in the \texttt{Course} column family.
- The enrolment details of students are saved in the 
-\texttt{Enrolment} column family by associating students to courses and
-hence having foreign key relationships to both \texttt{Student} and
-\texttt{Course} column families.
-All the column families have unique primary keys and their \ac{PK} constraints are saved in
-the metadata as presented in Figure~\ref{fd:Metadata-Constraints}, while the
-foreign key relationships between \texttt{Enrolment}, \texttt{Student} and
-\texttt{Course} are saved as \ac{FK} constraints.  For instance, consider in
+The structure of the metadata is shown in Figure~\ref{fd:Metadata-Constraints}.
+This structure contains information about a University keyspace example in which
+ a simple schema is applied for the keyspace. In this example,  the details of
+the students are saved in  the \texttt{Student} column family and the course
+ details in the \texttt{Course} column family.  The enrolment details of
+ students are saved in the \texttt{Enrolment} column family by associating
+ students to courses and hence having foreign key relationships to both
+ \texttt{Student} and \texttt{Course} column families. All the column families
+ have unique primary keys and their \ac{PK} constraints are saved in the
+ metadata as presented in Figure~\ref{fd:Metadata-Constraints} while the foreign
+ key relationships between \texttt{Enrolment}, \texttt{Student} and \texttt{Course} are saved as \ac{FK} constraints.  For instance, consider in
  Figure~\ref{fd:Metadata-Constraints} the \ac{PK} constraint \texttt{CONST100},
- for the \texttt{Student} column family, and the \ac{FK} constraint  
+ for the \texttt{Student} column family, and the \ac{FK} constraint
  \texttt{CONST400} for the foreign key relationship between
-\texttt{Enrolment} and \texttt{Student}.
+\texttt{Enrolment} and \texttt{Student}. Notice that only
+ single column primary keys are considered in the solutions.
 
 \begin{figure}[h] 
 	\centering
@@ -125,48 +121,43 @@ Specifically, the structure of the metadata contains:
 % \ac{FK} constraint.
 	A \ac{PK} constraint is referred by '\texttt{P}', while '\texttt{R}' and
 	'\texttt{F}' are two representations of \ac{FK} constraints.
-	'\texttt{R}' represents the Referential Integrity Constraint (or  \ac{FK}
-	constraint) a child entity has on a parent primary key, and '\texttt{F}' shows
-	the  existing dependencies on a parent entity .
-	For example, \texttt{CONST400} shows that the the parent entity for
-	\texttt{Enrolment} is \texttt{Student} by looking up \texttt{RConstraintName}
-	which is explained below. \texttt{CONST700} shows that parent entity
-	\texttt{Student} has child dependencies on it. Notice that, the constraint type
-	'\texttt{F}' is primarily used to locate the child dependencies for a parent
-	when it is deleted or updated.
+	'\texttt{R}' represents the referential integrity constraint (or  \ac{FK}
+	constraint) a child entity has on a parent primary key, and '\texttt{F}'
+	represents the  existing dependencies on a parent entity . For example,
+	\texttt{CONST400} shows that the  parent entity for \texttt{Enrolment} is
+	\texttt{Student} by looking up \texttt{RConstraintName}.
+	\texttt{CONST700} shows that parent entity \texttt{Student} has child
+	dependencies on it by following \texttt{CONST400}. Notice that, the constraint
+	type '\texttt{F}' is primarily used to locate the child dependencies for a
+	parent when it is deleted or updated.
 % \begin{itemize} \item  '\texttt{P}' represents a \ac{PK} constraint \item
 % '\texttt{R}' represents a
 
    
   \item \texttt{ColumnFamily:} refers to the column family this constraint
-  exists in. For example,  the \ac{PK} constraint
-  \texttt{CONST100}  exists in column family \texttt{Student} and the column
-  family of the \ac{FK} constraint \texttt{CONST400}
-  is \texttt{Enrolment}.
+  applies to. For example,  the \ac{PK} constraint
+  \texttt{CONST100}  applies on column family \texttt{Student}, and the \ac{FK}
+  constraint \texttt{CONST400} applies on  \texttt{Enrolment}.
   
-  \item \texttt{RKeyspace:}is the name of the keyspace on which this constraint
-  is applied.  In the example, constraints  are applied in  the keyspace
+  \item \texttt{RKeyspace:} is the name of the keyspace on which this constraint
+  is applied.  In the example, all the constraints  are applied in  the keyspace
   \texttt{University}.
   
-    %   In other words, it indicates which primary key
-%   is referenced or which . 
-  \item \texttt{RConstraintName:} For \ac{FK}
-  constraints, \texttt{RConstraintName} represents the constraint that is
-  referenced. 
-%   For the constraint type '\texttt{R}' this field represents the
-%   referenced parent column families for a column family and for the constraint
-%   type '\texttt{F}' it shows the child dependencies for a column
-%   family.
-  For the constraint type '\texttt{R}' this represents the
-  referenced \ac{PK} constraint and for the constraint type '\texttt{F}' it
-  shows the child dependencies for a parent entity.
-  In the example, the \ac{FK} constraint
+    % In other words, it indicates which primary key
+% is referenced or which .
+  \item \texttt{RConstraintName:} represents the constraint that is referenced.
+% For the constraint type '\texttt{R}' this field represents the referenced
+% parent column families for a column family and for the constraint type
+% '\texttt{F}' it shows the child dependencies for a column family.
+  For the constraint type '\texttt{R}', this represents the referenced \ac{PK}
+  constraint; and for the constraint type '\texttt{F}', it shows the child
+  dependencies for a parent entity. In the example, the \ac{FK} constraint
   \texttt{CONST400} references the \ac{PK} constraint \texttt{CONST100},  which
   means that \texttt{Enrolment} has a foreign key relationship with
-  \texttt{Student}.
-   In \texttt{CONST700} this field indicates that \ac{FK} constraint
-   \texttt{CONST400} exists for \texttt{Student}. Notice that in a \ac{PK}
-   constraint this field is left blank since it has no references to other keys.
+  \texttt{Student}. In \texttt{CONST700} this field indicates that \ac{FK}
+  constraint \texttt{CONST400} exists for \texttt{Student}. Notice that this
+  field is left blank in a \ac{PK} constraint since it has no references to
+  other keys.
   
   \item \texttt{RColumn:}  indicates the primary key column on which this
   constraint is applicable.  For \ac{PK} constraints,  this holds the name of
@@ -178,35 +169,39 @@ Specifically, the structure of the metadata contains:
   \texttt{Enrolment} references  primary key column \texttt{StudentId} of
   \texttt{Student}.
   
-  \item \texttt{DeleteRule:}stores the type of data manipulation rule applicable
-  on this constraint for a delete or update operation. The possible values are
-  \texttt{Cascade} and \texttt{NoDelete}.   For the sake of
-  clarity and conciseness, other values like \texttt{Null} or \texttt{Default}
-  are not considered in the solutions. Notice that, this field is not
-  applicable for \ac{PK} constraints since data manipulation rules are 
-  associated with constraints that hold dependency information like the
-  \ac{FK} constraints.
+  \item \texttt{DeleteRule:} stores the type of data manipulation rule
+  applicable on this constraint for a delete operation. Notice that for the
+  sake of simplicity, this rule is also used for update operations. The possible
+  rules considered in this thesis are \texttt{Cascade} and \texttt{NoDelete},
+  other rules such as \texttt{Null} or \texttt{Default} are out of the scope of
+  this thesis.  
+%   values are \texttt{Cascade} and \texttt{NoDelete}.
+%   For the sake of clarity and conciseness, other values like \texttt{Null} or \texttt{Default} are not
+%   considered in the solutions. 
+  Notice that, this field is not applicable for
+  \ac{PK} constraints since data manipulation rules are associated with
+  constraints that hold dependency information like the \ac{FK} constraints.
   
 
   
 \end{itemize} 
 
 In the solutions, metadata  is accessed whenever referential integrity
-validations are triggered each time 
+validations are triggered by
 % to extract information about \ac{FK} constraints.
-% % Specific methods are designed in all the solutions to retrieve and process the
-% % metadata in order to validate referential integrity.
+% % Specific methods are designed in all the solutions to retrieve and process
+% the % metadata in order to validate referential integrity.
 % Referential integrity validations are triggered when
-\ac{CRUD}\footnote{Notice that \texttt{Read} does not trigger
-any referential integrity validations, but the \ac{CRUD} acronym is still used
-all throughout this thesis for the sake of familiarity.} operations are
-performed on a column family.
-Relevant \ac{FK} constraints are accessed form the metadata to perform such validations. Each solution stores metadata in a distinct way and provides specific methods to access and process the metadata to
+\ac{CRUD}\footnote{Notice that \texttt{Read} does not trigger any referential
+integrity validations, but the \ac{CRUD} acronym is still used all throughout
+this thesis for the sake of familiarity.} operations performed on a column
+family. Thus, the relevant \ac{FK} constraints  to perform such validations are
+accessed from the metadata. Notice that, each solution stores metadata in a
+distinct way and provides specific methods to access and process the metadata to
 support the validation. The logic for validating the referential integrity is
-consistent across all the solutions.
-The way these solutions store metadata and the motivation
-behind the design of its metadata storage is presented in the following
-sections.
+consistent across all the solutions. The way these solutions store metadata and
+the motivation behind the design of its metadata storage is presented in the
+following sections.
 
 
 

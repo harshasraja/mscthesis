@@ -10,7 +10,19 @@ the \ac{API} and to analyse the performance of the solutions.
 
 In the baseline experiment,  the operations on the entities represent how
 operations on data are performed in Cassandra without referential integrity
-validations. 
+validations. In order to be consistent with the solutions, the operations
+\texttt{Create}, \texttt{Update} and \texttt{Delete} for the baseline are
+measured in the same way it is measured for the solutions and the artificial
+data for the baseline experiment is created the same way as well.
+Note that, \texttt{Create} inserts all the entities for \texttt{Student},
+\texttt{Course} and \texttt{Enrolment}.  \texttt{Update} performs changes on the
+primary keys of \texttt{Student} and \texttt{Course} entities,  and on the
+foreign keys (\texttt{CourseId}) of \texttt{Enrolment} while \texttt{Delete}
+removes all the \texttt{Student},  \texttt{Course} and \texttt{Enrolment}
+entities. These operations are performed precisely the same way as the
+solutions, so that the comparison and analysis of results are balanced and
+unbiased.
+
 The results in terms of average response time and throughput for the baseline
 experiment are presented as  bar-plots in Figure~\ref{fres:Baseline}. 
 Specifically,  Figure~\ref{fres:Baseline-responsetime} shows the response time 
@@ -46,17 +58,16 @@ The \texttt{delete} operation performs faster than the other operations because
 Cassandra performs  tombstone deletes,  where data is not physically but only
 logically marked as deleted.  The \texttt{update} operation takes the most time
 because it requires searching by index to access the correct columns in the
-column family.  It then stores the new entity and deletes  the old entity and
-updates its child dependencies if it is a cascaded \texttt{update}.  Thus,   an
-\texttt{update} involves  \texttt{insert} and  \texttt{delete} operations
-hence taking more time.  Note that the \texttt{update} in \texttt{Enrolment}
-takes lesser time because it does not change the primary keys of these entities
-and only the foreign key attributes are changed.  % On the other hand, 
+column family.  Moreover,   an \texttt{update} involves  \texttt{insert} and
+\texttt{delete} operations hence takes more time that the \texttt{delete}
+operation. Note that the \texttt{update} in \texttt{Enrolment} takes lesser time
+because it does not change the primary keys of these entities and only the
+foreign key attributes are changed.  % On the other hand,
 % \texttt{update} on \texttt{Student} and \texttt{Course} entities changes the
-% primary keys,  which involves performing an \texttt{insert} and a \texttt{delete}
-% operation for each entity. 
+% primary keys,  which involves performing an \texttt{insert} and a
+% \texttt{delete} operation for each entity.
 The \texttt{insert} operation takes slightly more time than \texttt{delete}
-since data has to be physically written into the column families. 
+since data has to be physically written into the column families.
 
 The time taken to insert one entity of \texttt{Student},  \texttt{Course} and
 \texttt{Enrolment} are similar since there are no additional validations or

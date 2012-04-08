@@ -67,29 +67,30 @@
 	\begin{table}[h]
 	\centering
 	\caption{Response time ratio}\label{tres:ResponsetimeRatio}
-		\begin{tabular}{ccBcccc}
+		\begin{tabular}{cccccc}
 			
-			\toprule &&\textbf{Baseline$^*$} & \textbf{Solution1} & \textbf{Solution2} &
+			\toprule && \textbf{Solution1} & \textbf{Solution2} &
 			\textbf{Solution3} & \textbf{Solution4}\\
 						
-			\midrule \multirow{3}{*}{\textbf{insert}} & \textbf{s} & 0.37 & 1.55 & 2.24 &
+			\midrule \multirow{3}{*}{\textbf{insert}} & \textbf{s} & 1.55 & 2.24 &
 			5.76 & \TB{0.99}\\
-			& \textbf{c} & 0.35 & 1.56 & 2.28 & 5.95 & \TB{1.00}\\
-			& \textbf{e} & 0.31 & 4.06 & 4.61 & 11.42 & \TB{3.07}\\
+			& \textbf{c} & 1.56 & 2.28 & 5.95 & \TB{1.00}\\
+			& \textbf{e} & 4.06 & 4.61 & 11.42 & \TB{3.07}\\
 						
-			\midrule \multirow{3}{*}{\textbf{update}} & \textbf{s} & 0.73 & 26.21 & 28.53 &
+			\midrule \multirow{3}{*}{\textbf{update}} & \textbf{s} & 26.21 & 28.53 &
 			63.51 & \TB{20.53}\\
-			& \textbf{c} & 0.76 & 7.66 & 7.90 & 13.74 & \TB{6.26}\\
-			& \textbf{e} & 0.40 & 3.35 & 3.71 & 8.86 & \TB{2.55}\\
+			& \textbf{c} & 7.66 & 7.90 & 13.74 & \TB{6.26}\\
+			& \textbf{e} & 3.35 & 3.71 & 8.86 & \TB{2.55}\\
 						
-			\midrule \multirow{3}{*}{\textbf{delete}} & \textbf{s} & 0.31 & 23.61 & 33.50 &
+			\midrule \multirow{3}{*}{\textbf{delete}} & \textbf{s} & 23.61 & 33.50 &
 			82.76 & \TB{17.93}\\
-			& \textbf{c} & 0.29 & 7.09 & 8.24 & 13.78 & \TB{6.84}\\
-			& \textbf{e} & 0.29 & 1.41 & 2.57 & 7.36 & \TB{1.03}\\
+			& \textbf{c} & 7.09 & 8.24 & 13.78 & \TB{6.84}\\
+			& \textbf{e} & 1.41 & 2.57 & 7.36 & \TB{1.03}\\
 			
 			\bottomrule
-			\multicolumn{3}{l}{\scriptsize $^*$ Milliseconds per entity} & &
-			\multicolumn{3}{r}{\scriptsize Lower values mean faster response}
+%  			\multicolumn{3}{l}{}%\scriptsize $^*$ Milliseconds per entity} 
+ 			& &
+			\multicolumn{3}{l}{\scriptsize Lower values mean faster response}
 		
 		\end{tabular}
 	\end{table}
@@ -99,32 +100,33 @@
 	\begin{table}[h]
 	\centering
 	\caption{Throughput Ratio} \label{tres:ThroughputRatio}
-		\begin{tabular}{ccBcccc}
+		\begin{tabular}{cccccc}
 			
 			\toprule
-			&&\textbf{Baseline$^*$} & \textbf{Solution1} & \textbf{Solution2} &
+			&&\textbf{Solution1} & \textbf{Solution2} &
 			\textbf{Solution3} & \textbf{Solution4}\\
 			
 			\midrule
-			\multirow{3}{*}{\textbf{insert}} & \textbf{s} & 2790 & 0.63 & 0.44 & 0.17 &
+			\multirow{3}{*}{\textbf{insert}} & \textbf{s} & 0.63 & 0.44 & 0.17 &
 			\TB{0.99}\\
-			 & \textbf{c} & 2880 & 0.64 & 0.43 & 0.17 & \TB{0.99}\\
-			 & \textbf{e} & 3282 & 0.25 & 0.22 & 0.09 & \TB{0.33}\\
+			 & \textbf{c} & 0.64 & 0.43 & 0.17 & \TB{0.99}\\
+			 & \textbf{e} & 0.25 & 0.22 & 0.09 & \TB{0.33}\\
 			
 			\midrule
-			\multirow{3}{*}{\textbf{update}} & \textbf{s} & 1394 & 0.04 & 0.03 & 0.02 &
+			\multirow{3}{*}{\textbf{update}} & \textbf{s} & 0.04 & 0.03 & 0.02 &
 			\TB{0.05}\\
-			 & \textbf{c} & 1325 & 0.13 & 0.13 & 0.07 & \TB{0.16}\\
-			 & \textbf{e} & 2483 & 0.30 & 0.27 & 0.11 & \TB{0.39}\\
+			 & \textbf{c} & 0.13 & 0.13 & 0.07 & \TB{0.16}\\
+			 & \textbf{e} & 0.30 & 0.27 & 0.11 & \TB{0.39}\\
 			
 			\midrule
-			\multirow{3}{*}{\textbf{delete}} & \textbf{s} & 3198 & 0.04 & 0.03 & 0.01 &
+			\multirow{3}{*}{\textbf{delete}} & \textbf{s} & 0.04 & 0.03 & 0.01 &
 			\TB{0.06}\\
-			 & \textbf{c} & 3574 & 0.14 & 0.12 & 0.07 & \TB{0.14}\\
-			 & \textbf{e} & 3470 & 0.70 & 0.39 & 0.14 & \TB{0.97}\\
+			 & \textbf{c} & 0.14 & 0.12 & 0.07 & \TB{0.14}\\
+			 & \textbf{e} & 0.70 & 0.39 & 0.14 & \TB{0.97}\\
 			
 			\bottomrule
-			\multicolumn{3}{l}{\scriptsize $^*$ Entities per second} & &
+% 			\scriptsize $^*$ Entities per second
+% 			\multicolumn{3}{l}{} & &
 			\multicolumn{3}{r}{\scriptsize Higher values mean more throughput}
 		\end{tabular}
 	\end{table}

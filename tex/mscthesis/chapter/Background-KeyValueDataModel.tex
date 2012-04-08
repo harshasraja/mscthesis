@@ -28,7 +28,7 @@ table called \texttt{Student} and the course details in the \texttt{Course}
 table. The Student-Course relationship is maintained in a separate table called
 \texttt{Enrolment} which has foreign keys for both \texttt{Student} and
 \texttt{Course} tables.  This can be seen in Figure~\ref{f:RDB}. 
-
+ 
 
 \begin{figure}[h]
 	\centering
@@ -46,7 +46,7 @@ databases as metadata , as seen in Cassandra~\citep{datastaxDataModel}.
 Such \acp{DBMS} allow applications to model the way data is organised in a
 traditional \ac{RDBMS}, whilst bringing more flexibility by denormalising data
 and imposing no rigid structures or schema
-requirements~\citep{cassandra,BOOK,datastaxDataModel}.
+requirements~\citep{datastaxDataModel,BOOK,cassandra}.
 Therefore,   it allows applications to add data in the way they want and change
 their schema (if needed),   without adhering to a rigid schema unlike the
 traditional \acp{RDBMS}.
@@ -68,15 +68,15 @@ tuple containing a column name,   a value and a timestamp (Figure~\ref{f:column}
 \begin{figure}[h]
 	\centering
 	%\includegraphics[width=5cm,   height=5cm]{. /figure/random. jpg}
-	\includegraphics[width=.4\textwidth]{./figure/Example/Column.png}
+	\includegraphics[width=.3\textwidth]{./figure/Example/Column.png}
 	\caption{A column in Cassandra}\label{f:column}
 \end{figure}
 
 The column names are labels  and it is mandatory that a column has a name. 
 Column names and values are stored as Bytes Type,   Long Type, Ascii Type,  
 binary values Lexical UUID Type,   Time UUID Type or as UTF8 serialized
-strings~\citep{BOOK,datastaxDataModel}.  Timstamps are used to store the time of
-the latest update made to the column and are thus used for conflict resolutions.  The timestamp values are commonly stored as microseconds,   but could be in any format that the
+strings~\citep{datastaxDataModel,BOOK}.  Timstamps are used to store the time
+of the latest update made to the column and are thus used for conflict resolutions.  The timestamp values are commonly stored as microseconds,   but could be in any format that the
 application chooses.  However,   timestamp formats have to be consistent across
 the database so that is the same format across all columns.
 
@@ -86,7 +86,7 @@ secondary indexes are used,   efficient queries can be specified using equality
 predicates,   and can be made on ranges of columns too.  The latter ones are
 called range queries.
 
-A column name can be considered analogous to a column in a table in any
+A column name can be considered analogous to an attribute name in a table in any
 traditional \ac{RDBMS}.  To illustrate this analogy,
 Figures~\ref{f:column-FirstName} and~\ref{f:RDB-User} show the differences
 between the representation of values in \texttt{Student} in Cassandra and in an
@@ -187,15 +187,16 @@ also has optional attributes that can be defined if the application requires so.
  Some of the optional attributes are number of keys cached,   comments,   read
 repairs,   column metadata among others.
 
-Column families can have rows %to have relatively a definite number of columns. 
-that are identified by their unique row keys.  This is similar to a table,   as
-seen for table \texttt{Student} in Figure~\ref{f:RDB-User},   where every row in
-the table has the same number of columns and primary keys are used to identify a
-row.  An example of a column family is shown in Figure~\ref{f:columnfamilyUSER}.
+Column families can have rows %to have relatively a definite number of columns.
+that are identified by their unique row keys.  This is similar to a table in an
+\ac{RDB}, as seen for table \texttt{Student} in Figure~\ref{f:RDB-User},   where
+every row in the table has the same number of columns and primary keys are used
+to identify a row.  An example of a column family is shown in
+Figure~\ref{f:columnfamilyUSER}.
 Unlike relational tables in an \ac{RDB},   column families do not require all
 the rows to define the same number of columns~\citep{datastaxDataModel,BOOK}.
 
-\begin{figure}[H]
+\begin{figure}[h]
 	\centering
 	%\includegraphics[width=5cm,   height=5cm]{. /figure/random. jpg}
 	\includegraphics[width=.8\textwidth]{./figure/Example/ColumnFamily-User-DiffColumns.png}
@@ -205,13 +206,13 @@ the rows to define the same number of columns~\citep{datastaxDataModel,BOOK}.
 The JSON notation for a single row of a column family in Cassandra is
 shown in Figure~\ref{f:columnfamilyJSON} 
 
-\begin{figure}[H]
+\begin{figure}[h]
 	\centering
 	%\includegraphics[width=5cm,   height=5cm]{. /figure/random. jpg}
 	\includegraphics[width=.7\textwidth]{./figure/Example/JSON_ColumnFamily_1row.png}
 	\caption{JSON notation for a column family in
 	Cassandra}\label{f:columnfamilyJSON}
-\end{figure}
+\end{figure} 
 
 \item [KeySpace:] A keyspace is a container to hold the data that the
 application uses.  Keyspaces have one or more column families,   although it is not strictly
@@ -227,7 +228,7 @@ replication strategy and others.  Some optional elements that can be defined are
 the details of the column families in the keyspace and other options
 for replication of data. 
 \end{description}
-
+ 
 %\newpage
 
 \begin{figure}[h]

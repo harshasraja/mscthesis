@@ -10,7 +10,7 @@ database servers or on local disks, but the requirements for data storage on the
 cloud are very different and need a distributed approach in data storage, where
 data is spread across several machines.  Cloud \acp{DBMS} require more features
 than the traditional \acp{DBMS} for an efficient data management on the
-cloud~\citep{Shi,Florescu,Stonebraker,Abadi, Hackl,Stonebraker2}.
+cloud~\citep{Abadi,Florescu,Hackl,Shietal, Stonebraker2,Stonebraker}.
 Unlike traditional \acp{DBMS}, cloud \acp{DBMS} are simple in their structure
 with minimum querying support and have a simple API for database administration.
  These have been made scalable to support the diverse and large number of users
@@ -47,11 +47,11 @@ maintain the same throughput.
 
 In general,   cloud \acp{DBMS} are found to be less efficient than traditional
 \acp{DBMS} because of this dynamic scalability required to support a changing
-user-base~\citep{Hogan,Stonebraker,Abadi}. \citet{Hogan} claims that data
+user-base~\citep{Abadi,Hogan,Stonebraker}. \citet{Hogan} claims that data
 partitioning in cloud databases increases complexity as a database is spread
 across several servers and querying the database would involve complex Joins and
 more time.  This moves the databases and the user applications farther apart,
-increasing latency~\citep{Murphy}. Hence,   data is split into distinct
+increasing latency. Hence,   data is split into distinct
 individual parts and saved on different nodes in the data centre across several
 databases. Thus,   nodes could have a subset of data or rows from each table in
 the database~\citep{dewitt}. This eventually means that querying would take
@@ -66,22 +66,22 @@ integrity anomalies~\citep{Navathe}.  Normalisation causes databases to have
 smaller and structured tables by removing duplicate data from large and badly
 organised tables and by imposing constraints on the data.  Tables are normalised
 to at-least \ac{1-NF} ensuring data is organised and less redundant.
-Redundancy is reduced by bringing the database schema into at-least \ac{3-NF}
-(or \ac{BCNF}). Throughout the chapters normalization refers to making databases
-at least in \ac{1-NF}.
+Redundancy is further reduced by bringing the database schema into at-least
+\ac{3-NF} (or \ac{BCNF}). Throughout the chapters normalization refers to making
+databases at least in \ac{1-NF}.
 
 Cloud \acp{DBMS} are mostly non relational and follow a different data model,
 which is explained in Section~\ref{s:cloud-data-models}.  Such Cloud \acp{DBMS}
 are loosely termed as cloud \ac{NoSQL} \acp{DBMS} and do not provide support for
 efficient querying or query languages such as SQL. Unlike \acp{RDBMS}, cloud
 \ac{NoSQL} \acp{DBMS} do not aim to be
-ACID-compliant~\citep{Stonebraker,Stonebraker2,Florescu,Han}.
+ACID-compliant~\citep{Florescu,Han,Stonebraker2,Stonebraker}.
 ACID stands for the properties Atomicity,   Consistency,   Isolation and
 Durability, which ensure the completeness and reliability of a database
 operation.  In general,   unless operations are not ACID compliant in
 \acp{RDBMS},   it would not be considered valid. But ACID compatibility in cloud
 \ac{NoSQL} \acp{DBMS} is a bottleneck as it does not suit the distributed nature
-of the cloud environment~\citep{Wada,Stonebraker2}.
+of the cloud environment~\citep{Stonebraker2,Wada}.
 Cloud \ac{NoSQL} \acp{DBMS} require to have high throughput,   high availability
 and also require to be elastically scalable to increasing resources or users.
 This requires cloud \ac{NoSQL} \acp{DBMS} to part with some traditional
@@ -110,7 +110,7 @@ satisfied with the services in terms of speed,   availability and consistency.
 Instead of ACID properties,   cloud \ac{NoSQL} \acp{DBMS} aim to achieve
 different properties,   namely Consistency,   Availability and
 Partition-tolerance (CAP) properties stated in the CAP
-theorem~\citep{Wada,Ramakrishnan,Gilbert}.
+theorem~\citep{Gilbert,Ramakrishnan,Wada}.
 These properties and the CAP theorem are explained below.
 
 \subsection{CAP Theorem} \label{ss:cap}
@@ -124,7 +124,7 @@ achieve all these three properties at the same given time.
   
 	\item Consistency: When a request is made to access data,   a system is called
 	consistent if it provides the correct and latest version of the
-	data~\citep{Tai,Wada,Ramakrishnan,browne,hp}.  For example, in the case of an
+	data~\citep{Tai,browne,hp,Ramakrishnan,Wada}.  For example, in the case of an
 	online shopping website, consistency would ensure that the stock of items is
 	always correct.  When a user attempts to buy an item and the same item is being
 	bought by another user,   the system will have to ensure that both the users get
@@ -136,13 +136,13 @@ achieve all these three properties at the same given time.
 	\item Availability: A system is considered highly available when all parts of
 	the system are always available, despite any failures or problems.  It is
 	expected that all requests would be addressed any given point of
-	time~\citep{browne,Tai,Wada,Ramakrishnan}.  In the previous example,   this
+	time~\citep{Tai,browne,Ramakrishnan,Wada}.  In the previous example,   this
 	means that even when the website is busy,   with many users accessing it,   it
 	is expected to have all user requests addressed and to be up and running always.
 			
 	\item Partition-tolerance: Generally, distributed services are run on several
 	machines across different networks and these services are prone to network
-	partitions~\citep{Brewer,Ramakrishnan,Gilbert}. Network partitions happen when
+	partitions~\citep{Brewer,Gilbert,Ramakrishnan}. Network partitions happen when
 	there is a failure of a segment or component of a network such that nodes cannot
 	communicate with each other.
 		% As previously mentioned, this means that data is
@@ -165,7 +165,7 @@ Cassandra focuses on '\texttt{A}' and '\texttt{P}' while Bigtable focuses on
 '\texttt{C}' and '\texttt{A}'~\citep{bigtable}.
 
 What such trade-offs mean in relation to the CAP theorem is examined
-below~\citep{Tai,Brewer2,Ramakrishnan,hp,abadi2}:
+below~\citep{abadi2,Tai,Brewer2,hp,Ramakrishnan}:
 
 \begin{description}
 	\item [Case 1: Achieving '\texttt{C}' and '\texttt{A}' properties:] This means
@@ -189,8 +189,8 @@ below~\citep{Tai,Brewer2,Ramakrishnan,hp,abadi2}:
 	most business models as this ensures that users are always able to
 	access their data.  For example,   in the  online shopping example,   when
 	data is not available or the request fails,   users can get anxious whether
-	they lost their money during the transaction.  To avoid such cases,   users
-	are presented with data as soon as possible,   despite being stale,   since users
+	they lost their money during the transaction.  In order to avoid such cases,  
+	users are presented with data as soon as possible,   despite being stale,   since users
 	will be able to see the data rather than being left unsure. 
 	Since a cloud \ac{NoSQL} \ac{DBMS} that has poor consistency is unrealistic,  
 	these \acp{DBMS} tend to provide eventual consistency

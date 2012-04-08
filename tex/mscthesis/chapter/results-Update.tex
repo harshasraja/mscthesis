@@ -1,14 +1,16 @@
 %ब 
 
 \section{Update} \label{s:results-update}
-The \texttt{update} operation triggers  referential
-integrity validations whenever entities of \texttt{Student},  \texttt{Course}
-and \texttt{Enrolment} are updated with new values.  Figure~\ref{fres:Update}
-presents the results of the \texttt{update} operation on each entity for all the
-solutions. 
+The \texttt{update} operation triggers  referential integrity validations
+whenever entities of \texttt{Student},  \texttt{Course} and \texttt{Enrolment}
+are updated with new values. Notice that the \texttt{Update} operation is
+performed  on the primary keys of \texttt{Student} and \texttt{Course} entities,
+ and on the foreign keys (\texttt{CourseId}) of \texttt{Enrolment}.
+Figure~\ref{fres:Update} presents the results of the \texttt{update} operation
+on each entity for all the solutions.
 Figures~\ref{fres:Update-responsetime} and~\ref{fres:Update-throughput} present
-the average response time and throughput of
-\texttt{update} on each entity in all the solutions. 
+the average response time and throughput of \texttt{update} on each entity in
+all the solutions.
 
 	\begin{figure}[H] 
 		\subfigure[Response time for Update operation]
@@ -50,7 +52,8 @@ involves performing a \texttt{delete} to remove the old primary key value in
 
 Updating \texttt{Course} takes less time than \texttt{update} on
 \texttt{Student} because it is not a cascaded operation as the
-\texttt{DeleteRule} for \texttt{Course} entities is \texttt{NoDelete} and
+\texttt{DeleteRule} for \texttt{Course} entities is \texttt{NoDelete}\footnote{Notice that for the
+  sake of simplicity, this rule is also used for update operations.} and
 \texttt{Enrolment} contains its child dependencies.  Thus,  exceptions are
 raised each time an \texttt{update} is performed on \texttt{Course} entities, 
 which means that the response time includes measuring the time for validation as
@@ -95,9 +98,11 @@ Note that in Solution~3 the \texttt{Metadata} column family is accessed multiple
 times in each validation making it the slowest.  Multiple accesses are needed in
 order to first retrieve the relevant \ac{FK} constraints and then to retrieve
 information about the child or parent entities.  Although Solution~4 stores
-metadata separately like Solution~3,  it caches the \texttt{Metadata} column
-family and reuses the cache to avoid such multiple accesses to the column
-family. 
+metadata separately like Solution~3,  it caches and re-uses
+% the \texttt{Metadata} column family and reuses the cache to avoid such multiple
+% accesses to the column family.  
+the list of constraints and avoids connecting to the external cluster to access
+the \texttt{Metadata} column family each time  operations are invoked on entities.
 
 When compared to the baseline,  the \texttt{update} operation on all the entities
 take considerably more time in all the solutions because of their different

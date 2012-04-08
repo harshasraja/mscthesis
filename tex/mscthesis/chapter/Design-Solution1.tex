@@ -1,33 +1,32 @@
 %ब
 
-\section{Solution 1:  Metadata with Special Characters} \label{s:design-sol1}
+\section{Solution 1:  Metadata in Super Columns} \label{s:design-sol1}
 
 % \subsection{Metadata Storage}
-In this  solution,   metadata is embedded with the actual data and is
-stored in the column family of the actual data.  In this approach,  metadata is
-stored in every super column of a column family  as the value of column
-\texttt{Metadata} (Figure~\ref{fd:Metadata-Column}).  Since metadata is
-common for all the super columns in a column family,  every super column
-contains the same  value in the \texttt{Metadata} column. 
-% For example,  in the
-% University keyspace,  metadata in \texttt{Student} is  as seen in
+In this  solution,   metadata is embedded with the actual data by storing it
+within each super column. That is, each super column of a column family stores
+the metadata in its  \texttt{Metadata} column (Figure~\ref{fd:Metadata-Column}).
+% In this approach, metadata is stored in every super column of a column family
+% as the value of column \texttt{Metadata} (Figure~\ref{fd:Metadata-Column}).
+Since metadata is common in a keyspace, all the super columns in every column
+family contains the same  value in the \texttt{Metadata} column.
+% For example,  in the University keyspace,  metadata in \texttt{Student} is  as
+% seen in
 Figure~\ref{fd:Metadata-Solution1} presents how metadata is stored in every
 super column of the example \texttt{Student} column family in the University
-keyspace. 
-	
- 
-		
-In this approach,  metadata contains all the parts as
+keyspace.
+
+Metadata contains all the parts as
 % the structure of the constraints in metadata is as
-described in Section~\ref{s:design-Metadata} and each entity stores all the
-constraints belonging to the keyspace in its \texttt{Metadata} column. Since all
-the constraints are stored together, it is possible to retrieve all the relevant
-constraints of an entity from its \texttt{Metadata} column.
+described in Section~\ref{s:design-Metadata} and each super column stores all
+the constraints belonging to the keyspace in its \texttt{Metadata} column. Since
+all the constraints are stored together, it is possible to retrieve all the
+relevant constraints of a super column from its \texttt{Metadata} column.
 % Thus,  a column family contains only its \ac{PK} constraint and related
 % \ac{FK} constraints in its \texttt{Metadata} column.
 % The following are the types of constraints stored in each of the column
 % families.
-%  \begin{itemize} \item  \ac{PK} constraint showing the primary key of the
+% \begin{itemize} \item  \ac{PK} constraint showing the primary key of the
 % column family.
 % \item \ac{FK} constraints \begin{itemize} \item In the case of a parent column
 % family, the \ac{FK} constraints refer to those of type '\texttt{F}' in order
@@ -44,18 +43,18 @@ constraints of an entity from its \texttt{Metadata} column.
 % \end{itemize} \end{itemize}
 		
 
-For instance, in \texttt{Student}  
-% is a parent column family with
-% \texttt{Enrolment} as its child column family. 
-% Thus,  
-its metadata column  contains all the constraints as listed in
-Figure~\ref{fd:Metadata-Constraints}. 
-% its \ac{PK} constraint \texttt{CONST100}
-% and the \ac{FK} constraint \texttt{CONST700}.  Since \texttt{Enrolment} is a child entity it  stores its \ac{PK} constraint \texttt{CONST300} and its \ac{FK} constraints
-% \texttt{CONST400} and \texttt{CONST500}.  
-Similarly,  other entities like
-\texttt{Course} and \texttt{Enrolment} store all the constraints in their
-respective \texttt{Metadata} column.
+% For instance, in \texttt{Student}  
+% % is a parent column family with
+% % \texttt{Enrolment} as its child column family. 
+% % Thus,  
+% its metadata column  contains all the constraints as listed in
+% Figure~\ref{fd:Metadata-Constraints}. 
+% % its \ac{PK} constraint \texttt{CONST100}
+% % and the \ac{FK} constraint \texttt{CONST700}.  Since \texttt{Enrolment} is a child entity it  stores its \ac{PK} constraint \texttt{CONST300} and its \ac{FK} constraints
+% % \texttt{CONST400} and \texttt{CONST500}.  
+% Similarly,  other entities like
+% \texttt{Course} and \texttt{Enrolment} store all the constraints in their
+% respective \texttt{Metadata} column.
 
 	\begin{figure}[h] 
 			\centering
@@ -90,10 +89,10 @@ respective \texttt{Metadata} column.
 % 		\end{figure}
 		
 Since all the  constraints of a column family are saved together in the
-\texttt{Metadata} column,  it is essential that each relevant constraint of an
-entity is easily identifiable and accessible.  To separate the constraints and
-to identify its different parts, special characters are used within the metadata
-as shown in Figure~\ref{fd:Metadata-Column}. These characters are curly brackets
+\texttt{Metadata} column,  it is essential for each constraint to be easily
+identifiable and accessible.  Thus, special characters are used within the
+metadata to separate the constraints and to identify its different parts, as
+shown in Figure~\ref{fd:Metadata-Column}. These characters are curly brackets
 ('\texttt{\{}', '\texttt{\}}') and semi-colon and colon ('\texttt{;}',
 '\texttt{:}'). These special characters are used as follows.
 
@@ -118,7 +117,7 @@ as shown in Figure~\ref{fd:Metadata-Column}. These characters are curly brackets
 % The special characters :
 	
 		\begin{itemize}
-			\item Each constraint is enclosed in curly brackets and the
+			\item Each constraint is enclosed within curly brackets and the
 			constraints are separated from each other with a
 			'\texttt{;}'.  For example,  \texttt{CONST100} and \texttt{CONST200} are
 			enclosed in curly braces and separated by '\texttt{;}'. 
@@ -138,8 +137,8 @@ as shown in Figure~\ref{fd:Metadata-Column}. These characters are curly brackets
 		\end{itemize}
 
 The special characters help in identifying the values of every constraint in the
-metadata information for this solution.  The metadata is extracted from each
-super column and processed by specific methods within the solution so that
+metadata information for this solution. Thus, the metadata is extracted from
+each super column and processed by specific methods within the solution so that
 relevant constraints are used for validating referential integrity.  
 % Different
 % methods are built in the experimental \ac{API} to support these functionalities
@@ -166,7 +165,7 @@ columns and column families as in Cassandra~\citep{Hackl,tokyo}.
 % \acp{RDBMS}.
 As a part of their experiments to manage metadata for huge file systems,  they
 adopted an approach to store metadata  as a part of the value in a key-value
-pair in Tokyo Cabinet.  In their approach, this value  is associated with a
+pair.  In their approach, this value  is associated with a
 unique key and the different parts of the metadata are separated by semicolons.
 % where records are stored as simple key-value pairs in data files.
 % In their approach,   metadata about the file system used in their experiment

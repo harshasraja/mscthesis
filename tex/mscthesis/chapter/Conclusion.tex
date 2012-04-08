@@ -40,20 +40,18 @@ maintaining referential integrity is left to be dealt with by the application.
 
 This thesis presents an \ac{API} that maintains referential integrity in Apache
 Cassandra and serves as a middle layer between the applications and the
-\ac{DBMS}. The \ac{API} prevents the execution of operations that violate referential
-integrity constraints. It
-does so by triggering validations and ensuring that constraints applied on data
-are always satisfied.
+\ac{DBMS}. The \ac{API} prevents the execution of operations that violate
+referential integrity constraints. It does so by triggering validations and
+ensuring that constraints applied on data are always satisfied.
 % maintains referential integrity by ensuring that the constraints on the data
 % are always satisfied whenever operations are performed.
-% Moreover, 
-More importantly, the \ac{API} presents four approaches to
-store the referential integrity constraints as metadata. Also, the
-performance of each approach is analyzed in terms of response time and
-throughput upon a set of experiments. The results obtained
-show  clear differences in  performance across the solutions. However, the final
-word on which one is better depends on the application as each solution
-presents different trade-offs.
+% Moreover,
+More importantly, the \ac{API} presents four approaches to store the referential
+integrity constraints as metadata. Also, the performance of each approach is
+analyzed in terms of response time and throughput upon a set of experiments. The
+results obtained show  clear differences in  performance across the solutions.
+However, the final word on which one is better depends on the application as
+each solution presents different trade-offs.
 
 
 The first solution has the second-best performance as it embeds the metadata
@@ -127,20 +125,19 @@ makes this solution have a superior performance than the rest, but when
 % most applications as long as the metadata is not prone to many changes.
 
 
-In summary, this thesis has incorporated validation mechanisms
-for maintaining referential integrity  in Apache Cassandra,  a prominent cloud column-oriented
+In summary, this thesis has incorporated validation mechanisms for maintaining
+referential integrity  in Apache Cassandra,  a prominent cloud column-oriented
 key-value \ac{DBMS}. These mechanisms are implemented using four different
-solutions to store the referential integrity constraints. The four
-solutions were designed and implemented into the \ac{API} in order to perform
- experiments and assess the response time and throughput of each solution. The
-  results showed that incorporating referential integrity into cloud NoSQL
- \acp{DBMS} clearly affects the performance of the Create, Update and Delete
- operations.
-  Moreover, the storage and handling of metadata is a decisive factor in the
- performance of referential integrity validations. Furthermore, the solutions
- presented have different trade-offs between performance, disk space requirements, and metadata
-management, all of which have to be carefully considered by the  application
-in order to choose the most appropriate solution according to its demands. 
+solutions to store the referential integrity constraints. The four solutions
+were designed and implemented into the \ac{API} in order to perform experiments
+and assess the response time and throughput of each solution. The results showed
+that incorporating referential integrity into cloud NoSQL \acp{DBMS} clearly
+affects the performance of the Create, Update and Delete operations. Moreover,
+the storage and handling of metadata is a decisive factor in the performance of
+referential integrity validations. Furthermore, the solutions presented have
+different trade-offs between performance, disk space requirements, and metadata
+management, all of which have to be carefully considered by the  application in
+order to choose the most appropriate solution according to its demands.
 
 
 
@@ -256,43 +253,47 @@ in order to choose the most appropriate solution according to its demands.
 This thesis can be further extended by:
 
 \begin{itemize}
-    \item Incorporating mechanisms in the \ac{API} to support thread-safe operations on the
-  data such that referential integrity is not compromised when multiple concurrent operations
-  take place. In order to achieve this, locking mechanisms and transation support for Apache
-  Cassandra might be implemented by libraries such as Cages.
+  \item Incorporating mechanisms in the \ac{API} to support thread-safe operations
+  on the data such that referential integrity is not compromised when multiple
+  concurrent operations take place. In order to achieve this, locking mechanisms
+  and transation support for Apache Cassandra might be implemented using
+  libraries such as Cages.
   
-  \item Implementing trigger procedures in order initiate events 
-  before and after performing any \ac{CRUD} operations. This could be implemented by 
-  extending the validation handlers to execute methods for such events in every operation. 
-  Also, entities could provide annotations for such methods.
+  \item Implementing trigger procedures in order to initiate events before and
+  after performing any \ac{CRUD} operations. This could be implemented by
+  extending the validation handlers to execute methods for such events in every
+  operation. Also, entities could provide annotations for such methods.
   
   \item Implementing the four solutions on another key-value \ac{DBMS} such as
   Google's BigTable or Apache's HBase in order to compare the performance with 
   the results presented in this thesis. 
   
-  \item Making the \ac{API} \ac{DBMS}-agnostic. That is, allowing the possibility 
-  to switch the underlying cloud \ac{DBMS} with minimal reconfiguration in order 
-  to provide consistent usage of the \ac{API} on other \ac{DBMS} such as 
-  BigTable, HBase, and others.
+  \item Making the \ac{API} \ac{DBMS}-agnostic. That is, allowing the
+  possibility to switch the underlying cloud NoSQL \ac{DBMS} with minimal
+  reconfiguration in order to provide consistent usage of the \ac{API} on
+  \acp{DBMS} such as BigTable, HBase, and others.
   
-  \item Incorporating constraints for composite primary keys and implementing their 
-  respective handling.
+  \item Incorporating constraints for composite primary keys and implementing
+  their respective handling.
   
   
-  \item Evaluating the performance impact of Hector by experimenting with 
-  other \acp{API} for Cassandra such as Pelops or Kundera.
+  \item Evaluating the performance impact of Hector by experimenting with other
+  \acp{API} for Cassandra such as Pelops or Kundera.
   
   
   \item Adapting the \ac{API} to work on a real cloud environment such as Amazon
-  EC2 where heterogeneity and  dynamism  are inherent properties as 
-  as nodes may have different characteristics and more nodes can be added as well.
+  EC2 where heterogeneity and  dynamism  are inherent properties as nodes may
+  have different characteristics and more nodes can be added or
+  removed as well.
   Moreover, useful information about the solutions proposed in this thesis 
   can be drawn from performing the experiments in such environments.
   
-  \item Consolidating the performance of the \ac{API} and the solutions proposed
+  \item Consolidating the performance of the \ac{API} and the solutions 
   by using additional benchmarks such as \ac{YCSB} which measures latency,
-  scalability, and other features of cloud \ac{DBMS}.
+  scalability, and other features of cloud \acp{DBMS}.
  
+ \end{itemize}
+  
   \begin{comment}
   
   analysing the performance of the four solutions on Amazon
@@ -395,13 +396,13 @@ This thesis can be further extended by:
 
 % \item dynamic metadata changes are supported in the solutions.
 
-\end{itemize}
+
 
 
 
 % Hello: \citet{tokyo-copy}
 
-\end{comment}
 
+\end{comment}
 
 

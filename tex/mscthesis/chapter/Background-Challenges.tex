@@ -40,19 +40,19 @@ the \texttt{Enrolment} table,   with a \texttt{CourseID},   that does not exist
 in the \texttt{Course} table (i. e. ,   wrong \texttt{CourseID}).  A dangling
 reference occurs because this inserted student refers to a nonexistent course.
 Such problems cause inconsistent data to be stored in databases and violate data
-integrity.  To ensure that users get consistent and valid information,
+integrity.  In order to ensure that users get consistent and valid information,
 applications would have to implement mechanisms to check or prevent dangling
-references.  But if referential integrity constraints are applied as in an
+references.  However, if referential integrity constraints are applied as in an
 \ac{RDB},   operations on data that  adversely affects referential integrity  
 would not be permitted.
 
 As previously mentioned,   \ac{NoSQL} database systems do not normalise data and
-nor are any relationships maintained.  But relationships or dependencies between
-data are common when real world data is stored in databases.  For example,   in
-the real world,   a course could be taught by more than one lecturer or a
-student with an Art major is restricted entry into Chemistry courses etc.  These
-relationships and constraints have to be preserved upon storage in cloud
-\ac{NoSQL} database systems too.  As mentioned in
+nor are any relationships maintained.  However, relationships or dependencies
+between data are common when real world data is stored in databases.  For
+example,   in the real world,   a course could be taught by more than one
+lecturer or a student with an Art major is restricted entry into Chemistry
+courses etc.  These relationships and constraints have to be preserved upon
+storage in cloud \ac{NoSQL} database systems too.  As mentioned in
 Section~\ref{s:cloud-databases},   cloud databases,   whether relational or
 \ac{NoSQL},   have to replicate data across several machines and need to be
 scalable to match the needs of the users.  The replicated and distributed nature
@@ -66,12 +66,11 @@ since there are no constraints to prevent such deletions or changes in cloud
 \ac{NoSQL} databases.
 
 Commonly,   developers impose such constraints and reference checks on
-\ac{NoSQL}
-data at the application side.  Another way to implement such checks is to give
-these constraints at the persistence layer of the application server.  Both
-these ways would eventually have to handle all the processing and managing of
-these constraint checks for all the widely spread data in \ac{NoSQL} databases.
-However,   this could mean immense workload on the application or the
+\ac{NoSQL} data at the application side.  Another way to implement such checks
+is to give these constraints at the persistence layer of the application server.
+ Both these ways would eventually have to handle all the processing and managing
+of these constraint checks for all the widely spread data in \ac{NoSQL}
+databases. However,   this could mean immense workload on the application or the
 application server,   especially if the data volume is large in the \ac{NoSQL}
 database or if it is has many replicas that have to be checked as well for the
 constraints.
@@ -105,7 +104,7 @@ in a simple game application such problems could be trivial.
 %  implies to introduce referential integrity constraints in cloud \ac{NoSQL}
 % database systems.
 Motivated by such
-problemd of data dependencies, this thesis studies the existing modelling of
+problems of data dependencies, this thesis studies the existing modelling of
 data dependencies in cloud \ac{NoSQL} \acp{DBMS} and contributes by proposing
 four solutions to effectively maintain and validate referential integrity.
 %  while also not limiting the benefits of  \ac{NoSQL} \acp{DBMS}.

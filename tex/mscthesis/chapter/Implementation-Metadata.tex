@@ -33,7 +33,7 @@ same cluster or in a different one, respectively.  As such, in the \ac{API}, the
 metadata column family is mapped by the entity class \texttt{Metadata} which contains the
 necessary information for each constraint.  These constraints are inserted 
 by the \texttt{EntityManager} the same way as other entities are inserted, only
-without performing referential integrity validations. Notice that, the
+without performing referential integrity validations. Notice that the
 constraints required by an application must be explicitely provided to the
 \ac{API}.
 
@@ -73,15 +73,15 @@ families. Notice that, Solution~2 performs an additional
  search to locate the  top row (\texttt{RowId=`-1'}) where the metadata is
  stored, and then loads it within the  entity.
  
-The string of metadata within each entity contains all the relevant constraints
- separated using special characters as explained in Section~\ref{s:design-sol1}. 
-These special characters serve as delimiters for the \texttt{EntityManager} 
-to parse and extract the information from the constraint. This information is
-then loaded  into the attributes of  an instance of the \texttt{Metadata} entity
-class. From then on, metadata is handled as an entity as explained in the
-previous section. That is, the \texttt{ValidationHandler} uses the relevant
-getter methods of the \texttt{Metadata} entity class to retrieve  the different
-attributes necessary to complete the validation.
+The string of metadata within each entity contains all the constraints
+ separated using special characters as explained in Section~\ref{s:design-sol1}.
+These special characters serve as delimiters for the \texttt{EntityManager} to
+parse and extract the information about the relevant constraints. This
+information is then loaded  into the attributes of  an instance of the
+\texttt{Metadata} entity class. From then on, metadata is handled as an entity
+as explained in the previous section. That is, the \texttt{ValidationHandler}
+uses the relevant getter methods of the \texttt{Metadata} entity class to
+retrieve  the different attributes necessary to complete the validation.
 
 
 

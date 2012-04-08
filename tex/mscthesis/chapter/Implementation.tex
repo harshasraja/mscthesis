@@ -2,29 +2,26 @@
 \chapter{Implementation of Referential Integrity Constraints in NoSQL DBMSs}
 \label{c:Implementation}
 
-The four solutions presented in this thesis save the foreign key relationships
-between column families as metadata and each solution saves the metadata in its
-own unique way.  The design of the four solutions presented in the previous
-chapter was shown as an  abstract representation of the way metadata is stored.
-Such metadata is accessed whenever referential integrity validations are
-triggered, that is, when \ac{CRUD}\footnote{Notice that \texttt{Read} does not
-trigger any referential integrity validations, but the \ac{CRUD} acronym is
-used for the sake of familiarity.} operations
-are invoked on column families. The relevant  \ac{FK} constraints of a column
-family and its associated \ac{PK} constraints are accessed from its metadata and
-processed in order to extract the values held in the constraints.
+The four solutions presented in this thesis store  the referential integrity
+constraints of column families as metadata, and each solution stores it in its
+own unique way. Such metadata is accessed whenever referential integrity
+validations are triggered, that is, when \ac{CRUD}\footnote{Notice that
+\texttt{Read} does not trigger any referential integrity validations, but the
+\ac{CRUD} acronym is used for the sake of familiarity.} operations are invoked
+on column families. The validations require to access the relevant  \ac{FK}
+constraints of a column family and its associated \ac{PK} constraints from its
+metadata and processed in order to extract the values held in the constraints.
+The design of the four solutions presented in the previous chapter was shown as
+an  abstract representation of the way metadata is stored.
 
-Since the metadata storage is different in
-every solution, accessing and processing the  metadata is different in each
-solution as well. 
-Specific methods are designed in all the solutions to retrieve and process the
-metadata, and these methods along with all the
-solutions are incorporated into a single experimental \ac{API}. The
-experimental \ac{API} implements the design of the solutions and provides
-handlers to execute the \ac{CRUD} operations and referential
-integrity validations. 
-% It also implements methods to access and process metadata
-% in each solution.
+The metadata storage is different in every solution, and retreiving it and
+processing it is different in each solution as well. Specific methods are
+designed in all the solutions to retrieve and process the metadata, and these
+methods along with all the solutions are incorporated into a single experimental
+\ac{API}. The experimental \ac{API} implements the design of the solutions and
+provides handlers to execute the \ac{CRUD} operations and perform referential
+integrity validations.
+% It also implements methods to access and process metadata in each solution.
 
 This chapter describes  the experimental \ac{API} and
 the implementation details of the  four solutions.
@@ -74,7 +71,7 @@ using a \texttt{Metadata} entity.
 Solution~1 and~2 store the  metadata as text, the former  within the
 entities while the latter in the top row of the column family. Hence,
 both solutions require the \texttt{EntityManager} to
-first parse and extract the necessary information of the constraints, and then .
+first parse and extract the necessary information of the constraints, and then
 load these constraints into a list of \texttt{Metadata} entities in order to
 simplify its handling.
   Solution~3 and~4 store the metadata in column families, the former within the

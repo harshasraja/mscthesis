@@ -1,29 +1,29 @@
 %ब
 \section{Solution 4:  Metadata Cluster} \label{s:design-sol4}
 
-In Solution~4,  metadata  is saved in a separate column family
-similar to Solution~3. 
-However,  in this solution,  the \texttt{Metadata} column family is saved in a
-separate Cassandra cluster instead of saving it
-within the same keyspace.  This means that the metadata storage
-is decentralised and separated from the Cassandra cluster containing the
-keyspace with actual data. 
-Metadata  is not as widely replicated as in the previous solutions since the
-replication of \texttt{Metadata} is only within the metadata cluster. 
+In Solution~4,   metadata  is stored in a separate column family similar to
+Solution~3. 
+However,   in this solution,   the \texttt{Metadata} column family is located in a
+separate Cassandra cluster instead of  within the same cluster. 
+% This means that the metadata storage is decentralised and separated from the
+% Cassandra cluster containing the keyspace with actual data. 
+Since such a cluster does not require many nodes,  metadata  is not as widely
+replicated as in the previous solutions since the replication of
+\texttt{Metadata} is only within the metadata cluster. 
 Figure~\ref{fd:MetadataCluster-Solution4} shows an example of how the University
-keyspace is saved in a separate cluster (nodes \texttt{A}, \texttt{B}, 
-\texttt{C},  \texttt{D}) and the metadata is saved in the separate cluster called
-Metadata cluster (nodes \texttt{L}, \texttt{M}, 
-\texttt{N},  \texttt{O}).  
-In this example,  the metadata column family \texttt{Metadata} is
-inserted into \texttt{MetadataCluster},  while the column
-families \texttt{Student},  \texttt{course} and \texttt{Enrolment} are entered
-into another cluster,  namely \texttt{KeyspaceCluster}. 
+keyspace is saved in a separate cluster (nodes \texttt{A},  \texttt{B}, 
+\texttt{C},   \texttt{D}) and the metadata is saved in the separate cluster
+called Metadata cluster (nodes \texttt{L},  \texttt{M},  \texttt{N},   \texttt{O}). 
+In this example,  \texttt{Metadata} is inserted into
+\texttt{MetadataCluster},   while the column families \texttt{Student},  
+\texttt{Course} and \texttt{Enrolment} are stored into another
+cluster (\texttt{KeyspaceCluster}). 
+. 
 
 % The Cassandra cluster is named ‘Test Cluster’ and consists
-% of the nodes that have Cassandra with the entity column families (Student, 
-% Course,  and Enrolment).  A separate cluster called “Metadata Cluster” consists of
-% nodes that have only the metadata column families. 
+% of the nodes that have Cassandra with the entity column families (Student,  
+% Course,   and Enrolment).   A separate cluster called “Metadata Cluster” consists of
+% nodes that have only the metadata column families.  
 \begin{figure}[h]
 	\centering
 	\includegraphics[width=.6\textwidth]{./figure/Solutions/Sol4-cluster-pic.png}
@@ -31,62 +31,63 @@ into another cluster,  namely \texttt{KeyspaceCluster}.
 	4}\label{fd:MetadataCluster-Solution4}
 	
 \end{figure}
- The experimental \ac{API} connects to the Metadata cluster as well as
-the cluster containing the keyspace to perform any operations on the actual
-data.  Whenever a \ac{CRUD} operation is invoked on a column family,  the
-experimental \ac{API} accesses its relevant metadata and caches it to re-use it
-for future operations on this column family. 
-Additionally, if the metadata cluster becomes unresponsive or not active,  the
-experimental \ac{API} can continue performing validations despite such
-disruptions using the cached metadata.
-Having metadata cached is effective since metadata is not
-expected to be as frequently changed as the actual data.  This also saves
-operational time by not having to connect to the
-\texttt{Metadata} column family each time  metadata is accessed. 
+In this case,  it is necessary to connect to the Metadata cluster and to the
+cluster containing the keyspace to perform any operations on the actual data.  
+Whenever a \ac{CRUD} operation is invoked on a column family,   the relevant
+metadata must be accessed from the \texttt{MetadataCluster}.   
+However,  since such external connection requires more time,  a cache is
+implemented  to re-use it for future operations on this column family. 
+The advantages of a cache is that if the metadata cluster becomes unresponsive
+or not active,  the metadata can still be retrieved from the cache to continue
+performing validations despite such disruptions. 
+Having metadata cached is effective since metadata is not expected to be as
+frequently changed as the actual data.   This also saves operational time by not
+having to connect to the \texttt{Metadata} column family each time  metadata is
+accessed. 
 
 
-% As of now,  ‘Test Cluster’ is the name of the cluster for all the entity column
-% families existing on Cassandra nodes.  Some of the Cassandra nodes are
-% Saddleback,  meow,  Marrakech etc.  located in the ECS labs.  To have a separate
-% cluster of nodes for Metadata,  it was required that the Cassandra configuration
-% files were changed.  This involved changing the listening port,  RPC port,  and TCP
-% port to different values from that of the ‘Test Cluster’.  It was also necessary
+% As of now,   ‘Test Cluster’ is the name of the cluster for all the entity column
+% families existing on Cassandra nodes.   Some of the Cassandra nodes are
+% Saddleback,   meow,   Marrakech etc.   located in the ECS labs.   To have a separate
+% cluster of nodes for Metadata,   it was required that the Cassandra configuration
+% files were changed.   This involved changing the listening port,   RPC port,   and TCP
+% port to different values from that of the ‘Test Cluster’.   It was also necessary
 % to change the path configurations for the saved caches and log files so that it
-% does not overwrite the files of the ‘Test Cluster’. 
+% does not overwrite the files of the ‘Test Cluster’.  
 
 
-% Just as in other solutions,  metadata information needs to be checked during
-% any database operations.  Every time a referential integrity check is
-% performed,  the API connects to the ‘Metadata Cluster’ and retrieves the
-% metadata information. 
-% Connection pools are maintained to reuse the connections whenever needed.  In
-% order to perform the database operations,  the API then connects to the ‘Test
-% Cluster’ on any of its nodes.  For example,  if an insert operation is invoked
-% on Enrolment,  it is necessary to check if the foreign keys for Student and
-% Course column families exist in their respective parent column families.  The
+% Just as in other solutions,   metadata information needs to be checked during
+% any database operations.   Every time a referential integrity check is
+% performed,   the API connects to the ‘Metadata Cluster’ and retrieves the
+% metadata information.  
+% Connection pools are maintained to reuse the connections whenever needed.   In
+% order to perform the database operations,   the API then connects to the ‘Test
+% Cluster’ on any of its nodes.   For example,   if an insert operation is invoked
+% on Enrolment,   it is necessary to check if the foreign keys for Student and
+% Course column families exist in their respective parent column families.   The
 % details of the referenced column families are retrieved from the Metadata
-% column family in the ‘Metadata Cluster’.  Once this information is processed, 
+% column family in the ‘Metadata Cluster’.   Once this information is processed,  
 % the API connects to the referencing column families in the ‘Test Cluster’ and
-% completes the insert operation. 
-This  approach is useful when an application handles multiple keyspaces
-and have to store and maintain large amounts of metadata  for  several
-keyspaces. 
-In such cases it is straightforward  to maintain all the metadata  in a
-separate cluster  decoupled from the actual data and avoids having to handle
-the actual data. 
+% completes the insert operation.  
+% This  approach is useful when an application handles multiple keyspaces
+% and have to store and maintain large amounts of metadata  for  several
+% keyspaces.  
+% In such cases it is straightforward  to maintain all the metadata  in a
+% separate cluster  decoupled from the actual data and avoids having to handle
+% the actual data.  
 % Even if the metadata
 % cluster is unresponsive or not active the \ac{API} can perform operations with 
-% the cached metadata. 
+% the cached metadata.  
  
  This approach is inspired from the way most distributed systems save metadata
- in Metadata Server clusters~\citep{bin-et-al,Fu,lin}.
- For better scalability and efficient access of metadata,  these clusters are
- often separately maintained in large distributed environments where a master
- metadata server and subordinate metadata servers handle various
- responsibilities within the cluster.
+ in Metadata Server clusters~\citep{bin-et-al, Fu, lin}. 
+ For better scalability and efficient access of metadata,   these clusters are
+ often separately maintained in large distributed environments where  master
+ and subordinate metadata servers handle various
+ responsibilities within the cluster. 
  In Solution~4 such delegations of tasks are not required since all nodes in a
  Cassandra cluster  have the same responsibilities and do not have a
- master-slave configuration.  Thus, Solution~4  adopts the design of having
+ master-slave configuration.   Thus,  Solution~4  adopts the design of having
  a cluster of dedicated nodes to save metadata information and to have a central
- location to preserve and maintain metadata for many keyspaces.
+ location to preserve and maintain metadata for any number of keyspaces. 
  

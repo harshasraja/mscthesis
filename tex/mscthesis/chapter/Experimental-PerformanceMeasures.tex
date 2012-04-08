@@ -7,18 +7,19 @@ Response time and throughput are the indicators used to gauge the
 performance of the four solutions under the implemented \ac{API} and the
 respective referential integrity constraints specified by the example
 application.  Response time refers to the time a \ac{DBMS}  takes to process an
-operation and produce results to the end user~\citep{boral} (\todo{cite Demurjian, 
-Berkely, serverside,  }).  Throughput  refers to  the number of operations that can be
-processed by the \ac{DBMS} in a unit of time. 
+operation and produce results to the end user~\citep{boral}.  Throughput  refers
+to  the number of operations that can be processed by the \ac{DBMS} in a unit of
+time.
 
 In the experiments,  the response time is computed by dividing the total
-execution time of an operation for a set of entities by the number of entities.  In other
-words,  the response time measures the amount of time required to perform a
-single operation on one entity.  On the other hand,  the throughput is the
-inverse of the response time and is computed accordingly by dividing the number of entities by
-the total execution time of an operation for a set of entities.  In other words, 
-the throughput measures the number of operations that are performed in a unit
-of time.  The following equations define the response time $r$ and throughput
+execution time of an operation for a set of entities by the number of entities. 
+In other words,  the response time measures the average amount of time required
+to perform a single operation on one entity.  On the other hand,  the throughput
+is the inverse of the response time and is computed accordingly by dividing the
+number of entities by the total execution time of an operation for a set of
+entities.  In other words, the throughput measures the number of operations that
+are performed in a unit of time.  The following equations define the response
+time $r$ and throughput
 $t$,
  
 

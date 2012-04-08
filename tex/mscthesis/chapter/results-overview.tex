@@ -3,17 +3,26 @@
 
 The experiments were performed to evaluate the response time and throughput of
 the solutions in order to determine the impact of the metadata storage and
-referential integrity validations on the performance of Cassandra. 
+referential integrity validations on the performance of Cassandra. Notice that
+the performance is measured and analysed for only the operations that trigger
+referential integrity validations. That is, the response
+time and throughput are measured for the \texttt{insert}, \texttt{update} and
+\texttt{delete} operations across the solutions.
 % The results from these experiments are presented in
-% Tables~\ref{tres:ResponseTime}, ~\ref{tres:ResponsetimeRatio}, ~\ref{tres:Throughput}
-% and~\ref{tres:ThroughputRatio}. 
-Tables~\ref{tres:ResponseTime} and~\ref{tres:Throughput} present the mean and
-standard deviation of the average response time for all the solutions and the
-throughput of each operation for each solution.  Notice that the solution with the lowest
-response time and highest throughput has a better performance than rest,  while
-the solution with the highest response time and lowest throughput has the worst. 
-This means that the better performing solution can complete more operations in a
-second and excute each operation with the least amount of time. 
+% Tables~\ref{tres:ResponseTime}, ~\ref{tres:ResponsetimeRatio},
+% ~\ref{tres:Throughput} and~\ref{tres:ThroughputRatio}.
+
+The response time measures the average amount of time required to perform a
+single operation on one entity. Conversely,  the throughput is the inverse of
+the response time and measures the number of operations that are performed in a
+unit of time. Tables~\ref{tres:ResponseTime} and~\ref{tres:Throughput} present
+the mean and standard deviation of the average response time for all the
+solutions and the throughput of each operation for each solution.  Notice that
+the solution with the lowest response time and highest throughput has a better
+performance than rest,  while the solution with the highest response time and
+lowest throughput has the worst. This means that the better performing solution
+can execute each operation with the least amount of time and complete more
+operations in a second.
 
 
 
@@ -108,6 +117,35 @@ use a cache.
 
 The performance of the solutions in each
 operation performed on the entities is discussed in detail in the following
-sections.  Notice that,  in all the tables anf figures,   the
+sections.  Notice that,  in all the tables and figures,   the
 entities \texttt{Student},  \texttt{Course} and \texttt{Enrolment} are referred
 to as '\texttt{s}',  '\texttt{c}' and '\texttt{e}' for the sake of brevity. 
+
+The standard deviation of each operation is presented in the parenthesis in
+Tables~\ref{tres:ResponseTime} and~\ref{tres:Throughput}. The standard deviation
+measures the dispersion of the response time and throughput of an operation from
+the mean. Note that in the experiments, an operation is executed over a set of
+entities a 100 times, which means that one run of the experiment produces 100
+values for an operation. Thus, the standard deviation measures the dispersion of
+the 100 values for every operation with respect to the mean. Notice that a  low
+standard deviation means that the values of the response time and throughput of
+an operation is concentrated around its mean values. Conversely, a high standard
+deviation means that the response time and throughput values of the operations
+are widely spread. As seen from the results, Solution~4 has low standard
+deviation in all the operations indicating that in all the runs of the
+experiment the response time and throughput were close to the mean values. This
+is because the time to access the cache is consistent and similar throughout the
+operations. On the other hand, the standard deviation is always high for
+Solution~3. This is because the \texttt{Metadata} column family is accessed each
+time and is affected by network latency. In general, Solutions~1 and~2 have
+similar standard deviations, which is lower than the standard deviation of
+Solution~3 but slightly higher than Solution~4. The reason for a slightly higher
+standard deviation in these solutions is because of the time consumed to
+
+
+
+%  shows that the performance
+% values of an operation in all the runs of the experiments  is concentrated
+% around the mean.
+
+
