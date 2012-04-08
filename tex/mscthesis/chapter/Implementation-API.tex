@@ -27,13 +27,15 @@ validation handlers,  all of which are described in the next sections.
  contains  the relevant  methods of the classes,  favoring a simpler
 explanation of the functioning of the \ac{API}. 
 
-\begin{figure}[h]  
+% \begin{landscape}
+\begin{sidewaysfigure}  
 	\centering
 	%\includegraphics[width=5cm,    height=5cm]{.  /figure/random.  jpg}
-	\includegraphics[width=\textwidth]{./figure/Solutions/FinalClassDiagram.png}
+% 	\includegraphics[width=\textwidth]{./figure/Solutions/FinalClassDiagram.png}
+	\includegraphics[width=\textwidth]{./figure/uml/class-diagram.png}
 	\caption{Class Diagram for the \ac{API}}\label{f:classDiagram}
-\end{figure}
-
+\end{sidewaysfigure}
+% \end{landscape}
 
 	\subsection{Entities} 
 	
@@ -69,25 +71,30 @@ explanation of the functioning of the \ac{API}.
 	these operations,   the \texttt{EntityManager} interacts with the respective
 	keyspace the entity belongs.  Moreover,  it ensures to trigger the   referential
 	integrity validation process whenever a \ac{CRUD} operation requires it. The
-	\texttt{EntityManager} contains an instance of \texttt{ValidationHandler} which
-	ensures the validations.
+	validation is triggered by invoking the respective methods on the  
+	\texttt{ValidationHandler} object which is contained within the
+	\texttt{EntityManager}.
 	
 	The \texttt{EntityManager},  before performing any operation,  requires a
 	connection to the keyspace.  This connection is established using a third-party
 	\ac{API} named Hector~\citep{hector}.  Hector  encapsulates the driver-level
 	interface provided by Cassandra (known as Thrift) and simplifies the interaction
 	with it.  Regarding the \ac{CRUD} operations,  Hector provides  a
-	\texttt{Mutator} object which encapsulates the necessary procedures to perform
-	such operations and to interact with the Cassandra cluster.
+	\texttt{Mutator} class that  encapsulates the necessary procedures to
+	create, update, and delete \todo{a record}, and different classes to query
+	for data (e.g. \texttt{SliceQuery}).
 	 
 	 Notice that  the \texttt{EntityManager} is able to generically deal with any
-	 entity that derives from the \texttt{Entity} class.  It does so by using
-	 reflection,  a Java  feature that is able to perform an introspection of an
-	 object in runtime and retrieve its attributes and methods. 
-% 	  to detect the
-% 	 attributes of an object and generically invoking the getters and setters of the entities.  
-	 Thus,  the  \texttt{EntityManager} is able to perform all \ac{CRUD} operations
-	 on any entity by generically invoking its getter and setter methods.
+	 entity that derives from the \texttt{Entity} class. This can be seen in the
+	 class diagram where \texttt{T} is a generic type which extends \texttt{Entity} 
+	 and is used across the \ac{CRUD} methods. The \texttt{EntityManager} is able
+	 to deal with any entity by using reflection, a Java
+	 feature that performs  an introspection of a class to retrieve its
+	 attributes, methods, annotations, among others. Moreover, the
+	 methods retrieved from such a class can be invoked on an object in runtime. 
+	 Thus, the \texttt{EntityManager} uses reflection to invoke the respective 
+	 getter and setter methods of an entity in order to load it with data
+	 from the column family or to write the data into a column family.
 	 
 	 
 	
@@ -104,101 +111,240 @@ explanation of the functioning of the \ac{API}.
 	
 	
 		\subsubsection{Create}
-		The \texttt{create} (or \texttt{insert}) operation stores entities in their
-		respective column families. This method is provided by the
-		\texttt{EntityManager} and it manages to insert these entities into their
-		resective  column families which are represented by the entity class.
-		For example, all the student entities are inserted into the column family
-		\texttt{Student} through the \texttt{EntityManager}.  
+		The \texttt{create} (or \texttt{insert}) operation stores an entity in its
+		respective column family. This operation triggers a referential integrity
+		 validation whenever an  entity is  inserted.  Such validation is performed by
+		 the \texttt{onInsert} method of \texttt{ValidationHandler}. Finally, if the
+ 		 \texttt{ValidationHandler} allows it,  the \texttt{EntityManager} passes the
+		  entity details  including row key and column family as parameters to the
+		 \texttt{addInsertion} method of the Hector \texttt{Mutator} object to perform
+		 the insertion. This operation is detailed in Algorithm~\ref{a:em:insert}
+		 
+		 
+% 		For example, all the student entities are inserted into the column family
+% 		\texttt{Student} through the \texttt{EntityManager}.  
 		
-		The \texttt{insert} operation triggers a referential integrity validation
-		whenever a child entity is  inserted in order to ensure that its parent entities
-		exist.  The validation is performed by the \texttt{onInsert} method of
-		\texttt{ValidationHandler},  which is explained later.  Finally, if the
-		\texttt{ValidationHandler} allows it, the \texttt{EntityManager} passes the
-		entity details  including row key and column family as
-		parameters to the \texttt{addInsertion} method of the Hector \texttt{Mutator}
-		object.
+		 \begin{algorithm}
+		 	\caption{Insert algorithm in \texttt{EntityManager}}\label{a:em:insert}
+% 			\SetKwInOut{Input}{input}\SetKwInOut{Output}{output}
+			\SetKwFunction{onInsert}{onInsert}
+			\SetKwFunction{addInsertion}{addInsertion}
+			\SetKwFunction{execute}{execute}
+			\SetKwData{e}{e} \SetKwData{Mutator}{Mutator}
+			\SetKwData{validationHandler}{validationHandler}
+			\KwIn{\texttt{Entity} \e to insert}
+			\Begin{
+				invoke \onInsert on \validationHandler passing entity \e ;\\
+				
+				\If{no exception is thrown}{
+					retrieve the attributes of \e;\\
+					\ForEach{attribute}{
+						invoke \addInsertion on \Mutator passing attribute;\\
+					}
+					invoke \execute on \Mutator;\\
+				}			
+			}
+			
+		 \end{algorithm}
 			
 		\subsubsection{Read}
 		The  \texttt{read} operation retrieves  entities from the column family mapped
 		by the entity class.		
 		This \ac{API} provides three methods for retrieving entities: \texttt{find},
-		\texttt{query} and \texttt{read}. The \texttt{find} mehtod retrieves a single
-		entity given its class and the value of its primary key. The \texttt{query}
-		method retrieves a list of entities given a conditional expression on a
-		column  name and a column value. The \texttt{read} method retrieves a list of
-		entities representing the contents of the column family.
-		
-		Notice that, these  operations do not prompt any referential integrity
-		validation since entities are only read and their state is not changed,  unlike
-		in the other operations.
+		\texttt{query} and \texttt{read}. The \texttt{find} method retrieves a single
+		entity given the class and the value of its primary key. The \texttt{query}
+		method retrieves a list of entities from a column family given the class and a
+		conditional expression $\left(< \;,\; \leq\;,\;=\;,\;\geq\;,\; > \right)$ on a
+		column name and and its column value. The \texttt{read}  method retrieves
+		 the list of entities contained in the column family. These methods are
+		 detailed in Algorithms~\ref{a:em:find}, \ref{a:em:query} and~\ref{a:em:read},
+		 respectively.  
+		 
+		 Notice that, these   operations do not prompt any referential
+		  integrity validation since entities are only read and their state is not
+		 changed,  unlike in the other operations.
+		  
+		  \begin{algorithm}[H]
+		  	\caption{Find algorithm in \texttt{EntityManager}}\label{a:em:find}
+			\SetKwData{clazz}{clazz}
+		  	\KwIn{\texttt{Class<T extends Entity>} clazz, \texttt{String} value }
+		  	\KwResult{\texttt{<T extends Entity>}}
+		  	
+		  	\Begin{
+		  		retrieve attributes of \clazz;\\
+		  		create \texttt{SliceQuery} of \clazz where PK = value;\\
+		  		\If{no result was found}{
+		  			\Return null;
+		  		}\Else{
+		  			create instance of \clazz;\\
+		  			load instance with result;\\
+		  			\Return instance;
+		  		}
+		  		 
+		  	}
+		  	
+		  \end{algorithm}
+
+		 \begin{algorithm}[H]
+		  	\caption{Query algorithm in \texttt{EntityManager}}\label{a:em:query}
+			\SetKwData{clazz}{clazz}\SetKwData{expression}{expression}
+		  	\KwIn{\texttt{Class<T extends Entity>} clazz, \hspace{\textwidth} 
+		  	\texttt{String} columnName,
+		  	\texttt{Expression} expression, \texttt{String} columnValue}
+		  	\KwResult{List of \texttt{<T extends Entity>}}
+		  	
+		  	\Begin{
+		  		retrieve attributes of \clazz;\\
+		  		create \texttt{IndexedSlicesQuery} of \clazz where columnName \expression
+		  		columnValue;\\
+		  		\ForEach{result found}{
+		  			create instance of \clazz;\\
+		  			load instance with result;\\
+		  			add instance to list;\\ 
+		  		}
+		  		\Return{list} 
+		  	}
+		  \end{algorithm}
+		  
+		  \begin{algorithm}[H]
+		  	\caption{Read algorithm in \texttt{EntityManager}}\label{a:em:read}
+			\SetKwData{clazz}{clazz}\SetKwData{expression}{expression}
+		  	\KwIn{\texttt{Class<T extends Entity>} clazz}
+		  	\KwResult{List of \texttt{<T extends Entity>}}
+		  	
+		  	\Begin{
+		  		retrieve attributes of \clazz;\\
+		  		create \texttt{RangeSlicesQuery} of \clazz\\
+		  		\ForEach{result found}{
+		  			create instance of \clazz;\\
+		  			load instance with result;\\
+		  			add instance to list;\\ 
+		  		}
+		  		\Return{list} 
+		  	}
+		  \end{algorithm}
 
 		
 		
 		\subsubsection{Update}\label{ss:update}
-		The \texttt{update} operation merges  the existing contents of an entity  with
-		new contents.   In other words,  the  values of the columns an entity represents
-		are updated to new values and committed into the column families.
 		
-		The \texttt{EntityManager} provides the following three types of updates. 
+		The \texttt{update} operation changes the columns of an existing entity. If
+		the changes to be performed are on columns which are not the primary key, then
+		an \texttt{insert} operation is performed as it uses the primary key value of
+		the entity to locate and replace the column values. Otherwise, if the
+		primary key value is to be updated, then more actions need to be performed.
+		Firstly, the entity with new primary key value has to be inserted, then all
+		the children entities have to be located and their foreign keys updated to
+		reflect the new primary key value, and finally the old entity has to be
+		removed. 
 		
-		\begin{description}
-			\item [Case A: Update Primary Key]  where the attribute
-			\texttt{keyForUpdate} is used to indicate the change in the primary key.
-			Before the primary key is updated, and there are child dependencies referencing
-			the primary key,  the following steps are performed to complete the
-			\texttt{update} operation.
-		% In order to do so,  the \texttt{EntityManager} passes the entity to the
-		% \texttt{ValidationHandler}  to check for referential integrity,  retrieves the
-		% list of child entities that depend on its primary key,  deletes dependencies
-		% and the entity,   and update the dependencies Following this,  the steps that
-		% are performed are :
-\todo{FIX}
-			\begin{enumerate}
-			  
-			  
-			\item Check with the \texttt{ValidationHandler} if the entity can be updated.
+		This operation triggers referential integrity constraints which are
+		validated by the method \texttt{onUpdate} of the \texttt{ValidationHandler}
+		when the primary key value is to be updated, otherwise, the respective
+		validations are performed when the entity is inserted. 
 		
-			
-			\item Set the primary key of the entity to the \texttt{keyForUpdate} value. 
-			
-			\item Perform an \texttt{insert} of the entity with the new primary key.
-			
-			\item Retrieve the list of any child entities that depend on the old primary key
-			of the entity.
-
-			\item Update the foreign keys of the list of child entities to match the value
-			of the new primary key of the entity.
-			
-			\item Perform a \texttt{delete} operation on the old entity.
-		\item
-
-			\end{enumerate}
-		
-% 		In all the solutions,   an \texttt{Update} operation triggers a referential
-% 		 integrity validation whenever any primary or foreign keys of any entities are
-% 		updated. 
-% 		The validations are performed by the \texttt{onUpdate} method of the
-% 		\texttt{ValidationHandler}. 
-			If the update is not a cascaded one, the child entities are not updated to
-			the new primary keys. This is explained in Section~\ref{} Notice that such a
-			procedure is used to circumvent the restriction of Cassandra to change a primary key.  Once a record has been
-			inserted into the column family,  the primary key cannot  be changed.  This is
-			known as a tombstone delete,  which prevents deleting a primary key or
-			changing it. 
-		
-		
-		
-			\item [Case B: Update  Foreign Key]  where  the \texttt{ValidationHandler}
-			is used to check if the foreign keys can be updated and
-			the respective getter and setter methods of the entity are used to perform the
-			changes. 
-			
-			\item [Case C: Update Attributes]  where a normal update takes place as long as
-			the attributes  are not keys or referenced anywhere.
-			
-		\end{description}
+				
+			\begin{algorithm}
+			\caption{Update algorithm in \texttt{EntityManager}}
+			\SetKwFunction{onUpdate}{onUpdate}
+			\SetKwFunction{KwInsert}{insert}
+			\SetKwFunction{delete}{delete}
+			\SetKwData{validationHandler}{validationHandler}
+			\SetKwData{e}{e} \SetKwData{Mutator}{Mutator}
+			\SetKwData{keyForUpdate}{keyForUpdate}
+			\KwIn{\texttt{Entity} \e to update}
+			\Begin{
+				\If{primary key value of \e is not changed}{
+					invoke \KwInsert on this \texttt{EntityManager} passing \e;\\
+					\Return{}	
+				}
+				
+				\KwInsert entity with \keyForUpdate as primary key;\\
+				
+				invoke \onUpdate on \validationHandler passing entity \e ;\\
+				
+				\If{no exception is thrown}{
+					invoke \delete from this \texttt{EntityManager} passing \e;\\
+				}\Else{
+					\delete entity with \keyForUpdate as primary key;\\
+				}
+				
+					
+			}
+		\end{algorithm}
+% 		
+% 		
+% 		
+% 		\subsubsection{Update}\label{ss:update}
+% 		The \texttt{update} operation perform changes to an existing \todo{record}
+% 		 an entity and with new .
+% 		  
+% 		
+% 		 to the contents of
+% 		an entity with new contents and .   In other words,  the  values of the columns an entity
+% 		represents are updated to new values and committed into the column families.
+% 		
+% 		The \texttt{EntityManager} provides the following three types of updates. 
+% 		
+% 		
+% 		\begin{description}
+% 			\item [Case A: Update Primary Key]  where the attribute
+% 			\texttt{keyForUpdate} is used to indicate the change in the primary key.
+% 			Before the primary key is updated, and there are child dependencies referencing
+% 			the primary key,  the following steps are performed to complete the
+% 			\texttt{update} operation.
+% 		% In order to do so,  the \texttt{EntityManager} passes the entity to the
+% 		% \texttt{ValidationHandler}  to check for referential integrity,  retrieves the
+% 		% list of child entities that depend on its primary key,  deletes dependencies
+% 		% and the entity,   and update the dependencies Following this,  the steps that
+% 		% are performed are :
+% \todo{FIX}
+% % 			\begin{enumerate}
+% % 			  
+% % 			  
+% % 			\item Check with the \texttt{ValidationHandler} if the entity can be updated.
+% % 		
+% % 			
+% % 			\item Set the primary key of the entity to the \texttt{keyForUpdate} value. 
+% % 			
+% % 			\item Perform an \texttt{insert} of the entity with the new primary key.
+% % 			
+% % 			\item Retrieve the list of any child entities that depend on the old primary key
+% % 			of the entity.
+% % 
+% % 			\item Update the foreign keys of the list of child entities to match the value
+% % 			of the new primary key of the entity.
+% % 			
+% % 			\item Perform a \texttt{delete} operation on the old entity.
+% % 		\item
+% % 
+% % 			\end{enumerate}
+% % 		
+% 		
+% 	
+% % 		In all the solutions,   an \texttt{Update} operation triggers a referential
+% % 		 integrity validation whenever any primary or foreign keys of any entities are
+% % 		updated. 
+% % 		The validations are performed by the \texttt{onUpdate} method of the
+% % 		\texttt{ValidationHandler}. 
+% 			If the update is not a cascaded one, the child entities are not updated to
+% 			the new primary keys. This is explained in Section~\ref{} Notice that such a
+% 			procedure is used to circumvent the restriction of Cassandra to change a primary key.  Once a record has been
+% 			inserted into the column family,  the primary key cannot  be changed.  This is
+% 			known as a tombstone delete,  which prevents deleting a primary key or
+% 			changing it. 
+% 		
+% 		
+% 		
+% 			\item [Case B: Update  Foreign Key]  where  the \texttt{ValidationHandler}
+% 			is used to check if the foreign keys can be updated and
+% 			the respective getter and setter methods of the entity are used to perform the
+% 			changes. 
+% 			
+% 			\item [Case C: Update Attributes]  where a normal update takes place as long as
+% 			the attributes  are not keys or referenced anywhere.
+% 			
+% 		\end{description}
 		
 		
 % 		one in which ,   another in which the foriegn keys are changed
@@ -218,22 +364,239 @@ explanation of the functioning of the \ac{API}.
 		
 		
 		\subsubsection{Delete}\label{ss:delete}
-		The  \texttt{Delete} operation removes  entities from a column
-		family.  As mentioned before,  due to the tombstone delete,  the primary key
-		will never cease to exist,  but still the values of the columns are emptied.
-		Thus, whenever empty keys are read by the \ac{API}, the entities are ignored.
+		The  \texttt{Delete} operation removes  an entity from its respective column
+		family.  As mentioned before,  primary key values  will never cease to exist
+		in Cassandra due to the tombstone delete, hence, this operation
+		empties the values of the columns represented within the entity to be deleted.
+		Even when primary key values exist within the column families for deleted
+		entities, these are ignored on \texttt{read} operations.
 		
-		In all solutions,   the \texttt{Delete} operation triggers a referential
-		integrity validation every time a parent entity is deleted.   This validation is
-		performed by the \texttt{onDelete} method of the \texttt{ValidationHandler}, 
-		which is explained in the next section.   Finally,  if the
+		The \texttt{Delete} operation triggers referential
+		integrity validations every time an entity is deleted.  
+		 This validation is performed by the \texttt{onDelete} method of the
+		 \texttt{ValidationHandler}.  Finally,  if the
 		\texttt{ValidationHandler} allows it, the \texttt{EntityManager} passes the
-		entity information to the \texttt{delete} method of Hector's \texttt{Mutator} object. 
+		 necessary information to the \texttt{delete} method of the Hector
+		 \texttt{Mutator} object. This operation is detailed in
+		 Algorithm~\ref{a:em:delete}.
+ 		
+ 		\begin{algorithm}[H]
+			\caption{Delete algorithm in \texttt{EntityManager}}\label{a:em:delete}
+% 			\SetKwInOut{Input}{input}\SetKwInOut{Output}{output}
+			\SetKwFunction{onDelete}{onDelete}
+			\SetKwFunction{delete}{delete}
+			\SetKwData{e}{e} \SetKwData{Mutator}{Mutator}
+			\SetKwData{validationHandler}{validationHandler}
+			\KwIn{\texttt{Entity} \e to delete}
+			\Begin{
+				invoke \onDelete on \validationHandler passing entity \e ;\\
+				
+				\If{no exception is thrown}{
+					retrieve attributes  of \e;\\
+					invoke \delete on \Mutator passing primary key  and column family
+					of \e;\\
+				}			
+			}
+			
+		\end{algorithm}
+		
  		
 %  		Before a parent entity is deleted,  the \texttt{EntityManager} retrieves the
 %  		child entities it depends upon  from he \texttt{ValidationHandler} if the
 %  		 referential intergity is not violated.  The \texttt{EntityManager} deletes
 %  		the child entities prior to deleting the parent entity. 
+		
+		
+		
+		
+		\subsection{ValidationHandler}\label{ss:VH}
+		The \texttt{ValidationHandler} is used by the \texttt{EntityManager} every time
+		an operation triggers  referential integrity validations on any entity.
+		It contains the  logic that  checks  if an entity has dependencies,
+		verifies whether the \texttt{insert}, \texttt{update} or
+		\texttt{delete} operations performed on an entity  violate  referential
+		integrity constraints, and it also applies referential integrity rules
+		when operations are cascaded or updates nor deletes are allowed. 
+		
+		
+% 		 In order to ensure that these operations maintain referential integrity
+% 		  between entities,  it applies the appropriate referential integrity rules
+% 		 explained in Section~\ref{s:referential-integrity}. Similarly,  for
+%  		\texttt{update} and \texttt{delete} operations their respective rules are
+%  		applied.   The referential integrity validation performed by the
+% 		\texttt{ValidationHandler} for each of these operations is discussed next.
+		
+		The \texttt{ValidationHandler} is just an interface that has to be implemented
+		to deal with each solution. However, since the validations are the same across
+		solutions, it is sufficient to provide a generic
+		class that implements the \texttt{ValidationHandler} for \ac{CRUD} operations.
+		Thus, it is left for each solution to extend the generic
+		\texttt{ValidationHandler} and just implement the \texttt{retrieveMetadata}
+		method accordingly.
+		
+% 		Notice that, the \texttt{ValidationHandler} has access to the
+% 		\texttt{EntityManager} in order to look-up for dependencies and metadata of an entity as soon as  validation is
+% 		invoked on an entity.
+% The \texttt{EntityManager} passes the entity and the connection details  to
+% the \texttt{ValidationHandler} to perform the validation.
+		
+		
+		
+	
+	\subsubsection{Validation: \texttt{onInsert}}
+		This validation is triggered every time the \texttt{EntityManager} is asked to
+		insert an entity. It occurs before the insertion of the actual data as the
+		validation has to check whether the entity has foreign keys to other column
+		families. This is determined by retrieving the  constraints relevant to the
+		entity, and if a constraint indicates that the entity has foreign keys,
+		this validation must ensure that they match the primary keys of the
+		respective column families they reference. This validation is detailed in
+		Algorithm~\ref{a:vh:onInsert}.
+	
+	 	\begin{algorithm}[H]
+	 		\caption{Validation \texttt{onInsert}}\label{a:vh:onInsert}
+	 		\SetKwData{e}{e}
+	 		\SetKw{throw}{throw}
+	 		\KwIn{\texttt{Entity} e to be inserted}
+	 		\Begin{
+	 			retrieve the metadata of \e;\\
+	 			\ForEach{constraint of type \texttt{R} $\in$ metadata}{
+					retrieve referenced constraint \texttt{RConstraintName};\\
+					determine the entity class that maps to the parent column family;\\
+					use \texttt{EntityManager} to find parent entity;\\
+					\If{parent entity does not exist}{
+						\throw Exception;\\
+					}
+	 			}
+	 		}
+	 	\end{algorithm}
+	 	
+	 	
+For example,  when an \texttt{Enrolment} entity is to be inserted,   the
+ \texttt{ValidationHandler} identifies the parent column families  by looking up
+ at the \ac{FK} constraints of the entity. In this case, there
+ is only \texttt{CONST400} which identifies \texttt{Student} as a parent column
+ family. Hence, the \texttt{ValidationHandler} makes sure there is a
+ \texttt{Student} entity whose primary key value matches the foreign key value
+ of the \texttt{Enrolment} entity to be inserted. If such a parent entity
+ exists, then the \texttt{EntityManager} is allowed to \texttt{insert} the entity.
+		
+		
+	\subsection{Validation: \texttt{onUpdate}}
+		This validation is triggered every time the \texttt{EntityManager} is asked to
+		update an entity which primary key value has changed. Recall that if the
+		changes of the entity to  be updated do not involve the primary key, then an
+		\texttt{insert} takes place instead and hence the validation is performed by
+		\texttt{onInsert}. Otherwise, if the primary key value of the entity is
+		changed, the new entity is  inserted, the foreign keys of the dependencies are
+		updated to the new primary key value, and the old entity is deleted.
+		 Clearly, the referential integrity rules apply in this validation. These are 
+		 assumed to be contained within the  \texttt{DeleteRule} field of the
+		 constraints relevant to the children entities.  Thus, the validation finds
+		  all the child dependencies of the entity and, if the \texttt{DeleteRule} is
+		  \texttt{CASCADE}, updates their corresponding foreign keys to the new
+		  primary key value. Otherwise, if the \texttt{DeleteRule} is
+		  \texttt{NODELETE}, the update is only allowed if there are no child
+		  dependencies. Notice that this operation assumes the entity with new primary
+		  key value has already been inserted. This validation is detailed in
+		  Algorithm~\ref{a:vh:onUpdate}.
+		
+		\begin{algorithm}[H]
+			\caption{Validation \texttt{onUpdate}}\label{a:vh:onUpdate}
+	 		\SetKwData{e}{e}
+	 		\SetKw{throw}{throw}
+	 		\KwIn{\texttt{Entity} e to be updated}
+	 		\Begin{
+	 			retrieve the metadata of \e;\\
+	 			\ForEach{constraint of type \texttt{F} $\in$ metadata}{
+					retrieve referenced constraint \texttt{RConstraintName};\\
+					\If{\texttt{DeleteRule} is \texttt{CASCADE}}{
+						determine the entity class that maps to the child column family;\\
+						use \texttt{EntityManager} to query for the children of \e;\\
+						add children to list;\\
+					}\ElseIf{\texttt{DeleteRule} is \texttt{NODELETE}}{
+						determine the entity class that maps to the child column family;\\
+						use \texttt{EntityManager} to query for the children of \e;\\
+						\If{\e has children}{
+							\throw Exception;
+						}
+					}
+	 			}
+	 			\ForEach{child $\in$ list}{
+	 				use \texttt{EntityManager} to update child;
+	 			}
+	 		}
+		\end{algorithm}
+		
+		
+		
+For example,   in the University keyspace,   if the primary key of a 
+		\texttt{Course} entity is to be updated,    the \texttt{ValidationHandler}
+locates the \ac{FK} constraints which reference \texttt{Course}. In this case,
+only \texttt{CONST600} references \texttt{Course}, which follows up to
+\texttt{CONST500} from which the child entity can be retrieved.
+Since the \texttt{DeleteRule} is \texttt{NODELETE}, it is checked if there are
+any \texttt{Enrolment} entities which reference the course to be updated. If
+there are child entities, an exception is thrown and the update of the
+\texttt{Course} entity is not allowed. Otherwise, if no \texttt{Enrolment}
+entities refer to such a course, the \texttt{EntityManager} is allowed to update
+its primary key value.
+		
+		
+	\subsubsection{Validation: \texttt{onDelete}}
+		This validation is triggered every time the \texttt{EntityManager} is asked 
+		to delete an entity. This validation ensures that referential integrity rules
+		are applied when the entity is referenced by other entities. That is, the
+		entity to be deleted is parent of other entities. The referential integrity
+		rule to apply can be \texttt{CASCADE} or \texttt{NODELETE}. In the former
+		case, child dependencies on the entity are deleted, while deletion in the
+		latter case is only allowed when the entity has no child dependencies. This
+		validation is detailed in Algorithm~\ref{a:vh:onDelete}.
+		
+		\begin{algorithm}[H]
+	 		\caption{Validation \texttt{onDelete}}\label{a:vh:onDelete}
+	 		\SetKwData{e}{e}
+	 		\SetKw{throw}{throw}
+	 		\KwIn{\texttt{Entity} e to be deleted}
+	 		\Begin{
+	 			retrieve the metadata of \e;\\
+	 			\ForEach{constraint of type \texttt{F} $\in$ metadata}{
+					retrieve referenced constraint \texttt{RConstraintName};\\
+					\If{\texttt{DeleteRule} is \texttt{CASCADE}}{
+						determine the entity class that maps to the child column family;\\
+						use \texttt{EntityManager} to query for the children of \e;\\
+						add children to list;\\
+					}\ElseIf{\texttt{DeleteRule} is \texttt{NODELETE}}{
+						determine the entity class that maps to the child column family;\\
+						use \texttt{EntityManager} to query for the children of \e;\\
+						\If{\e has children}{
+							\throw Exception;
+						}
+					}
+	 			}
+	 			\ForEach{child $\in$ list}{
+	 				use \texttt{EntityManager} to delete child;
+	 			}
+	 		} 
+	 	\end{algorithm}
+		
+		For example,   in the University keyspace,   if a 
+		\texttt{Student} entity is requested to be deleted,    the
+		\texttt{ValidationHandler} locates the \ac{FK} constraints which reference \texttt{Student}. In this
+		 case, only \texttt{CONST700} references \texttt{Student}, which follows up
+		 to \texttt{CONST400} from which the child entity can be retrieved.
+		Since the \texttt{DeleteRule} is \texttt{Cascade},  
+		the child entities are deleted from \texttt{Enrolment} and no exception
+		is thrown, hence allowing the \texttt{EntityManager} to  delete the
+		entity from its \texttt{Student} column family.
+	
+		
+		
+		
+		\begin{comment}
+		
+		
+		
 		
 		\subsection{ValidationHandler}\label{ss:VH}
 		The \texttt{ValidationHandler} is used by the \texttt{EntityManager} every time
@@ -347,7 +710,8 @@ explanation of the functioning of the \ac{API}.
 % 		exists as a primary key for any
 % 		 of the  entities in \texttt{Student} entity class,   the \texttt{update} is
 % 		 performed. 
-		 
+		 % \acresetall
+% \input{chapter/Experimental}
 		\item[Case B: Update Foreign Key] When a foreign key of a child entity is
 		updated,  the  \texttt{ValidationHandler} checks  the
 		metadata and locates its \ac{FK} constraints.  It then follows these steps:
@@ -431,3 +795,4 @@ explanation of the functioning of the \ac{API}.
 % how metadata is accessed and retrieved and the motivation for the solution's
 % design. 
 
+\end{comment}

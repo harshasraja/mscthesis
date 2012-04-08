@@ -56,33 +56,66 @@ chapter.
 
 This chapter presented the implementation details of the experimental \ac{API}
 and the way the solutions retrieve and process metadata. The experimental
-\ac{API} is composed of a class \texttt{Entity} which maps to columns in the
-column families, a class \texttt{EntityManager} which  performs all the
-\ac{CRUD} operations on the entities, and a class \texttt{ValidationHandler}
-which is in charge of checking and ensuring that referential integrity is
-maintained in the keyspace at all times. These classes, while providing the fundamental
-operations on generic entities, can also be derived to suit custom
-application requirements. 
+\ac{API} is composed of a class \texttt{Entity} which instances map to
+single \todo{records} in column families,  a class \texttt{EntityManager} which
+instances perform all the \ac{CRUD} operations on the entities, and a  
+\texttt{ValidationHandler} interface for which a generic implementation is
+provided and is in charge of checking and ensuring that referential integrity is
+maintained in the keyspace at all times.  
 
 In order for the \texttt{ValidationHandler} to ensure referential integrity, it
-must retrieve the metadata associated to the entity upon validation.  Even when
-solutions store the metadata in different ways, retrieving and processing it comes down to  either using a string of text or
-using a \texttt{Metadata} entity.
-Solution~1 and~2 store the  metadata as text, the former  within the
-entities while the latter in the top row of the column family. Hence,
-both solutions require the \texttt{EntityManager} to
-first parse and extract the necessary information of the constraints, and then
-load these constraints into a list of \texttt{Metadata} entities in order to
-simplify its handling.
-  Solution~3 and~4 store the metadata in column families, the former within the
-  same cluster while the latter uses a dedicated metadata cluster. Since
-  metadata has its own column family, each constraint is naturally mapped into
-  a \texttt{Metadata} entity. Thus, metadata can be   retrieved by using
-  the \texttt{EntityManager} and handling the \texttt{Metadata} as any other
-  entity. 
+must retrieve the metadata associated to the entity upon validation. The
+metadata retrieval is different in each solution, yet its handling is either
+from a string of text or as an entity directly. On the one hand, Solution~1
+and~2 store the metadata as text, the former  within the entities while the latter in the top
+row of the column family. Hence, in both solutions, the
+metadata needs to be parsed and the  necessary information  of 
+the constraints needs to be extracted to then load these it into
+a list of \texttt{Metadata} entities such that its handling is simplified. On
+the other hand, Solution~3 and~4 store the metadata in column families, the
+former within the same cluster while the latter uses a dedicated metadata
+ cluster. Since metadata has its own column family, each constraint is naturally
+ mapped into a \texttt{Metadata} entity. Thus, metadata can be   retrieved by
+ using the \texttt{EntityManager} and handling the \texttt{Metadata} as any
+other entity. Notice that all these classes, while providing the
+ fundamental operations on generic entities, they can be derived to suit custom
+application requirements.
+   
 
 The next chapter presents the experimental design used to evaluate  the
 performance of each solution implemented within the \ac{API}.
+
+%  
+% is
+% implemented by each solution in order  to  retrieve it  accordingly. Also, the algorithms
+% for performing the referential integrity validations are common across all the
+% solutions.  
+% 
+%  by each solution of the to ensure referential
+% integrity, it must retrieve the metadata associated to  the entity upon
+% validation.  Even when solutions store the metadata in  different ways,
+%  retrieving and processing it comes down to  either using a string of text or
+% using a \texttt{Metadata} entity.
+% Solution~1 and~2 store the  metadata as text, the former  within the
+% entities while the latter in the top row of the column family. Hence,
+% both solutions require the \texttt{EntityManager} to
+% first parse and extract the necessary information of the constraints, and then
+% load these constraints into a list of \texttt{Metadata} entities in order to
+% simplify its handling.
+%   Solution~3 and~4 store the metadata in column families, the former within the
+%   same cluster while the latter uses a dedicated metadata cluster. Since
+%   metadata has its own column family, each constraint is naturally mapped into
+%   a \texttt{Metadata} entity. Thus, metadata can be   retrieved by using
+%   the \texttt{EntityManager} and handling the \texttt{Metadata} as any other
+%   entity.
+  
+%   These classes, while providing the
+%  fundamental operations on generic entities, can be derived to suit custom
+% application requirements.
+%    
+% 
+% The next chapter presents the experimental design used to evaluate  the
+% performance of each solution implemented within the \ac{API}.
 
 
 

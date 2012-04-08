@@ -7,7 +7,7 @@ by operations  performed  on  any entity,  the
 \texttt{ValidationHandler} requires access to its  metadata. Even when metadata
 storage is different in each solution, all of them adopt  
  one of the following two methods for retrieving and processing the
-metadata. One method handles metadata as an entity and the other method handles
+metadata. One method handles metadata as an entity and the other handles
 metadata as text. These approaches and their implementation 
 are explained next.
 
@@ -29,13 +29,13 @@ are explained next.
  
 \subsection{Metadata as an Entity} \label{ss:implementation-MDEntityClass}
 Solutions~3 and 4 store  metadata in separate column families, either in the
-same cluster or in a different one, respectively.  As such, in the \ac{API}, the
-metadata column family is mapped by the entity class \texttt{Metadata} which contains the
+same cluster or in a different one (respectively).  As such, in the \ac{API},
+the metadata column family is mapped by the entity class \texttt{Metadata} which contains the
 necessary information for each constraint.  These constraints are inserted 
 by the \texttt{EntityManager} the same way as other entities are inserted, only
 without performing referential integrity validations. Notice that the
 constraints required by an application must be explicitely provided to the
-\ac{API}.
+\ac{API} by inserting them upon initialization of the keyspace \todo{check}.
 
  
 The \texttt{Metadata} entity class stores the various parts of a constraint as
@@ -48,40 +48,45 @@ Figure~\ref{fi:MetadataEntityClass}.
 
 	\begin{figure}[h] 
 		\centering		
-		\includegraphics[width=0.4\textwidth]{./figure/Solutions/FinalMetadata.png}
+		\includegraphics[width=.5\textwidth]{./figure/uml/metadata.png}
 		\caption{Metadata Entity Class}\label{fi:MetadataEntityClass}
 	\end{figure}
 	
 The \texttt{ValidationHandler} retrieves the list of \texttt{Metadata} entities
-relevant to the entity upon validation.  It does so by using the
+relevant to the entity upon validation.  In this case, it does so by using the
 \texttt{EntityManager} to read the constraints from \texttt{Metadata}.  The
 \texttt{ValidationHandler} iterates through the list of 
 \texttt{Metadata} entities and uses the respective getter methods in order to
 retrieve the different attributes of the metadata to complete the validation. 
 Notice that, in Solution~4, the list of metadata is maintained in
-cache in order to re-use it for future validations of the same entity type.
-Thus,  connections to the metadata cluster are avoided each time a validation
-is performed.
+cache in order to re-use it for future validations and to avoid additional 
+connections to the metadata cluster each time validation needs to be 
+performed.
 
 
 \subsection{Metadata as Text}\label{ss:implementation-MDText}
 
-Solutions~1 and 2 store metadata as a string of text. Solution~1 saves the
+Solutions~1 and 2 store metadata as a string of text. Solution~1 stores the
 metadata within each entity in its  \texttt{Metadata} column, and
- Solution~2 saves the metadata in  the top row of the respective column
+ Solution~2 stores the metadata in  the top row of the respective column
 families. Notice that, Solution~2 performs an additional
  search to locate the  top row (\texttt{RowId=`-1'}) where the metadata is
  stored, and then loads it within the  entity.
  
 The string of metadata within each entity contains all the constraints
  separated using special characters as explained in Section~\ref{s:design-sol1}.
-These special characters serve as delimiters for the \texttt{EntityManager} to
+These special characters serve as delimiters to
 parse and extract the information about the relevant constraints. This
-information is then loaded  into the attributes of  an instance of the
-\texttt{Metadata} entity class. From then on, metadata is handled as an entity
-as explained in the previous section. That is, the \texttt{ValidationHandler}
-uses the relevant getter methods of the \texttt{Metadata} entity class to
-retrieve  the different attributes necessary to complete the validation.
+ information is then loaded into the attributes of an instance of the
+\texttt{Metadata} entity class and, from then on, metadata is handled as an
+ entity as explained in the previous section.  Notice that the parsing
+algorithms for metadata as string are provided as static members of
+\texttt{Metadata} class.
+ 
+%   Basically, the
+%  \texttt{ValidationHandler} uses the relevant getter methods of the
+%  \texttt{Metadata} entity class to retrieve  the different attributes necessary
+% to complete the validation.
 
 
 
