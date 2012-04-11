@@ -1,14 +1,16 @@
 %ब
 \section{Experimental API}\label{s:implementation-API}
 
-The experimental \ac{API} was designed generically in order to ensure that it
+The experimental \ac{API}\footnote{
+The source code is available at \url{http://code.google.com/p/harsha-api/}.
+} was designed generically in order to ensure that it
 can be used by  applications to maintain dependencies within their keyspaces
 irrespective of keyspace schemas or structures of column families.  However,
 applications using this \ac{API} still have to supply  the list of referential
 integrity constraints as these are not automatically deduced from their
 implementation. Instead, the constraints have to be introduced according to the
 solution as it is explained in detail in
-Section~\ref{s:implementation-MDinSolutions}.
+Section~\ref{s:implementation-MDinSolutions}. 
 
 % Thus,   this \ac{API} is made adaptable to different keyspace schemas  that
 % can be deployed in column-oriented key-value \acp{DBMS}.
@@ -27,15 +29,15 @@ validation handlers,  all of which are described in the next sections.
  contains  the relevant  methods of the classes,  favoring a simpler
 explanation of the functioning of the \ac{API}. 
 
-% \begin{landscape}
-\begin{sidewaysfigure}  
+\begin{landscape}
+\begin{figure}[c]
 	\centering
 	%\includegraphics[width=5cm,    height=5cm]{.  /figure/random.  jpg}
 % 	\includegraphics[width=\textwidth]{./figure/Solutions/FinalClassDiagram.png}
-	\includegraphics[width=\textwidth]{./figure/uml/class-diagram.png}
+	\includegraphics[width=1.45\textwidth]{./figure/uml/class-diagram.png}
 	\caption{Class Diagram for the \ac{API}}\label{f:classDiagram}
-\end{sidewaysfigure}
-% \end{landscape}
+\end{figure}
+\end{landscape}
 
 	\subsection{Entities} 
 	
@@ -91,7 +93,7 @@ explanation of the functioning of the \ac{API}.
 	 to deal with any entity by using reflection, a Java
 	 feature that performs  an introspection of a class to retrieve its
 	 attributes, methods, annotations, among others. Moreover, the
-	 methods retrieved from such a class can be invoked on an object in runtime. 
+	 methods retrieved from such a class can be invoked on an object in run-time. 
 	 Thus, the \texttt{EntityManager} uses reflection to invoke the respective 
 	 getter and setter methods of an entity in order to load it with data
 	 from the column family or to write the data into a column family.
@@ -111,41 +113,46 @@ explanation of the functioning of the \ac{API}.
 	
 	
 		\subsubsection{Create}
+		
 		The \texttt{create} (or \texttt{insert}) operation stores an entity in its
 		respective column family. This operation triggers a referential integrity
 		 validation whenever an  entity is  inserted.  Such validation is performed by
-		 the \texttt{onInsert} method of \texttt{ValidationHandler}. Finally, if the
+		 the \texttt{onInsert} method of \texttt{ValidationHandler}.
+		  Finally, if the
  		 \texttt{ValidationHandler} allows it,  the \texttt{EntityManager} passes the
 		  entity details  including row key and column family as parameters to the
 		 \texttt{addInsertion} method of the Hector \texttt{Mutator} object to perform
 		 the insertion. This operation is detailed in Algorithm~\ref{a:em:insert}
 		 
 		 
-% 		For example, all the student entities are inserted into the column family
-% 		\texttt{Student} through the \texttt{EntityManager}.  
-		
-		 \begin{algorithm}
+		 
+		 		 \begin{algorithm}[h]
+		 	\small
 		 	\caption{Insert algorithm in \texttt{EntityManager}}\label{a:em:insert}
 % 			\SetKwInOut{Input}{input}\SetKwInOut{Output}{output}
 			\SetKwFunction{onInsert}{onInsert}
 			\SetKwFunction{addInsertion}{addInsertion}
 			\SetKwFunction{execute}{execute}
-			\SetKwData{e}{e} \SetKwData{Mutator}{Mutator}
-			\SetKwData{validationHandler}{validationHandler}
+			\SetKwData{e}{e} 
+% 			\SetKwData{validationHandler}{validationHandler}
 			\KwIn{\texttt{Entity} \e to insert}
 			\Begin{
-				invoke \onInsert on \validationHandler passing entity \e ;\\
+				invoke \onInsert on validationHandler passing entity \e ;\\
 				
 				\If{no exception is thrown}{
 					retrieve the attributes of \e;\\
 					\ForEach{attribute}{
-						invoke \addInsertion on \Mutator passing attribute;\\
+						invoke \addInsertion on Mutator passing attribute;\\
 					}
-					invoke \execute on \Mutator;\\
+					invoke \execute on Mutator;\\
 				}			
 			}
 			
 		 \end{algorithm}
+% 		For example, all the student entities are inserted into the column family
+% 		\texttt{Student} through the \texttt{EntityManager}.  
+		
+
 			
 		\subsubsection{Read}
 		The  \texttt{read} operation retrieves  entities from the column family mapped
@@ -164,19 +171,20 @@ explanation of the functioning of the \ac{API}.
 		  integrity validation since entities are only read and their state is not
 		 changed,  unlike in the other operations.
 		  
-		  \begin{algorithm}[H]
+		  \begin{algorithm}[h]
 		  	\caption{Find algorithm in \texttt{EntityManager}}\label{a:em:find}
-			\SetKwData{clazz}{clazz}
+		  	\small
+			
 		  	\KwIn{\texttt{Class<T extends Entity>} clazz, \texttt{String} value }
 		  	\KwResult{\texttt{<T extends Entity>}}
 		  	
 		  	\Begin{
-		  		retrieve attributes of \clazz;\\
-		  		create \texttt{SliceQuery} of \clazz where PK = value;\\
-		  		\If{no result was found}{
+		  		retrieve attributes of clazz;\\
+		  		create \texttt{SliceQuery} of clazz where PK = value;\\
+		  		\If{no result is found}{
 		  			\Return null;
 		  		}\Else{
-		  			create instance of \clazz;\\
+		  			create instance of clazz;\\
 		  			load instance with result;\\
 		  			\Return instance;
 		  		}
@@ -185,20 +193,21 @@ explanation of the functioning of the \ac{API}.
 		  	
 		  \end{algorithm}
 
-		 \begin{algorithm}[H]
+		 \begin{algorithm}[h]
 		  	\caption{Query algorithm in \texttt{EntityManager}}\label{a:em:query}
-			\SetKwData{clazz}{clazz}\SetKwData{expression}{expression}
+		  	\small
+			
 		  	\KwIn{\texttt{Class<T extends Entity>} clazz, \hspace{\textwidth} 
 		  	\texttt{String} columnName,
 		  	\texttt{Expression} expression, \texttt{String} columnValue}
 		  	\KwResult{List of \texttt{<T extends Entity>}}
 		  	
 		  	\Begin{
-		  		retrieve attributes of \clazz;\\
-		  		create \texttt{IndexedSlicesQuery} of \clazz where columnName \expression
-		  		columnValue;\\
+		  		retrieve attributes of clazz;\\
+		  		create \texttt{IndexedSlicesQuery} of clazz where\\ \hspace{1cm}columnName
+		  		expression columnValue;\\
 		  		\ForEach{result found}{
-		  			create instance of \clazz;\\
+		  			create instance of clazz;\\
 		  			load instance with result;\\
 		  			add instance to list;\\ 
 		  		}
@@ -208,15 +217,16 @@ explanation of the functioning of the \ac{API}.
 		  
 		  \begin{algorithm}[H]
 		  	\caption{Read algorithm in \texttt{EntityManager}}\label{a:em:read}
-			\SetKwData{clazz}{clazz}\SetKwData{expression}{expression}
+		  	\small
+			
 		  	\KwIn{\texttt{Class<T extends Entity>} clazz}
 		  	\KwResult{List of \texttt{<T extends Entity>}}
 		  	
 		  	\Begin{
-		  		retrieve attributes of \clazz;\\
-		  		create \texttt{RangeSlicesQuery} of \clazz\\
+		  		retrieve attributes of clazz;\\
+		  		create \texttt{RangeSlicesQuery} of clazz\\
 		  		\ForEach{result found}{
-		  			create instance of \clazz;\\
+		  			create instance of clazz;\\
 		  			load instance with result;\\
 		  			add instance to list;\\ 
 		  		}
@@ -244,14 +254,14 @@ explanation of the functioning of the \ac{API}.
 		validations are performed when the entity is inserted. 
 		
 				
-			\begin{algorithm}
+			\begin{algorithm}[h]
 			\caption{Update algorithm in \texttt{EntityManager}}
+			\small
 			\SetKwFunction{onUpdate}{onUpdate}
 			\SetKwFunction{KwInsert}{insert}
 			\SetKwFunction{delete}{delete}
-			\SetKwData{validationHandler}{validationHandler}
-			\SetKwData{e}{e} \SetKwData{Mutator}{Mutator}
-			\SetKwData{keyForUpdate}{keyForUpdate}
+			\SetKwData{e}{e}
+			
 			\KwIn{\texttt{Entity} \e to update}
 			\Begin{
 				\If{primary key value of \e is not changed}{
@@ -259,17 +269,15 @@ explanation of the functioning of the \ac{API}.
 					\Return{}	
 				}
 				
-				\KwInsert entity with \keyForUpdate as primary key;\\
+				\KwInsert entity with \texttt{keyForUpdate} as primary key;\\
 				
-				invoke \onUpdate on \validationHandler passing entity \e ;\\
+				invoke \onUpdate on validationHandler passing entity \e ;\\
 				
 				\If{no exception is thrown}{
 					invoke \delete from this \texttt{EntityManager} passing \e;\\
 				}\Else{
-					\delete entity with \keyForUpdate as primary key;\\
+					\delete entity with \texttt{keyForUpdate} as primary key;\\
 				}
-				
-					
 			}
 		\end{algorithm}
 % 		
@@ -382,18 +390,19 @@ explanation of the functioning of the \ac{API}.
  		
  		\begin{algorithm}[H]
 			\caption{Delete algorithm in \texttt{EntityManager}}\label{a:em:delete}
+			\small
 % 			\SetKwInOut{Input}{input}\SetKwInOut{Output}{output}
 			\SetKwFunction{onDelete}{onDelete}
 			\SetKwFunction{delete}{delete}
-			\SetKwData{e}{e} \SetKwData{Mutator}{Mutator}
-			\SetKwData{validationHandler}{validationHandler}
+			\SetKwData{e}{e} 
+			
 			\KwIn{\texttt{Entity} \e to delete}
 			\Begin{
-				invoke \onDelete on \validationHandler passing entity \e ;\\
+				invoke \onDelete on validationHandler passing entity \e ;\\
 				
 				\If{no exception is thrown}{
 					retrieve attributes  of \e;\\
-					invoke \delete on \Mutator passing primary key  and column family
+					invoke \delete on Mutator passing primary key  and column family
 					of \e;\\
 				}			
 			}
@@ -455,6 +464,7 @@ explanation of the functioning of the \ac{API}.
 	
 	 	\begin{algorithm}[H]
 	 		\caption{Validation \texttt{onInsert}}\label{a:vh:onInsert}
+	 		\small
 	 		\SetKwData{e}{e}
 	 		\SetKw{throw}{throw}
 	 		\KwIn{\texttt{Entity} e to be inserted}
@@ -473,7 +483,7 @@ explanation of the functioning of the \ac{API}.
 	 	
 	 	
 For example,  when an \texttt{Enrolment} entity is to be inserted,   the
- \texttt{ValidationHandler} identifies the parent column families  by looking up
+ \texttt{Validation\-Handler} identifies the parent column families  by looking up
  at the \ac{FK} constraints of the entity. In this case, there
  is only \texttt{CONST400} which identifies \texttt{Student} as a parent column
  family. Hence, the \texttt{ValidationHandler} makes sure there is a
@@ -482,27 +492,28 @@ For example,  when an \texttt{Enrolment} entity is to be inserted,   the
  exists, then the \texttt{EntityManager} is allowed to \texttt{insert} the entity.
 		
 		
-	\subsection{Validation: \texttt{onUpdate}}
+	\subsubsection{Validation: \texttt{onUpdate}}
 		This validation is triggered every time the \texttt{EntityManager} is asked to
-		update an entity which primary key value has changed. Recall that if the
-		changes of the entity to  be updated do not involve the primary key, then an
+		update an entity which primary key value has changed. Recall that if the changes
+		of the entity to  be updated do not involve the primary key, then an
 		\texttt{insert} takes place instead and hence the validation is performed by
-		\texttt{onInsert}. Otherwise, if the primary key value of the entity is
-		changed, the new entity is  inserted, the foreign keys of the dependencies are
-		updated to the new primary key value, and the old entity is deleted.
-		 Clearly, the referential integrity rules apply in this validation. These are 
-		 assumed to be contained within the  \texttt{DeleteRule} field of the
-		 constraints relevant to the children entities.  Thus, the validation finds
-		  all the child dependencies of the entity and, if the \texttt{DeleteRule} is
-		  \texttt{CASCADE}, updates their corresponding foreign keys to the new
-		  primary key value. Otherwise, if the \texttt{DeleteRule} is
-		  \texttt{NODELETE}, the update is only allowed if there are no child
-		  dependencies. Notice that this operation assumes the entity with new primary
-		  key value has already been inserted. This validation is detailed in
-		  Algorithm~\ref{a:vh:onUpdate}.
+		\texttt{onInsert}. Otherwise, if the primary key value of the entity is changed,
+		the new entity is  inserted, the foreign keys of the dependencies are updated to
+		the new primary key value, and the old entity is deleted. Clearly, the
+		referential integrity rules apply in this validation. These are assumed to be
+		contained within the  \texttt{DeleteRule}\footnote{Notice that for the sake of
+		simplicity, this rule is also used for update operations} field of the
+		constraints relevant to the children entities.  Thus, the validation finds all
+		the child dependencies of the entity and, if the \texttt{DeleteRule} is
+		\texttt{CASCADE}, updates their corresponding foreign keys to the new primary
+		key value. Otherwise, if the \texttt{DeleteRule} is \texttt{NODELETE}, the
+		update is only allowed if there are no child dependencies. Notice that this
+		operation assumes the entity with new primary key value has already been
+		inserted. This validation is detailed in Algorithm~\ref{a:vh:onUpdate}.
 		
-		\begin{algorithm}[H]
+		\begin{algorithm}[h]
 			\caption{Validation \texttt{onUpdate}}\label{a:vh:onUpdate}
+			\small
 	 		\SetKwData{e}{e}
 	 		\SetKw{throw}{throw}
 	 		\KwIn{\texttt{Entity} e to be updated}
@@ -553,8 +564,22 @@ its primary key value.
 		latter case is only allowed when the entity has no child dependencies. This
 		validation is detailed in Algorithm~\ref{a:vh:onDelete}.
 		
+		
+		
+		For example,   in the University keyspace,   if a 
+		\texttt{Student} entity is requested to be deleted,    the
+		\texttt{ValidationHandler} locates the \ac{FK} constraints which reference \texttt{Student}. In this
+		 case, only \texttt{CONST700} references \texttt{Student}, which follows up
+		 to \texttt{CONST400} from which the child entity can be retrieved.
+		Since the \texttt{DeleteRule} is \texttt{Cascade},  
+		the child entities are deleted from \texttt{Enrolment} and no exception
+		is thrown, hence allowing the \texttt{EntityManager} to  delete the
+		entity from its \texttt{Student} column family.
+	
+		\newpage
 		\begin{algorithm}[H]
 	 		\caption{Validation \texttt{onDelete}}\label{a:vh:onDelete}
+	 		\small
 	 		\SetKwData{e}{e}
 	 		\SetKw{throw}{throw}
 	 		\KwIn{\texttt{Entity} e to be deleted}
@@ -579,19 +604,6 @@ its primary key value.
 	 			}
 	 		} 
 	 	\end{algorithm}
-		
-		For example,   in the University keyspace,   if a 
-		\texttt{Student} entity is requested to be deleted,    the
-		\texttt{ValidationHandler} locates the \ac{FK} constraints which reference \texttt{Student}. In this
-		 case, only \texttt{CONST700} references \texttt{Student}, which follows up
-		 to \texttt{CONST400} from which the child entity can be retrieved.
-		Since the \texttt{DeleteRule} is \texttt{Cascade},  
-		the child entities are deleted from \texttt{Enrolment} and no exception
-		is thrown, hence allowing the \texttt{EntityManager} to  delete the
-		entity from its \texttt{Student} column family.
-	
-		
-		
 		
 		\begin{comment}
 		

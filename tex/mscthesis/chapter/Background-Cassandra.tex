@@ -23,7 +23,7 @@ The details of such a distributed nature is abstracted from  the user such that
 % one of the nodes is required to perform operations.
 The machines in the cluster form a ring of nodes,  where
 nodes are connected to each other and each node is aware of all their peers in
-the cluster (Figure~\ref{f:cassandra-cluster})).
+the cluster (Figure~\ref{f:cassandra-cluster}).
 
 
 \begin{figure}[h] \centering 
@@ -34,7 +34,7 @@ the cluster (Figure~\ref{f:cassandra-cluster})).
 
 The nodes in a cluster communicate with each other to send their state
 information at regular time intervals,  so that other nodes in the ring  know
-their status~\citep{cassandra,BOOK}. Such communication
+their status~\citep{BOOK,cassandra}. Such communication
 between the nodes support failure detection in Cassandra.
 % helps in failure detection in Cassandra since
 If a node is not active,  it fails to send or respond to messages from other
@@ -138,7 +138,7 @@ level of replication to suit its requirements,  that is, the replication factor
 is set to the number of nodes on which the application wants to create
 replicas~\citep{BOOK,cassandra}.  The
 replication factor tells the cluster how many copies to create of a single data item.
-Setting the replication factor to a large number would help in higher
+Setting the replication factor to a large number will help in higher
 consistency of data items,  but replicating data items to a large number of
 nodes  can adversely affect the performance.
 

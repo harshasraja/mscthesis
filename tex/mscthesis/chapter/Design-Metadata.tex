@@ -56,7 +56,7 @@ The role of metadata in  the solutions is primarily to hold the necessary
 % Notice that, throughout the solutions, the structure of metadata containing
 % these constraints is consistent despite.
 
-The structure of the metadata is shown in Figure~\ref{fd:Metadata-Constraints}.
+The structure of the metadata is shown in Table~\ref{fd:Metadata-Constraints}.
 This structure contains information about a University keyspace example in which
  a simple schema is applied for the keyspace. In this example,  the details of
 the students are saved in  the \texttt{Student} column family and the course
@@ -65,23 +65,24 @@ the students are saved in  the \texttt{Student} column family and the course
  students to courses and hence having foreign key relationships to both
  \texttt{Student} and \texttt{Course} column families. All the column families
  have unique primary keys and their \ac{PK} constraints are saved in the
- metadata as presented in Figure~\ref{fd:Metadata-Constraints} while the foreign
+ metadata as presented in Table~\ref{fd:Metadata-Constraints} while the foreign
  key relationships between \texttt{Enrolment}, \texttt{Student} and \texttt{Course} are saved as \ac{FK} constraints.  For instance, consider in
- Figure~\ref{fd:Metadata-Constraints} the \ac{PK} constraint \texttt{CONST100},
+ Table~\ref{fd:Metadata-Constraints} the \ac{PK} constraint \texttt{CONST100},
  for the \texttt{Student} column family, and the \ac{FK} constraint
  \texttt{CONST400} for the foreign key relationship between
 \texttt{Enrolment} and \texttt{Student}. Notice that only
  single column primary keys are considered in the solutions.
 
-\begin{figure}[h] 
+\begin{table}[h] 
 	\centering
 	
-	\newcolumntype{C}{@{\hspace{2.5pt}}>{\scriptsize}c@{\hspace{2.5pt}}}
+	\newcolumntype{C}{@{\hspace{3pt}}>{\scriptsize}c@{\hspace{3pt}}}
 	\begin{tabular}{CCC CCC CC}
 		\toprule
-		\bfseries ConstraintName & \bfseries Keyspace & \bfseries ConstraintType &
-		\bfseries ColumnFamily & \bfseries RKeyspace & \bfseries RConstraintName &
-		\bfseries RColumn & \bfseries DeleteRule\\
+		\bfseries Constraint & \bfseries Keyspace & \bfseries Constraint &
+		\bfseries Column & \bfseries RKeyspace & \bfseries RConstraint &
+		\bfseries RColumn & \bfseries DeleteRule\\[-6pt]
+		\bfseries Name & & \bfseries Type & \bfseries Family & & \bfseries Name \\
 		\midrule
 		CONST100 & University & P & Student & University & & StudentId &\\
 		\rc CONST200 & University & P & Course & University & & CourseId &\\
@@ -99,7 +100,7 @@ the students are saved in  the \texttt{Student} column family and the course
 		\bottomrule
 	\end{tabular}
 	\caption{Metadata for the Solutions}\label{fd:Metadata-Constraints}
-\end{figure}
+\end{table}
 
 
 Specifically, the structure of the metadata contains:

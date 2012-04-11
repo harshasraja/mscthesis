@@ -74,10 +74,22 @@ Figure~\ref{f:RI}.
 		\caption{Referential Integrity Rules}\label{f:RI}
 	\end{figure}
 
-These rules are explained below:
+\todo{Fix this paragraph}
+Referential integrity constraints have been a relational feature in traditional
+\acp{RDBMS} and are imposed due to the way the \acp{RDBMS} enforce
+normalisation.
+In order to improve the data dependency in cloud \ac{NoSQL} \acp{DBMS},   this
+thesis proposes solutions that implement referential integrity constraints using
+different approaches. These solutions are
+deployed and evaluated using Apache Cassandra, a column-oriented key-value cloud
+Database Management System (DBMS). The following section gives an overview of
+Cassandra and discusses some of its key architectural concepts.
 
-	\begin{itemize}
-		\item Insert rule: An insert operation triggers a referential integrity
+% These rules are explained below:
+
+% 	\begin{itemize}
+\subsection{Insert rule}
+		An insert operation triggers a referential integrity
 		validation when data is being inserted into a referencing table,   i. e. ,   the
 		child table.  In such an event,   prior to entering the values in the
 		referencing table,   it is checked if the foreign keys exist in the referenced
@@ -88,7 +100,8 @@ These rules are explained below:
 		the foreign keys do not exist in the referenced tables,   then the insert
 		operation is not allowed.
 		
-		\item Update rule: When data is updated either in the referencing table or the
+\subsection{Update rule}
+ When data is updated either in the referencing table or the
 		referenced table,   a referential integrity validation is needed.  When any
 		primary key is updated in the referenced table, then it is verified whether this
 		key is a foreign key in any of the referencing tables.  If a dependency is found
@@ -108,7 +121,7 @@ These rules are explained below:
 		in the \texttt{Course} table.  If the new value does not exist,   the update is
 		not allowed generally.
 		
-		\item Delete rule: A delete operation triggers a referential integrity
+\subsection{Delete rule} A delete operation triggers a referential integrity
 		validation when data is deleted from the referenced table.  When data that is
 		marked for deletion is found to have dependencies in other referencing tables,  
 		the data manipulation rule applicable for this operation has to be checked. 
@@ -117,23 +130,15 @@ These rules are explained below:
 		referenced tables.  For example,   when a student record is deleted from the
 		\texttt{Student} table,   a check is performed to see if the
 		'\texttt{StudentID}' is a foreign key in any other table.  Therefore,  
-		\texttt{Enrolment} would be checked and when the '\texttt{StudentID}' is found
+		\texttt{Enrolment} is checked and when the '\texttt{StudentID}' is found
 		as a foreign key,   the appropriate action is performed depending on the data
 		manipulation rule.  If it is '\texttt{Cascade}',   the enrolment details for the
 		'\texttt{StudentID}' are removed from \texttt{Enrolment} and then the student
 		record is deleted from
 		\texttt{Student}. 
 	
-	\end{itemize}
+% 	\end{itemize}
 
-Referential integrity constraints have been a relational feature in traditional
-\acp{RDBMS} and are imposed due to the way the \acp{RDBMS} enforce
-normalisation.
-In order to improve the data dependency in cloud \ac{NoSQL} \acp{DBMS},   this
-thesis proposes solutions that implement referential integrity constraints using
-different approaches. These solutions are
-deployed and evaluated using Apache Cassandra, a column-oriented key-value cloud
-Database Management System (DBMS). The following section gives an overview of
-Cassandra and discusses some of its key architectural concepts.
+
  
 

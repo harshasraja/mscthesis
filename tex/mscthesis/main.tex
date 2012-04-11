@@ -1,62 +1,24 @@
 %
-\documentclass[11pt, a4paper, twoside, openright]{report}
-
-% \usepackage{html}
-% \usepackage{url}
-% \usepackage[dcucite]{harvard}
+\documentclass[12pt, a4paper, twoside, openright]{book}
 
 \usepackage{float} % lets you have non-floating floats
  
 \usepackage{url} % for typesetting urls
  
-%  We don't want figures to float so we define
-%  
+
 \newfloat{fig}{thp}{lof}[chapter]
 \floatname{fig}{Figure}
 
-%% These are standard LaTeX definitions for the document
-%%
 
-% \renewcommand{\harvardurl}{\url}
-\title{Referential Integrity in\\ Cloud NoSQL Databases}
-\author{Harsha Raja} 
-
-%% This file can be used for creating a wide range of reports
-%%  across various Schools
-%%
-%% Set up some things, mostly for the front page, for your specific document
-%
-% Current options are:
-% [ecs|msor]              Which school you are in.
-%
-% [bschonscomp|]  Which degree you are doing
-%                          You can also specify any other degree by name
-%                          (see below)
-% [font|image]            Use a font or an image for the VUW logo
-%                          The font option will only work on ECS systems
-%
-\usepackage[image,ecs,meng]{vuwproject} 
-
-% You should specifiy your supervisor here with
-%     \supervisor{Firstname Lastname}
-% use \supervisors if there are more than one supervisor
-\supervisor{Dr. Pavle Mogin}
-% Unless you've used the bschonscomp or mcompsci
-%  options above use
-% \otherdegree{MSc in Computer Science}
-% here to specify degree
-
-% Comment this out if you want the date printed.
-%\date{}
 
 \usepackage[bookmarks]{hyperref}
 \usepackage{paralist}
 \usepackage[utf8]{inputenc}
 \usepackage[english]{babel}
-\usepackage[numbers]{natbib}
-\usepackage[enabled, chapter]{easy-todo}
+\usepackage[numbers]{natbib} 
+\usepackage[disabled, chapter]{easy-todo}
 \usepackage{blindtext}
-\usepackage[boxed,vlined]{algorithm2e}
+\usepackage[boxed,vlined,algochapter]{algorithm2e}
 \usepackage{amsmath,amsfonts}
 \usepackage{multirow}
 
@@ -70,7 +32,7 @@
 \newcommand{\rc}{\rowcolor{light-gray}}
 
 \usepackage[printonlyused]{acronym}
-
+ 
 %Article 1
 \usepackage{units} %For Nice Fractions
 \usepackage{caption2}
@@ -78,7 +40,18 @@
 \usepackage{epsfig}
 \usepackage[usenames,dvipsnames]{xcolor}
 \usepackage{comment}
+\usepackage{calc}
+\usepackage{palatino}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhead[LE,RO]{\slshape \rightmark}
+\fancyhead[LO,RE]{\slshape \leftmark}
+\fancyfoot[C]{\thepage}
+\renewcommand{\chaptermark}[1]{%
+\markboth{\MakeUppercase{\chaptername
+\ \thechapter}}{}}
 
+\renewcommand{\sectionmark}[1]{\markright{\thesection.\ #1}}
 
 
 \newcommand{\Quote}[1]{``#1''}
@@ -98,75 +71,106 @@
 	citecolor = black,
 	filecolor = black,
 	urlcolor = black
-}
+} 
+ 
+\usepackage{vuwthesis}
+\usepackage{appendix}
+\usepackage{titlesec}
+%  \onehalfspacing
+% \setcounter{tocdepth}{3}
 
-\onehalfspacing
+% \hyphenation{en-ti-ty-man-ag-er}
+% \hyphenation{En-ti-ty-Man-ag-er}
+\hyphenation{Validation-Handler}
+\usepackage{microtype}
+
 \begin{document}
-
-
+\mscthesisonly
 % Make the page numbering roman, until after the contents, etc.
 \frontmatter
+
+\title{Referential Integrity in\\ Cloud NoSQL Databases}
+\author{Harsha Raja} 
+\otherdegree{Master of Engineering}
+\subject{Computer Science}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
  
 
-\begin{abstract}
-\small
-% \blindtext
-\end{abstract}
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % \listoftodos
- \maketitle
 
-\tableofcontents
+\input{chapter/abstract}
+ \maketitle
+\input{chapter/Acknowledgement}
+
+
+\mscthesisonly
+\tableofcontents 
+
 
 \input{acronyms} 
 \listoftodos
+\listoffigures
+\newpage
+\begin{minipage}[c]{\textwidth-\parindent} 
+\listoftables
+\listofalgorithms
+\end{minipage}
+\newpage
+
+
+% \listofalgorithms
 
 % we want a list of the figures we defined
 %\listof{fig}{Figures}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
- 
+
 \mainmatter
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% \acresetall
-% \input{chapter/introduction}
+\acresetall
+\input{chapter/introduction}
 % %
-%  \acresetall
-% \input{chapter/background}
-% % 
-% \acresetall
-% \input{chapter/Design}
+ \acresetall
+\input{chapter/background}
+
+\acresetall
+\input{chapter/Design}
 % %
 \acresetall
 \input{chapter/Implementation}
 %
 \acresetall
 \input{chapter/Experimental}
-% 
-%  \acresetall
-%  \input{chapter/results-discussions}
-% 
-% \acresetall
-%  \input{chapter/Conclusion} 
-
+% % % 
+ \acresetall
+ \input{chapter/results-discussions}
+% %  
+\acresetall
+ \input{chapter/Conclusion}
+ 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % \backmatter
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-% \chapter*{Appendix}
+
  \appendix
+ 
+ \appendixpage
+\addappheadtotoc
+
+ 
 %  \pagestyle{empty}
 %  \newpage
 %  \vfill
 %  \Huge Appendix
 %  \vfill
-%  \input{chapter/appendix}
-
+{
+ \input{chapter/appendix}
+}
 
  \bibliographystyle{abbrvnat}
  \bibliography{bibliography}

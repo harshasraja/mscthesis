@@ -13,8 +13,8 @@ Section~\ref{s:challenges-key-value} presents some of the challenges existing in
 this key-value model.
 Section~\ref{s:referential-integrity} addresses one of these crucial challenges
 of referential integrity in column-oriented key-value cloud databases.
-Section\ref{s:Cassandra} introduces the architectural concepts of Cassandra, the
-column-oriented key-value cloud \ac{DBMS} used in this thesis.
+Section\ref{s:Background-Cassandra} introduces the architectural concepts of
+Cassandra, the column-oriented key-value cloud \ac{DBMS} used in this thesis.
 
 
 % More details about \ac{DaaS} and cloud \ac{DBMS} are provided in Literature
@@ -48,36 +48,40 @@ it is incorporating.  Some of the current popular data models on the cloud are:
 \item Relational data model
 \end{itemize}
 
-In general,   cloud \acp{DBMS} are non-relational and most cloud \acp{DBMS} 
-adopt the key-value data model to maintain the data replication,   consistency
-and scalability that are part of cloud data storage (\todo{cite 440}). The
-key-value databases,   document databases and other databases that support
+Both key-value and document data models store data in key-value pairs, where in
+databases using the document data model,documents are stored with a key and this
+key is used to retrieve the document~\citep{rahien}. In databases using the
+key-value data model, data is stored with a key which is used to retrieve the
+data. On the other hand, relation data model on the cloud adopts the traditional
+relational data model and store data in rows in tables~\citep{azure}.
+
+In general, cloud \acp{DBMS} are non-relational and most cloud \acp{DBMS} adopt
+the key-value data model to maintain the data replication,   consistency and
+scalability that are part of cloud data storage~\citep{Abadi,Stonebraker}). The
+key-value databases, document databases and other databases that support
 non-relational data models on the cloud are loosely termed as \ac{NoSQL}
 databases.  \ac{NoSQL} \acp{DBMS} are considered the next generation cloud
 \acp{DBMS} that aim to provide non-relational distributed \acp{DBMS} with
-open-source content and development for the cloud (\ac{NoSQL},   n. d. ) Many
-\ac{NoSQL} \acp{DBMS},   that are inherently key-value \acp{DBMS},   have
-evolved by adopting various features from other popular cloud \ac{NoSQL}
-\acp{DBMS}.  For example,   Cassandra adopts the column oriented data model of
-Google's Bigtable~\citep{bigtable} while Riak (\todo{cite 440}) is influenced by
-Amazon's Dynamo~\citep{Dynamo}.  This thesis focuses on the column-oriented
-key-value data model and is explained in Section~\ref{s:key-value-data-model}.
+open-source content and development for the cloud~\citep{Stonebraker}. Many
+\ac{NoSQL} \acp{DBMS}, that are inherently key-value \acp{DBMS},   have evolved
+by adopting various features from other popular cloud \ac{NoSQL} \acp{DBMS}.
+For example, Cassandra adopts the column oriented data model of Google's
+Bigtable~\citep{bigtable} while Riak (\todo{cite 440}) is influenced by Amazon's
+Dynamo~\citep{Dynamo}. This thesis focuses on the column-oriented key-value data
+model and is explained in Section~\ref{s:key-value-data-model}.
 
 Although \acp{RDBMS} on the cloud are not widely used,   there exist some cloud
 capable \acp{RDBMS} like Amazon Relational Data Service,   Microsoft SQL Azure
 etc.  Just like the traditional relational model,   relational model on the
 cloud also supports relations or tables with rows and columns to store
 structured data and adheres to a schema~\citep{campbell,azure}.  These
-\acp{RDBMS} provide users with database administration facilities and APIs to
-scale relational databases and to perform operations on stored data,   like
-updating,   inserting,   deleting data etc.  The cloud \acp{RDBMS} offered today
-vary according to the vendors and each of the vendors propose alternative
-solutions to problems like scalability and latency.  However,   the replication
-of data is restrained due to the relational nature of such \acp{RDBMS} and 
-affects its scalability and performance.
+\acp{RDBMS} provide users with database administration facilities and \acp{API}
+to perform operations on stored data,   like updating,   inserting,   deleting
+data etc. However,   the replication of data is restrained due to the relational
+nature of such \acp{RDBMS} and affects its scalability and performance.
 % Most cloud \ac{RDBMS} are outperformed by \ac{NoSQL} \acp{DBMS} (\todo{cite}).
 
-\newpage
+
 
 \input{chapter/Background-KeyValueDataModel}
 
@@ -125,15 +129,14 @@ features~\citep{Stonebraker2,Stonebraker}.
 
 
 This chapter also discussed a few  architectural concepts of Cassandra that form
-its foundation , providing it with BASE properties and many important features like
-high data availability, failure management, fault tolerance and scalability
-among others.  
-The architectural concepts and operations of Cassandra are designed to
-make it a highly available and scalable \ac{DBMS}.
-Cassandra is used to implement the four solutions
-designed to impose referential integrity validations in cloud \ac{NoSQL}
-\acp{DBMS}.  The design of these solutions  and the approaches used to
-implement such validations are explained in the following chapter. 
+its foundation , providing it with BASE properties and many important features
+like high data availability, failure management, fault tolerance and scalability
+among others. The architectural concepts and operations of Cassandra are
+designed to make it a highly available and scalable \ac{DBMS}. Cassandra is used
+to implement the four solutions designed to impose referential integrity
+validations in cloud \ac{NoSQL} \acp{DBMS}.  The design of these solutions  and
+the approaches used to implement such validations are explained in the following
+chapter.
 
 
 % The next chapter describes the four solutions proposed to enforce referential

@@ -2,40 +2,78 @@
 
 \newcolumntype{B}{>{\columncolor{light-gray}}c} 
 
-	\begin{table}[h]
+	\begin{table}[t]
+	\renewcommand*\arraystretch{1}
+	
+% 	\newcolumntype{C}{@{\hspace{3pt}}>{\scriptsize}c@{\hspace{3pt}}}
+	\newcolumntype{C}{c}
+	\footnotesize
+% 	\small
 	\centering
 	\caption{Response time in milliseconds per entity}\label{tres:ResponseTime}
-		\begin{tabular}{ccBcccc}
+		\begin{tabular}{CCBCCCC}
 		
 			\toprule &&\textbf{Baseline} & \textbf{Solution1} & \textbf{Solution2} &
 			\textbf{Solution3} & \textbf{Solution4}\\
 						
-			\midrule \multirow{3}{*}{\textbf{insert}} & \textbf{s} & 0.366 (0.082) & 0.568
-			(0.031) & 0.820 (0.091) & 2.108 (0.052) & \TB{0.364 (0.017)}\\
-			& \textbf{c} & 0.352 (0.051) & 0.547 (0.044) & 0.803 (0.046) & 2.092 (0.060) &
-			\TB{0.351 (0.012)}\\
-			& \textbf{e} & 0.305 (0.013) & 1.239 (0.036) & 1.405 (0.022) & 3.484 (0.048) &
-			\TB{0.936 (0.013)}\\
+			\midrule \multirow{3}{*}{\textbf{insert}} & \textbf{s} & 0.366 (0.08) & 0.568
+			(0.03) & 0.820 (0.09) & 2.108 (0.05) & \TB{0.364 (0.02)}\\
+			& \textbf{c} & 0.352 (0.05) & 0.547 (0.04) & 0.803 (0.05) & 2.092 (0.06) &
+			\TB{0.351 (0.01)}\\
+			& \textbf{e} & 0.305 (0.01) & 1.239 (0.04) & 1.405 (0.02) & 3.484 (0.05) &
+			\TB{0.936 (0.01)}\\
 						
-			\midrule \multirow{3}{*}{\textbf{update}} & \textbf{s} & 0.730 (0.161) & 19.144
-			(0.389) & 20.840 (0.426) & 46.394 (0.729) & \TB{14.997 (0.366)}\\
-			& \textbf{c} & 0.759 (0.056) & 5.810 (0.498) & 5.991 (0.268) & 10.419 (0.296) &
-			\TB{4.751 (0.284)}\\
-			& \textbf{e} & 0.404 (0.027) & 1.353 (0.029) & 1.500 (0.024) & 3.579 (0.050) &
-			\TB{1.031 (0.013)}\\
+			\midrule \multirow{3}{*}{\textbf{update}} & \textbf{s} & 0.730 (0.16) & 19.144
+			(0.39) & 20.840 (0.43) & 46.394 (0.73) & \TB{14.997 (0.37)}\\
+			& \textbf{c} & 0.759 (0.06) & 5.810 (0.50) & 5.991 (0.27) & 10.419 (0.30)
+			& \TB{4.751 (0.28)}\\
+			& \textbf{e} & 0.404 (0.03) & 1.353 (0.03) & 1.500 (0.02) & 3.579 (0.05) &
+			\TB{1.031 (0.01)}\\
 						
-			\midrule \multirow{3}{*}{\textbf{delete}} & \textbf{s} & 0.314 (0.027) & 7.425
-			(0.439) & 10.533 (0.414) & 26.023 (0.553) & \TB{5.638 (0.362)}\\
-			& \textbf{c} & 0.287 (0.048) & 2.037 (0.078) & 2.367 (0.085) & 3.958 (0.118) &
-			\TB{1.964 (0.086)}\\
-			& \textbf{e} & 0.290 (0.027) & 0.410 (0.017) & 0.744 (0.023) & 2.132 (0.042) &
-			\TB{0.299 (0.016)}\\
+			\midrule \multirow{3}{*}{\textbf{delete}} & \textbf{s} & 0.314 (0.03) & 7.425
+			(0.44) & 10.533 (0.41) & 26.023 (0.55) & \TB{5.638 (0.37)}\\
+			& \textbf{c} & 0.287 (0.05) & 2.037 (0.08) & 2.367 (0.09) & 3.958 (0.12) &
+			\TB{1.964 (0.09)}\\
+			& \textbf{e} & 0.290 (0.03) & 0.410 (0.02) & 0.744 (0.02) & 2.132 (0.04)
+			& \TB{0.299 (0.02)}\\
 						
 			\bottomrule
 		\end{tabular}
+	\vspace{1cm}
+	\captionof{table}{Response time ratio with respect to
+	Baseline}\label{tres:ResponsetimeRatio}
+		\begin{tabular}{cccccc}
+			 
+			\toprule && \textbf{Solution1} & \textbf{Solution2} &
+			\textbf{Solution3} & \textbf{Solution4}\\
+						
+			\midrule \multirow{3}{*}{\textbf{insert}} & \textbf{s} & 1.55 & 2.24 &
+			5.76 & \TB{0.99}\\
+			& \textbf{c} & 1.56 & 2.28 & 5.95 & \TB{1.00}\\
+			& \textbf{e} & 4.06 & 4.61 & 11.42 & \TB{3.07}\\
+						
+			\midrule \multirow{3}{*}{\textbf{update}} & \textbf{s} & 26.21 & 28.53 &
+			63.51 & \TB{20.53}\\
+			& \textbf{c} & 7.66 & 7.90 & 13.74 & \TB{6.26}\\
+			& \textbf{e} & 3.35 & 3.71 & 8.86 & \TB{2.55}\\
+						
+			\midrule \multirow{3}{*}{\textbf{delete}} & \textbf{s} & 23.61 & 33.50 &
+			82.76 & \TB{17.93}\\
+			& \textbf{c} & 7.09 & 8.24 & 13.78 & \TB{6.84}\\
+			& \textbf{e} & 1.41 & 2.57 & 7.36 & \TB{1.03}\\
+			
+			\bottomrule
+%  			\multicolumn{3}{l}{}%\scriptsize $^*$ Milliseconds per entity} 
+ 			
+			\multicolumn{6}{r}{\scriptsize Lower values mean faster response}
+		
+		\end{tabular}
 	\end{table}
-
-	\begin{table}[h]
+	
+	\begin{table}[t]
+	\renewcommand*\arraystretch{.9}
+	\footnotesize
+% 	\small
 	\centering
 	\caption{Throughput in entities per second}\label{tres:Throughput}
 		\begin{tabular}{ccBcccc}
@@ -62,44 +100,11 @@
 			(167)}\\
 			\bottomrule
 		\end{tabular}
-	\end{table}
 
-	\begin{table}[h]
-	\centering
-	\caption{Response time ratio}\label{tres:ResponsetimeRatio}
-		\begin{tabular}{cccccc}
-			
-			\toprule && \textbf{Solution1} & \textbf{Solution2} &
-			\textbf{Solution3} & \textbf{Solution4}\\
-						
-			\midrule \multirow{3}{*}{\textbf{insert}} & \textbf{s} & 1.55 & 2.24 &
-			5.76 & \TB{0.99}\\
-			& \textbf{c} & 1.56 & 2.28 & 5.95 & \TB{1.00}\\
-			& \textbf{e} & 4.06 & 4.61 & 11.42 & \TB{3.07}\\
-						
-			\midrule \multirow{3}{*}{\textbf{update}} & \textbf{s} & 26.21 & 28.53 &
-			63.51 & \TB{20.53}\\
-			& \textbf{c} & 7.66 & 7.90 & 13.74 & \TB{6.26}\\
-			& \textbf{e} & 3.35 & 3.71 & 8.86 & \TB{2.55}\\
-						
-			\midrule \multirow{3}{*}{\textbf{delete}} & \textbf{s} & 23.61 & 33.50 &
-			82.76 & \TB{17.93}\\
-			& \textbf{c} & 7.09 & 8.24 & 13.78 & \TB{6.84}\\
-			& \textbf{e} & 1.41 & 2.57 & 7.36 & \TB{1.03}\\
-			
-			\bottomrule
-%  			\multicolumn{3}{l}{}%\scriptsize $^*$ Milliseconds per entity} 
- 			& &
-			\multicolumn{3}{l}{\scriptsize Lower values mean faster response}
-		
-		\end{tabular}
-	\end{table}
-
-\newpage
-
-	\begin{table}[h]
-	\centering
-	\caption{Throughput Ratio} \label{tres:ThroughputRatio}
+	\vspace{1cm}
+	
+	\captionof{table}{Throughput ratio with respect to Baseline}
+	\label{tres:ThroughputRatio}
 		\begin{tabular}{cccccc}
 			
 			\toprule
@@ -127,7 +132,7 @@
 			\bottomrule
 % 			\scriptsize $^*$ Entities per second
 % 			\multicolumn{3}{l}{} & &
-			\multicolumn{3}{r}{\scriptsize Higher values mean more throughput}
+			\multicolumn{6}{r}{\scriptsize Higher values mean more throughput}
 		\end{tabular}
 	\end{table}
 

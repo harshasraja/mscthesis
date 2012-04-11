@@ -11,13 +11,7 @@ constraints are saved as super columns in the \texttt{Metadata} column family.
 Figure~\ref{fd:Metadata-Solution3} shows an example of the \texttt{Metadata}
 column family with some of the constraints of the University keyspace. 
 
- 	\begin{landscape}
- 	\begin{figure}[h] 
-		\centering
-		\includegraphics[width=1.5\textwidth]{./figure/Solutions/Sol3-MD-ColumnFamily.png}
-		\caption{Metadata Column Family in Solution 3}\label{fd:Metadata-Solution3}
-	\end{figure}
- 	\end{landscape} 
+ 	 
 	
 
 The different parts of the constraints are saved as separate columns in the
@@ -53,8 +47,16 @@ the metadata.
 Consider Solution~1,  where the \texttt{Metadata} column in every super column
 of every column family has to be updated every time a constraint is added,  
 removed or changed; similarly,  in Solution~2 where the top row has to be updated
-for all the column families. 
-
+for all the column families.
+ 
+\begin{landscape}
+ 	\begin{figure}[c] 
+		\centering
+		\includegraphics[width=1.45\textwidth]{./figure/Solutions/Sol3-MD-ColumnFamily.png}
+		\caption{Metadata Column Family in Solution 3}\label{fd:Metadata-Solution3}
+	\end{figure}
+ 	\end{landscape}
+ 	
 Decoupling the metadata from the actual data allows accessing and retrieving the
 various parts of the constraints by fetching  the respective column names. 
 More importantly,   adding,  removing or changing constraints require  access only

@@ -1,7 +1,36 @@
 % ब
 
-\chapter{Abstract}
+% \chapter*{Abstract}
 
-\acp{DBMS} on cloud adopt data models and database architecture that are still
-evolving and very different from the popular and traditional data models like
-relational data model. 
+\abstract{
+Cloud computing delivers on-demand access to essential computing services 
+providing benefits such as reduced maintenance, lower costs, global access,
+and others. One of its important and prominent services  is
+\ac{DaaS} which includes cloud \acp{DBMS}. 
+Cloud  \acp{DBMS} commonly adopt the key-value data model and  are  called
+\ac{NoSQL} \acp{DBMS}. These provide cloud suitable features like
+scalability, flexibility and robustness, but in order to provide
+these, features  such as r% \maketitle
+eferential integrity are often sacrificed. 
+In such cases, referential integrity is left to  be  dealt with by the
+applications instead of being handled by the cloud \acp{DBMS}. Thus, 
+ applications are required to  either deal with inconsistency in the data (e.g.
+ dangling references) or to incorporate the necessary logic to ensure that
+referential integrity is maintained.
+
+This thesis presents an \ac{API} that serves as a middle layer between the
+applications and the cloud \ac{DBMS} in order to maintain referential integrity.
+The \ac{API} provides the necessary \ac{CRUD} operations  to be performed on
+the \ac{DBMS} while ensuring that the referential integrity constraints are
+satisfied. These constraints are represented as metadata and four different
+approaches are provided to store it.
+Furthermore, the performance of these approaches is measured with different
+referential integrity constraints  and  evaluated upon a set of experiments in
+Apache Cassandra, a prominent cloud \ac{NoSQL} \ac{DBMS}.
+The results showed significant differences between the approaches in terms of
+performance. However, the final word on which one is better depends on the
+application demands as  each approach presents different trade-offs.
+}
+
+
+ 

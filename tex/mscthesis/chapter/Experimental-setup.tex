@@ -18,14 +18,14 @@ that, since the experiments are not performed in a controlled environment, all
 the operations are repeated 100 times such that the effect of external factors
 (e.g. network latency, parallel processes running in nodes, etc.)  is minimized.
 
- 
- The artificial data upon which operations are performed  is made up of 500
- students, 500 courses, and 5000 enrolments. These numbers were chosen such that
- the experiments could be performed in a reasonable amount of time. 
- The format of the artificial data is:
+
+The artificial data upon which operations are performed  is made up of 500
+students, 500 courses, and 5000 enrolments. These numbers were chosen such that
+the experiments could be performed in a reasonable amount of time. 
+The format of the artificial data is:
 
 	\begin{itemize}
-		  \item \texttt{Student} has a
+		\item \texttt{Student} has a
 		unit-increasing \texttt{StudentId}  which is merged into the fields \texttt{FirstName}
 		 and \texttt{LastName} as ``First Name (StudentId)'' and ``Last Name
 		(StudentId)''.  \texttt{Email} is composed in a similar way as
@@ -83,14 +83,15 @@ presented in Table~\ref{texp:ListConstraints}.   In the \texttt{Student} and
  validation checks on both \texttt{Student} and \texttt{Course} column families. 
 		
 \subsection{Update}
-The \texttt{Update} operation is performed after the
-creation of all entities.  First,  an attempt is made to update the primary key
-of each \texttt{Course} entity.  This operation triggers referential integrity
- validations that result in exceptions thrown as the \texttt{DeleteRule} for all
- \texttt{Course} entities is \texttt{NoDelete} and enrolments referencing the
- courses are still present in \texttt{Enrolment}.  Hence, the times recorded for
-  updating the \texttt{Course} column family represent the time required to
- identify a constraint violation and throw the respective exceptions.
+The \texttt{Update} operation is performed after the creation of all entities.
+First,  an attempt is made to update the primary key of each \texttt{Course}
+entity.  This operation triggers referential integrity  validations that result
+in exceptions thrown as the \texttt{DeleteRule} \footnote{Notice that for the
+sake of simplicity, this rule is also used for  update operations.} for all
+\texttt{Course} entities is \texttt{NoDelete} and enrolments referencing the
+courses are still present in \texttt{Enrolment}. Hence, the times recorded for
+updating the \texttt{Course} column family represent the time required to
+identify a constraint violation and throw the respective exceptions.
 					
 Next,  the \texttt{Enrolment} column family is updated.  In this case,  the
 \texttt{CourseId} for each \texttt{Enrolment} entity is changed to a different

@@ -11,6 +11,7 @@ metadata. One method handles metadata as an entity and the other handles
 metadata as text. These approaches and their implementation 
 are explained next.
 
+\vfill
 
 %   metadata of the entity is
 % accessed.   This thesis adopts  two fundamental approaches to implement metadata
@@ -34,7 +35,7 @@ the metadata column family is mapped by the entity class \texttt{Metadata} which
 necessary information for each constraint.  These constraints are inserted 
 by the \texttt{EntityManager} the same way as other entities are inserted, only
 without performing referential integrity validations. Notice that the
-constraints required by an application must be explicitely provided to the
+constraints required by an application must be explicitly provided to the
 \ac{API} by inserting them upon initialization of the keyspace \todo{check}.
 
  
@@ -55,7 +56,7 @@ Figure~\ref{fi:MetadataEntityClass}.
 The \texttt{ValidationHandler} retrieves the list of \texttt{Metadata} entities
 relevant to the entity upon validation.  In this case, it does so by using the
 \texttt{EntityManager} to read the constraints from \texttt{Metadata}.  The
-\texttt{ValidationHandler} iterates through the list of 
+\texttt{Validation\-Handler} iterates through the list of 
 \texttt{Metadata} entities and uses the respective getter methods in order to
 retrieve the different attributes of the metadata to complete the validation. 
 Notice that, in Solution~4, the list of metadata is maintained in

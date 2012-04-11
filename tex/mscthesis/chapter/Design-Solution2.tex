@@ -20,20 +20,14 @@ the University example, the  \texttt{Student} column family has the metadata
 stored as a top row as  shown in Figure~\ref{fd:Metadata-Solution2}.
 % This approach helps preserve the dependency information while also making it
 % easily accessible for the referential integrity validations.
-		 
-	\begin{figure}[h]  
-		\centering 
-		\includegraphics[width=.8\textwidth]{./figure/Solutions/Sol2-MD-ColumnFamily.png}
-		\caption{Metadata storage in Solution 2}\label{fd:Metadata-Solution2}
-	\end{figure}
-		
+		 		
 
 In this solution, metadata  for each column family contains all the constraints
 belonging to the keyspace. The metadata contains the same special characters
 '\texttt{\{}',  '\texttt{\}}', '\texttt{;}' and '\texttt{:}' to distinguish all
 the constraints and its different parts and values, as seen in
 Solution~1. For example, the metadata for \texttt{Student}  contains
-all the constraints as listed in Figure~\ref{fd:Metadata-Constraints} as its
+all the constraints as listed in Table~\ref{fd:Metadata-Constraints} as its
 metadata in the top row as shown in Figure~\ref{fd:Metadata-Solution2}.
 
 
@@ -65,8 +59,13 @@ Furthermore,  this solution  ensures that, when changes are made to the
 metadata, the actual data is not accessed and only the
 column family  is accessed to fetch the top row containing the metadata. 
 
+\newpage
 
-
+\begin{figure}[H]  
+		\centering 
+		\includegraphics[width=1\textwidth]{./figure/Solutions/Sol2-MD-ColumnFamily.png}
+		\caption{Metadata storage in Solution 2}\label{fd:Metadata-Solution2}
+	\end{figure}
 
 
 

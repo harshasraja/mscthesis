@@ -1,6 +1,7 @@
 %ब 
 \section{Overview of Results} \label{s:results-overview}
 
+
 The experiments were performed to evaluate the response time and throughput of
 the solutions in order to determine the impact of the metadata storage and
 referential integrity validations on the performance of Cassandra. Notice that
@@ -16,49 +17,57 @@ The response time measures the average amount of time required to perform a
 single operation on one entity. Conversely,  the throughput is the inverse of
 the response time and measures the number of operations that are performed in a
 unit of time. Tables~\ref{tres:ResponseTime} and~\ref{tres:Throughput} present
-the mean and standard deviation of the average response time for all the
-solutions and the throughput of each operation for each solution.  Notice that
+the mean and standard deviation of the average response time and the throughput
+ for all the solutions.  Notice that
 the solution with the lowest response time and highest throughput has a better
 performance than rest,  while the solution with the highest response time and
-lowest throughput has the worst. This means that the better performing solution
-can execute each operation with the least amount of time and complete more
-operations in a second.
+lowest throughput has the worst performance. In other words, the better
+performing solution is the one that executes  operations using the least
+amount of time and hence completes more operations in a unit of time.
 
 
 
-As seen in these tables,  Solution~4 performs the best amongst all since its
-response times for all the  operations on every entity are the least. 
-Conversely,  Solution~3 performs the worst amongst all with high response times
-for all the operations and the lowest throughput in all the cases respectively. 
-Regarding Solutions~1 and 2,  they perform similarly although Solution~1 is
-faster with slightly smaller response times and higher throughput.  Note that
-Solution~4 is slower than  Baseline  because the baseline does not perform any
-referential validations or store metadata. 
+As seen in these tables,  Solution~4 performs the best amongst all since it has
+better  response times and throughput for all the  operations on every entity.
+Notice that Solution~4 performs similar to to baseline only when inserting
+\texttt{Course} and \texttt{Student} and when deleting \texttt{Enrolment}
+entities as  in these cases, there are no  referential integrity constraints to
+be satisfied. Conversely, Solution~3 performs the worst as it has the worse
+response times  and throughput for all the operations.
+Regarding Solutions~1 and 2,  they perform similarly, although, Solution~1 is
+faster with slightly smaller response times and higher throughput that
+Solution~2.
+
+\input{chapter/results-tables}
+
+% Note that Solution~4 is slower than  Baseline  because the baseline does not
+% perform any referential validations or store metadata.
 
 % The results show the throughput and the response time of each solution to
 % complete an operation with referential integrity validation on a single
 % entity.  The throughput shows how many operations are performed in one second
-% in each solution. 
-This can be further seen in the ratios of the response time and throughput
-presented in Tables~\ref{tres:ResponsetimeRatio} and~\ref{tres:ThroughputRatio}. 
+% in each solution.
+This can be further seen in the ratio of the response time and that of the
+throughput presented in Tables~\ref{tres:ResponsetimeRatio}
+and~\ref{tres:ThroughputRatio}.
 The former shows the ratio of the response time of each solution when compared
-to that of the baseline,  and it indicates the factor by which any solution is
+to that of the baseline,  and it indicates the factor by which a solution is
 slower than the baseline;  while
-% many times faster or slower each solution is when compared to the baseline. 
-the latter shows the ratio of the throughput when compared to that of the
-baseline. 
+% many times faster or slower each solution is when compared to the baseline.
+the latter shows the ratio of the throughput with respect to that of the
+baseline.
 % The results show that all the solutions perform differently and have different
-% response times and throughput. 
-The variations in the performance of the solutions is due to ways these store
-and handle metadata.  Recall that Solutions~1 and 2 store metadata along with the
-actual data where Solution~1 stores it in every row and Solution~2 stores it as
-the top row of a column family.  On the other hand,  Solutions~3 and 4 store
-metadata separately from the actual data  in a \texttt{Metadata} column family
-but such a  \texttt{Metadata} column family is in a separate cluster in
-Solution~4. 
-% The results show that the way metadata is stored and retrieved in each solution
-% affects its performance during validation,  when constraints are retrieved and
-% used. 
+% response times and throughput.
+The differences in the performance of the solutions is caused by the ways these
+store and handle metadata.  Recall that Solutions~1 and 2 store metadata along
+with the actual data, where Solution~1 stores it in every super column and
+Solution~2 stores it as the top super column of a column family.  On the other
+hand, Solutions~3 and 4 store metadata separately from the actual data  in a \texttt{Metadata}
+column family, but such a column family is in a separate
+cluster in Solution~4.
+% The results show that the way metadata is stored and retrieved in each
+% solution affects its performance during validation,  when constraints are
+% retrieved and used.
 
 From these results,  it can be seen that Solution~4  is faster than the other
 solutions when performing the validations  since it caches the list of
@@ -70,80 +79,114 @@ Performance is improved significantly just by caching the
 \texttt{Metadata} column family as it reduces the number of accesses to the
 column family. 
 
-On the other hand,  Solution~3 is the slowest  because of the
-way it accesses the metadata every time from \texttt{Metadata} column family. 
-% of the way the metadata is accessed for the entities in this solution. 
+On the other hand,  Solution~3 is the slowest  because  it accesses the metadata
+ from \texttt{Metadata} column family every time it is required.
+% of the way the metadata is accessed for the entities in this solution.
 % % irrespective of whether an entity is a parent or child the %
 % \texttt{ValidationHandler} performs the same check the metedata of the entity
 % % for all the solutions.  It is when this check is made it is clear if the
-% entity % is a parent or child. 
+% entity % is a parent or child.
 % In this solution accessing
-In this solution,  in order to retrieve the relevant \ac{FK} constraints for
-an entity the \texttt{Metadata} column family has to be accessed.  This means
-that for each operation on an entity,  an additional access is required to
-\texttt{Metadata} which consumes more time. 
-Moreover,  to retrieve the information about any referencing constraints within
-the relevant \ac{FK} constraints of an entity,  \texttt{Metadata} is accessed
-again. 
-% For example,  in order to get the information of a \ac{PK} constraint stored in the
-% \texttt{RConstraintName} column of a \ac{FK} constraint,  the \texttt{Metadata}
-% column family is again accessed and the \ac{PK} constraint is searched.  
-Thus,  in order to
-complete each validation,  \texttt{Metadata} is accessed more than once. 
+% In this solution,  in order to retrieve the relevant \ac{FK} constraints for an
+% entity the \texttt{Metadata} column family has to be accessed.  
+That is, for each operation on an entity, the constraints relative to the entity
+are retrieved from \texttt{Metadata} and then,  \texttt{Metadata} is accessed
+again 
+%  an additional access is required to \texttt{Metadata} which consumes more
+% time. Moreover,  
+to retrieve the referencing constraints.
+% within the relevant \ac{FK} constraints of an entity,  \texttt{Metadata} is accessed
+% again.
+% For example,  in order to get the information of a \ac{PK} constraint stored
+% in the \texttt{RConstraintName} column of a \ac{FK} constraint,  the
+% \texttt{Metadata} column family is again accessed and the \ac{PK} constraint
+% is searched.
+Thus,  in order to complete each validation,  \texttt{Metadata} is accessed more
+than once.
 % \texttt{Metadata} column family has to be accessed using the connection
-% object. 
+% object.
 Unlike Solution~4,  metadata is not cached for re-use thus costing multiple
-access to \texttt{Metadata} column family. 
+access to the \texttt{Metadata} column family.
 
 Meanwhile,  Solutions~1 and~2 have approximately similar response times as both
-the solutions store the whole list of constraints with the actual data and 
-requires no additional connections to access the relevant as well as
-referenced constraints of an entity.  Note that, in Solution~1 since the constraints
-are stored with each entity it performs slightly better than
-Solution~2 because the latter has an additional search operation to identify the
-top row in a column family to locate the relevant constraints of an entity.  Both
-solutions are faster than Solution~3 mainly because these have the whole
-list of constraints along with the actual data.  However,  they are slower than
-Solution~4 as these have to access the constraints from each entity every time and do not
-use a cache. 
+the solutions store the whole list of constraints with the actual data and
+requires no additional accesses to retrieve the relevant constraints of an
+entity.  Note that, Solution~1 performs slightly better than Solution~2 because
+the former has the  constraints  stored within each entity while the latter
+requires an additional search operation to identify the top row of a column
+family to locate the  constraints.  Both solutions are faster than Solution~3
+mainly because these have the whole list of constraints along with the actual
+data.  However,  they are slower than Solution~4 as these have to access the
+keyspace to retrieve the constraints from each entity and do not use a
+cache.
 % their metadata access for these solutions are easier as metadata is a part of
 % the entity and no additional connection to a metadata column family is
-% required. 
+% required.
 
 
 % Unlike this,  Solution~4 caches  metadata for entities and re-uses it thus
 % saving time by not having to access a separate column family for each entity
 % insertion. 
 
+The standard deviation of each operation is presented within parentheses in
+Tables~\ref{tres:ResponseTime} and~\ref{tres:Throughput}. The standard deviation
+measures the dispersion of the response time and throughput of an operation from
+the mean. Note that in the experiments, an operation is executed over a set of
+entities  100 times, which means that one run of the experiment produces 100
+values for an operation. Thus, the standard deviation measures the dispersion of
+the 100 values for every operation with respect to the mean. A low standard
+deviation means that the values of the response time and throughput of an
+operation are concentrated around the mean values. Conversely, as the standard
+deviation increases  the response time and throughput values of the operations
+are more spread. 
+
+Note that the experiments are run  100 times  as external factors such as
+network latency affect the performance of the operations and the solutions, and
+thus these 100 values are expected to be different. As can be seen, the network
+latency is generally a factor that affects the performance of the baseline and
+the solutions  as a network connection is always required to perform operations.
+This can be deduced by the higher standard deviation present in the results of
+the  solutions  which require more accesses to the keyspace. For instance,
+Solution~4 generally has a low standard deviation as
+ metadata is retrieved once from the keyspace and then it is cached, thus
+ requiring no additional information from the cluster; whereas Solution~3
+generally has a high standard deviation as it   accesses \texttt{Metadata}
+multiple times in every operation. Solution~2 retrieves all the metadata in one
+additional access to the keyspace, so its standard deviation is generally lower
+than Solution~3 and mostly higher than that in Solution~1 which retrieves
+metadata alongside with the entities.
+
+% Solutions~1 and~2 have similar standard deviations as these
+% have to access the keyspace each time metadata has to be retrieved either from within
+% the entity or from the top row of the column family.
+% 
+% The solutions have a slightly higher standard deviation than
+% the baseline due to the way these access metadata. Solution~4 has a lower
+% standard deviation than all the solutions as it caches the metadata thus
+% requiring very few accesses to \texttt{Metadata}. On the other hand, Solution~3
+% has a higher standard deviation as it accesses \texttt{Metadata} multiple times
+% in every operation. Solutions~1 and ~2 have similar deviations as these have to
+% access the keyspace each time metadata has to be retrieved either from within
+% the entity or from the top row of the column family.
+
+% 
+% As seen from the results, Solution~4 has low standard deviation in all the
+% operations indicating that in all the runs of the experiment the response time
+% and throughput were close to the mean values. This is because the time to access
+% the cache is consistent and similar throughout the operations. On the other
+% hand, the standard deviation is always high for Solution~3. This is because the
+% \texttt{Metadata} column family is accessed each time and is affected by network
+% latency. In general, Solutions~1 and~2 have similar standard deviations, which
+% is lower than the standard deviation of Solution~3 but slightly higher than
+% Solution~4. The reason for a slightly higher standard deviation in these
+% solutions is because of the time consumed to
+
+
 The performance of the solutions in each
 operation performed on the entities is discussed in detail in the following
 sections.  Notice that,  in all the tables and figures,   the
 entities \texttt{Student},  \texttt{Course} and \texttt{Enrolment} are referred
 to as '\texttt{s}',  '\texttt{c}' and '\texttt{e}' for the sake of brevity. 
-
-The standard deviation of each operation is presented in the parenthesis in
-Tables~\ref{tres:ResponseTime} and~\ref{tres:Throughput}. The standard deviation
-measures the dispersion of the response time and throughput of an operation from
-the mean. Note that in the experiments, an operation is executed over a set of
-entities a 100 times, which means that one run of the experiment produces 100
-values for an operation. Thus, the standard deviation measures the dispersion of
-the 100 values for every operation with respect to the mean. Notice that a  low
-standard deviation means that the values of the response time and throughput of
-an operation is concentrated around its mean values. Conversely, a high standard
-deviation means that the response time and throughput values of the operations
-are widely spread. As seen from the results, Solution~4 has low standard
-deviation in all the operations indicating that in all the runs of the
-experiment the response time and throughput were close to the mean values. This
-is because the time to access the cache is consistent and similar throughout the
-operations. On the other hand, the standard deviation is always high for
-Solution~3. This is because the \texttt{Metadata} column family is accessed each
-time and is affected by network latency. In general, Solutions~1 and~2 have
-similar standard deviations, which is lower than the standard deviation of
-Solution~3 but slightly higher than Solution~4. The reason for a slightly higher
-standard deviation in these solutions is because of the time consumed to
-
-
-
 %  shows that the performance
 % values of an operation in all the runs of the experiments  is concentrated
 % around the mean.

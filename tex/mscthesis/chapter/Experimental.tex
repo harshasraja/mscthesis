@@ -61,11 +61,7 @@ the solutions on each of them.  This application stores the details of students 
 	  and \texttt{CourseId} are foreign keys. 
 	\end{itemize}
 	
-	\begin{figure}[h] 
-		\centering
-		\includegraphics[width=1\textwidth]{./figure/uml/example.png}
-		\caption{Class diagram for University}\label{fexp:ClassDiagram}
-	\end{figure} 
+	
 
 % The constraints for the keyspace are stored in  a  \texttt{Metadata} entity
 % class. These constraints are the \ac{PK} and \ac{FK} constraints applicable on each of
@@ -81,15 +77,23 @@ column family for its foreign keys.  \texttt{CONST600} and \texttt{CONST700} sho
 the child column family for \texttt{Course} and \texttt{Student} respectively. 
 
 
+\begin{figure}[H] 
+		\centering
+		\includegraphics[width=1\textwidth]{./figure/uml/example.png}
+		\caption{Class diagram for University}\label{fexp:ClassDiagram}
+	\end{figure} 
+	
 \begin{table}[h] \label{texp:ListConstraints}
 \centering
 \caption{Metadata}	
-	\newcolumntype{C}{@{\hspace{2.5pt}}>{\scriptsize}c@{\hspace{2.5pt}}}
+	\newcolumntype{C}{@{\hspace{3pt}}>{\scriptsize}c@{\hspace{3pt}}}
+% 	\newcolumntype{C}{>{\scriptsize}c@{\hspace{2.5pt}}}
 	\begin{tabular}{CCC CCC CC}
 		\toprule
-		\bfseries ConstraintName & \bfseries Keyspace & \bfseries ConstraintType &
-		\bfseries ColumnFamily & \bfseries RKeyspace & \bfseries RConstraintName &
-		\bfseries RColumn & \bfseries DeleteRule\\
+		\bfseries Constraint & \bfseries Keyspace & \bfseries Constraint &
+		\bfseries Column & \bfseries RKeyspace & \bfseries RConstraint &
+		\bfseries RColumn & \bfseries DeleteRule\\[-6pt]
+		\bfseries Name & & \bfseries Type & \bfseries Family & & \bfseries Name \\
 		\midrule
 		CONST100 & University & P & Student & University & & StudentId &\\
 		\rc CONST200 & University & P & Course & University & & CourseId &\\
@@ -162,9 +166,6 @@ Cassandra is deployed in an homogeneous cluster conformed by 10 nodes.  That is,
 \end{itemize}
 
 
- 
-
-
 The nodes used in the cluster are part of the Engineering and Computer Science
 grid system of Victoria University of Wellington.  Notice that,  such a cluster is
 not a controlled environment and it is not possible to use it as  a dedicated
@@ -193,17 +194,13 @@ to \texttt{false}.   This is because all the nodes are started prior to the
 experiments and do not have data to partition yet.  
  
 
-All the remaining
-settings in the Cassandra configuration file are set to the  default values
-for all the nodes.   The directories for saving the data,   commit logs and saved
-caches are saved on the local disk of each node in its temporary
-folder  (\texttt{/local/tmp}). 
+All the remaining settings in the Cassandra configuration file are set to the
+default values for all the nodes.   The directories for saving the data,  
+commit logs and saved caches are saved on the local disk of each node in its
+temporary folder  (\texttt{/local/tmp}).
 
-
-
+\vfill
 \input{chapter/Experimental-setup}
-
-
 
 \input{chapter/Experimental-PerformanceMeasures}
 
@@ -214,21 +211,20 @@ each  solution and the  \ac{API} itself on the \texttt{University} application,
 which is  used as an example in previous chapters as well. This application
 contains different constraints that makes it useful for assessing the
 performance of the \ac{API} as well as that of the solutions since the
- constraints  will trigger different referential integrity validations in order
- to maintain integrity within the keyspace.  The validations are triggered on
- different \ac{CRUD} operations performed upon artificial data intentionally
- created for the application. All the operations are  performed 
-  several times such that the effect of external factors (e.g.  network latency)
- is mitigated.  The response time of each operation is recorded and 
- used as a performance indicator together with throughput,  thus providing 
- guidelines to help assess the trade-offs between the different solutions
-proposed. 
-	
-	
+constraints  will trigger different referential integrity validations in order
+to maintain integrity within the keyspace.  The validations are triggered on
+different \ac{CRUD} operations performed upon artificial data intentionally
+created for the application. All the operations are  performed   several times
+such that the effect of external factors (e.g.  network latency) is mitigated.
+The response time of each operation is recorded and used as a  performance
+indicator together with throughput,  thus providing guidelines to help assess
+the trade-offs between the different solutions proposed.
+
+
 The next chapter presents the results obtained from the experimentation as well 
 as their discussion. 
  
-
+\vfill
 
 
 

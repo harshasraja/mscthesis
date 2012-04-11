@@ -14,7 +14,7 @@ metadata and processed in order to extract the values held in the constraints.
 The design of the four solutions presented in the previous chapter was shown as
 an  abstract representation of the way metadata is stored.
 
-The metadata storage is different in every solution, and retreiving it and
+The metadata storage is different in every solution, and retrieving it and
 processing it is different in each solution as well. Specific methods are
 designed in all the solutions to retrieve and process the metadata, and these
 methods along with all the solutions are incorporated into a single experimental
@@ -23,8 +23,8 @@ provides handlers to execute the \ac{CRUD} operations and perform referential
 integrity validations.
 % It also implements methods to access and process metadata in each solution.
 
-This chapter describes  the experimental \ac{API} and
-the implementation details of the  four solutions.
+This chapter describes  the experimental \ac{API}
+ and the implementation details of the  four solutions.
 Section~\ref{s:implementation-API} presents the experimental \ac{API} and
 describes its most relevant components.
 Section~\ref{s:implementation-MDinSolutions} describes the approaches taken by
@@ -56,9 +56,9 @@ chapter.
 
 This chapter presented the implementation details of the experimental \ac{API}
 and the way the solutions retrieve and process metadata. The experimental
-\ac{API} is composed of a class \texttt{Entity} which instances map to
-single \todo{records} in column families,  a class \texttt{EntityManager} which
-instances perform all the \ac{CRUD} operations on the entities, and a  
+\ac{API} is composed of a class \texttt{Entity}  instances of which map to
+single super columns in column families,  a class \texttt{EntityManager} 
+instances of which perform all the \ac{CRUD} operations on the entities, and a  
 \texttt{ValidationHandler} interface for which a generic implementation is
 provided and is in charge of checking and ensuring that referential integrity is
 maintained in the keyspace at all times.  

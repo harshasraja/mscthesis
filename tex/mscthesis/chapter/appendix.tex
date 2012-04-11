@@ -1,11 +1,18 @@
 
 
-% \chapter{Appendix} \label{c:appendix}
+
 \renewcommand{\Width}{.47\textwidth}
  
+ \titleformat{\chapter}[display]
+  {\vfill\normalfont\Huge\bfseries\centering}
+  {\chaptertitlename\ \thechapter}{0pt}{\Huge}
+ 
+ 
 \chapter{Insert}\label{apx:insert}
-\vspace{-1.75cm}
-\begin{figure}[H]
+\vfill
+\newpage
+
+\begin{figure}[c]
 			\centering
 			\subfigure[Response time]
 			{\includegraphics[width=\Width]{figure/result/barplot-insert-rt.pdf}}
@@ -14,7 +21,7 @@
 			\caption{Performance of \texttt{insert}}\label{f:rd:insert}
 		\end{figure}
 		 
-	\begin{figure}[H]
+	\begin{figure}[c]
 		\centering
 		\subfigure[Response time]
 		{\includegraphics[width=\Width]{figure/result/boxplot-insert_student-rt.pdf}}
@@ -24,7 +31,7 @@
 	\end{figure}
 	
 
-	\begin{figure}[H]
+	\begin{figure}[c]
 		\centering
 		\subfigure[Response time]
 		{\includegraphics[width=\Width]{figure/result/boxplot-insert_course-rt.pdf}}
@@ -34,7 +41,7 @@
 	\end{figure}
  
  
-	\begin{figure}[H]
+	\begin{figure}[c]
 		\centering
 		\subfigure[Response time]
 		{\includegraphics[width=\Width]{figure/result/boxplot-insert_enrolment-rt.pdf}}
@@ -45,9 +52,11 @@
 	
 	
 	
+	
 \chapter{Update}\label{apx:update}
-\vspace{-2cm}
-		\begin{figure}[H]
+\vfill
+\newpage
+		\begin{figure}[c]
 		\centering
 			\subfigure[Response time]
 			{\includegraphics[width=\Width]{figure/result/barplot-update-rt.pdf}}
@@ -58,7 +67,7 @@
  
 		
 		
-	\begin{figure}[H]
+	\begin{figure}[c]
 		\centering
 		\subfigure[Response time]
 		{\includegraphics[width=\Width]{figure/result/boxplot-update_student-rt.pdf}}
@@ -68,7 +77,7 @@
 	\end{figure}
 	
 
-	\begin{figure}[H]
+	\begin{figure}[c]
 		\centering
 		\subfigure[Response time]
 		{\includegraphics[width=\Width]{figure/result/boxplot-update_course-rt.pdf}}
@@ -78,7 +87,7 @@
 	\end{figure}
  
  
-	\begin{figure}[H]
+	\begin{figure}[c]
 		\centering
 		\subfigure[Response time]
 		{\includegraphics[width=\Width]{figure/result/boxplot-update_enrolment-rt.pdf}}
@@ -91,8 +100,9 @@
 	
 	
 \chapter{Delete}\label{apx:delete}
-\vspace{-1.75cm}
-\begin{figure}[H]
+\vfill
+\newpage
+\begin{figure}[c]
 		\centering
 			\subfigure[Response time]
 			{\includegraphics[width=\Width]{figure/result/barplot-delete-rt.pdf}}
@@ -101,7 +111,7 @@
 			\caption{Performance of \texttt{delete}}\label{f:rd:delete}
 		\end{figure}
 		
-	\begin{figure}[H]
+	\begin{figure}[c]
 		\centering
 		\subfigure[Response time]
 		{\includegraphics[width=\Width]{figure/result/boxplot-delete_student-rt.pdf}}
@@ -111,7 +121,7 @@
 	\end{figure}
 	
 
-	\begin{figure}[H]
+	\begin{figure}[c]
 		\centering
 		\subfigure[Response time]
 		{\includegraphics[width=\Width]{figure/result/boxplot-delete_course-rt.pdf}}
@@ -121,7 +131,7 @@
 	\end{figure}
  
  
-	\begin{figure}[H]
+	\begin{figure}[c]
 		\centering
 		\subfigure[Response time]
 		{\includegraphics[width=\Width]{figure/result/boxplot-delete_enrolment-rt.pdf}}
