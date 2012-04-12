@@ -8,20 +8,19 @@ Its development has been undertaken by Apache  and it is  currently used by
 many large web applications and large organisations like Facebook,  Twitter, 
 Cisco,  Digg,  Reddit, and others~\citep{datastaxB}. 
 
-Cassandra is based on the column-oriented key value data model. It stores data
+Cassandra is based on the column-oriented key value data model and stores data
 as columns,  super columns,  column families and keyspaces, all of which are
 explained in Section~\ref{s:key-value-data-model}. Being a distributed
-system, Cassandra can run on multiple machines which are
-configured to operate together and run as a single
-cluster~\citep{datastax,BOOK} .
+system, Cassandra can run on multiple machines 
 % runs as a single Java process on each machine in a cluster.
-Cassandra provides the option  to work across different machines and across
+and provides the option  to work across different machines and across
 multiple data centers,  even if these  are geographically
 distributed~\citep{BOOK}.
-The details of such a distributed nature is abstracted from  the user such that 
+These machines  are configured to operate together and
+run as a single cluster, where these
 % the entire cluster behaves like a unified whole. and access to only
 % one of the nodes is required to perform operations.
-The machines in the cluster form a ring of nodes,  where
+ machines form a ring of nodes~\citep{datastax,BOOK}. Such
 nodes are connected to each other and each node is aware of all their peers in
 the cluster (Figure~\ref{f:cassandra-cluster}).
 
@@ -35,9 +34,9 @@ the cluster (Figure~\ref{f:cassandra-cluster}).
 The nodes in a cluster communicate with each other to send their state
 information at regular time intervals,  so that other nodes in the ring  know
 their status~\citep{BOOK,cassandra}. Such communication
-between the nodes support failure detection in Cassandra.
+between the nodes support failure detection in Cassandra as when
 % helps in failure detection in Cassandra since
-If a node is not active,  it fails to send or respond to messages from other
+ a node fails,  it stops responding to messages from other
 active nodes and in this way the rest of the nodes  know of its inactive state.
 % Cassandra is fault tolerant and able to perform operations despite node
 % failures.
@@ -90,7 +89,7 @@ high performance.
 % master node.  This model thus puts a lot of additional load on the master and
 % also is prone to failure if the single master node is offline.  However, 
 Cassandra is a decentralised system  where all the nodes are considered equal
-or identical (i. e.  nodes are peers) in sharing responsibilities and performing
+or identical (i.e.  nodes are peers) in sharing responsibilities and performing
 operations,  without any  master or slave nodes~\citep{datastaxB,BOOK}. 
 This model provides high data availability since failure
 of a node does not affect the service of the cluster  because other

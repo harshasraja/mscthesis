@@ -1,4 +1,4 @@
-%ब
+% ब
 \section{Key-Value Data Model}\label{s:key-value-data-model}
 In basic terms,   the key-value data model represents data as a key-value tuple
 consisting of a key,   a value and a timestamp.  A key is a unique string
@@ -10,12 +10,12 @@ integer that records the time at which the value was inserted or updated in any
 way.
 
 Generally,   the key-value data model on cloud implements the column-oriented
-approach,   which is adopted from Bigtable,   Google's cloud
-\acp{DBMS}~\citep{bigtable}.
-The data model explored in this section is the column-oriented key-value data model adopted by Cassandra.  This type of data model is
-fundamentally different from the relational data model.  It sacrifices ACID
-properties as well as normalisation in order to achieve high scalability,  
-fault tolerance,   data partitioning among others.  To understand this new type
+approach,   which is adopted from Google's Bigtable~\citep{bigtable}.
+The data model explored in this section is the column-oriented key-value data
+model adopted by Cassandra.  This type of data model is fundamentally different
+from the relational data model.  It sacrifices ACID properties as well as
+normalisation in order to achieve high scalability, fault tolerance,   data
+partitioning among others.  To understand this new type
 of data model and cloud \acp{DBMS} that adopt this model,   comparisons are
 drawn to \acp{RDBMS} that adopt the relational model.  For this purpose a simple
 example of a University database is used throughout the chapters,   where it is

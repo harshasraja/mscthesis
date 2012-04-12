@@ -221,8 +221,8 @@ applied on these entities.
 The entities required different behaviours in each operation due to the various
 referential integrity rules as well as  the data manipulation rules applied on
 them.
-\texttt{Enrolment} entities required to satify referential integrity constraints
-during \texttt{insert} and \texttt{update} operations as it is a child entity,
+\texttt{Enrolment} entities required to satisfy referential integrity
+constraints during \texttt{insert} and \texttt{update} operations as it is a child entity,
 while \texttt{Student} and \texttt{Course} are parent entities and required to
 satisfy these constraints in both \texttt{update} and \texttt{delete}.   Thus,
 parent entities are faster to operate upon in an \texttt{insert} operation,  
