@@ -10,7 +10,7 @@
 \floatname{fig}{Figure}
 
 
-
+ 
 \usepackage[bookmarks]{hyperref}
 \usepackage{paralist}
 \usepackage[utf8]{inputenc}
@@ -25,8 +25,8 @@
 \usepackage{subfigure}
 \usepackage{ctable}
  \usepackage{setspace}
-% \usepackage{lscape}
-\usepackage{pdflscape}
+\usepackage{lscape}
+% \usepackage{pdflscape}
 \usepackage{colortbl}
 \definecolor{light-gray}{gray}{0.85}
 \newcommand{\rc}{\rowcolor{light-gray}}
@@ -73,7 +73,7 @@
 	urlcolor = black
 } 
  
-\usepackage{vuwthesis}
+% \usepackage{vuwthesis}
 \usepackage{appendix}
 \usepackage{titlesec}
 %  \onehalfspacing
@@ -81,18 +81,19 @@
 
 % \hyphenation{en-ti-ty-man-ag-er}
 % \hyphenation{En-ti-ty-Man-ag-er}
-\hyphenation{Validation-Handler}
+% \hyphenation{Validation-Handler}
 \usepackage{microtype}
-
+\usepackage{vuwthesis}
 \begin{document}
-\mscthesisonly
+ \mscbothparts
 % Make the page numbering roman, until after the contents, etc.
 \frontmatter
 
 \title{Referential Integrity in\\ Cloud NoSQL Databases}
-\author{Harsha Raja} 
+\author{Harsha Raja}
+
 \otherdegree{Master of Engineering}
-\subject{Computer Science}
+\subject{Software Engineering}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
  
@@ -105,7 +106,7 @@
 \input{chapter/Acknowledgement}
 
 
-\mscthesisonly
+% \mscthesisonly 
 \tableofcontents 
 
 

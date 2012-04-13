@@ -5,8 +5,8 @@
 % a child entity containing foreign keys is inserted where the
 % \texttt{ValidationHandler} validates that the foreign keys exist as primary
 % keys in the parent entities.
-Across all the solutions in the experiments,   \texttt{insert}  triggers a
-validation when \texttt{Enrolment} entities are inserted as it is a child entity
+Across all the solutions in the experiments,   \texttt{insert}  triggers
+a validation when \texttt{Enrolment} entities are inserted as it is a child entity
 containing foreign keys referencing to \texttt{Student} and \texttt{Course}.
 On the other hand,  \texttt{Student} and \texttt{Course} entities have no
 referential integrity constraints to be checked as these do not contain any
@@ -18,7 +18,7 @@ Specifically, Figure~\ref{fres:Insert-responsetime} shows the average time
 consumed by the baseline and each solution to complete an \texttt{insert}
 operation,  and Figure~\ref{fres:Insert-throughput} shows the  the number of
 \texttt{insert} operations that can be completed in one second.
-
+\newpage
 	\begin{figure}[H]
 		\subfigure[Response time for Insert operation]
 		{\includegraphics[width=\Width]{figure/result/barplot-insert-rt.pdf}\label{fres:Insert-responsetime}}

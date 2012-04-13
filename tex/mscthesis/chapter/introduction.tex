@@ -16,7 +16,7 @@ and global access~\citep{wilkes}. Moreover, such cloud services and other
 resources are hosted on the Internet and offered to users for  availing
 according to their needs.  Such characteristics made it natural for the  cloud
 to become  the backbone of application providers and   users, and promoted the
-creation of novel theories and more applications to enhance the cloud .
+creation of novel theories and more applications to enhance the cloud.
  
   
 Cloud data storage is an important service that has been progressing, evolving
@@ -52,10 +52,10 @@ maintained in databases whether it is a traditional \ac{RDBMS} or a cloud
 \ac{DBMS}. Moreover, these constraints  ensure that no operations violate  the
 integrity between  data items~\citep{Navathe}.   Despite its importance,
 referential integrity is currently not a prominent feature in most  cloud
-column-oriented key-value \acp{DBMS}.
+column-oriented key-value \acp{DBMS}~\citep{Shietal,Stonebraker2}.
    
    
-Column-oriented key-value \acp{DBMS}, also  referred simply to as cloud
+Column-oriented key-value \acp{DBMS}, also  referred  to as cloud
 \ac{NoSQL} databases,  adopts the column-oriented key-value data model which is
 a widely used model for cloud \acp{DBMS}.These \acp{DBMS}  support many features
 required in cloud,  such as elastic scalability to match varying user demands,
@@ -313,9 +313,10 @@ Chapter 2 presents cloud computing and describes the column-oriented key-value
 data model, its challenges and the general architecture of Cassandra on which
 the proposed solutions are implemented and tested.
 Chapter 3 describes the design of the proposed solutions along with the
-motivation for the design and the implementation of these solutions in
-Cassandra.
-Chapter 4 details the experiments performed to measure the performance of the
-solutions.
-Chapter 5 presents the analysis of the results from the experiments.
-Chapter 6  presents the conclusions and ideas for future work.
+motivation for the design.
+Chapter~4 describes the implementation of these solutions in Apache Cassandra.
+Chapter~5 details the experimental design used to  measure the performance of
+the solutions.
+Chapter 6 presents the analysis of the results from the experiments.
+Finally, Chapter 7  presents the conclusions and further ideas to extend this
+research.

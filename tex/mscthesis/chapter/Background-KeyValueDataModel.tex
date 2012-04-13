@@ -139,7 +139,7 @@ The JSON notation for  columns in Cassandra is shown in Figure~\ref{f:column-JSO
 % possible since it is not required that columns always have values and
 % since column names are byte arrays,   applications can store any kind of
 % values in it. 
-\subsection{SuperColumns}
+\subsection{Super Columns}
 A super column is a different kind of a column where the
 values are an array of regular columns (Figure~\ref{f:supercolumn}).  It consists of a super
 column name and an ordered map of columns.  The columns within the values of a
@@ -182,7 +182,7 @@ The JSON notation for a super column is shown in Figure~\ref{f:supercolumn-JSON}
 \end{figure}
 
 
-\subsection{ColumnFamily}
+\subsection{Column Family}
  A column family contains columns or super columns that are
 grouped together using a unique row key.  It is a set of key-value
 pairs,   where the key is the row key and the value is a map of column names
@@ -231,7 +231,7 @@ shown in Figure~\ref{f:columnfamilyJSON}
 	Cassandra}\label{f:columnfamilyJSON}
 \end{figure} 
 
-\subsection{KeySpace}
+\subsection{Keyspace}
  A keyspace is a container to hold the data that the
 application uses.  Keyspaces have one or more column families,   although it is not strictly
 required that a keyspace should always have column families.  Any relationships

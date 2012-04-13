@@ -8,7 +8,7 @@ Its development has been undertaken by Apache  and it is  currently used by
 many large web applications and large organisations like Facebook,  Twitter, 
 Cisco,  Digg,  Reddit, and others~\citep{datastaxB}. 
 
-Cassandra is based on the column-oriented key value data model and stores data
+Cassandra is based on the column-oriented key-value data model and stores data
 as columns,  super columns,  column families and keyspaces, all of which are
 explained in Section~\ref{s:key-value-data-model}. Being a distributed
 system, Cassandra can run on multiple machines 
@@ -78,7 +78,7 @@ high performance.
 % Following are some of the key architectural concepts of Cassandra.
 % Discussing every concept is beyond the scope of this research.
 
-
+\vfill
 
 \subsubsection{Peer-Peer Distribution Model}
 % Generally,  in traditional distributed
@@ -204,5 +204,14 @@ are sent a write operation with the latest data.
 Thus,  data consistency is maintained whenever conflicting versions of data
 items are found.
 
-
+When rows or columns are deleted in Cassandra, the  data within these rows or
+columns is not removed immediately from the disk~\citep{datastax,BOOK}. Instead,
+data is deleted after a time period that is configurable by applications. This
+is called a tombstone delete in Cassandra, where the columns that are to
+be deleted are only marked for deletion and empty values are written into such
+columns.
+Once the configured time period expires, the data is physically removed from the
+disk. However, the row keys of the deleted columns continue to persist. Such a
+tombstone delete is useful when a failed node is active again as this node can
+update its replicas  correctly to show the deletions.
 

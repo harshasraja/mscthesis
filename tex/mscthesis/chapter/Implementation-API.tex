@@ -114,9 +114,8 @@ explanation of the functioning of the \ac{API}.
 	
 		\subsubsection{Create}
 		
-		The \texttt{create} (or \texttt{insert}) operation stores an entity in its
-		respective column family. This operation triggers a referential integrity
-		 validation whenever an  entity is  inserted.  Such validation is performed by
+		The \texttt{create} (or \texttt{insert}) operation stores an entity in its respective column family. This
+		operation triggers a referential integrity validation whenever an  entity is  inserted.  Such validation is performed by
 		 the \texttt{onInsert} method of \texttt{ValidationHandler}.
 		  Finally, if the
  		 \texttt{ValidationHandler} allows it,  the \texttt{EntityManager} passes the
@@ -440,7 +439,7 @@ explanation of the functioning of the \ac{API}.
 		solutions, it is sufficient to provide a generic
 		class that implements the \texttt{ValidationHandler} for \ac{CRUD} operations.
 		Thus, it is left for each solution to extend the generic
-		\texttt{ValidationHandler} and just implement the \texttt{retrieveMetadata}
+		\texttt{ValidationHandler} and  implement the \texttt{retrieveMetadata}
 		method accordingly.
 		
 % 		Notice that, the \texttt{ValidationHandler} has access to the
@@ -555,26 +554,26 @@ its primary key value.
 		
 		
 	\subsubsection{Validation: \texttt{onDelete}}
-		This validation is triggered every time the \texttt{EntityManager} is asked 
-		to delete an entity. This validation ensures that referential integrity rules
-		are applied when the entity is referenced by other entities. That is, the
-		entity to be deleted is parent of other entities. The referential integrity
-		rule to apply can be \texttt{CASCADE} or \texttt{NODELETE}. In the former
-		case, child dependencies on the entity are deleted, while deletion in the
-		latter case is only allowed when the entity has no child dependencies. This
-		validation is detailed in Algorithm~\ref{a:vh:onDelete}.
-		
-		
-		
-		For example,   in the University keyspace,   if a 
-		\texttt{Student} entity is requested to be deleted,    the
-		\texttt{ValidationHandler} locates the \ac{FK} constraints which reference \texttt{Student}. In this
-		 case, only \texttt{CONST700} references \texttt{Student}, which follows up
-		 to \texttt{CONST400} from which the child entity can be retrieved.
-		Since the \texttt{DeleteRule} is \texttt{Cascade},  
-		the child entities are deleted from \texttt{Enrolment} and no exception
-		is thrown, hence allowing the \texttt{EntityManager} to  delete the
-		entity from its \texttt{Student} column family.
+		This validation is triggered every time the \texttt{EntityManager} is asked to
+		delete an entity. This validation ensures that referential integrity rules are
+		applied when the entity is referenced by other entities. That is, the entity to
+		be deleted is parent of other entities. The referential integrity rule to apply
+		can be \texttt{CASCADE} or \texttt{NODELETE}. In the former case, child
+		dependencies on the entity are deleted, while deletion in the latter case is
+		only allowed when the entity has no child dependencies. This validation is
+		detailed in Algorithm~\ref{a:vh:onDelete}.
+				
+				
+				
+		For example,   in the University keyspace,   if a \texttt{Student} entity is
+		requested to be deleted,    the \texttt{ValidationHandler} locates the \ac{FK}
+		constraints which reference \texttt{Student}. In this case, only
+		\texttt{CONST700} references \texttt{Student}, which follows up to
+		\texttt{CONST400} from which the child entity can be retrieved.
+		Since the \texttt{DeleteRule} is \texttt{Cascade}, the child entities are
+		deleted from \texttt{Enrolment} and no exception is thrown, hence allowing the
+		\texttt{EntityManager} to  delete the entity from its \texttt{Student} column
+		family.
 	
 		\newpage
 		\begin{algorithm}[H]
